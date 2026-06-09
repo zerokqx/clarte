@@ -1,0 +1,31 @@
+syntax = "proto3";
+package user;
+
+service UserFindService {
+  rpc FindById(UserFindByIdRequest) returns (User);
+  rpc FindByLogin(UserFindByLoginRequest) returns (User); 
+}
+
+service UserCredentialsService{
+  rpc GetCredentialsById(UserGetCredentialsByIdRequest) returns (UserGetCredentialsByIdResponse);
+}
+message UserFindByIdRequest {
+  string id = 1;
+}
+
+message User {
+  string id = 1;
+  string login = 2;
+  string avatarUrl = 3;
+}
+
+
+message UserFindByLoginRequest{
+  string login = 1;
+}
+message UserGetCredentialsByIdRequest{
+ string id = 1;
+}
+message UserGetCredentialsByIdResponse {
+  string passwordHash = 1;
+}
