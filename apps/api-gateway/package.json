@@ -6,6 +6,9 @@
     "targets": {
       "build": {
         "executor": "nx:run-commands",
+        "dependsOn": [
+          "@clarte/shared-contracts:proto:generate"
+        ],
         "options": {
           "command": "webpack-cli build",
           "args": [
@@ -79,6 +82,8 @@
   },
   "dependencies": {
     "@clarte/shared": "workspace:*",
+    "@clarte/shared-contracts": "workspace:*",
+    "@clarte/shared-nest": "workspace:*",
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
     "@nestjs/platform-express": "^11.0.0",

@@ -48,6 +48,24 @@
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
+    },
+    "compose-infra-up": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker compose -f {projectRoot}/compose.infra.yml up -d"
+      }
+    },
+    "compose-infra-down": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker compose -f {projectRoot}/compose.infra.yml down"
+      }
+    },
+    "compose-infra-logs": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker compose -f {projectRoot}/compose.infra.yml logs -f"
+      }
     }
   }
 }

@@ -17,6 +17,21 @@
     },
     {
       "path": "./apps/user-service"
+    },
+    {
+      "path": "./apps/auth-service-e2e"
+    },
+    {
+      "path": "./apps/auth-service"
+    },
+    {
+      "path": "./packages/shared-nest"
+    },
+    {
+      "path": "./packages/shared-domain"
+    },
+    {
+      "path": "./packages/shared-contracts"
     }
   ]
 }

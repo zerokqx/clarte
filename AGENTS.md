@@ -21,3 +21,12 @@
 - The `nx-generate` skill handles generator discovery internally - don't call nx_docs just to look up generator syntax
 
 <!-- nx configuration end-->
+
+## Domain Concepts
+
+**Solo Microservice:**
+A "solo microservice" is a microservice that encapsulates exactly one distinct entity or aggregate root (e.g., `user-service`). It is responsible solely for the lifecycle, state, and business rules of that specific domain concept without bleeding into other domains. It owns its own database and exposes its capabilities via well-defined contracts (gRPC, HTTP).
+
+**DDD + CQRS in Solo Microservices:**
+- **DDD (Domain-Driven Design):** Focuses on isolating the core business logic (Domain) from infrastructure and framework concerns. Even in a single-entity microservice, it helps maintain a clean boundary around the entity's behavior.
+- **CQRS (Command Query Responsibility Segregation):** Segregates operations that modify state (Commands) from operations that read state (Queries). In a solo microservice, this means having distinct execution paths and models for reading the entity vs. updating/creating it, which improves maintainability and scalability.

@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package user;
+
+service UserCreateService {
+  rpc UserCreate(UserCreateRequest) returns (google.protobuf.Empty);
+}
+
+service UserFindService {
+  rpc FindById(UserFindByIdRequest) returns (UserFindByIdResponse);
+  rpc FindByLogin(UserFindByLoginRequest) returns (UserFindByLoginResponse);
+}
+
+service UserCredentialsService {
+  rpc GetCredentialsByLogin(UserGetCredentialsByLoginRequest) returns (UserGetCredentialsByLoginResponse);
+}
+
+message UserFindByIdRequest {
+  string id = 1;
+}
+
+message UserCreateRequest {
+  string id = 1;
+  string login = 2;
+  string passwordHash = 3;
+}
+
+message UserFindByLoginResponse {
+  string id = 1;
+  string login = 2;
+  string avatarUrl = 3;
+}
+
+message UserFindByIdResponse {
+  string id = 1;
+  string login = 2;
+  string avatarUrl = 3;
+}
+
+message UserFindByLoginRequest {
+  string login = 1;
+}
+
+message UserGetCredentialsByLoginRequest {
+  string login = 1;
+}
+
+message UserGetCredentialsByLoginResponse {
+  string id = 1;
+  string login = 2;
+  string passwordHash = 3;
+}

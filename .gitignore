@@ -1,6 +1,8 @@
 # See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
 # compiled output
+*.key
+.env.local
 dist
 tmp
 out-tsc
@@ -47,3 +49,17 @@ Thumbs.db
 .claude/settings.local.json
 .nx/polygraph
 .nx/self-healing
+# Devenv
+.devenv*
+devenv.local.nix
+devenv.local.yaml
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
+
+# Secrets and local configurations
+*.key
+.env.local

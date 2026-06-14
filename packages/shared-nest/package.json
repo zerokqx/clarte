@@ -1,0 +1,53 @@
+{
+  "name": "@clarte/shared-nest",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@clarte/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "nx": {
+    "sourceRoot": "packages/shared-nest/src",
+    "targets": {
+      "build": {
+        "executor": "@nx/js:swc",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "options": {
+          "outputPath": "packages/shared-nest/dist",
+          "main": "packages/shared-nest/src/index.ts",
+          "tsConfig": "packages/shared-nest/tsconfig.lib.json",
+          "skipTypeCheck": true,
+          "stripLeadingPaths": true
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "@clarte/shared": "workspace:*",
+    "@clarte/shared-contracts": "workspace:*",
+    "@clarte/shared-domain": "workspace:*",
+    "@grpc/grpc-js": "^1.14.4",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/passport": "^11.0.5",
+    "@swc/helpers": "~0.5.18",
+    "effect": "^3.21.3",
+    "express": "^5.2.1",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "rxjs": "^7.8.0"
+  },
+  "devDependencies": {
+    "@types/passport-jwt": "^4.0.1"
+  }
+}

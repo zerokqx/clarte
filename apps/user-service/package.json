@@ -74,11 +74,19 @@
             "buildTarget": "@clarte/user-service:build:production"
           }
         }
-      }
+      },
+      "compose-infra-up": {},
+      "compose-infra-down": {},
+      "compose-infra-logs": {}
     }
   },
   "dependencies": {
     "@clarte/shared": "workspace:*",
+    "@clarte/shared-contracts": "workspace:*",
+    "@clarte/shared-domain": "workspace:*",
+    "@clarte/shared-nest": "workspace:*",
+    "@dicebear/core": "^10.2.0",
+    "@dicebear/styles": "^10.2.0",
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
     "@nestjs/platform-express": "^11.0.0",

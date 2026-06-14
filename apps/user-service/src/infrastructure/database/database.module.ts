@@ -5,7 +5,7 @@ import {
   databaseConfiguration,
 } from './database.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserOrmEntity } from '../../modules/users/infrastructure/database/user.entity';
+import { UserOrmEntity } from './user.entity';
 
 @Module({
   imports: [
@@ -13,7 +13,6 @@ import { UserOrmEntity } from '../../modules/users/infrastructure/database/user.
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-
       useFactory: (config: ConfigService) => {
         const { host, port, user, dbName, password } =
           config.getOrThrow<DatabaseConfiguration>('database');

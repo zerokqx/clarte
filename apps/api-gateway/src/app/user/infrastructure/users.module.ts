@@ -2,17 +2,17 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserConfiguration, userConfiguration } from './user.config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { USER_CLIENT } from '../application/user.tokens';
-import { Contracts, Fn } from '@clarte/shared';
-import { UserFindService } from '../application/user.service';
+import { Contracts, Fn } from '@clarte/shared-contracts';
 import { UserController } from '../presentation/user.controller';
+import { UserClient } from './clients/user.client';
+import { USER_CLIENT, USER_GRPC_CLIENT } from '../application';
 
 @Module({
   imports: [
     ConfigModule.forFeature(userConfiguration),
     ClientsModule.registerAsync([
       {
-        name: USER_CLIENT,
+        name: USER_GRPC_CLIENT,
         useFactory(config: ConfigService) {
           const { host, port } =
             config.getOrThrow<UserConfiguration>('user-service');
@@ -30,6 +30,11 @@ import { UserController } from '../presentation/user.controller';
     ]),
   ],
   controllers: [UserController],
-  providers: [UserFindService],
+  providers: [
+    {
+      provide: USER_CLIENT,
+      useClass: UserClient,
+    },
+  ],
 })
 export class UserModule {}

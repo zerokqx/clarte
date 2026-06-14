@@ -1,6 +1,6 @@
 import { CqrsModule } from '@nestjs/cqrs';
 import { Module } from '@nestjs/common';
-import { UserModule } from './modules/users/infrastructure/user.module';
+import { UserModule } from './user.module';
 import { DatabaseModule } from './infrastructure/database/database.module';
 import { ConfigModule } from '@nestjs/config';
 
@@ -8,10 +8,10 @@ import { ConfigModule } from '@nestjs/config';
   imports: [
     CqrsModule.forRoot(),
     ConfigModule.forRoot({
-      envFilePath: ['.env'],
+      envFilePath: ['.env.local', '.env'],
     }),
-    UserModule,
     DatabaseModule,
+    UserModule,
   ],
 })
 export class AppModule {}

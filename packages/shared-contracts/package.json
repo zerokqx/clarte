@@ -1,0 +1,46 @@
+{
+  "name": "@clarte/shared-contracts",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@clarte/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "nx": {
+    "sourceRoot": "packages/shared-contracts/src",
+    "targets": {
+      "build": {
+        "executor": "@nx/js:swc",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "options": {
+          "outputPath": "packages/shared-contracts/dist",
+          "main": "packages/shared-contracts/src/index.ts",
+          "tsConfig": "packages/shared-contracts/tsconfig.lib.json",
+          "skipTypeCheck": true,
+          "stripLeadingPaths": true
+        }
+      },
+      "proto:generate": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "mkdir -p packages/shared-contracts/src/ports/proto-types && find . -name \"*.proto\" -not -path \"*/node_modules/*\" | while read -r f; do pnpm exec protoc -I=$(dirname \"$f\") -I=. --ts_proto_out=packages/shared-contracts/src/ports/proto-types --ts_proto_opt=nestJs=true --ts_proto_opt=classValidator=true \"$(basename \"$f\")\"; done",
+          "cwd": "."
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "@swc/helpers": "~0.5.18"
+  }
+}
