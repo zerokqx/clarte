@@ -1,9 +1,4 @@
-export * as Filters from './filters';
-export * as Interceptors from './interceptors';
-export * as Guard from './guards';
-export * as Strategies from './strategies';
-export * as Modules from './modules';
-export * as Fn from './functions';
-export * as Enums from './enums';
-export * from './decorators';
-export * from './ports';
+// Этот файл пуст, так как библиотека использует subpath exports для импорта конкретных модулей.
+// Пожалуйста, используйте импорты вида:
+// import { ... } from '@clarte/shared-nest/guards';
+// import { ... } from '@clarte/shared-nest/interceptors';
