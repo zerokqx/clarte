@@ -3,11 +3,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthConfiguration, authConfiguration } from '@/app/auth/auth.config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { Contracts, Fn } from '@clarte/shared-contracts';
-import { Guard, Modules, Interceptors, COOKIE_INTERCEPTOR_OPTIONS } from '@clarte/shared-nest';
+import { COOKIE_INTERCEPTOR_OPTIONS } from '@clarte/shared-nest/ports';
 import { AUTH_CLIENT, AUTH_GRPC_CLIENT } from '@/app/auth/aplication';
 import { AuthClient } from '@/app/auth/infrastructure/clients';
 import { AuthController } from '@/app/auth/presentation/auth.controller';
-import { JwtKeyProvider } from '@/app/auth/infrastructure';
 import { AppConfiguration } from '@/app/app.config';
 
 @Module({

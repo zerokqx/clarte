@@ -13,6 +13,60 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
+    },
+    "./guards": {
+      "@clarte/source": "./src/guards/index.ts",
+      "types": "./dist/guards/index.d.ts",
+      "import": "./dist/guards/index.js",
+      "default": "./dist/guards/index.js"
+    },
+    "./filters": {
+      "@clarte/source": "./src/filters/index.ts",
+      "types": "./dist/filters/index.d.ts",
+      "import": "./dist/filters/index.js",
+      "default": "./dist/filters/index.js"
+    },
+    "./interceptors": {
+      "@clarte/source": "./src/interceptors/index.ts",
+      "types": "./dist/interceptors/index.d.ts",
+      "import": "./dist/interceptors/index.js",
+      "default": "./dist/interceptors/index.js"
+    },
+    "./modules": {
+      "@clarte/source": "./src/modules/index.ts",
+      "types": "./dist/modules/index.d.ts",
+      "import": "./dist/modules/index.js",
+      "default": "./dist/modules/index.js"
+    },
+    "./strategies": {
+      "@clarte/source": "./src/strategies/index.ts",
+      "types": "./dist/strategies/index.d.ts",
+      "import": "./dist/strategies/index.js",
+      "default": "./dist/strategies/index.js"
+    },
+    "./functions": {
+      "@clarte/source": "./src/functions/index.ts",
+      "types": "./dist/functions/index.d.ts",
+      "import": "./dist/functions/index.js",
+      "default": "./dist/functions/index.js"
+    },
+    "./enums": {
+      "@clarte/source": "./src/enums/index.ts",
+      "types": "./dist/enums/index.d.ts",
+      "import": "./dist/enums/index.js",
+      "default": "./dist/enums/index.js"
+    },
+    "./decorators": {
+      "@clarte/source": "./src/decorators/index.ts",
+      "types": "./dist/decorators/index.d.ts",
+      "import": "./dist/decorators/index.js",
+      "default": "./dist/decorators/index.js"
+    },
+    "./ports": {
+      "@clarte/source": "./src/ports/index.ts",
+      "types": "./dist/ports/index.d.ts",
+      "import": "./dist/ports/index.js",
+      "default": "./dist/ports/index.js"
     }
   },
   "nx": {

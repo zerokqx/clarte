@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from '@/app/user/infrastructure/users.module';
 import { AuthModule } from '@/app/auth/auth.module';
-import { Modules } from '@clarte/shared-nest';
+import { Modules } from '@clarte/shared-nest/modules';
 import { JwtKeyProvider } from '@/app/auth/infrastructure';
 import { appConfiguration } from '@/app/app.config';
 

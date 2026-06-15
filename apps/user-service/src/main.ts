@@ -8,7 +8,7 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '@/app.module';
 import { Contracts, Fn } from '@clarte/shared-contracts';
-import { Filters } from '@clarte/shared-nest';
+import { Filters } from '@clarte/shared-nest/filters';
 import { join } from 'path';
 import { Logger } from '@nestjs/common';
 async function bootstrap() {

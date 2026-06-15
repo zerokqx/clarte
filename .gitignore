@@ -63,3 +63,5 @@ devenv.local.yaml
 # Secrets and local configurations
 *.key
 .env.local
+
+test-output

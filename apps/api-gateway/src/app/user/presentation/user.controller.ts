@@ -5,7 +5,8 @@ import { map, Observable } from 'rxjs';
 import { InjectUserClient, type IUserClient } from '@/app/user/application';
 import { UserFindDTO } from '@/app/user/presentation/dto';
 import { type IJwtPayload } from '@clarte/shared-contracts';
-import { Guard, User } from '@clarte/shared-nest';
+import { Guard } from '@clarte/shared-nest/guards';
+import { User } from '@clarte/shared-nest/decorators';
 import { UserMeDTO } from './dto/user-me.dto';
 
 @Controller('users')

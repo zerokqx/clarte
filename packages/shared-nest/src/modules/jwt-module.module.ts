@@ -4,7 +4,6 @@ import { Contracts } from '@clarte/shared-contracts';
 import { randomUUID } from 'crypto';
 import { COOKIE_INTERCEPTOR_UUID } from '../ports/di-tokens';
 
-
 // ---------------------------------------------------------------------------
 // Опции для синхронной регистрации
 // ---------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-import { Fn } from '@clarte/shared-nest';
+import { Fn } from '@clarte/shared-nest/functions';
 import { AUTH_CLIENT } from '@/app/auth/aplication/ports';
 
 export const InjectAuthClient = Fn.mkInject(AUTH_CLIENT);

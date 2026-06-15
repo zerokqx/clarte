@@ -15,7 +15,9 @@ import {
   RegisterDTO,
 } from '@/app/auth/presentation/dtos';
 import { map } from 'rxjs';
-import { Guard, User, Interceptors, InjectCookieInterceptorUuid } from '@clarte/shared-nest';
+import { Guard } from '@clarte/shared-nest/guards';
+import { Interceptors } from '@clarte/shared-nest/interceptors';
+import { User, InjectCookieInterceptorUuid } from '@clarte/shared-nest/decorators';
 import { type IAuthenticatedUser } from '@clarte/shared-contracts';
 
 @ApiTags('Auth')

@@ -32,6 +32,12 @@
     },
     {
       "path": "./packages/shared-contracts"
+    },
+    {
+      "path": "./apps/notes-service-e2e"
+    },
+    {
+      "path": "./apps/notes-service"
     }
   ]
 }

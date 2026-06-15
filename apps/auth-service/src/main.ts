@@ -8,7 +8,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from '@/app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { Contracts, Fn } from '@clarte/shared-contracts';
-import { Filters, Interceptors } from '@clarte/shared-nest';
+import { Filters } from '@clarte/shared-nest/filters';
+import { Interceptors } from '@clarte/shared-nest/interceptors';
 import { Env } from '@humanwhocodes/env';
 
 async function bootstrap() {
