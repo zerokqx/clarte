@@ -5,7 +5,7 @@ import { map, Observable } from 'rxjs';
 import { InjectUserClient, type IUserClient } from '@/app/user/application';
 import { UserFindDTO } from '@/app/user/presentation/dto';
 import { type IJwtPayload } from '@clarte/shared-contracts';
-import { Guard } from '@clarte/shared-nest/guards';
+import { AccessGuard } from '@clarte/shared-nest/guards';
 import { User } from '@clarte/shared-nest/decorators';
 import { UserMeDTO } from './dto/user-me.dto';
 
@@ -59,7 +59,7 @@ export class UserController extends Marks.Controller.Private {
   @Get('me')
   @ApiOkResponse({ type: UserMeDTO })
   @ApiOperation({ summary: 'Получить профиль текущего пользователя' })
-  @Guard.AccessGuard()
+  @AccessGuard()
   me(@User() user: IJwtPayload) {
     return this.userClient.findUserById(user.sub).pipe(
       map(

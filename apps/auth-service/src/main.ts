@@ -8,8 +8,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from '@/app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { Contracts, Fn } from '@clarte/shared-contracts';
-import { Filters } from '@clarte/shared-nest/filters';
-import { Interceptors } from '@clarte/shared-nest/interceptors';
+import { ProblemDetailsToGrpcExceptionFilter } from '@clarte/shared-nest/filters';
+import { GrpcErrorPropagationInterceptor } from '@clarte/shared-nest/interceptors';
 import { Env } from '@humanwhocodes/env';
 
 async function bootstrap() {
@@ -29,8 +29,8 @@ async function bootstrap() {
       },
     },
   );
-  app.useGlobalFilters(new Filters.ProblemDetailsToGrpcExceptionFilter());
-  app.useGlobalInterceptors(new Interceptors.GrpcErrorPropagationInterceptor());
+  app.useGlobalFilters(new ProblemDetailsToGrpcExceptionFilter());
+  app.useGlobalInterceptors(new GrpcErrorPropagationInterceptor());
   await app.listen();
   Logger.log(`🛂 Auth microservice started on url http://${HOST}:${PORT}`);
   Logger.log("Protocol: gRPC")

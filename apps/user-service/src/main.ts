@@ -8,9 +8,10 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '@/app.module';
 import { Contracts, Fn } from '@clarte/shared-contracts';
-import { Filters } from '@clarte/shared-nest/filters';
+import { ProblemDetailsToGrpcExceptionFilter } from '@clarte/shared-nest/filters';
 import { join } from 'path';
 import { Logger } from '@nestjs/common';
+
 async function bootstrap() {
   const env = new Env();
   const PORT = env.get('PORT', 5001);
@@ -26,7 +27,7 @@ async function bootstrap() {
       },
     },
   );
-  app.useGlobalFilters(new Filters.ProblemDetailsToGrpcExceptionFilter());
+  app.useGlobalFilters(new ProblemDetailsToGrpcExceptionFilter());
   await app.listen();
   Logger.log(`👨‍🦱 User microservice started on url http://${HOST}:${PORT}`);
   Logger.log(`Protocol: gRPC`);

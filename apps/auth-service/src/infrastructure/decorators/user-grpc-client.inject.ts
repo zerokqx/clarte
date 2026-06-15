@@ -1,4 +1,4 @@
 import { USER_GRPC_CLIENT } from '@/infrastructure/ports';
-import { Fn } from '@clarte/shared-nest/functions';
+import { mkInject } from '@clarte/shared-nest/functions';
 
-export const InjectUserGrpcClient = Fn.mkInject(USER_GRPC_CLIENT);
+export const InjectUserGrpcClient = mkInject(USER_GRPC_CLIENT);

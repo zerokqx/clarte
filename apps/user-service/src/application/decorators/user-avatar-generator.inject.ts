@@ -1,4 +1,4 @@
 import { USER_AVATAR_GENERATOR } from '@/application/ports';
-import { Fn } from '@clarte/shared-nest/functions';
+import { mkInject } from '@clarte/shared-nest/functions';
 
-export const InjectUserAvatarGenerator = Fn.mkInject(USER_AVATAR_GENERATOR);
+export const InjectUserAvatarGenerator = mkInject(USER_AVATAR_GENERATOR);

@@ -15,8 +15,8 @@ import {
   RegisterDTO,
 } from '@/app/auth/presentation/dtos';
 import { map } from 'rxjs';
-import { Guard } from '@clarte/shared-nest/guards';
-import { Interceptors } from '@clarte/shared-nest/interceptors';
+import { RefreshGuard } from '@clarte/shared-nest/guards';
+import { JwtCookieInterceptor } from '@clarte/shared-nest/interceptors';
 import { User, InjectCookieInterceptorUuid } from '@clarte/shared-nest/decorators';
 import { type IAuthenticatedUser } from '@clarte/shared-contracts';
 
@@ -35,7 +35,7 @@ export class AuthController extends Marks.Controller.Mixed {
   @ApiOperation({ summary: 'Авторизоваться по логину и паролю' })
   @ApiOkResponse({ type: LoginResponseDTO })
   @Post('login')
-  @UseInterceptors(Interceptors.JwtCookieInterceptor)
+  @UseInterceptors(JwtCookieInterceptor)
   login(@Body() body: LoginDTO) {
     return this.authClient.login(body).pipe(
       map(({ accessToken, refreshToken }) => ({
@@ -57,9 +57,9 @@ export class AuthController extends Marks.Controller.Mixed {
   @Post('refresh')
   @ApiOperation({ summary: 'Производит обновление токенов access и refresh' })
   @ApiOkResponse({ description: 'Токены пользователя успешно обновлены' })
-  @Guard.RefreshGuard()
+  @RefreshGuard()
   @HttpCode(HttpStatus.OK)
-  @UseInterceptors(Interceptors.JwtCookieInterceptor)
+  @UseInterceptors(JwtCookieInterceptor)
   refresh(@User() user: IAuthenticatedUser) {
     return this.authClient
       .refresh({
