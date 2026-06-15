@@ -79,10 +79,14 @@
         "options": {
           "passWithNoTests": true
         }
-      }
+      },
+      "compose-infra-up": {},
+      "compose-infra-down": {},
+      "compose-infra-logs": {}
     }
   },
   "dependencies": {
+    "@clarte/shared-nest": "workspace:*",
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
     "@nestjs/platform-express": "^11.0.0",

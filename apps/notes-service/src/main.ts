@@ -5,17 +5,26 @@
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app/app.module';
+import { AppModule } from './app.module';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { Env } from '@humanwhocodes/env';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  const globalPrefix = 'api';
-  app.setGlobalPrefix(globalPrefix);
-  const port = process.env.PORT || 3000;
-  await app.listen(port);
-  Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`,
+  const env = new Env();
+  const HOST = env.get('HOST', 'localhost');
+  const PORT = env.get('PORT', 5003);
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
+    AppModule,
+    {
+      transport: Transport.GRPC,
+      options: {
+        url: `${HOST}:${PORT}`,
+        package: Fn
+      },
+    },
   );
+  await app.listen();
+  Logger.log(`📝 Notes microservice is running on: http://${HOST}:${PORT}`);
 }
 
 bootstrap();

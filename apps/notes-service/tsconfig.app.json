@@ -3,9 +3,7 @@
   "compilerOptions": {
     "outDir": "dist",
     // "module": "nodenext",
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
     // "rootDir": "src",
     // "moduleResolution": "nodenext",
     "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo",
@@ -13,15 +11,11 @@
     "emitDecoratorMetadata": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"]
     },
     "target": "es2021"
   },
-  "include": [
-    "src/**/*.ts"
-  ],
+  "include": ["src/**/*.ts"],
   "exclude": [
     "out-tsc",
     "dist",
@@ -32,5 +26,10 @@
     "eslint.config.js",
     "eslint.config.cjs",
     "eslint.config.mjs"
+  ],
+  "references": [
+    {
+      "path": "../../packages/shared-nest/tsconfig.lib.json"
+    }
   ]
 }
