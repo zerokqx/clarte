@@ -1,7 +1,7 @@
 import { Contracts } from '@clarte/shared-contracts';
 import { QueryBus } from '@nestjs/cqrs';
-import { FindUserByIdQuery, FindUserByLoginQuery } from '../application';
-import { UserFindByIdDTO, UserFindByLoginDTO } from './dtos';
+import { FindUserByIdQuery, FindUserByLoginQuery } from '@/application';
+import { UserFindByIdDTO, UserFindByLoginDTO } from '@/presentation/dtos';
 
 @Contracts.Proto.User.UserFindServiceControllerMethods()
 export class UserFindRpcController

@@ -1,9 +1,9 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { NotFoundException } from '@nestjs/common';
-import { FindUserByIdQuery } from './find-user-by-id.query';
-import { type IUserReadRepository } from '../../ports/';
-import { UserReadModel } from '../../models';
-import { InjectUserRepository } from '../../decorators';
+import { FindUserByIdQuery } from '@/application/queries/find-by-id/find-user-by-id.query';
+import { type IUserReadRepository } from '@/application/ports';
+import { UserReadModel } from '@/application/models';
+import { InjectUserRepository } from '@/application/decorators';
 
 @QueryHandler(FindUserByIdQuery)
 export class FindUserByIdHandler implements IQueryHandler<FindUserByIdQuery> {

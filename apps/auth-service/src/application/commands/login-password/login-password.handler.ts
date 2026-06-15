@@ -1,20 +1,20 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { LoginPasswordCommand } from './login-password.command';
+import { LoginPasswordCommand } from '@/application/commands/login-password/login-password.command';
 import { Contracts } from '@clarte/shared-contracts';
 import { Cause, Effect, Exit, pipe } from 'effect';
-import { InjectPasswordHasher, InjectUserClient } from '../../decorators';
-import { type IJwtService, type IUserClient } from '../../ports';
+import { InjectPasswordHasher, InjectUserClient } from '@/application/decorators';
+import { type IJwtService, type IUserClient } from '@/application/ports';
 import {
   UserCredentialsNotFound,
   UserServiceUnavailableException,
   PasswordVerificationFailedException,
-} from '../../exceptions';
+} from '@/application/exceptions';
 import {
   AuthUser,
   type IPasswordHasher,
   PasswordInvalidError,
-} from '../../../domain';
-import { InjectJwtService } from './jwt-service.inject';
+} from '@/domain';
+import { InjectJwtService } from '@/application/commands/login-password/jwt-service.inject';
 
 @CommandHandler(LoginPasswordCommand)
 export class LoginPasswordHandler
@@ -80,7 +80,7 @@ export class LoginPasswordHandler
           try: async () => {
             const payload = {
               sub: user.id,
-              sid: '',
+              sid: '', // TODO Сделать session
             };
             const [accessToken, refreshToken] = await Promise.all([
               this.jwtService.generateAccess(payload),

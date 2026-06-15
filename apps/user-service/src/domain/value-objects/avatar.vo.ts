@@ -1,5 +1,5 @@
 import { DDD } from '@clarte/shared-domain';
-import { AvatarWrongError } from '../exceptions/avatar-wrong';
+import { AvatarWrongError } from '@/domain/exceptions/avatar-wrong';
 
 export class UserAvatar extends DDD.ValueObject<string> {
   private constructor(value: string) {

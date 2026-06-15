@@ -1,6 +1,6 @@
 import { map } from 'rxjs/operators';
 import { Injectable } from '@nestjs/common';
-import { type IAuthClient, InjectAuthClient } from '../../aplication';
+import { type IAuthClient, InjectAuthClient } from '@/app/auth/aplication';
 import { lastValueFrom } from 'rxjs';
 import { Contracts } from '@clarte/shared-contracts';
 

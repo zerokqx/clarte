@@ -1,5 +1,5 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { GetPublicJwtKeyQuery } from './get-public-jwt-key.query';
+import { GetPublicJwtKeyQuery } from '@/application/queries/get-public-jwt-key/get-public-jwt-key.query';
 import { promises as fs, existsSync } from 'fs';
 import { join } from 'path';
 

@@ -3,7 +3,12 @@ import { type Request } from 'express';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy, SecretOrKeyProvider } from 'passport-jwt';
 import { COOKIE_NAME } from '@clarte/shared';
-import { Contracts, type IJwtKeyProvider } from '@clarte/shared-contracts';
+import {
+  Contracts,
+  IJwtPayload,
+  IAuthenticatedUser,
+  type IJwtKeyProvider,
+} from '@clarte/shared-contracts';
 import { getRequestCookie } from '@/functions';
 
 @Global()
@@ -33,6 +38,7 @@ export class AccesStrategy extends PassportStrategy(Strategy, 'jwt-access') {
 
     super({
       secretOrKeyProvider,
+      passReqToCallback: true,
       algorithms: ['RS256'],
       jwtFromRequest: ExtractJwt.fromExtractors([
         (req: Request): string | null =>
@@ -41,8 +47,14 @@ export class AccesStrategy extends PassportStrategy(Strategy, 'jwt-access') {
     });
   }
 
-  override validate(payload: unknown): unknown {
-    console.log(payload);
-    return payload;
+  override validate(req: Request, payload: IJwtPayload): IAuthenticatedUser {
+    const token = getRequestCookie(req, COOKIE_NAME.JWT_ACCESS) ?? '';
+    return {
+      ...payload,
+      __metadata: {
+        processedBy: 'jwt-access',
+        original: token,
+      },
+    };
   }
 }

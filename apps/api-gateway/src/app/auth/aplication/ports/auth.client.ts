@@ -10,9 +10,11 @@ export interface IAuthClient {
     data: Contracts.Proto.Auth.LoginPasswordRequest,
   ): Observable<Contracts.Proto.Auth.LoginPasswordResponse>;
 
-  register(
-    data: Contracts.Proto.Auth.RegisterRequest,
-  ): Observable<void>;
+  register(data: Contracts.Proto.Auth.RegisterRequest): Observable<void>;
 
-  getPublicJwtKey(): Observable<Contracts.Proto.Auth.GetPublicJwtKeyResponse>
+  getPublicJwtKey(): Observable<Contracts.Proto.Auth.GetPublicJwtKeyResponse>;
+
+  refresh(
+    data: Contracts.Proto.Auth.RefreshTokensRequest,
+  ): Observable<Contracts.Proto.Auth.RefreshTokensResponse>;
 }

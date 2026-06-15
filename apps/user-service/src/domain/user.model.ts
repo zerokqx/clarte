@@ -1,7 +1,7 @@
 import { DDD } from '@clarte/shared-domain';
-import { UserAvatar } from './value-objects/avatar.vo';
-import { UserLogin } from './value-objects/login.vo';
-import { UserPassword } from './value-objects/password.vo';
+import { UserAvatar } from '@/domain/value-objects/avatar.vo';
+import { UserLogin } from '@/domain/value-objects/login.vo';
+import { UserPassword } from '@/domain/value-objects/password.vo';
 
 export class User extends DDD.Entity {
   private constructor(

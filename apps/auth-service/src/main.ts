@@ -5,7 +5,7 @@
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { AppModule } from '@/app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { Contracts, Fn } from '@clarte/shared-contracts';
 import { Filters, Interceptors } from '@clarte/shared-nest';

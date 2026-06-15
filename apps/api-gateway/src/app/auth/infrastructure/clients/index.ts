@@ -1,1 +1,1 @@
-export * from "./auth.client"
+export * from "@/app/auth/infrastructure/clients/auth.client"

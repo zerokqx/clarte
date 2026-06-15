@@ -1,2 +1,2 @@
-export * from './validate-user';
-export * from './get-public-jwt-key';
+export * from '@/application/queries/validate-user';
+export * from '@/application/queries/get-public-jwt-key';

@@ -1,7 +1,8 @@
-import { ITokenPayload, TokenVo } from '../../domain';
+import { type IJwtPayload } from '@clarte/shared-contracts';
+import { TokenVo } from '@/domain';
 
 export interface IJwtService {
-  generateAccess(payload: ITokenPayload): Promise<TokenVo>;
-  generateRefresh(payload: ITokenPayload): Promise<TokenVo>;
-  verify(token: string): Promise<ITokenPayload>;
+  generateAccess(payload: IJwtPayload): Promise<TokenVo>;
+  generateRefresh(payload: IJwtPayload): Promise<TokenVo>;
+  verify(token: string): Promise<IJwtPayload>;
 }

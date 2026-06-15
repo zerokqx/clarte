@@ -1,6 +1,9 @@
 import { DynamicModule, Global, Module, Provider, Type } from '@nestjs/common';
 import { Jwt } from '@/strategies';
 import { Contracts } from '@clarte/shared-contracts';
+import { randomUUID } from 'crypto';
+import { COOKIE_INTERCEPTOR_UUID } from '../ports/di-tokens';
+
 
 // ---------------------------------------------------------------------------
 // Опции для синхронной регистрации
@@ -113,8 +116,20 @@ export class JwtModule {
     return {
       module: JwtModule,
       imports,
-      providers: [...extraProviders, Jwt.AccesStrategy, Jwt.RefreshStrategy],
-      exports: [Jwt.AccesStrategy, Jwt.RefreshStrategy],
+      providers: [
+        ...extraProviders,
+        Jwt.AccesStrategy,
+        Jwt.RefreshStrategy,
+        {
+          provide: COOKIE_INTERCEPTOR_UUID,
+          useValue: randomUUID(),
+        },
+      ],
+      exports: [
+        Jwt.AccesStrategy,
+        Jwt.RefreshStrategy,
+        COOKIE_INTERCEPTOR_UUID,
+      ],
     };
   }
 }

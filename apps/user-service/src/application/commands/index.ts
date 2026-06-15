@@ -1,1 +1,1 @@
-export * from './user-create';
+export * from '@/application/commands/user-create';

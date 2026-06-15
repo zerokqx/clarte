@@ -1,2 +1,2 @@
-export * from './login-password';
-export * from './register-password';
+export * from '@/application/commands/login-password';
+export * from '@/application/commands/register-password';

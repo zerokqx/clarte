@@ -1,5 +1,5 @@
 import { DDD } from '@clarte/shared-domain';
-import { IncorrectLoginFormatError } from '../exceptions/incrrect-login-format';
+import { IncorrectLoginFormatError } from '@/domain/exceptions/incrrect-login-format';
 
 export class UserLogin extends DDD.ValueObject<string> {
   private constructor(value: string) {

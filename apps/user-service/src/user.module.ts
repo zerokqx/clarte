@@ -4,24 +4,24 @@ import {
   USER_AVATAR_GENERATOR,
   USER_READ_REPOSITORY,
   USER_WRITE_REPOSITORY,
-} from './application';
+} from '@/application';
 import {
   UserCredentialsController,
   UserFindRpcController,
   UserCreateController,
-} from './presentation';
+} from '@/presentation';
 import {
   FindUserByIdHandler,
   FindUserByLoginHandler,
   GetCredentialsByIdHandelr,
-} from './application';
-import { UserCreateHandler } from './application';
+} from '@/application';
+import { UserCreateHandler } from '@/application';
 import {
   UserAvatarGenerator,
   UserOrmEntity,
   UserReadRepository,
   UserWriteRepository,
-} from './infrastructure';
+} from '@/infrastructure';
 
 @Module({
   controllers: [

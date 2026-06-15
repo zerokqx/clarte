@@ -1,3 +1,5 @@
+import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
-export class AccessGuard extends AuthGuard('jwt-access') {}
+export class AccessAuthGuard extends AuthGuard('jwt-access') {}
+export const AccessGuard = () => UseGuards(AccessAuthGuard);

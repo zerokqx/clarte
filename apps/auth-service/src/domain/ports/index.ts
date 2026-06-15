@@ -1,2 +1,1 @@
-export * from "./password-hasher.interface"
-export * from "./token-payload.interface";
+export * from "@/domain/ports/password-hasher.interface";

@@ -3,9 +3,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import {
   DatabaseConfiguration,
   databaseConfiguration,
-} from './database.config';
+} from '@/infrastructure/database/database.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserOrmEntity } from './user.entity';
+import { UserOrmEntity } from '@/infrastructure/database/user.entity';
 
 @Module({
   imports: [

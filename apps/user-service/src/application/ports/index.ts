@@ -1,3 +1,3 @@
-export * from './di-tokens';
-export * from './user-repository.interface';
-export * from "./user-avatar-generator.interface"
+export * from '@/application/ports/di-tokens';
+export * from '@/application/ports/user-repository.interface';
+export * from "@/application/ports/user-avatar-generator.interface"

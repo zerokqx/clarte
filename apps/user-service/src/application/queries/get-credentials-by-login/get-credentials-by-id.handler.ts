@@ -1,9 +1,9 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { GetCredentialsByLoginQuery } from './get-credentials-by-id.query';
-import { type IUserReadRepository } from '../../ports/';
-import { CredentialsReadModel } from '../../models';
-import { NotFoundCredentialsException } from '../../exceptions';
-import { InjectUserRepository } from '../../decorators';
+import { GetCredentialsByLoginQuery } from '@/application/queries/get-credentials-by-login/get-credentials-by-id.query';
+import { type IUserReadRepository } from '@/application/ports';
+import { CredentialsReadModel } from '@/application/models';
+import { NotFoundCredentialsException } from '@/application/exceptions';
+import { InjectUserRepository } from '@/application/decorators';
 
 @QueryHandler(GetCredentialsByLoginQuery)
 export class GetCredentialsByIdHandelr

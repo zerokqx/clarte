@@ -6,7 +6,8 @@ import {
   GetPublicJwtKeyQuery,
   LoginPasswordCommand,
   RegisterPasswordCommand,
-} from '../application';
+} from '@/application';
+import { RefreshCommand } from '@/application/commands/refresh';
 
 @Contracts.Proto.Auth.AuthServiceControllerMethods()
 export class AuthController
@@ -52,5 +53,15 @@ export class AuthController
   ): Promise<Contracts.Proto.Auth.GetPublicJwtKeyResponse> {
     const key = await this.queryBus.execute(new GetPublicJwtKeyQuery());
     return { key };
+  }
+  refreshTokens(
+    request: Contracts.Proto.Auth.RefreshTokensRequest,
+  ): Promise<Contracts.Proto.Auth.RefreshTokensResponse> {
+    return this.commandBus.execute(
+      new RefreshCommand(
+        request.userId,
+        request.refreshToken,
+      ),
+    );
   }
 }

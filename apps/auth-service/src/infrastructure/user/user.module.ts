@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { USER_CLIENT } from '../../application';
-import { UserClient } from './user.client';
+import { USER_CLIENT } from '@/application';
+import { UserClient } from '@/infrastructure/user/user.client';
 import { Contracts, Fn } from '@clarte/shared-contracts';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { USER_GRPC_CLIENT } from '../ports';
-import { UserConfiguration, userConfiguration } from './user.configuration';
+import { USER_GRPC_CLIENT } from '@/infrastructure/ports';
+import { UserConfiguration, userConfiguration } from '@/infrastructure/user/user.configuration';
 
 @Module({
   imports: [

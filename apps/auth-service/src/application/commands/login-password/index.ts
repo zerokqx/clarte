@@ -1,2 +1,2 @@
-export * from './login-password.command';
-export * from './login-password.handler';
+export * from '@/application/commands/login-password/login-password.command';
+export * from '@/application/commands/login-password/login-password.handler';

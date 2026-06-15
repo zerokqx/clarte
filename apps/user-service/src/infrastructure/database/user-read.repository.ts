@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-import { UserOrmEntity } from './user.entity';
-import { IUserReadRepository } from '../../application';
+import { UserOrmEntity } from '@/infrastructure/database/user.entity';
+import { IUserReadRepository } from '@/application';
 import { InjectDataSource } from '@nestjs/typeorm';
-import { CredentialsReadModel, UserReadModel } from '../../application';
+import { CredentialsReadModel, UserReadModel } from '@/application';
 
 @Injectable()
 export class UserReadRepository implements IUserReadRepository {

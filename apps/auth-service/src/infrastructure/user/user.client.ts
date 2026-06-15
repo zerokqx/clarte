@@ -1,6 +1,6 @@
 import { OnModuleInit } from '@nestjs/common';
-import { IUserClient } from '../../application';
-import { InjectUserGrpcClient } from '../decorators/user-grpc-client.inject';
+import { IUserClient } from '@/application';
+import { InjectUserGrpcClient } from '@/infrastructure/decorators/user-grpc-client.inject';
 import { type ClientGrpc } from '@nestjs/microservices';
 import { Contracts } from '@clarte/shared-contracts';
 import { lastValueFrom } from 'rxjs';

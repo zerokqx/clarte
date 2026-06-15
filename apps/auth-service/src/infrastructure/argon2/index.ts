@@ -1,1 +1,1 @@
-export * from './password-hasher';
+export * from '@/infrastructure/argon2/password-hasher';

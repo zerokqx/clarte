@@ -1,1 +1,1 @@
-export * from "./avatar-generator"
+export * from "@/infrastructure/dicebear/avatar-generator"

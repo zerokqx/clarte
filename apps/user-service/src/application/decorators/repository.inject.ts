@@ -1,4 +1,4 @@
-import { USER_READ_REPOSITORY, USER_WRITE_REPOSITORY } from '../ports';
+import { USER_READ_REPOSITORY, USER_WRITE_REPOSITORY } from '@/application/ports';
 import { Fn } from '@clarte/shared-nest';
 
 export const InjectUserRepository = Fn.mkRepoInject(

@@ -1,5 +1,5 @@
 import { DDD } from '@clarte/shared-domain';
-import { PasswordHashInvalidError } from '../exceptions';
+import { PasswordHashInvalidError } from '@/domain/exceptions';
 
 export class PasswordHashVo extends DDD.ValueObject<string> {
   private constructor(value: string) {

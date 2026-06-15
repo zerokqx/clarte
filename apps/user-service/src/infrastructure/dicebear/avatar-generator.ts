@@ -1,6 +1,6 @@
 import { Style, Avatar } from '@dicebear/core';
 import definition from '@dicebear/styles/identicon.json' with { type: 'json' };
-import { IUserAvatarGenerator } from '../../application';
+import { IUserAvatarGenerator } from '@/application';
 
 export class UserAvatarGenerator implements IUserAvatarGenerator {
   generate(login: string): string {

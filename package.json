@@ -5,6 +5,18 @@
   "scripts": {},
   "nx": {
     "targets": {
+      "cqrs:query": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "node scripts/generate-query.js --name={args.name} --service={args.service}"
+        }
+      },
+      "cqrs:command": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "node scripts/generate-command.js --name={args.name} --service={args.service}"
+        }
+      },
       "compose-infra-up": {},
       "compose-infra-down": {},
       "compose-infra-logs": {}

@@ -1,1 +1,1 @@
-export * from './user-find.dto';
+export * from '@/app/user/presentation/dto/user-find.dto';

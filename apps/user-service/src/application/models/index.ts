@@ -1,2 +1,2 @@
-export * from './user.read-model';
-export * from './credentials.read-model';
+export * from '@/application/models/user.read-model';
+export * from '@/application/models/credentials.read-model';

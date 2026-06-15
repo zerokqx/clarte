@@ -2,13 +2,13 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import {
   type IUserAvatarGenerator,
   type IUserWriteRepository,
-} from '../../ports';
-import { UserCreateCommand } from './user-create.command';
-import { User } from '../../../domain';
+} from '@/application/ports';
+import { UserCreateCommand } from '@/application/commands/user-create/user-create.command';
+import { User } from '@/domain';
 import {
   InjectUserAvatarGenerator,
   InjectUserRepository,
-} from '../../decorators';
+} from '@/application/decorators';
 
 @CommandHandler(UserCreateCommand)
 export class UserCreateHandler implements ICommandHandler<UserCreateCommand> {

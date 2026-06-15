@@ -2,8 +2,8 @@ import { Contracts } from '@clarte/shared-contracts';
 import { QueryBus } from '@nestjs/cqrs';
 import { RpcException } from '@nestjs/microservices';
 import { status } from '@grpc/grpc-js';
-import { GetCredentialsByLoginQuery } from '../application';
-import { GetCredentialsDTO } from './dtos/get-credentials.dto';
+import { GetCredentialsByLoginQuery } from '@/application';
+import { GetCredentialsDTO } from '@/presentation/dtos/get-credentials.dto';
 
 @Contracts.Proto.User.UserCredentialsServiceControllerMethods()
 export class UserCredentialsController

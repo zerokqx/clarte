@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsString, MinLength } from 'class-validator';
 
 export class RegisterDTO {
-  @ApiProperty({ example: 'petux' })
+  @ApiProperty({ example: 'user' })
   @IsString()
   readonly login!: string;
 

@@ -1,5 +1,5 @@
 import { DDD } from '@clarte/shared-domain';
-import { LoginInvalidError } from '../exceptions';
+import { LoginInvalidError } from '@/domain/exceptions';
 
 export class LoginVo extends DDD.ValueObject<string> {
   private constructor(value: string) {

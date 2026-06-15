@@ -1,1 +1,1 @@
-export * from "./auth.rpc.controller"
+export * from "@/presentation/auth.rpc.controller"

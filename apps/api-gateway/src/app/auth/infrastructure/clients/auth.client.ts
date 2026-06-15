@@ -1,5 +1,5 @@
 import { OnModuleInit } from '@nestjs/common';
-import { IAuthClient, InjectAuthGrpcClient } from '../../aplication';
+import { IAuthClient, InjectAuthGrpcClient } from '@/app/auth/aplication';
 import { type ClientGrpc } from '@nestjs/microservices';
 import { Contracts } from '@clarte/shared-contracts';
 import { map, Observable } from 'rxjs';
@@ -32,5 +32,11 @@ export class AuthClient implements OnModuleInit, IAuthClient {
 
   getPublicJwtKey(): Observable<Contracts.Proto.Auth.GetPublicJwtKeyResponse> {
     return this.authService.getPublicJwtKey({});
+  }
+
+  refresh(
+    data: Contracts.Proto.Auth.RefreshTokensRequest,
+  ): Observable<Contracts.Proto.Auth.RefreshTokensResponse> {
+    return this.authService.refreshTokens(data);
   }
 }

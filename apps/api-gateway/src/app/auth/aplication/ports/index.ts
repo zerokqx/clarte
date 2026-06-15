@@ -1,2 +1,2 @@
-export * from "./auth.client"
-export * from "./di-tokens"
+export * from "@/app/auth/aplication/ports/auth.client"
+export * from "@/app/auth/aplication/ports/di-tokens"

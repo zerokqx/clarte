@@ -1,6 +1,6 @@
 import { Contracts } from '@clarte/shared-contracts';
 import { CommandBus } from '@nestjs/cqrs';
-import { UserCreateCommand } from '../application/commands/user-create';
+import { UserCreateCommand } from '@/application/commands/user-create';
 
 @Contracts.Proto.User.UserCreateServiceControllerMethods()
 export class UserCreateController
@@ -10,9 +10,10 @@ export class UserCreateController
 
   async userCreate(
     request: Contracts.Proto.User.UserCreateRequest,
-  ): Promise<void> {
+  ): Promise<{}> {
      await this.commandBuss.execute(
       new UserCreateCommand(request.id, request.login, request.passwordHash),
     );
+    return {};
   }
 }

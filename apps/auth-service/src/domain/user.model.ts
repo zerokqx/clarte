@@ -1,6 +1,6 @@
 import { DDD } from '@clarte/shared-domain';
-import { LoginVo, PasswordHashVo } from './value-objects';
-import { IPasswordHasher } from './ports';
+import { LoginVo, PasswordHashVo } from '@/domain/value-objects';
+import { IPasswordHasher } from '@/domain/ports';
 
 export class AuthUser extends DDD.AggregateRoot {
   private constructor(

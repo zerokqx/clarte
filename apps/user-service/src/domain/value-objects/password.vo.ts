@@ -1,5 +1,5 @@
 import { DDD } from '@clarte/shared-domain';
-import { IncorrectPasswordFormatError } from '../exceptions/incorrect-password-format';
+import { IncorrectPasswordFormatError } from '@/domain/exceptions/incorrect-password-format';
 
 export class UserPassword extends DDD.ValueObject<string> {
   private constructor(value: string) {

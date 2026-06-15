@@ -1,2 +1,2 @@
-export * from './not-found.exceptions';
-export * from './not-found-credentials.exception';
+export * from '@/application/exceptions/not-found.exceptions';
+export * from '@/application/exceptions/not-found-credentials.exception';

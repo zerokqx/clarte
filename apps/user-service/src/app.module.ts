@@ -1,7 +1,7 @@
 import { CqrsModule } from '@nestjs/cqrs';
 import { Module } from '@nestjs/common';
-import { UserModule } from './user.module';
-import { DatabaseModule } from './infrastructure/database/database.module';
+import { UserModule } from '@/user.module';
+import { DatabaseModule } from '@/infrastructure/database/database.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
