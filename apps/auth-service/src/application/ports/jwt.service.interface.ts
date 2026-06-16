@@ -1,4 +1,4 @@
-import { type IJwtPayload } from '@clarte/shared-contracts';
+import { type IJwtPayload } from '@clarte/shared-contracts/interfaces';
 import { TokenVo } from '@/domain';
 
 export interface IJwtService {

@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { LoginPasswordCommand } from '@/application/commands/login-password/login-password.command';
-import { Contracts } from '@clarte/shared-contracts';
+import { Auth } from '@clarte/shared-contracts/proto';
 import { Cause, Effect, Exit, pipe } from 'effect';
 import { InjectPasswordHasher, InjectUserClient } from '@/application/decorators';
 import { type IJwtService, type IUserClient } from '@/application/ports';
@@ -28,7 +28,7 @@ export class LoginPasswordHandler
 
   async execute(
     command: LoginPasswordCommand,
-  ): Promise<Contracts.Proto.Auth.LoginPasswordResponse> {
+  ): Promise<Auth.LoginPasswordResponse> {
     const exit = await pipe(
       Effect.tryPromise({
         try: () => this.userClient.getCredentialsByLogin(command.login),
@@ -104,7 +104,7 @@ export class LoginPasswordHandler
       onFailure: (cause) => {
         throw Cause.squash(cause);
       },
-      onSuccess: (value: Contracts.Proto.Auth.LoginPasswordResponse) => value,
+      onSuccess: (value: Auth.LoginPasswordResponse) => value,
     });
   }
 }

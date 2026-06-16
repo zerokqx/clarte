@@ -8,6 +8,7 @@
     // "moduleResolution": "nodenext",
     "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo",
     "experimentalDecorators": true,
+    "allowImportingTsExtensions": false,
     "emitDecoratorMetadata": true,
     "baseUrl": ".",
     "paths": {
@@ -30,6 +31,12 @@
   "references": [
     {
       "path": "../../packages/shared-nest/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/shared-domain/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/shared-contracts/tsconfig.lib.json"
     }
   ]
 }

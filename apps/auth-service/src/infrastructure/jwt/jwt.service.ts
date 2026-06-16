@@ -4,7 +4,7 @@ import { JwtService as NestJwtService } from '@nestjs/jwt';
 import {
   type IJwtPayload,
   type ITokenPayloadWithMetadata,
-} from '@clarte/shared-contracts';
+} from '@clarte/shared-contracts/interfaces';
 import { TokenVo } from '@/domain';
 
 @Injectable()

@@ -1,13 +1,13 @@
-import { Contracts } from '@clarte/shared-contracts';
+import { User } from '@clarte/shared-contracts/proto';
 
 export interface IUserClient {
   getCredentialsByLogin(
     login: string,
-  ): Promise<Contracts.Proto.User.UserGetCredentialsByLoginResponse>;
+  ): Promise<User.UserGetCredentialsByLoginResponse>;
 
   findUserByLogin(
     login: string,
-  ): Promise<Contracts.Proto.User.UserFindByLoginResponse>;
+  ): Promise<User.UserFindByLoginResponse>;
 
   createUser(
     id: string,

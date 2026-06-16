@@ -2,13 +2,13 @@ import { OnModuleInit } from '@nestjs/common';
 import { IUserClient } from '@/application';
 import { InjectUserGrpcClient } from '@/infrastructure/decorators/user-grpc-client.inject';
 import { type ClientGrpc } from '@nestjs/microservices';
-import { Contracts } from '@clarte/shared-contracts';
+import { User } from '@clarte/shared-contracts/proto';
 import { lastValueFrom } from 'rxjs';
 
 export class UserClient implements OnModuleInit, IUserClient {
-  private credentialsService!: Contracts.Proto.User.UserCredentialsServiceClient;
-  private findService!: Contracts.Proto.User.UserFindServiceClient;
-  private createService!: Contracts.Proto.User.UserCreateServiceClient;
+  private credentialsService!: User.UserCredentialsServiceClient;
+  private findService!: User.UserFindServiceClient;
+  private createService!: User.UserCreateServiceClient;
 
   constructor(
     @InjectUserGrpcClient() private readonly userGrpcClient: ClientGrpc,
@@ -16,26 +16,26 @@ export class UserClient implements OnModuleInit, IUserClient {
 
   onModuleInit() {
     this.credentialsService = this.userGrpcClient.getService(
-      Contracts.Proto.User.USER_CREDENTIALS_SERVICE_NAME,
+      User.USER_CREDENTIALS_SERVICE_NAME,
     );
     this.findService = this.userGrpcClient.getService(
-      Contracts.Proto.User.USER_FIND_SERVICE_NAME,
+      User.USER_FIND_SERVICE_NAME,
     );
     this.createService = this.userGrpcClient.getService(
-      Contracts.Proto.User.USER_CREATE_SERVICE_NAME,
+      User.USER_CREATE_SERVICE_NAME,
     );
   }
 
   async getCredentialsByLogin(
     login: string,
-  ): Promise<Contracts.Proto.User.UserGetCredentialsByLoginResponse> {
+  ): Promise<User.UserGetCredentialsByLoginResponse> {
     const source$ = this.credentialsService.getCredentialsByLogin({ login });
     return lastValueFrom(source$);
   }
 
   findUserByLogin(
     login: string,
-  ): Promise<Contracts.Proto.User.UserFindByLoginResponse> {
+  ): Promise<User.UserFindByLoginResponse> {
     const source$ = this.findService.findByLogin({ login });
     return lastValueFrom(source$);
   }

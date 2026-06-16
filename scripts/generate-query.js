@@ -80,8 +80,15 @@ export class ${pascalName}Handler implements IQueryHandler<${pascalName}Query> {
 fs.writeFileSync(path.join(targetDir, `${name}.query.ts`), queryContent, 'utf-8');
 fs.writeFileSync(path.join(targetDir, `${name}.handler.ts`), handlerContent, 'utf-8');
 
+const indexContent = `export * from './${name}.query';
+export * from './${name}.handler';
+`;
+fs.writeFileSync(path.join(targetDir, 'index.ts'), indexContent, 'utf-8');
+
 console.log(`Successfully generated CQRS query:`);
 console.log(`  Project: ${project}`);
 console.log(`  Folder: ${path.relative(path.join(__dirname, '..'), targetDir)}`);
 console.log(`  File: ${name}.query.ts`);
 console.log(`  File: ${name}.handler.ts`);
+console.log(`  File: index.ts`);
+

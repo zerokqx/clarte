@@ -1,20 +1,20 @@
-import { Contracts } from '@clarte/shared-contracts';
+import { Auth } from '@clarte/shared-contracts/proto';
 import { Observable } from 'rxjs';
 
 export interface IAuthClient {
   validate(
-    data: Contracts.Proto.Auth.RegisterRequest,
-  ): Observable<Contracts.Proto.Auth.ValidateUserResponse>;
+    data: Auth.RegisterRequest,
+  ): Observable<Auth.ValidateUserResponse>;
 
   login(
-    data: Contracts.Proto.Auth.LoginPasswordRequest,
-  ): Observable<Contracts.Proto.Auth.LoginPasswordResponse>;
+    data: Auth.LoginPasswordRequest,
+  ): Observable<Auth.LoginPasswordResponse>;
 
-  register(data: Contracts.Proto.Auth.RegisterRequest): Observable<void>;
+  register(data: Auth.RegisterRequest): Observable<void>;
 
-  getPublicJwtKey(): Observable<Contracts.Proto.Auth.GetPublicJwtKeyResponse>;
+  getPublicJwtKey(): Observable<Auth.GetPublicJwtKeyResponse>;
 
   refresh(
-    data: Contracts.Proto.Auth.RefreshTokensRequest,
-  ): Observable<Contracts.Proto.Auth.RefreshTokensResponse>;
+    data: Auth.RefreshTokensRequest,
+  ): Observable<Auth.RefreshTokensResponse>;
 }

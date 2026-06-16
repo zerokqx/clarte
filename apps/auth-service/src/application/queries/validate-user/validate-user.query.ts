@@ -1,7 +1,7 @@
 import { Query } from '@nestjs/cqrs';
-import { Contracts } from '@clarte/shared-contracts';
+import { Auth } from '@clarte/shared-contracts/proto';
 
-export class ValidateUserQuery extends Query<Contracts.Proto.Auth.ValidateUserResponse> {
+export class ValidateUserQuery extends Query<Auth.ValidateUserResponse> {
   constructor(
     public readonly login: string,
     public readonly password: string,

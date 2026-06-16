@@ -1,7 +1,7 @@
-import { DDD } from '@clarte/shared-domain';
+import { ValueObject } from '@clarte/shared-domain/domain';
 import { AvatarWrongError } from '@/domain/exceptions/avatar-wrong';
 
-export class UserAvatar extends DDD.ValueObject<string> {
+export class UserAvatar extends ValueObject<string> {
   private constructor(value: string) {
     super(value);
   }

@@ -3,7 +3,7 @@ import { RefreshCommand } from './refresh.command';
 import { InjectJwtService } from '../login-password/jwt-service.inject';
 import { type IJwtService } from '@/application/ports';
 import { Cause, Effect, Exit, pipe } from 'effect';
-import { Contracts } from '@clarte/shared-contracts';
+import { Auth } from '@clarte/shared-contracts/proto';
 
 @CommandHandler(RefreshCommand)
 export class RefreshHandler implements ICommandHandler<RefreshCommand> {
@@ -11,7 +11,7 @@ export class RefreshHandler implements ICommandHandler<RefreshCommand> {
 
   async execute(
     command: RefreshCommand,
-  ): Promise<Contracts.Proto.Auth.RefreshTokensResponse> {
+  ): Promise<Auth.RefreshTokensResponse> {
     const exit = await pipe(
       Effect.tryPromise({
         try: async () => {
@@ -44,7 +44,7 @@ export class RefreshHandler implements ICommandHandler<RefreshCommand> {
       onFailure: (cause) => {
         throw Cause.squash(cause);
       },
-      onSuccess: (value: Contracts.Proto.Auth.RefreshTokensResponse) => value,
+      onSuccess: (value: Auth.RefreshTokensResponse) => value,
     });
   }
 }

@@ -1,0 +1,15 @@
+
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package notes;
+
+service NotesService {
+   rpc CreateNote(CreateNoteRequest) returns (google.protobuf.Empty);
+};
+
+
+message CreateNoteRequest{
+ string text = 1;
+}
+
+

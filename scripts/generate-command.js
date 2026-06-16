@@ -82,8 +82,15 @@ export class ${pascalName}Handler implements ICommandHandler<${pascalName}Comman
 fs.writeFileSync(path.join(targetDir, `${name}.command.ts`), commandContent, 'utf-8');
 fs.writeFileSync(path.join(targetDir, `${name}.handler.ts`), handlerContent, 'utf-8');
 
+const indexContent = `export * from './${name}.command';
+export * from './${name}.handler';
+`;
+fs.writeFileSync(path.join(targetDir, 'index.ts'), indexContent, 'utf-8');
+
 console.log(`Successfully generated CQRS command:`);
 console.log(`  Project: ${project}`);
 console.log(`  Folder: ${path.relative(path.join(__dirname, '..'), targetDir)}`);
 console.log(`  File: ${name}.command.ts`);
 console.log(`  File: ${name}.handler.ts`);
+console.log(`  File: index.ts`);
+

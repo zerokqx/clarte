@@ -1,18 +1,18 @@
-import { Contracts } from '@clarte/shared-contracts';
+import { User } from '@clarte/shared-contracts/proto';
 import { QueryBus } from '@nestjs/cqrs';
 import { RpcException } from '@nestjs/microservices';
 import { status } from '@grpc/grpc-js';
 import { GetCredentialsByLoginQuery } from '@/application';
 import { GetCredentialsDTO } from '@/presentation/dtos/get-credentials.dto';
 
-@Contracts.Proto.User.UserCredentialsServiceControllerMethods()
+@User.UserCredentialsServiceControllerMethods()
 export class UserCredentialsController
-  implements Contracts.Proto.User.UserCredentialsServiceController
+  implements User.UserCredentialsServiceController
 {
   constructor(private readonly queryBus: QueryBus) {}
   async getCredentialsByLogin(
-    request: Contracts.Proto.User.UserGetCredentialsByLoginRequest,
-  ): Promise<Contracts.Proto.User.UserGetCredentialsByLoginResponse> {
+    request: User.UserGetCredentialsByLoginRequest,
+  ): Promise<User.UserGetCredentialsByLoginResponse> {
     const query = new GetCredentialsByLoginQuery(request.login);
     const credentials = await this.queryBus.execute(query);
     if (!credentials)

@@ -2,7 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserConfiguration, userConfiguration } from '@/app/user/infrastructure/user.config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { Contracts, Fn } from '@clarte/shared-contracts';
+import { User } from '@clarte/shared-contracts/proto';
+import { getProtoPath } from '@clarte/shared-contracts/functions';
 import { UserController } from '@/app/user/presentation/user.controller';
 import { UserClient } from '@/app/user/infrastructure/clients/user.client';
 import { USER_CLIENT, USER_GRPC_CLIENT } from '@/app/user/application';
@@ -20,8 +21,8 @@ import { USER_CLIENT, USER_GRPC_CLIENT } from '@/app/user/application';
             transport: Transport.GRPC,
             options: {
               url: `${host}:${port}`,
-              package: Contracts.Proto.User.USER_PACKAGE_NAME,
-              protoPath: Fn.getProtoPath('user'),
+              package: User.USER_PACKAGE_NAME,
+              protoPath: getProtoPath('user'),
             },
           };
         },

@@ -3,12 +3,12 @@ import { type Request } from 'express';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy, SecretOrKeyProvider } from 'passport-jwt';
 import { COOKIE_NAME } from '@clarte/shared';
+import { JWT_KEY_PROVIDER } from '@clarte/shared-contracts/di-tokens';
 import {
-  Contracts,
-  IJwtPayload,
-  IAuthenticatedUser,
+  type IJwtPayload,
+  type IAuthenticatedUser,
   type IJwtKeyProvider,
-} from '@clarte/shared-contracts';
+} from '@clarte/shared-contracts/interfaces';
 import { getRequestCookie } from '@/functions';
 
 @Global()
@@ -18,7 +18,7 @@ export class AccesStrategy extends PassportStrategy(Strategy, 'jwt-access') {
   private cachedKey: string | null = null;
 
   constructor(
-    @Inject(Contracts.JWT_KEY_PROVIDER)
+    @Inject(JWT_KEY_PROVIDER)
     private readonly keyProvider: IJwtKeyProvider,
   ) {
     const secretOrKeyProvider: SecretOrKeyProvider = async (

@@ -1,4 +1,4 @@
-import { ProblemDetailsException } from '@clarte/shared-domain';
+import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
 
 export class UserCredentialsNotFound extends ProblemDetailsException {
   override type = '/errors/user-credentials-not-found';

@@ -4,7 +4,7 @@ import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { map, Observable } from 'rxjs';
 import { InjectUserClient, type IUserClient } from '@/app/user/application';
 import { UserFindDTO } from '@/app/user/presentation/dto';
-import { type IJwtPayload } from '@clarte/shared-contracts';
+import { type IJwtPayload } from '@clarte/shared-contracts/interfaces';
 import { AccessGuard } from '@clarte/shared-nest/guards';
 import { User } from '@clarte/shared-nest/decorators';
 import { UserMeDTO } from './dto/user-me.dto';

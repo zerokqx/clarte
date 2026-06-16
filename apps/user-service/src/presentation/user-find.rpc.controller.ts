@@ -1,15 +1,15 @@
-import { Contracts } from '@clarte/shared-contracts';
+import { User } from '@clarte/shared-contracts/proto';
 import { QueryBus } from '@nestjs/cqrs';
 import { FindUserByIdQuery, FindUserByLoginQuery } from '@/application';
 import { UserFindByIdDTO, UserFindByLoginDTO } from '@/presentation/dtos';
 
-@Contracts.Proto.User.UserFindServiceControllerMethods()
+@User.UserFindServiceControllerMethods()
 export class UserFindRpcController
-  implements Contracts.Proto.User.UserFindServiceController
+  implements User.UserFindServiceController
 {
   constructor(private readonly queryBus: QueryBus) {}
   async findById(
-    request: Contracts.Proto.User.UserFindByIdRequest,
+    request: User.UserFindByIdRequest,
   ): Promise<UserFindByIdDTO> {
     const query = new FindUserByIdQuery(request.id);
     const user = await this.queryBus.execute(query);
@@ -21,7 +21,7 @@ export class UserFindRpcController
     });
   }
   async findByLogin(
-    request: Contracts.Proto.User.UserFindByLoginRequest,
+    request: User.UserFindByLoginRequest,
   ): Promise<UserFindByLoginDTO> {
     const query = new FindUserByLoginQuery(request.login);
     const user = await this.queryBus.execute(query);

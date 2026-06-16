@@ -18,7 +18,7 @@ import { map } from 'rxjs';
 import { RefreshGuard } from '@clarte/shared-nest/guards';
 import { JwtCookieInterceptor } from '@clarte/shared-nest/interceptors';
 import { User, InjectCookieInterceptorUuid } from '@clarte/shared-nest/decorators';
-import { type IAuthenticatedUser } from '@clarte/shared-contracts';
+import { type IAuthenticatedUser } from '@clarte/shared-contracts/interfaces';
 
 @ApiTags('Auth')
 @Controller('auth')
