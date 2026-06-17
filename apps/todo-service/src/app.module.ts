@@ -9,7 +9,6 @@ import {
 import {
   TODO_BULLMQ_TIMERS,
   TODO_RMQ_CLIENT,
-  NOTIFICATION_RMQ_CLIENT,
   TodoReminderService,
 } from './application';
 import { DatabaseModule, ReminderProcessor } from './infrastructure';
@@ -32,8 +31,11 @@ import { BullModule } from '@nestjs/bullmq';
     ConfigModule.forRoot({
       envFilePath: ['.env.local', '.env'],
     }),
-    RmqModule.register({ name: TODO_RMQ_CLIENT, queue: 'todo_main_queue' }),
-    RmqModule.register({ name: NOTIFICATION_RMQ_CLIENT, queue: 'notification_queue' }),
+    RmqModule.register({
+      name: TODO_RMQ_CLIENT,
+      exchange: 'clarte_events_exchange',
+      exchangeType: 'topic',
+    }),
     BullModule.forRootAsync({
       useFactory(config: ConfigService) {
         const { host, password, port } =

@@ -36,6 +36,8 @@ async function bootstrap() {
     options: {
       urls: [rmqUrl],
       queue: 'notification_queue',
+      exchange: 'clarte_events_exchange',
+      exchangeType: 'topic',
       queueOptions: {
         durable: true,
       },

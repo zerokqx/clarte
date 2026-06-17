@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { InjectTodoRepo, InjectNotificationRmqClient } from '@/application/decorators';
+import { InjectTodoRepo, InjectTodoRmqClient } from '@/application/decorators';
 import { ITodoReadRepository } from '@/application/ports';
 import { ClientProxy } from '@nestjs/microservices';
 import { TodoEventPattern, type TodoEventPayloadMap } from '@clarte/shared-event-types/todo';
@@ -17,7 +17,7 @@ export class TodoReminderService {
   constructor(
     @InjectTodoRepo('r')
     private readonly repoRead: ITodoReadRepository,
-    @InjectNotificationRmqClient()
+    @InjectTodoRmqClient()
     private readonly rmqClient: ClientProxy,
   ) {}
 

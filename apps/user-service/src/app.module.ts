@@ -34,7 +34,11 @@ import { RmqModule } from '@clarte/shared-nest/modules';
       envFilePath: ['.env.local', '.env'],
     }),
     AppConfigModule,
-    RmqModule.register({ name: USER_RMQ_CLIENT, queue: 'notification_queue' }),
+    RmqModule.register({
+      name: USER_RMQ_CLIENT,
+      exchange: 'clarte_events_exchange',
+      exchangeType: 'topic',
+    }),
     DatabaseModule,
     TypeOrmModule.forFeature([UserOrmEntity]),
   ],

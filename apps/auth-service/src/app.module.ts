@@ -29,7 +29,11 @@ const handlers: Provider[] = [
       isGlobal: true,
       envFilePath: ['.env.local', '.env'],
     }),
-    RmqModule.register({ name: AUTH_RMQ_CLIENT, queue: 'notification_queue' }),
+    RmqModule.register({
+      name: AUTH_RMQ_CLIENT,
+      exchange: 'clarte_events_exchange',
+      exchangeType: 'topic',
+    }),
     UserModule,
     JwtModule,
   ],

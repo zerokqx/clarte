@@ -6,8 +6,10 @@ import { AmqplibQueueOptions } from '@nestjs/microservices/external/rmq-url.inte
 
 interface RmqModuleOptions {
   name: string | symbol;
-  queue: string;
+  queue?: string;
   queueOptions?: AmqplibQueueOptions;
+  exchange?: string;
+  exchangeType?: string;
 }
 
 @Module({
@@ -18,6 +20,8 @@ export class RmqModule {
     name,
     queue,
     queueOptions,
+    exchange,
+    exchangeType,
   }: RmqModuleOptions): DynamicModule {
     return {
       module: RmqModule,
@@ -31,9 +35,11 @@ export class RmqModule {
               return {
                 transport: Transport.RMQ,
                 options: {
-                  queue,
+                  queue: queue ?? '',
                   urls: [`amqp://${defaultUser}:${defaultPass}@${host}:${port}`],
                   queueOptions: queueOptions ?? {durable: true},
+                  ...(exchange && { exchange }),
+                  ...(exchangeType && { exchangeType }),
                 },
               };
             },
