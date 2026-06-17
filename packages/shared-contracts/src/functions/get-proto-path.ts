@@ -1,4 +1,4 @@
-type ProtoNames = 'user' | 'auth' | 'notes' | 'todo';
+type ProtoNames = 'user' | 'auth' | 'notes' | 'todo' | 'notification';
 
 /**
  * Возвращает абсолютный путь к proto-файлу из библиотеки shared-contracts.

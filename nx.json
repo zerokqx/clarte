@@ -51,7 +51,11 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": ["apps/notes-service-e2e/**/*", "apps/todo-service-e2e/**/*"]
+      "exclude": [
+        "apps/notes-service-e2e/**/*",
+        "apps/todo-service-e2e/**/*",
+        "apps/notification-service-e2e/**/*"
+      ]
     }
   ],
   "analytics": false,

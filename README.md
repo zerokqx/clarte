@@ -62,6 +62,7 @@
 | `auth-service` | **5002** | gRPC | Микросервис авторизации |
 | `notes-service` | **5003** | gRPC | Микросервис заметок |
 | `todo-service` | **5004** | gRPC | Микросервис задач (TODO) |
+| `notification-service` | **5005** | gRPC + RMQ | Микросервис уведомлений |
 
 ### Базы данных и хранилища (Порты 6000+)
 | Ресурс | Порт | Сервис | Назначение |
@@ -69,6 +70,7 @@
 | `postgres` | **6000** | `user-service` | База данных пользователей |
 | `postgres` | **6001** | `notes-service` | База данных заметок |
 | `postgres` | **6002** | `todo-service` | База данных задач |
+| `postgres` | **6005** | `notification-service` | База данных уведомлений |
 | `minio` | **6003** | `notes-service` | S3 API MinIO |
 | `minio-console` | **6004** | `notes-service` | Консоль управления MinIO |
 

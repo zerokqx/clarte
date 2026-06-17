@@ -32,6 +32,9 @@
     },
     {
       "path": "./packages/shared-event-types"
+    },
+    {
+      "path": "./apps/notification-service"
     }
   ]
 }

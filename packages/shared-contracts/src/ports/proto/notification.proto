@@ -1,0 +1,23 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package notification;
+
+service NotificationService {
+  rpc GetNotificationsById(GetNotificationsByIdRequest)
+      returns (GetNotificationsByIdResponse);
+}
+
+message Notification {
+  string id = 1;
+  string title = 2;
+  string text = 3;
+  string createdAt = 4;
+}
+
+message GetNotificationsByIdRequest {
+  string userId = 1;
+}
+
+message GetNotificationsByIdResponse {
+  repeated Notification notifications = 1;
+}
