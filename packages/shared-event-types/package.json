@@ -14,12 +14,17 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
-
     "./todo": {
       "@clarte/source": "./src/todo/index.ts",
       "types": "./dist/todo/index.d.ts",
       "import": "./dist/todo/index.js",
       "default": "./dist/todo/index.js"
+    },
+    "./user": {
+      "@clarte/source": "./src/user/index.ts",
+      "types": "./dist/user/index.d.ts",
+      "import": "./dist/user/index.js",
+      "default": "./dist/user/index.js"
     }
   },
   "nx": {

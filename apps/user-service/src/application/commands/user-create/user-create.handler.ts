@@ -8,7 +8,11 @@ import { User } from '@/domain';
 import {
   InjectUserAvatarGenerator,
   InjectUserRepository,
+  InjectUserRmqClient,
 } from '@/application/decorators';
+import { ClientProxy } from '@nestjs/microservices';
+import { UserEventPattern } from '@clarte/shared-event-types/user';
+import { firstValueFrom } from 'rxjs';
 
 @CommandHandler(UserCreateCommand)
 export class UserCreateHandler implements ICommandHandler<UserCreateCommand> {
@@ -17,6 +21,8 @@ export class UserCreateHandler implements ICommandHandler<UserCreateCommand> {
     private readonly repoWrite: IUserWriteRepository,
     @InjectUserAvatarGenerator()
     private readonly userAvatarGenerator: IUserAvatarGenerator,
+    @InjectUserRmqClient()
+    private readonly rmqClient: ClientProxy,
   ) {}
 
   async execute(command: UserCreateCommand): Promise<void> {
@@ -27,6 +33,18 @@ export class UserCreateHandler implements ICommandHandler<UserCreateCommand> {
       this.userAvatarGenerator.generate(command.login),
     );
     await this.repoWrite.save(user);
+
+    // Emit user.created event to RMQ
+    await firstValueFrom(
+      this.rmqClient.emit(UserEventPattern.UserCreated, {
+        userId: user.id,
+        email: '',
+        name: user.login,
+      }),
+    ).catch((err) => {
+      console.error('❌ Failed to emit user.created event:', err);
+    });
+
     return;
   }
 }

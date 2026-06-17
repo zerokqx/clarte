@@ -5,6 +5,7 @@ import { InjectNotificationRepo } from '@/application/decorators';
 import { INotificationRepository } from '@/application/ports';
 import { Notification as NotificationDomain } from '@/domain';
 import { randomUUID } from 'crypto';
+import { UserEventPattern, type IUserCreatedPayload } from '@clarte/shared-event-types/user';
 
 @Controller()
 @Notification.NotificationServiceControllerMethods()
@@ -33,9 +34,9 @@ export class NotificationRpcController implements Notification.NotificationServi
   }
 
   // 2. RMQ Handler for the "user.created" event
-  @EventPattern('user.created')
+  @EventPattern(UserEventPattern.UserCreated)
   async handleUserCreated(
-    @Payload() data: { userId: string; email: string; name: string },
+    @Payload() data: IUserCreatedPayload,
     @Ctx() context: RmqContext,
   ) {
     try {

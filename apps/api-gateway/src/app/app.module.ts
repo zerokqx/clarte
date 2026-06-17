@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UserModule } from '@/app/user/infrastructure/users.module';
 import { AuthModule } from '@/app/auth/auth.module';
 import { TodoModule } from '@/app/todo/todo.module';
+import { NotificationModule } from '@/app/notification/infrastructure/notifications.module';
 import { AppConfigModule, JwtModule } from '@clarte/shared-nest/modules';
 import { JwtKeyProvider } from '@/app/auth/infrastructure';
 
@@ -16,10 +17,12 @@ import { JwtKeyProvider } from '@/app/auth/infrastructure';
     UserModule,
     AuthModule,
     TodoModule,
+    NotificationModule,
     JwtModule.register({
       imports: [AuthModule],
       provider: JwtKeyProvider,
     }),
+
 
   ],
   controllers: [],

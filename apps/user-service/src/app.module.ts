@@ -8,6 +8,7 @@ import {
   USER_AVATAR_GENERATOR,
   USER_READ_REPOSITORY,
   USER_WRITE_REPOSITORY,
+  USER_RMQ_CLIENT,
   FindUserByIdHandler,
   FindUserByLoginHandler,
   GetCredentialsByIdHandelr,
@@ -24,6 +25,7 @@ import {
   UserReadRepository,
   UserWriteRepository,
 } from '@/infrastructure';
+import { RmqModule } from '@clarte/shared-nest/modules';
 
 @Module({
   imports: [
@@ -32,6 +34,7 @@ import {
       envFilePath: ['.env.local', '.env'],
     }),
     AppConfigModule,
+    RmqModule.register({ name: USER_RMQ_CLIENT, queue: 'notification_queue' }),
     DatabaseModule,
     TypeOrmModule.forFeature([UserOrmEntity]),
   ],

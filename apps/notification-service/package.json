@@ -83,6 +83,7 @@
   "dependencies": {
     "@clarte/shared-contracts": "workspace:*",
     "@clarte/shared-domain": "workspace:*",
+    "@clarte/shared-event-types": "workspace:*",
     "@clarte/shared-nest": "workspace:*",
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",

@@ -330,6 +330,9 @@ importers:
       '@clarte/shared-domain':
         specifier: workspace:*
         version: link:../../packages/shared-domain
+      '@clarte/shared-event-types':
+        specifier: workspace:*
+        version: link:../../packages/shared-event-types
       '@clarte/shared-nest':
         specifier: workspace:*
         version: link:../../packages/shared-nest
@@ -410,6 +413,9 @@ importers:
       '@clarte/shared-domain':
         specifier: workspace:*
         version: link:../../packages/shared-domain
+      '@clarte/shared-event-types':
+        specifier: workspace:*
+        version: link:../../packages/shared-event-types
       '@clarte/shared-nest':
         specifier: workspace:*
         version: link:../../packages/shared-nest
@@ -425,6 +431,9 @@ importers:
       '@nestjs/core':
         specifier: ^11.0.0
         version: 11.1.26(@nestjs/common@11.1.26(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/microservices@11.1.26)(@nestjs/platform-express@11.1.26)(reflect-metadata@0.1.14)(rxjs@7.8.1)
+      '@nestjs/microservices':
+        specifier: ^11.0.0
+        version: 11.1.26(@grpc/grpc-js@1.14.4)(@nestjs/common@11.1.26(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@11.1.26)(amqp-connection-manager@5.0.0(amqplib@2.0.1))(amqplib@2.0.1)(ioredis@5.10.1)(reflect-metadata@0.1.14)(rxjs@7.8.1)
       '@nestjs/platform-express':
         specifier: ^11.0.0
         version: 11.1.26(@nestjs/common@11.1.26(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@11.1.26)
