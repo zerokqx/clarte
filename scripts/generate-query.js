@@ -72,7 +72,7 @@ import { ${pascalName}Query } from './${name}.query';
 
 @QueryHandler(${pascalName}Query)
 export class ${pascalName}Handler implements IQueryHandler<${pascalName}Query> {
-  constructor(super) {}
+  constructor() {}
 
 }
 `;

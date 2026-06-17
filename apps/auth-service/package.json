@@ -86,10 +86,7 @@
           "cwd": "apps/auth-service",
           "parallel": false
         }
-      },
-      "compose-infra-up": {},
-      "compose-infra-down": {},
-      "compose-infra-logs": {}
+      }
     }
   },
   "dependencies": {

@@ -74,7 +74,7 @@ import { ${pascalName}Command } from './${name}.command';
 
 @CommandHandler(${pascalName}Command)
 export class ${pascalName}Handler implements ICommandHandler<${pascalName}Command> {
-  constructor() {super()}
+  constructor() {}
 
 }
 `;

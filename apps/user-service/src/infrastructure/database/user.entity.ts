@@ -8,10 +8,10 @@ export class UserOrmEntity {
   @Column({ length: 30 })
   login!: string;
 
-  @Column()
+  @Column({ name: 'password_hash' })
   passwordHash!: string;
 
-  @Column({ default: '' })
+  @Column({ default: '', name: 'avatar_url' })
   avatarUrl!: string;
 
   constructor(data: Partial<UserOrmEntity>) {

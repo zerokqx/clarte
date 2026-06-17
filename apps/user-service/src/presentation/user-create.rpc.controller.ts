@@ -10,10 +10,9 @@ export class UserCreateController
 
   async userCreate(
     request: User.UserCreateRequest,
-  ): Promise<{}> {
+  ): Promise<void> {
      await this.commandBuss.execute(
       new UserCreateCommand(request.id, request.login, request.passwordHash),
     );
-    return {};
   }
 }

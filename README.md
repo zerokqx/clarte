@@ -1,105 +1,81 @@
-# New Nx Repository
+# Clarte Monorepo
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+✨ Clarte — это современная монорепозиторная архитектура на базе [Nx](https://nx.dev) и [pnpm](https://pnpm.io/), объединяющая микросервисы (NestJS, gRPC), базы данных и очереди сообщений.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+---
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/js?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
-## Try the full Nx platform
-🚀 If you haven't connected to Nx Cloud yet, [complete your setup here](https://cloud.nx.app/setup/connect-workspace/guide). Get faster builds with remote caching, distributed task execution, and self-healing CI. [See how your workspace can benefit](#nx-cloud).
-## Generate a library
+## Требования (Requirements)
+* **Node.js**: `22.21.1`
+* **Docker** & **Docker Compose**
 
-```sh
-npx nx g @nx/js:lib packages/pkg1 --publishable --importPath=@my-org/pkg1
-```
+---
 
-## Run tasks
+## Установка и запуск (Installation Guide)
 
-To build the library use:
+> [!TIP]
+> **Для новичков:** Самый простой способ быстро установить все зависимости и запустить инфраструктуру с микросервисами — запустить скрипт `deploy.bash`:
+> ```sh
+> chmod +x ./deploy.bash
+> ./deploy.bash
+> ```
+> Скрипт последовательно проверит наличие `pnpm`, установит зависимости проекта, настроит `nx`, запустит Docker-контейнеры окружения и поднимет все сервисы.
 
-```sh
-npx nx build pkg1
-```
+Для ручного развертывания проекта выполните следующие шаги:
 
-To run any task with Nx use:
+1. **Установите pnpm globally (если не установлен):**
+   ```sh
+   npm install -g pnpm
+   ```
 
-```sh
-npx nx <target> <project-name>
-```
+2. **Установите зависимости проекта:**
+   ```sh
+   pnpm i
+   ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+3. **Установите глобально Nx CLI:**
+   ```sh
+   pnpm add --global nx
+   ```
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+4. **Запустите всю инфраструктуру (базы данных, очереди, pgAdmin):**
+   ```sh
+   nx run-many --targets=compose-infra-up --no-tui
+   ```
 
-## Versioning and releasing
+5. **Запустите все микросервисы в режиме разработки:**
+   ```sh
+   nx run-many --targets=serve --no-tui
+   ```
+   *(или без флага `--no-tui` для интерактивного терминала: `nx run-many --targets=serve`)*
 
-To version and release the library use
+---
 
-```
-npx nx release
-```
+## Port Declarations (Распределение портов)
 
-Pass `--dry-run` to see what would happen without actually releasing the library.
+Ниже приведена схема портов, используемых в проекте Clarte:
 
-[Learn more about Nx release &raquo;](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### Микросервисы (Порты 5000+)
+| Сервис | Порт | Протокол | Назначение |
+| :--- | :--- | :--- | :--- |
+| `api-gateway` | **5000** | HTTP | Входная точка API, Swagger (/docs) |
+| `user-service` | **5001** | gRPC | Микросервис пользователей |
+| `auth-service` | **5002** | gRPC | Микросервис авторизации |
+| `notes-service` | **5003** | gRPC | Микросервис заметок |
+| `todo-service` | **5004** | gRPC | Микросервис задач (TODO) |
 
-## Keep TypeScript project references up to date
+### Базы данных и хранилища (Порты 6000+)
+| Ресурс | Порт | Сервис | Назначение |
+| :--- | :--- | :--- | :--- |
+| `postgres` | **6000** | `user-service` | База данных пользователей |
+| `postgres` | **6001** | `notes-service` | База данных заметок |
+| `postgres` | **6002** | `todo-service` | База данных задач |
+| `minio` | **6003** | `notes-service` | S3 API MinIO |
+| `minio-console` | **6004** | `notes-service` | Консоль управления MinIO |
 
-Nx automatically updates TypeScript [project references](https://www.typescriptlang.org/docs/handbook/project-references.html) in `tsconfig.json` files to ensure they remain accurate based on your project dependencies (`import` or `require` statements). This sync is automatically done when running tasks such as `build` or `typecheck`, which require updated references to function correctly.
-
-To manually trigger the process to sync the project graph dependencies information to the TypeScript project references, run the following command:
-
-```sh
-npx nx sync
-```
-
-You can enforce that the TypeScript project references are always in the correct state when running in CI by adding a step to your CI job configuration that runs the following command:
-
-```sh
-npx nx sync:check
-```
-
-[Learn more about nx sync](https://nx.dev/reference/nx-commands#sync)
-
-## Nx Cloud
-
-Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
-
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-### Set up CI (non-Github Actions CI)
-
-**Note:** This is only required if your CI provider is not GitHub Actions.
-
-Use the following command to configure a CI workflow for your workspace:
-
-```sh
-npx nx g ci-workflow
-```
-
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/nx-api/js?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### Очереди и брокеры (Порты 7000+)
+| Сервис | Порт | Назначение |
+| :--- | :--- | :--- |
+| `redis` | **7000** | Общий инстанс Redis (BullMQ, кэш) |
+| `rabbitmq` | **7001** | Брокер сообщений RabbitMQ |
+| `rabbitmq-dashboard` | **7002** | Панель управления RabbitMQ (Management) |
+| `pgadmin` | **5050** | Панель управления PostgreSQL (вне схемы) |

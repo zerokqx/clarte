@@ -1,4 +1,4 @@
-import { Auth, Empty } from '@clarte/shared-contracts/proto';
+import { Auth } from '@clarte/shared-contracts/proto';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Observable } from 'rxjs';
 import {
@@ -46,11 +46,10 @@ export class AuthController
     await this.commandBus.execute(
       new RegisterPasswordCommand(request.login, request.password),
     );
+    return {} as any
   }
 
-  async getPublicJwtKey(
-    request: Empty,
-  ): Promise<Auth.GetPublicJwtKeyResponse> {
+  async getPublicJwtKey(): Promise<Auth.GetPublicJwtKeyResponse> {
     const key = await this.queryBus.execute(new GetPublicJwtKeyQuery());
     return { key };
   }

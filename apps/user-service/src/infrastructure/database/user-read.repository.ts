@@ -37,21 +37,17 @@ export class UserReadRepository implements IUserReadRepository {
   async getUserCredentialsByLogin(
     login: string,
   ): Promise<CredentialsReadModel | null> {
-    // Добавляем id и login в выборку.
-    // "passwordHash" оставляем в кавычках из-за camelCase
     const result = await this.dataSource.query(
-      'SELECT id, login, "passwordHash" FROM users WHERE login = $1 LIMIT 1',
+      'SELECT id, login, password_hash AS "passwordHash" FROM users WHERE login = $1 LIMIT 1',
       [login],
     );
 
-    // 1. БЕЗОПАСНОСТЬ: Сначала проверяем, что юзер вообще нашелся
     if (!result || result.length === 0) {
       return null;
     }
 
     const row = result[0];
 
-    // 2. Проверяем, что у юзера реально установлен пароль
     if (!row.passwordHash) {
       return null;
     }

@@ -15,7 +15,7 @@ import { Env } from '@humanwhocodes/env';
 
 async function bootstrap() {
   const env = new Env();
-  const PORT = env.get('PORT', 5003);
+  const PORT = env.get('PORT', 5002);
   const HOST = env.get('HOST', 'localhost');
 
 
