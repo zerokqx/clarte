@@ -2,6 +2,7 @@ import { Marks } from '@clarte/shared';
 import {
   Body,
   Controller,
+  Headers,
   HttpCode,
   HttpStatus,
   Post,
@@ -36,8 +37,11 @@ export class AuthController extends Marks.Controller.Mixed {
   @ApiOkResponse({ type: LoginResponseDTO })
   @Post('login')
   @UseInterceptors(JwtCookieInterceptor)
-  login(@Body() body: LoginDTO) {
-    return this.authClient.login(body).pipe(
+  login(
+    @Body() body: LoginDTO,
+    @Headers('user-agent') userAgent = '',
+  ) {
+    return this.authClient.login({ ...body, userAgent }).pipe(
       map(({ accessToken, refreshToken }) => ({
         accessToken,
         refreshToken,

@@ -5,7 +5,7 @@ import { InjectNotificationRepo } from '@/application/decorators';
 import { INotificationRepository } from '@/application/ports';
 import { Notification as NotificationDomain } from '@/domain';
 import { randomUUID } from 'crypto';
-import { UserEventPattern, type IUserCreatedPayload } from '@clarte/shared-event-types/user';
+import { UserEventPattern, type IUserCreatedPayload, type IUserEnteredPayload } from '@clarte/shared-event-types/user';
 
 @Controller()
 @Notification.NotificationServiceControllerMethods()
@@ -55,6 +55,31 @@ export class NotificationRpcController implements Notification.NotificationServi
       console.log(`💾 Welcome notification for user ${data.userId} successfully saved to DB.`);
     } catch (err) {
       console.error('❌ Failed to process user.created event:', err);
+    }
+  }
+
+  // 3. RMQ Handler for the "user.entered" event
+  @EventPattern(UserEventPattern.UserEntered)
+  async handleUserEntered(
+    @Payload() data: IUserEnteredPayload,
+    @Ctx() context: RmqContext,
+  ) {
+    try {
+      console.log('📬 [Notification Service] Received RMQ Event "user.entered":', data);
+
+      // Construct a new Notification using the DDD aggregate root rules
+      const notification = NotificationDomain.create(
+        randomUUID(),
+        data.userId,
+        'Новый вход в аккаунт',
+        `Обнаружен новый вход в ваш аккаунт. Устройство/Браузер: ${data.userAgent || 'Неизвестно'}.`,
+      );
+
+      // Save the notification to PostgreSQL using the DDD repository port/adapter
+      await this.notificationRepository.save(notification);
+      console.log(`💾 Login notification for user ${data.userId} successfully saved to DB.`);
+    } catch (err) {
+      console.error('❌ Failed to process user.entered event:', err);
     }
   }
 }

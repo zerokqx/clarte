@@ -6,7 +6,8 @@ type Response = Auth.LoginPasswordResponse;
 export class LoginPasswordCommand extends Command<Response> {
   constructor(
     public readonly login: string,
-    public readonly password: string
+    public readonly password: string,
+    public readonly userAgent = '',
   ) {
     super();
   }

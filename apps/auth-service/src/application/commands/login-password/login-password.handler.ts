@@ -2,8 +2,11 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { LoginPasswordCommand } from '@/application/commands/login-password/login-password.command';
 import { Auth } from '@clarte/shared-contracts/proto';
 import { Cause, Effect, Exit, pipe } from 'effect';
-import { InjectPasswordHasher, InjectUserClient } from '@/application/decorators';
+import { InjectPasswordHasher, InjectUserClient, InjectAuthRmqClient } from '@/application/decorators';
 import { type IJwtService, type IUserClient } from '@/application/ports';
+import { ClientProxy } from '@nestjs/microservices';
+import { UserEventPattern, type UserEventPayloadMap } from '@clarte/shared-event-types/user';
+import { firstValueFrom } from 'rxjs';
 import {
   UserCredentialsNotFound,
   UserServiceUnavailableException,
@@ -24,6 +27,7 @@ export class LoginPasswordHandler
     @InjectUserClient() private readonly userClient: IUserClient,
     @InjectPasswordHasher() private readonly passwordHasher: IPasswordHasher,
     @InjectJwtService() private readonly jwtService: IJwtService,
+    @InjectAuthRmqClient() private readonly rmqClient: ClientProxy,
   ) {}
 
   async execute(
@@ -100,11 +104,25 @@ export class LoginPasswordHandler
       Effect.runPromiseExit,
     );
 
-    return Exit.match(exit, {
+    const result = Exit.match(exit, {
       onFailure: (cause) => {
         throw Cause.squash(cause);
       },
       onSuccess: (value: Auth.LoginPasswordResponse) => value,
     });
+
+    if (result.success && result.userId) {
+      // Emit user.entered event to RMQ asynchronously
+      firstValueFrom(
+        this.rmqClient.emit(UserEventPattern.UserEntered, {
+          userId: result.userId,
+          userAgent: command.userAgent,
+        } satisfies UserEventPayloadMap[UserEventPattern.UserEntered]),
+      ).catch((err) => {
+        console.error('❌ Failed to emit user.entered event:', err);
+      });
+    }
+
+    return result;
   }
 }

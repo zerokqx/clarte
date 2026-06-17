@@ -8,9 +8,11 @@ import {
   RegisterPasswordHandler,
   ValidateUserHandler,
   GetPublicJwtKeyHandler,
+  AUTH_RMQ_CLIENT,
 } from '@/application';
 import { AuthController } from '@/presentation';
 import { RefreshHandler } from './application/commands/refresh/refresh.handler';
+import { RmqModule } from '@clarte/shared-nest/modules';
 
 const handlers: Provider[] = [
   LoginPasswordHandler,
@@ -27,6 +29,7 @@ const handlers: Provider[] = [
       isGlobal: true,
       envFilePath: ['.env.local', '.env'],
     }),
+    RmqModule.register({ name: AUTH_RMQ_CLIENT, queue: 'notification_queue' }),
     UserModule,
     JwtModule,
   ],

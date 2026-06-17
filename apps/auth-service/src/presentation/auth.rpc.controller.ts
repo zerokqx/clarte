@@ -36,7 +36,7 @@ export class AuthController
     | Observable<Auth.LoginPasswordResponse>
     | Auth.LoginPasswordResponse {
     return this.commandBus.execute(
-      new LoginPasswordCommand(request.login, request.password),
+      new LoginPasswordCommand(request.login, request.password, request.userAgent || ''),
     );
   }
 

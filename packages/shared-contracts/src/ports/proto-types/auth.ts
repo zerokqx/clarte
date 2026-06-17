@@ -18,6 +18,7 @@ export interface GetPublicJwtKeyResponse {
 export interface LoginPasswordRequest {
   login: string;
   password: string;
+  userAgent: string;
 }
 
 export interface LoginPasswordResponse {
