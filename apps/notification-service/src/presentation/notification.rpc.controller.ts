@@ -47,7 +47,7 @@ export class NotificationRpcController implements Notification.NotificationServi
         randomUUID(),
         data.userId,
         'Добро пожаловать!',
-        `Привет, ${data.name || 'пользователь'}! Ваш аккаунт успешно создан.`,
+        `Привет, ${data.login || 'пользователь'}! Ваш аккаунт успешно создан.`,
       );
 
       // Save the notification to PostgreSQL using the DDD repository port/adapter

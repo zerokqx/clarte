@@ -11,7 +11,7 @@ import {
   InjectUserRmqClient,
 } from '@/application/decorators';
 import { ClientProxy } from '@nestjs/microservices';
-import { UserEventPattern } from '@clarte/shared-event-types/user';
+import { UserEventPattern, type UserEventPayloadMap } from '@clarte/shared-event-types/user';
 import { firstValueFrom } from 'rxjs';
 
 @CommandHandler(UserCreateCommand)
@@ -38,9 +38,8 @@ export class UserCreateHandler implements ICommandHandler<UserCreateCommand> {
     await firstValueFrom(
       this.rmqClient.emit(UserEventPattern.UserCreated, {
         userId: user.id,
-        email: '',
-        name: user.login,
-      }),
+        login: user.login,
+      } satisfies UserEventPayloadMap[UserEventPattern.UserCreated]),
     ).catch((err) => {
       console.error('❌ Failed to emit user.created event:', err);
     });

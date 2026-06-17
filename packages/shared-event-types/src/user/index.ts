@@ -4,8 +4,7 @@ export enum UserEventPattern {
 
 export interface IUserCreatedPayload {
   userId: string;
-  email: string;
-  name: string;
+  login: string;
 }
 
 export type UserEventPayloadMap = {
