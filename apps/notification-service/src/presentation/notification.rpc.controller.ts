@@ -6,6 +6,7 @@ import { INotificationRepository } from '@/application/ports';
 import { Notification as NotificationDomain } from '@/domain';
 import { randomUUID } from 'crypto';
 import { UserEventPattern, type IUserCreatedPayload, type IUserEnteredPayload } from '@clarte/shared-event-types/user';
+import { TodoEventPattern, type ITodoReminderPayload } from '@clarte/shared-event-types/todo';
 
 @Controller()
 @Notification.NotificationServiceControllerMethods()
@@ -80,6 +81,31 @@ export class NotificationRpcController implements Notification.NotificationServi
       console.log(`💾 Login notification for user ${data.userId} successfully saved to DB.`);
     } catch (err) {
       console.error('❌ Failed to process user.entered event:', err);
+    }
+  }
+
+  // 4. RMQ Handler for the "todo.reminder" event
+  @EventPattern(TodoEventPattern.TodoReminder)
+  async handleTodoReminder(
+    @Payload() data: ITodoReminderPayload,
+    @Ctx() context: RmqContext,
+  ) {
+    try {
+      console.log('📬 [Notification Service] Received RMQ Event "todo.reminder":', data);
+
+      // Construct a new Notification using the DDD aggregate root rules
+      const notification = NotificationDomain.create(
+        randomUUID(),
+        data.userId,
+        'Уведомление о задаче',
+        `Время выполнить задачу: ${data.title}`,
+      );
+
+      // Save the notification to PostgreSQL using the DDD repository port/adapter
+      await this.notificationRepository.save(notification);
+      console.log(`💾 Reminder notification for user ${data.userId} successfully saved to DB.`);
+    } catch (err) {
+      console.error('❌ Failed to process todo.reminder event:', err);
     }
   }
 }
