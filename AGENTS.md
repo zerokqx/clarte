@@ -30,3 +30,55 @@ A "solo microservice" is a microservice that encapsulates exactly one distinct e
 **DDD + CQRS in Solo Microservices:**
 - **DDD (Domain-Driven Design):** Focuses on isolating the core business logic (Domain) from infrastructure and framework concerns. Even in a single-entity microservice, it helps maintain a clean boundary around the entity's behavior.
 - **CQRS (Command Query Responsibility Segregation):** Segregates operations that modify state (Commands) from operations that read state (Queries). In a solo microservice, this means having distinct execution paths and models for reading the entity vs. updating/creating it, which improves maintainability and scalability.
+
+## Стиль написания кода и архитектурные правила
+
+1. **Чистая архитектура и DDD структуры**:
+   * Разделение слоев во всех сервисах должно быть строгим:
+     - `domain`: содержит сущности-агрегаты (Aggregate Roots), объекты-значения (Value Objects) для валидации полей (например, `IdVo`, `TitleVo`) и доменные исключения. Логика сущностей не должна зависеть от внешних библиотек.
+     - `application`: прикладной слой, содержит CQRS-команды/запросы (`commands`/`queries`), порты (`ports`/интерфейсы) и декораторы.
+     - `infrastructure`: техническая реализация (адаптеры БД TypeORM, клиенты gRPC/RMQ).
+     - `presentation`: контроллеры gRPC/RMQ и HTTP-эндпоинты шлюза (api-gateway).
+
+2. **Внедрение зависимостей (Dependency Injection) и декораторы**:
+   * Никогда не внедряйте классы инфраструктуры напрямую в прикладной слой или контроллеры.
+   * Всегда объявляйте интерфейсы (порты) в `application/ports/`.
+   * Объявляйте символьные токены (DI Tokens) в `application/ports/di-tokens.ts`:
+     ```typescript
+     export const MY_SERVICE = Symbol('My service');
+     ```
+   * Создавайте кастомные декораторы инъекции в `application/decorators/` с помощью утилиты `mkInject` из `@clarte/shared-nest/functions`:
+     ```typescript
+     export const InjectMyService = mkInject(MY_SERVICE);
+     ```
+   * Внедряйте зависимости только через эти декораторы: `@InjectMyService() private readonly service: IMyService`.
+
+3. **Событийно-ориентированная архитектура (RabbitMQ)**:
+   * Описание событий находится в библиотеке `packages/shared-event-types`. Паттерны событий объявляются в `UserEventPattern`, а типы полезной нагрузки — в `UserEventPayloadMap`.
+   * При публикации событий используйте `ClientProxy.emit()` совместно с RxJS `firstValueFrom` и конструкцией `satisfies` для строгой проверки типов:
+     ```typescript
+     firstValueFrom(
+       this.rmqClient.emit(UserEventPattern.UserCreated, {
+         userId: user.id,
+         login: user.login,
+       } satisfies UserEventPayloadMap[UserEventPattern.UserCreated])
+     ).catch((err) => console.error(err));
+     ```
+   * Обработчики событий в микросервисах декорируются `@EventPattern(...)` и принимают строго типизированные аргументы `@Payload() data: IEventPayload`.
+
+4. **Функциональный подход и Effect TS**:
+   * Сложные асинхронные цепочки, таймауты, ретраи и обработку ошибок в прикладных обработчиках (Handlers) следует реализовывать в функциональном стиле с использованием библиотеки `effect`:
+     ```typescript
+     const exit = await pipe(
+       Effect.tryPromise({
+         try: () => this.client.getData(),
+         catch: (err) => new CustomException(err),
+       }),
+       Effect.timeout('3 seconds'),
+       Effect.runPromiseExit
+     );
+     ```
+
+5. **Правила TypeScript и Линтера**:
+   * Строго соблюдайте правила `@typescript-eslint/no-inferrable-types`. Не пишите тип свойства класса или переменной, если он тривиально выводится из дефолтного значения (пишите `public readonly userAgent = ''` вместо `public readonly userAgent: string = ''`).
+
