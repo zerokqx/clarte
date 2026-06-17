@@ -11,6 +11,7 @@ module.exports = {
   },
   plugins: [
     new NxAppWebpackPlugin({
+      useTsconfigPaths: true,
       target: 'node',
       compiler: 'tsc',
       main: './src/main.ts',

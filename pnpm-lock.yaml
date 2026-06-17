@@ -327,6 +327,9 @@ importers:
       '@clarte/shared-contracts':
         specifier: workspace:*
         version: link:../../packages/shared-contracts
+      '@clarte/shared-domain':
+        specifier: workspace:*
+        version: link:../../packages/shared-domain
       '@clarte/shared-nest':
         specifier: workspace:*
         version: link:../../packages/shared-nest

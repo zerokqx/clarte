@@ -19,6 +19,9 @@
   "exclude": ["eslint.config.js", "eslint.config.cjs", "eslint.config.mjs"],
   "references": [
     {
+      "path": "../../packages/shared-domain/tsconfig.lib.json"
+    },
+    {
       "path": "../../packages/shared-nest/tsconfig.lib.json"
     },
     {
