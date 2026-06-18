@@ -1,5 +1,5 @@
 import { DynamicModule, Global, Module, Provider, Type } from '@nestjs/common';
-import { Jwt } from '@/strategies';
+import { AccesStrategy, RefreshStrategy } from '@/strategies';
 import { JWT_KEY_PROVIDER } from '@clarte/shared-contracts/di-tokens';
 import { type IJwtKeyProvider } from '@clarte/shared-contracts/interfaces';
 import { randomUUID } from 'crypto';
@@ -118,16 +118,16 @@ export class JwtModule {
       imports,
       providers: [
         ...extraProviders,
-        Jwt.AccesStrategy,
-        Jwt.RefreshStrategy,
+        AccesStrategy,
+        RefreshStrategy,
         {
           provide: COOKIE_INTERCEPTOR_UUID,
           useValue: randomUUID(),
         },
       ],
       exports: [
-        Jwt.AccesStrategy,
-        Jwt.RefreshStrategy,
+        AccesStrategy,
+        RefreshStrategy,
         COOKIE_INTERCEPTOR_UUID,
       ],
     };

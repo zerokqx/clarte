@@ -1,10 +1,10 @@
-type Prefix<
+export type Prefix<
   T extends string,
   V extends string,
   Opt extends PrefixForEnvOption = object,
 > = Opt['upperCase'] extends true ? Uppercase<`${T}${V}`> : `${T}${V}`;
 
-interface PrefixForEnvOption {
+export interface PrefixForEnvOption {
   upperCase?: boolean;
 }
 
@@ -18,4 +18,3 @@ export const prefixForEnv =
     if (options?.upperCase) valueWithPrefix = valueWithPrefix.toUpperCase();
     return valueWithPrefix as Prefix<T, V, Opt>;
   };
-

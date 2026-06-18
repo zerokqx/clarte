@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AuthConfiguration, authConfiguration } from '@/app/auth/auth.config';
+import { ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { Auth } from '@clarte/shared-contracts/proto';
 import { getProtoPath } from '@clarte/shared-contracts/functions';
@@ -8,18 +7,24 @@ import { COOKIE_INTERCEPTOR_OPTIONS } from '@clarte/shared-nest/ports';
 import { AUTH_CLIENT, AUTH_GRPC_CLIENT } from '@/app/auth/aplication';
 import { AuthClient } from '@/app/auth/infrastructure/clients';
 import { AuthController } from '@/app/auth/presentation/auth.controller';
-import { JwtKeyProvider } from '@/app/auth/infrastructure';
-import { AppConfiguration } from '@/app/app.config';
+import {
+  AppConfiguration,
+  MicroserviceConfigModule,
+  MicroserviceConfigType,
+} from '@clarte/shared-nest/modules';
 
 @Module({
   imports: [
-    ConfigModule.forFeature(authConfiguration),
+    MicroserviceConfigModule.register({
+      registerAsName: 'auth-service',
+      prefixOptions: { value: 'auth_', upperCase: true },
+    }),
     ClientsModule.registerAsync([
       {
         name: AUTH_GRPC_CLIENT,
         useFactory(config: ConfigService) {
           const { host, port } =
-            config.getOrThrow<AuthConfiguration>('auth-service');
+            config.getOrThrow<MicroserviceConfigType>('auth-service');
           return {
             transport: Transport.GRPC,
             options: {
@@ -42,8 +47,7 @@ import { AppConfiguration } from '@/app/app.config';
     {
       provide: COOKIE_INTERCEPTOR_OPTIONS,
       useFactory: (config: ConfigService) => {
-        const isProd =
-          config.getOrThrow<AppConfiguration>('app-config').isProd;
+        const isProd = config.getOrThrow<AppConfiguration>('app-config').isProd;
         return {
           isProd,
         };
@@ -51,6 +55,6 @@ import { AppConfiguration } from '@/app/app.config';
       inject: [ConfigService],
     },
   ],
-  exports:[AUTH_CLIENT]
+  exports: [AUTH_CLIENT],
 })
 export class AuthModule {}
