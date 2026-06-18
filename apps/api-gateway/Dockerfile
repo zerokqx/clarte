@@ -10,7 +10,7 @@ RUN apk add --no-cache protobuf-dev \
 WORKDIR /app
 
 # Копируем манифесты монорепозитория (кэш слоя при неизменных deps)
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json tsconfig.base.json ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json tsconfig.base.json eslint.config.mjs jest.config.ts jest.preset.js ./
 
 # Копируем общие пакеты и сам сервис
 COPY packages/ ./packages/
