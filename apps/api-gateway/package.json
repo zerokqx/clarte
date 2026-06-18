@@ -7,7 +7,8 @@
       "build": {
         "executor": "nx:run-commands",
         "dependsOn": [
-          "@clarte/shared-contracts:proto:generate"
+          "@clarte/shared-contracts:proto:generate",
+          "^build"
         ],
         "options": {
           "command": "webpack-cli build",
