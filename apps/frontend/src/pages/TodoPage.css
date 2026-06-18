@@ -1,3 +1,4 @@
+/* Основной контейнер */
 .todo-app {
   display: flex;
   height: 100vh;
@@ -74,10 +75,17 @@
   border-radius: 6px;
   transition: background 0.15s;
   text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .logout-btn:hover {
   background: #fce8e6;
+}
+
+.logout-btn svg {
+  flex-shrink: 0;
 }
 
 /* Основная область */
@@ -186,7 +194,9 @@
   padding: 4px 8px;
   border-radius: 4px;
   transition: all 0.15s;
-  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .task-delete:hover {
@@ -211,12 +221,20 @@
   font-size: 14px;
   color: #666;
   transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .add-task-btn:hover {
   border-color: #1a73e8;
   color: #1a73e8;
   background: #f8faff;
+}
+
+.add-task-btn svg {
+  flex-shrink: 0;
 }
 
 .add-task-form {
@@ -254,10 +272,17 @@
   font-size: 14px;
   font-weight: 500;
   transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .save-btn:hover {
   background: #1557b0;
+}
+
+.save-btn svg {
+  flex-shrink: 0;
 }
 
 .cancel-btn {
@@ -273,6 +298,36 @@
 
 .cancel-btn:hover {
   background: #f0f0f0;
+}
+
+/* Футер */
+.todo-footer {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.templates-btn {
+  background: transparent;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.templates-btn:hover {
+  background: #f0f0f0;
+  color: #1a1a1a;
+}
+
+.templates-btn svg {
+  flex-shrink: 0;
 }
 
 /* Скролл */
