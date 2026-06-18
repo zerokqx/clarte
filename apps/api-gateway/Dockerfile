@@ -39,7 +39,7 @@ ENV NODE_ENV=production
 COPY --from=builder /app/apps/api-gateway/dist ./
 
 # Устанавливаем только продакшн-зависимости (включая внешние модули вроде nestjs/swagger)
-RUN pnpm install --prod --frozen-lockfile
+RUN pnpm install --prod --no-frozen-lockfile
 
 EXPOSE 5000
 
