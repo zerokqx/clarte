@@ -38,6 +38,9 @@
     "targets": {
       "build": {
         "executor": "@nx/js:swc",
+        "dependsOn": [
+          "proto:generate"
+        ],
         "outputs": [
           "{options.outputPath}"
         ],
