@@ -90,5 +90,18 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
     "typeorm": "^1.0.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "form-data": ">=4.0.6",
+      "tmp": ">=0.2.7",
+      "piscina": ">=4.9.3",
+      "multer": ">=2.2.0",
+      "http-proxy-middleware": ">=3.0.6",
+      "uuid": ">=11.1.1",
+      "webpack-dev-server": ">=5.2.5",
+      "protobufjs": ">=7.6.3",
+      "js-yaml": ">=4.2.0"
+    }
   }
 }
