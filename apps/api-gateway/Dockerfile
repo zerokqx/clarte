@@ -29,16 +29,18 @@ RUN pnpm nx run @clarte/api-gateway:build
 # ==============================================================================
 FROM node:22.21.1-alpine AS runner
 
+RUN npm install -g pnpm@10.33.2
+
 WORKDIR /app
 
 ENV NODE_ENV=production
 
-# Копируем собранный бандл из builder стадии
-COPY --from=builder /app/apps/api-gateway/dist ./dist
+# Копируем собранный бандл и автоматически сгенерированный package.json
+COPY --from=builder /app/apps/api-gateway/dist ./
 
-# Так как бандл уже собран webpack со всеми зависимостями в один файл (или с минимальным количеством файлов),
-# нам нужны только рантайм-зависимости (если они есть) или просто запустить main.js.
-# В случае использования node/webpack-сборки Nx, запускаем main.js напрямую.
+# Устанавливаем только продакшн-зависимости (включая внешние модули вроде nestjs/swagger)
+RUN pnpm install --prod --frozen-lockfile
+
 EXPOSE 5000
 
-CMD ["node", "dist/main.js"]
+CMD ["node", "main.js"]
