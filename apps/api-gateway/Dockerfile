@@ -3,8 +3,9 @@
 # ==============================================================================
 FROM node:22.21.1-alpine AS builder
 
-# Устанавливаем pnpm и утилиты
-RUN npm install -g pnpm@10.33.2
+# Устанавливаем pnpm, компилятор protobuf (protoc) и необходимые системные зависимости
+RUN apk add --no-cache protobuf-dev \
+    && npm install -g pnpm@10.33.2
 
 WORKDIR /app
 
