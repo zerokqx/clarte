@@ -4,16 +4,11 @@ import { FindUserByIdQuery, FindUserByLoginQuery } from '@/application';
 import { UserFindByIdDTO, UserFindByLoginDTO } from '@/presentation/dtos';
 
 @User.UserFindServiceControllerMethods()
-export class UserFindRpcController
-  implements User.UserFindServiceController
-{
+export class UserFindRpcController implements User.UserFindServiceController {
   constructor(private readonly queryBus: QueryBus) {}
-  async findById(
-    request: User.UserFindByIdRequest,
-  ): Promise<UserFindByIdDTO> {
+  async findById(request: User.UserFindByIdRequest): Promise<UserFindByIdDTO> {
     const query = new FindUserByIdQuery(request.id);
     const user = await this.queryBus.execute(query);
-
     return new UserFindByIdDTO({
       avatarUrl: user.avatarUrl,
       id: user.id,

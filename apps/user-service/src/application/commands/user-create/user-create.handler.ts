@@ -15,8 +15,9 @@ import {
   UserEventPattern,
   type UserEventPayloadMap,
 } from '@clarte/shared-event-types/user';
-import { firstValueFrom } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 import { Logger } from '@nestjs/common';
+import { Effect } from 'effect';
 
 @CommandHandler(UserCreateCommand)
 export class UserCreateHandler implements ICommandHandler<UserCreateCommand> {
@@ -39,15 +40,23 @@ export class UserCreateHandler implements ICommandHandler<UserCreateCommand> {
     );
     await this.repoWrite.save(user);
 
-    // Emit user.created event to RMQ
-    await firstValueFrom(
-      this.rmqClient.emit(UserEventPattern.UserCreated, {
-        userId: user.id,
-        login: user.login,
-      } satisfies UserEventPayloadMap[UserEventPattern.UserCreated]),
-    ).catch((err) => {
-      this.logger.error('❌ Failed to emit user.created event:', err);
-    });
+    const eventProgram = Effect.tryPromise({
+      try: () =>
+        lastValueFrom(
+          this.rmqClient.emit(UserEventPattern.UserCreated, {
+            userId: user.id,
+            login: user.login,
+          } satisfies UserEventPayloadMap[UserEventPattern.UserCreated]),
+        ),
+      catch: (error) => error,
+    }).pipe(
+      Effect.catchAll((error) => {
+        this.logger.error('❌ Failed to emit user.created event:', error);
+        return Effect.void;
+      }),
+    );
+
+    Effect.runFork(eventProgram);
 
     return;
   }

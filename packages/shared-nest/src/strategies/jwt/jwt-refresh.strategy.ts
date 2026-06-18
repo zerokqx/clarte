@@ -19,7 +19,7 @@ export class RefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
 
   constructor(
     @Inject(JWT_KEY_PROVIDER)
-    private readonly keyProvider: IJwtKeyProvider,
+    keyProvider: IJwtKeyProvider,
   ) {
     const secretOrKeyProvider: SecretOrKeyProvider = async (
       _req,

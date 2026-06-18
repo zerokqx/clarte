@@ -1,9 +1,9 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { NotFoundException } from '@nestjs/common';
 import { FindUserByIdQuery } from '@/application/queries/find-by-id/find-user-by-id.query';
 import { type IUserReadRepository } from '@/application/ports';
 import { UserReadModel } from '@/application/models';
 import { InjectUserRepository } from '@/application/decorators';
+import { UserNotFound } from '@/application/exceptions';
 
 @QueryHandler(FindUserByIdQuery)
 export class FindUserByIdHandler implements IQueryHandler<FindUserByIdQuery> {
@@ -14,7 +14,7 @@ export class FindUserByIdHandler implements IQueryHandler<FindUserByIdQuery> {
 
   async execute(query: FindUserByIdQuery): Promise<UserReadModel> {
     const user = await this.readRepo.findUserById(query.id);
-    if (!user) throw new NotFoundException('User not found');
+    if (!user) throw new UserNotFound('User not found');
     return user;
   }
 }

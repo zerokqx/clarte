@@ -38,7 +38,7 @@ export class RmqModule {
                   queue: queue ?? '',
                   urls: [`amqp://${defaultUser}:${defaultPass}@${host}:${port}`],
                   queueOptions: queueOptions ?? {durable: true},
-                  ...(exchange && { exchange }),
+                  ...(exchange && { exchange, wildcards: true }),
                   ...(exchangeType && { exchangeType }),
                 },
               };

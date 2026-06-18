@@ -38,6 +38,7 @@ async function bootstrap() {
       queue: 'notification_queue',
       exchange: 'clarte_events_exchange',
       exchangeType: 'topic',
+      wildcards: true,
       queueOptions: {
         durable: true,
       },

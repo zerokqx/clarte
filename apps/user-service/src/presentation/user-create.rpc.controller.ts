@@ -8,11 +8,11 @@ export class UserCreateController
 {
   constructor(private readonly commandBuss: CommandBus) {}
 
-  async userCreate(
-    request: User.UserCreateRequest,
-  ): Promise<void> {
-     await this.commandBuss.execute(
+  async userCreate(request: User.UserCreateRequest): Promise<void> {
+    await this.commandBuss.execute(
       new UserCreateCommand(request.id, request.login, request.passwordHash),
     );
+
+    return {} as void;
   }
 }

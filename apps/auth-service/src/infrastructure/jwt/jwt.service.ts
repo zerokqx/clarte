@@ -3,7 +3,6 @@ import { IJwtService } from '@/application';
 import { JwtService as NestJwtService } from '@nestjs/jwt';
 import {
   type IJwtPayload,
-  type ITokenPayloadWithMetadata,
 } from '@clarte/shared-contracts/interfaces';
 import { TokenVo } from '@/domain';
 
@@ -15,7 +14,7 @@ export class JwtService implements IJwtService {
   ) {}
   async generateAccess(payload: IJwtPayload): Promise<TokenVo> {
     const token = await this.nestJwtService.signAsync(
-      { ...payload, type: 'access' } as ITokenPayloadWithMetadata,
+      { ...payload, type: 'access' } as IJwtPayload,
       {
         expiresIn: '30m',
       },
@@ -24,14 +23,14 @@ export class JwtService implements IJwtService {
   }
   async generateRefresh(payload: IJwtPayload): Promise<TokenVo> {
     const token = await this.nestJwtService.signAsync(
-      { ...payload, type: 'refresh' } as ITokenPayloadWithMetadata,
+      { ...payload, type: 'refresh' } as IJwtPayload,
       {
         expiresIn: '15d',
       },
     );
     return TokenVo.create(token);
   }
-  verify(token: string): Promise<ITokenPayloadWithMetadata> {
-    return this.nestJwtService.verifyAsync<ITokenPayloadWithMetadata>(token);
+  verify(token: string): Promise<IJwtPayload> {
+    return this.nestJwtService.verifyAsync<IJwtPayload>(token);
   }
 }

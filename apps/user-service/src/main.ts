@@ -10,6 +10,8 @@ import { AppModule } from '@/app.module';
 import { User } from '@clarte/shared-contracts/proto';
 import { getProtoPath } from '@clarte/shared-contracts/functions';
 import { ProblemDetailsToGrpcExceptionFilter } from '@clarte/shared-nest/filters';
+
+import { GrpcErrorPropagationInterceptor } from '@clarte/shared-nest/interceptors';
 import { join } from 'path';
 import { Logger } from '@nestjs/common';
 
@@ -28,6 +30,7 @@ async function bootstrap() {
       },
     },
   );
+  app.useGlobalInterceptors(new GrpcErrorPropagationInterceptor());
   app.useGlobalFilters(new ProblemDetailsToGrpcExceptionFilter());
   await app.listen();
   Logger.log(`👨‍🦱 User microservice started on url http://${HOST}:${PORT}`);

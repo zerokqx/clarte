@@ -28,8 +28,6 @@ export interface IAuthClaims {
 }
 
 export interface IJwtPayload extends IAuthClaims {
-  iat: number;
-  exp: number;
   type: 'access' | 'refresh';
 }
 

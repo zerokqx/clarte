@@ -1,8 +1,8 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Logger } from '@nestjs/common';
 import { EventPattern, Payload, Ctx, RmqContext } from '@nestjs/microservices';
 import { Notification } from '@clarte/shared-contracts/proto';
 import { InjectNotificationRepo } from '@/application/decorators';
-import { INotificationRepository } from '@/application/ports';
+import type { INotificationRepository } from '@/application/ports';
 import { Notification as NotificationDomain } from '@/domain';
 import { randomUUID } from 'crypto';
 import { UserEventPattern, type IUserCreatedPayload, type IUserEnteredPayload } from '@clarte/shared-event-types/user';
@@ -11,6 +11,8 @@ import { TodoEventPattern, type ITodoReminderPayload } from '@clarte/shared-even
 @Controller()
 @Notification.NotificationServiceControllerMethods()
 export class NotificationRpcController implements Notification.NotificationServiceController {
+  private readonly logger = new Logger(NotificationRpcController.name);
+
   constructor(
     @InjectNotificationRepo()
     private readonly notificationRepository: INotificationRepository,
@@ -41,7 +43,7 @@ export class NotificationRpcController implements Notification.NotificationServi
     @Ctx() context: RmqContext,
   ) {
     try {
-      console.log('📬 [Notification Service] Received RMQ Event "user.created":', data);
+      this.logger.log(`Received RMQ Event "user.created" for user: ${data.userId}`);
 
       // Construct a new Notification using the DDD aggregate root rules
       const notification = NotificationDomain.create(
@@ -53,9 +55,9 @@ export class NotificationRpcController implements Notification.NotificationServi
 
       // Save the notification to PostgreSQL using the DDD repository port/adapter
       await this.notificationRepository.save(notification);
-      console.log(`💾 Welcome notification for user ${data.userId} successfully saved to DB.`);
+      this.logger.log(`Welcome notification for user ${data.userId} successfully saved to DB.`);
     } catch (err) {
-      console.error('❌ Failed to process user.created event:', err);
+      this.logger.error(`Failed to process user.created event for user ${data.userId}: ${err instanceof Error ? err.message : err}`);
     }
   }
 
@@ -66,7 +68,7 @@ export class NotificationRpcController implements Notification.NotificationServi
     @Ctx() context: RmqContext,
   ) {
     try {
-      console.log('📬 [Notification Service] Received RMQ Event "user.entered":', data);
+      this.logger.log(`Received RMQ Event "user.entered" for user: ${data.userId}`);
 
       // Construct a new Notification using the DDD aggregate root rules
       const notification = NotificationDomain.create(
@@ -78,9 +80,9 @@ export class NotificationRpcController implements Notification.NotificationServi
 
       // Save the notification to PostgreSQL using the DDD repository port/adapter
       await this.notificationRepository.save(notification);
-      console.log(`💾 Login notification for user ${data.userId} successfully saved to DB.`);
+      this.logger.log(`Login notification for user ${data.userId} successfully saved to DB.`);
     } catch (err) {
-      console.error('❌ Failed to process user.entered event:', err);
+      this.logger.error(`Failed to process user.entered event for user ${data.userId}: ${err instanceof Error ? err.message : err}`);
     }
   }
 
@@ -91,7 +93,7 @@ export class NotificationRpcController implements Notification.NotificationServi
     @Ctx() context: RmqContext,
   ) {
     try {
-      console.log('📬 [Notification Service] Received RMQ Event "todo.reminder":', data);
+      this.logger.log(`Received RMQ Event "todo.reminder" for user: ${data.userId}, todo: ${data.todoId}`);
 
       // Construct a new Notification using the DDD aggregate root rules
       const notification = NotificationDomain.create(
@@ -103,9 +105,9 @@ export class NotificationRpcController implements Notification.NotificationServi
 
       // Save the notification to PostgreSQL using the DDD repository port/adapter
       await this.notificationRepository.save(notification);
-      console.log(`💾 Reminder notification for user ${data.userId} successfully saved to DB.`);
+      this.logger.log(`Reminder notification for user ${data.userId} successfully saved to DB.`);
     } catch (err) {
-      console.error('❌ Failed to process todo.reminder event:', err);
+      this.logger.error(`Failed to process todo.reminder event for user ${data.userId}, todo ${data.todoId}: ${err instanceof Error ? err.message : err}`);
     }
   }
 }

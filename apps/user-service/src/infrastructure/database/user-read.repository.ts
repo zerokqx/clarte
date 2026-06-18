@@ -1,3 +1,4 @@
+import { SnakeCasedProperties } from 'type-fest';
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { UserOrmEntity } from '@/infrastructure/database/user.entity';
@@ -12,26 +13,25 @@ export class UserReadRepository implements IUserReadRepository {
   async findUserById(id: string): Promise<UserReadModel | null> {
     const rawUser = await this.dataSource
       .createQueryBuilder()
-      .select('*')
       .from('users', 'u')
+      .select(['u.id AS id', 'u.login as login', 'u.avatar_url'])
       .where('u.id = :id', { id })
-      .getRawOne<UserOrmEntity>();
+      .getRawOne<SnakeCasedProperties<UserOrmEntity>>();
     if (!rawUser) return null;
-    return new UserReadModel(rawUser.id, rawUser.login, rawUser.avatarUrl);
+    return new UserReadModel(rawUser.id, rawUser.login, rawUser.avatar_url);
   }
 
   async findUserByLogin(login: string): Promise<UserReadModel | null> {
     const rawUser = await this.dataSource
       .createQueryBuilder()
-      .select('*')
       .from('users', 'u')
+      .select(['u.id AS id', 'u.login as login', 'u.avatar_url'])
       .where('u.login = :login', { login })
-      .getRawOne<UserOrmEntity>();
+      .getRawOne<SnakeCasedProperties<UserOrmEntity>>();
 
     if (!rawUser) return null;
 
-    console.log(rawUser);
-    return new UserReadModel(rawUser.id, rawUser.login, rawUser.avatarUrl);
+    return new UserReadModel(rawUser.id, rawUser.login, rawUser.avatar_url);
   }
 
   async getUserCredentialsByLogin(
