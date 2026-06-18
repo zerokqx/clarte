@@ -1,92 +1,85 @@
-import React, { useState } from "react";
-import { useAuth } from "../hooks/useAuth";
-import "./Login.css";
+import { useState } from "react";
+import { useForm, zodResolver } from "@mantine/form";
+import { TextInput, PasswordInput, Button, Paper, Title, Container, Stack } from "@mantine/core";
+import { z } from "zod";
+
+const registerSchema = z.object({
+  login: z.string().min(3, "Логин должен быть минимум 3 символа"),
+  password: z.string()
+    .min(8, "Пароль должен быть минимум 8 символов")
+    .regex(/[A-Z]/, "Пароль должен содержать заглавную букву")
+    .regex(/[!@#$%^&*(),.?":{}|<>]/, "Пароль должен содержать спецсимвол")
+    .regex(/^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]+$/, "Только латинские буквы"),
+  confirmPassword: z.string(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Пароли не совпадают",
+  path: ["confirmPassword"],
+});
+
+type RegisterForm = z.infer<typeof registerSchema>;
 
 export const RegisterPage = () => {
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const { register, isLoading, error } = useAuth();
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const form = useForm<RegisterForm>({
+    initialValues: {
+      login: "",
+      password: "",
+      confirmPassword: "",
+    },
+    validate: zodResolver(registerSchema),
+  });
 
-  const validatePassword = (pass: string) => {
-    if (pass.length < 8) {
-      setPasswordError("Пароль должен содержать минимум 8 символов");
-      return false;
-    }
-    if (!/[A-Z]/.test(pass)) {
-      setPasswordError("Пароль должен содержать хотя бы одну заглавную букву");
-      return false;
-    }
-    if (!/[!@#$%^&*(),.?":{}|<>]/.test(pass)) {
-      setPasswordError("Пароль должен содержать хотя бы один спецсимвол (!@#$%^&*())");
-      return false;
-    }
-    if (/[а-яА-Я]/.test(pass)) {
-      setPasswordError("Пароль должен содержать только латинские буквы");
-      return false;
-    }
-    setPasswordError("");
-    return true;
-  };
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newPassword = e.target.value;
-    setPassword(newPassword);
-    validatePassword(newPassword);
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("Пароли не совпадают");
-      return;
-    }
-    if (!validatePassword(password)) {
-      return;
-    }
-    const success = await register({ login, password });
-    if (success) {
-      window.location.href = "/login";
+  const handleSubmit = async (values: RegisterForm) => {
+    setIsLoading(true);
+    setError("");
+    try {
+      console.log("Регистрация:", values);
+      // Здесь будет вызов API
+      // await register(values.login, values.password);
+    } catch (err) {
+      setError("Ошибка регистрации");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <h1>Регистрация</h1>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Логин"
-            value={login}
-            onChange={(e) => setLogin(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Пароль (мин. 8 символов, заглавная буква, спецсимвол)"
-            value={password}
-            onChange={handlePasswordChange}
-            required
-          />
-          {passwordError && <div className="error-message">{passwordError}</div>}
-          <input
-            type="password"
-            placeholder="Повторите пароль"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-          {error && <div className="error-message">{error}</div>}
-          <button type="submit" disabled={isLoading || !!passwordError}>
-            {isLoading ? "Загрузка..." : "Зарегистрироваться"}
-          </button>
+    <Container size="xs" mt={100}>
+      <Paper shadow="md" p="xl" radius="md">
+        <Title order={2} ta="center" mb="lg">
+          Регистрация
+        </Title>
+
+        <form onSubmit={form.onSubmit(handleSubmit)}>
+          <Stack>
+            <TextInput
+              label="Логин"
+              placeholder="Введите логин"
+              {...form.getInputProps("login")}
+            />
+            
+            <PasswordInput
+              label="Пароль"
+              placeholder="Введите пароль"
+              {...form.getInputProps("password")}
+            />
+            
+            <PasswordInput
+              label="Повторите пароль"
+              placeholder="Повторите пароль"
+              {...form.getInputProps("confirmPassword")}
+            />
+
+            {error && <div style={{ color: "red" }}>{error}</div>}
+
+            <Button type="submit" fullWidth loading={isLoading}>
+              Зарегистрироваться
+            </Button>
+          </Stack>
         </form>
-        <p>
-          Уже есть аккаунт? <a href="/login">Войти</a>
-        </p>
-      </div>
-    </div>
+      </Paper>
+    </Container>
   );
 };
