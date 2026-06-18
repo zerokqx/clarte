@@ -1,9 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryColumn,
-} from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity('notifications')
 export class NotificationOrmEntity {
@@ -25,3 +20,6 @@ export class NotificationOrmEntity {
   @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
   createdAt!: Date;
 }
+
+
+
