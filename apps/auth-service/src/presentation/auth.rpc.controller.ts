@@ -41,10 +41,11 @@ export class AuthController
 
   async registerPassword(
     request: Contracts.Proto.Auth.RegisterRequest,
-  ): Promise<void> {
+  ): Promise<{}> {
     await this.commandBus.execute(
       new RegisterPasswordCommand(request.login, request.password),
     );
+    return {};
   }
 
   async getPublicJwtKey(

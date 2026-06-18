@@ -10,9 +10,10 @@ export class UserCreateController
 
   async userCreate(
     request: Contracts.Proto.User.UserCreateRequest,
-  ): Promise<void> {
+  ): Promise<{}> {
      await this.commandBuss.execute(
       new UserCreateCommand(request.id, request.login, request.passwordHash),
     );
+    return {};
   }
 }

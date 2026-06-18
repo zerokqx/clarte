@@ -32,6 +32,9 @@
     },
     {
       "path": "./packages/shared-contracts"
+    },
+    {
+      "path": "./apps/frontend"
     }
   ]
 }

@@ -1,0 +1,244 @@
+.note-editor {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #FCF8F8;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.note-editor.empty {
+  justify-content: center;
+  align-items: center;
+  background: #FCF8F8;
+}
+
+.empty-editor-state {
+  text-align: center;
+  color: #898989;
+  padding: 40px;
+}
+
+.empty-icon {
+  margin-bottom: 20px;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
+.empty-icon:hover {
+  opacity: 0.8;
+}
+
+.empty-editor-state p:first-child {
+  font-size: 18px;
+  font-weight: 500;
+  color: #000000;
+  margin-bottom: 8px;
+}
+
+.empty-hint {
+  font-size: 14px;
+  margin-bottom: 24px;
+  color: #898989;
+}
+
+.create-note-btn {
+  background: #1a73e8;
+  color: white;
+  border: none;
+  padding: 10px 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+  box-shadow: 0 1px 3px rgba(26, 115, 232, 0.2);
+}
+
+.create-note-btn:hover {
+  background: #1557b0;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
+}
+
+.editor-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid #e8ecf0;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+}
+
+.editor-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.burger-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.burger-btn:hover {
+  background: #f0f2f5;
+}
+
+.burger-btn svg {
+  display: block;
+}
+
+.editor-header-divider {
+  width: 1px;
+  height: 28px;
+  background: #e8ecf0;
+  flex-shrink: 0;
+}
+
+.editor-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000000;
+}
+
+.editor-title-input {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000000;
+  border: none;
+  outline: none;
+  width: 100%;
+  background: transparent;
+}
+
+.editor-title-input::placeholder {
+  color: #898989;
+  font-weight: 500;
+}
+
+.editor-body {
+  flex: 1;
+  padding: 24px 32px 20px 32px;
+  display: flex;
+  flex-direction: column;
+  background: #FCF8F8;
+}
+
+.editor-title-field {
+  font-size: 18px;
+  font-weight: 600;
+  border: none;
+  outline: none;
+  margin-bottom: 12px;
+  padding: 4px 0;
+  background: transparent;
+  color: #000000;
+}
+
+.editor-title-field::placeholder {
+  color: #898989;
+  font-weight: 500;
+}
+
+.editor-content {
+  flex: 1;
+  border: none;
+  outline: none;
+  resize: none;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #000000;
+  padding: 4px 0;
+  background: transparent;
+  min-height: 200px;
+}
+
+.editor-content::placeholder {
+  color: #898989;
+}
+
+.editor-date {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e8ecf0;
+  font-size: 12px;
+  color: #898989;
+}
+
+.editor-footer {
+  padding: 16px 32px;
+  border-top: 1px solid #e8ecf0;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: #FFFFFF;
+}
+
+.save-btn {
+  background: #1a73e8;
+  color: white;
+  border: none;
+  padding: 8px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+  box-shadow: 0 1px 3px rgba(26, 115, 232, 0.2);
+}
+
+.save-btn:hover {
+  background: #1557b0;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
+}
+
+.save-btn:active {
+  transform: translateY(0);
+}
+
+.cancel-btn {
+  background: transparent;
+  color: #898989;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.cancel-btn:hover {
+  background: #f0f2f5;
+}
+
+.delete-btn {
+  margin-left: auto;
+  background: transparent;
+  color: #d93025;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.delete-btn:hover {
+  background: #fce8e6;
+}
