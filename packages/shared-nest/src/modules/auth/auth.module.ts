@@ -1,9 +1,9 @@
 import { DynamicModule, Global, Module, Provider, Type } from '@nestjs/common';
-import { AccesStrategy, RefreshStrategy } from '@/strategies';
+import { AccesStrategy, RefreshStrategy } from './strategies';
 import { JWT_KEY_PROVIDER } from '@clarte/shared-contracts/di-tokens';
 import { type IJwtKeyProvider } from '@clarte/shared-contracts/interfaces';
 import { randomUUID } from 'crypto';
-import { COOKIE_INTERCEPTOR_UUID } from '../ports/di-tokens';
+import { COOKIE_INTERCEPTOR_UUID } from '../../ports/di-tokens';
 
 // ---------------------------------------------------------------------------
 // Опции для синхронной регистрации

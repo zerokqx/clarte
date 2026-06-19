@@ -1,7 +1,7 @@
 import { S3Module } from 'nestjs-s3';
 import { Global, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { CompactConfigModule } from '../compact-config.module';
+import { CompactConfigModule } from '../compact-config/compact-config.module';
 import { S3ConfigurationType } from './s3.config';
 import { S3_SERVICE_TOKEN } from './ports';
 import { S3Service } from './s3.service';

@@ -1,4 +1,4 @@
-import { prefixForEnv } from '@/functions';
+import { prefixForEnv } from '@clarte/shared';
 import { Env } from '@humanwhocodes/env';
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule, registerAs } from '@nestjs/config';
@@ -9,18 +9,18 @@ const redisConfiguration = registerAs('redis', () => {
   return {
     host: env.require(redis('host')),
     port: env.require(redis('port')),
-    password: env.require(redis('password')),
+    password: env.get(redis('password')),
   };
 });
 
 /**
- * @description Базовый модуль конфигурации для интеграции с Redis переменными
+ * @description Модуль конфигурации для redis
  */
 @Global()
 @Module({
   imports: [ConfigModule.forFeature(redisConfiguration)],
   exports: [ConfigModule],
 })
-export class RedisConfig {}
+export class RedisConfigModule {}
 
 export type RedisConfiguration = ReturnType<typeof redisConfiguration>;

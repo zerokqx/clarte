@@ -1,7 +1,7 @@
 import { DynamicModule, Logger, Module } from '@nestjs/common';
 import { Env } from '@humanwhocodes/env';
 import { ConfigModule, registerAs } from '@nestjs/config';
-import { prefixForEnv, PrefixForEnvOption, Prefix } from '@/functions';
+import { prefixForEnv, PrefixForEnvOption, Prefix } from '@clarte/shared';
 
 type ConfigPrefixer<P extends string, Opt extends PrefixForEnvOption> = <
   V extends string,

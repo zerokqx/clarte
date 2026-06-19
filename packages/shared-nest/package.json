@@ -44,12 +44,7 @@
       "import": "./dist/functions/index.js",
       "default": "./dist/functions/index.js"
     },
-    "./enums": {
-      "@clarte/source": "./src/enums/index.ts",
-      "types": "./dist/enums/index.d.ts",
-      "import": "./dist/enums/index.js",
-      "default": "./dist/enums/index.js"
-    },
+
     "./decorators": {
       "@clarte/source": "./src/decorators/index.ts",
       "types": "./dist/decorators/index.d.ts",

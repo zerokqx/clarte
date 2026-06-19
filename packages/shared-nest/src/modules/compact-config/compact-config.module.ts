@@ -1,4 +1,4 @@
-import { prefixForEnv, PrefixForEnvOption } from '@/functions';
+import { prefixForEnv, PrefixForEnvOption } from '@clarte/shared';
 import { Env } from '@humanwhocodes/env';
 import { DynamicModule, Module } from '@nestjs/common';
 import { ConfigModule, registerAs } from '@nestjs/config';
