@@ -1,7 +1,7 @@
-import { DDD } from '@clarte/shared-domain';
-import { TokenInvalidError } from '../exceptions';
+import { ValueObject } from '@clarte/shared-domain/domain';
+import { TokenInvalidError } from '@/domain/exceptions';
 
-export class TokenVo extends DDD.ValueObject<string> {
+export class TokenVo extends ValueObject<string> {
   private constructor(value: string) {
     super(value);
   }

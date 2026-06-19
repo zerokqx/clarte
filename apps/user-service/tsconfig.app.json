@@ -6,6 +6,10 @@
     // "rootDir": "src",
     // "moduleResolution": "nodenext",
     "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
     // "target": "es2021"
@@ -15,6 +19,9 @@
   "references": [
     {
       "path": "../../packages/shared-nest/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/shared-event-types/tsconfig.lib.json"
     },
     {
       "path": "../../packages/shared-domain/tsconfig.lib.json"

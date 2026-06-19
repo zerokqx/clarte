@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// Используем относительный путь - прокси перенаправит на API Gateway
+// API Gateway работает на порту 5000
 const API_BASE_URL = "/api";
 
 export const apiClient = axios.create({
@@ -12,17 +12,17 @@ export const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use((config) => {
-  console.log(" Запрос:", config.method?.toUpperCase(), config.url);
+  console.log("Запрос:", config.method?.toUpperCase(), config.url);
   return config;
 });
 
 apiClient.interceptors.response.use(
   (response) => {
-    console.log(" Ответ:", response.status);
+    console.log("Ответ:", response.status);
     return response;
   },
   (error) => {
-    console.error(" Ошибка:", error.response?.status, error.response?.data);
+    console.error("Ошибка:", error.response?.status, error.response?.data);
     if (error.response?.status === 401) {
       window.location.href = "/login";
     }

@@ -1,19 +1,29 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { UserModule } from './user/infrastructure/users.module';
-import { AuthModule } from './auth/auth.module';
-import { Modules } from '@clarte/shared-nest';
-import { JwtKeyProvider } from './auth/infrastructure';
+import { UserModule } from '@/app/user/infrastructure/users.module';
+import { AuthModule } from '@/app/auth/auth.module';
+import { TodoModule } from '@/app/todo/todo.module';
+import { NotificationModule } from '@/app/notification/infrastructure/notifications.module';
+import { AppConfigModule, JwtModule } from '@clarte/shared-nest/modules';
+import { JwtKeyProvider } from '@/app/auth/infrastructure';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ envFilePath: ['.env.local', '.env'], isGlobal: true }),
+    ConfigModule.forRoot({
+      envFilePath: ['.env.local', '.env'],
+      isGlobal: true,
+    }),
+    AppConfigModule,
     UserModule,
     AuthModule,
-    Modules.JwtModule.register({
+    TodoModule,
+    NotificationModule,
+    JwtModule.register({
       imports: [AuthModule],
       provider: JwtKeyProvider,
     }),
+
+
   ],
   controllers: [],
   providers: [],

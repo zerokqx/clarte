@@ -1,9 +1,9 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { FindUserByLoginQuery } from './find-user-by-login.query';
-import { type IUserReadRepository } from '../../ports/';
-import { UserReadModel } from '../../models';
-import { UserNotFound } from '../../exceptions';
-import { InjectUserRepository } from '../../decorators';
+import { FindUserByLoginQuery } from '@/application/queries/find-by-login/find-user-by-login.query';
+import { type IUserReadRepository } from '@/application/ports';
+import { UserReadModel } from '@/application/models';
+import { UserNotFound } from '@/application/exceptions';
+import { InjectUserRepository } from '@/application/decorators';
 
 @QueryHandler(FindUserByLoginQuery)
 export class FindUserByLoginHandler

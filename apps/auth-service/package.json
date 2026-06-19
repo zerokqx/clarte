@@ -86,20 +86,19 @@
           "cwd": "apps/auth-service",
           "parallel": false
         }
-      },
-      "compose-infra-up": {},
-      "compose-infra-down": {},
-      "compose-infra-logs": {}
+      }
     }
   },
   "dependencies": {
     "@clarte/shared": "workspace:*",
     "@clarte/shared-contracts": "workspace:*",
     "@clarte/shared-domain": "workspace:*",
+    "@clarte/shared-event-types": "workspace:*",
     "@clarte/shared-nest": "workspace:*",
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
     "@nestjs/jwt": "^11.0.2",
+    "@nestjs/microservices": "^11.0.0",
     "@nestjs/platform-express": "^11.0.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.1.13",

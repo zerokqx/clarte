@@ -6,6 +6,12 @@
     // "rootDir": "src",
     "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo",
     "experimentalDecorators": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
     "emitDecoratorMetadata": true
     // "target": "es2021"
   },

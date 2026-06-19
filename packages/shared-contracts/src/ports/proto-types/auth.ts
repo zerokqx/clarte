@@ -18,6 +18,7 @@ export interface GetPublicJwtKeyResponse {
 export interface LoginPasswordRequest {
   login: string;
   password: string;
+  userAgent: string;
 }
 
 export interface LoginPasswordResponse {
@@ -42,6 +43,16 @@ export interface RegisterRequest {
   password: string;
 }
 
+export interface RefreshTokensRequest {
+  userId: string;
+  refreshToken: string;
+}
+
+export interface RefreshTokensResponse {
+  accessToken: string;
+  refreshToken: string;
+}
+
 export const AUTH_PACKAGE_NAME = "auth";
 
 export interface AuthServiceClient {
@@ -52,6 +63,8 @@ export interface AuthServiceClient {
   registerPassword(request: RegisterRequest): Observable<Empty>;
 
   getPublicJwtKey(request: Empty): Observable<GetPublicJwtKeyResponse>;
+
+  refreshTokens(request: RefreshTokensRequest): Observable<RefreshTokensResponse>;
 }
 
 export interface AuthServiceController {
@@ -68,11 +81,21 @@ export interface AuthServiceController {
   getPublicJwtKey(
     request: Empty,
   ): Promise<GetPublicJwtKeyResponse> | Observable<GetPublicJwtKeyResponse> | GetPublicJwtKeyResponse;
+
+  refreshTokens(
+    request: RefreshTokensRequest,
+  ): Promise<RefreshTokensResponse> | Observable<RefreshTokensResponse> | RefreshTokensResponse;
 }
 
 export function AuthServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["validateUser", "loginPassword", "registerPassword", "getPublicJwtKey"];
+    const grpcMethods: string[] = [
+      "validateUser",
+      "loginPassword",
+      "registerPassword",
+      "getPublicJwtKey",
+      "refreshTokens",
+    ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("AuthService", method)(constructor.prototype[method], method, descriptor);

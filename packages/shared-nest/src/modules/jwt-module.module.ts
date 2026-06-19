@@ -1,6 +1,9 @@
 import { DynamicModule, Global, Module, Provider, Type } from '@nestjs/common';
-import { Jwt } from '@/strategies';
-import { Contracts } from '@clarte/shared-contracts';
+import { AccesStrategy, RefreshStrategy } from '@/strategies';
+import { JWT_KEY_PROVIDER } from '@clarte/shared-contracts/di-tokens';
+import { type IJwtKeyProvider } from '@clarte/shared-contracts/interfaces';
+import { randomUUID } from 'crypto';
+import { COOKIE_INTERCEPTOR_UUID } from '../ports/di-tokens';
 
 // ---------------------------------------------------------------------------
 // Опции для синхронной регистрации
@@ -9,12 +12,12 @@ import { Contracts } from '@clarte/shared-contracts';
 /**
  * Опции синхронной регистрации {@link JwtModule}.
  *
- * @property provider - Класс или значение, реализующее {@link Contracts.Interfaces.IJwtKeyProvider}.
+ * @property provider - Класс или значение, реализующее {@link IJwtKeyProvider}.
  * @property imports  - Дополнительные модули, необходимые провайдеру.
  */
 export interface JwtModuleOptions {
-  /** Класс, реализующий {@link Contracts.Interfaces.IJwtKeyProvider} */
-  provider: Type<Contracts.Interfaces.IJwtKeyProvider>;
+  /** Класс, реализующий {@link IJwtKeyProvider} */
+  provider: Type<IJwtKeyProvider>;
   /** Модули, экспортирующие зависимости провайдера (например AuthGrpcClientModule) */
   imports?: any[];
 }
@@ -27,7 +30,7 @@ export interface JwtModuleOptions {
  * Опции асинхронной регистрации {@link JwtModule}.
  * Используй когда провайдер нужно создавать через фабрику.
  *
- * @property useFactory - Фабрика, возвращающая реализацию {@link Contracts.Interfaces.IJwtKeyProvider}.
+ * @property useFactory - Фабрика, возвращающая реализацию {@link IJwtKeyProvider}.
  * @property inject     - Токены, которые будут переданы в фабрику.
  * @property imports    - Модули, экспортирующие зависимости провайдера.
  */
@@ -35,8 +38,8 @@ export interface JwtModuleAsyncOptions {
   useFactory: (
     ...args: any[]
   ) =>
-    | Promise<Contracts.Interfaces.IJwtKeyProvider>
-    | Contracts.Interfaces.IJwtKeyProvider;
+    | Promise<IJwtKeyProvider>
+    | IJwtKeyProvider;
   inject?: any[];
   imports?: any[];
 }
@@ -48,7 +51,7 @@ export interface JwtModuleAsyncOptions {
 /**
  * Динамический модуль для регистрации JWT-стратегий (access и refresh).
  *
- * Принимает реализацию {@link Contracts.Interfaces.IJwtKeyProvider}, которая возвращает публичный
+ * Принимает реализацию {@link IJwtKeyProvider}, которая возвращает публичный
  * RSA-ключ — синхронно или асинхронно (например через gRPC к auth-service).
  *
  * Ключ запрашивается **лениво** внутри стратегии при первом входящем JWT-запросе,
@@ -76,11 +79,11 @@ export interface JwtModuleAsyncOptions {
 export class JwtModule {
   /**
    * Регистрирует модуль, используя класс-провайдер ключа.
-   * @param options - Конфигурация с классом, реализующим {@link Contracts.Interfaces.IJwtKeyProvider}.
+   * @param options - Конфигурация с классом, реализующим {@link IJwtKeyProvider}.
    */
   static register(options: JwtModuleOptions): DynamicModule {
     const keyProvider: Provider = {
-      provide: Contracts.JWT_KEY_PROVIDER,
+      provide: JWT_KEY_PROVIDER,
       useClass: options.provider,
     };
 
@@ -90,11 +93,11 @@ export class JwtModule {
   /**
    * Регистрирует модуль асинхронно через фабрику.
    *
-   * @param options - Конфигурация с фабрикой, возвращающей {@link Contracts.Interfaces.IJwtKeyProvider}.
+   * @param options - Конфигурация с фабрикой, возвращающей {@link IJwtKeyProvider}.
    */
   static registerAsync(options: JwtModuleAsyncOptions): DynamicModule {
     const keyProvider: Provider = {
-      provide: Contracts.JWT_KEY_PROVIDER,
+      provide: JWT_KEY_PROVIDER,
       useFactory: options.useFactory,
       inject: options.inject ?? [],
     };
@@ -113,8 +116,20 @@ export class JwtModule {
     return {
       module: JwtModule,
       imports,
-      providers: [...extraProviders, Jwt.AccesStrategy, Jwt.RefreshStrategy],
-      exports: [Jwt.AccesStrategy, Jwt.RefreshStrategy],
+      providers: [
+        ...extraProviders,
+        AccesStrategy,
+        RefreshStrategy,
+        {
+          provide: COOKIE_INTERCEPTOR_UUID,
+          useValue: randomUUID(),
+        },
+      ],
+      exports: [
+        AccesStrategy,
+        RefreshStrategy,
+        COOKIE_INTERCEPTOR_UUID,
+      ],
     };
   }
 }

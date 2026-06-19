@@ -1,13 +1,13 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { RegisterPasswordCommand } from './register-password.command';
+import { RegisterPasswordCommand } from '@/application/commands/register-password/register-password.command';
 import { Cause, Effect, Exit, pipe } from 'effect';
-import { InjectPasswordHasher, InjectUserClient } from '../../decorators';
-import { type IUserClient } from '../../ports';
+import { InjectPasswordHasher, InjectUserClient } from '@/application/decorators';
+import { type IUserClient } from '@/application/ports';
 import {
   UserAlreadyExistsException,
   UserServiceUnavailableException,
-} from '../../exceptions';
-import { type IPasswordHasher } from '../../../domain';
+} from '@/application/exceptions';
+import { type IPasswordHasher } from '@/domain';
 import { randomUUID } from 'crypto';
 
 @CommandHandler(RegisterPasswordCommand)

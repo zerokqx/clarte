@@ -1,4 +1,4 @@
-export * from './user.module';
-export * from './user.client';
-export * from './user.configuration';
+export * from '@/infrastructure/user/user.module';
+export * from '@/infrastructure/user/user.client';
+export * from '@/infrastructure/user/user.configuration';
 

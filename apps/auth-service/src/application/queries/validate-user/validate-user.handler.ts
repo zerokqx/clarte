@@ -1,15 +1,15 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { ValidateUserQuery } from './validate-user.query';
-import { Contracts } from '@clarte/shared-contracts';
-import { InjectPasswordHasher, InjectUserClient } from '../../decorators';
-import { type IUserClient } from '../../ports';
+import { ValidateUserQuery } from '@/application/queries/validate-user/validate-user.query';
+import { Auth } from '@clarte/shared-contracts/proto';
+import { InjectPasswordHasher, InjectUserClient } from '@/application/decorators';
+import { type IUserClient } from '@/application/ports';
 import { Cause, Effect, Exit, pipe } from 'effect';
 import {
   UserCredentialsNotFound,
   UserServiceUnavailableException,
   PasswordVerificationFailedException,
-} from '../../exceptions';
-import { AuthUser, type IPasswordHasher, PasswordInvalidError } from '../../../domain';
+} from '@/application/exceptions';
+import { AuthUser, type IPasswordHasher, PasswordInvalidError } from '@/domain';
 
 @QueryHandler(ValidateUserQuery)
 export class ValidateUserHandler implements IQueryHandler<ValidateUserQuery> {
@@ -21,7 +21,7 @@ export class ValidateUserHandler implements IQueryHandler<ValidateUserQuery> {
   async execute({
     login,
     password,
-  }: ValidateUserQuery): Promise<Contracts.Proto.Auth.ValidateUserResponse> {
+  }: ValidateUserQuery): Promise<Auth.ValidateUserResponse> {
     const exit = await pipe(
       Effect.tryPromise({
         try: () => this.userClient.getCredentialsByLogin(login),
@@ -75,7 +75,7 @@ export class ValidateUserHandler implements IQueryHandler<ValidateUserQuery> {
       onFailure: (cause) => {
         throw Cause.squash(cause);
       },
-      onSuccess: (value: Contracts.Proto.Auth.ValidateUserResponse) => value,
+      onSuccess: (value: Auth.ValidateUserResponse) => value,
     });
   }
 }

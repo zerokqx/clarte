@@ -1,12 +1,13 @@
 import { Command } from '@nestjs/cqrs';
-import { Contracts } from '@clarte/shared-contracts';
+import { Auth } from '@clarte/shared-contracts/proto';
 
-type Response = Contracts.Proto.Auth.LoginPasswordResponse;
+type Response = Auth.LoginPasswordResponse;
 
 export class LoginPasswordCommand extends Command<Response> {
   constructor(
     public readonly login: string,
-    public readonly password: string
+    public readonly password: string,
+    public readonly userAgent = '',
   ) {
     super();
   }

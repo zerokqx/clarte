@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, MinLength } from 'class-validator';
+import { IsString, Length, MinLength } from 'class-validator';
 
 export class LoginDTO {
-  @ApiProperty({ example: 'petux' })
+  @ApiProperty({ example: 'user' })
+  @Length(1, 30)
   @IsString()
   readonly login!: string;
 

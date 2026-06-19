@@ -1,36 +1,42 @@
 import { OnModuleInit } from '@nestjs/common';
-import { IAuthClient, InjectAuthGrpcClient } from '../../aplication';
+import { IAuthClient, InjectAuthGrpcClient } from '@/app/auth/aplication';
 import { type ClientGrpc } from '@nestjs/microservices';
-import { Contracts } from '@clarte/shared-contracts';
+import { Auth } from '@clarte/shared-contracts/proto';
 import { map, Observable } from 'rxjs';
 
 export class AuthClient implements OnModuleInit, IAuthClient {
-  private authService!: Contracts.Proto.Auth.AuthServiceClient;
+  private authService!: Auth.AuthServiceClient;
 
   constructor(
     @InjectAuthGrpcClient() private readonly authGrpcClient: ClientGrpc,
   ) {}
   onModuleInit() {
     this.authService = this.authGrpcClient.getService(
-      Contracts.Proto.Auth.AUTH_SERVICE_NAME,
+      Auth.AUTH_SERVICE_NAME,
     );
   }
 
   validate(
-    data: Contracts.Proto.Auth.RegisterRequest,
-  ): Observable<Contracts.Proto.Auth.ValidateUserResponse> {
+    data: Auth.RegisterRequest,
+  ): Observable<Auth.ValidateUserResponse> {
     return this.authService.validateUser(data);
   }
   login(
-    data: Contracts.Proto.Auth.LoginPasswordRequest,
-  ): Observable<Contracts.Proto.Auth.LoginPasswordResponse> {
+    data: Auth.LoginPasswordRequest,
+  ): Observable<Auth.LoginPasswordResponse> {
     return this.authService.loginPassword(data);
   }
-  register(data: Contracts.Proto.Auth.RegisterRequest): Observable<void> {
+  register(data: Auth.RegisterRequest): Observable<void> {
     return this.authService.registerPassword(data).pipe(map(() => void 0));
   }
 
-  getPublicJwtKey(): Observable<Contracts.Proto.Auth.GetPublicJwtKeyResponse> {
+  getPublicJwtKey(): Observable<Auth.GetPublicJwtKeyResponse> {
     return this.authService.getPublicJwtKey({});
+  }
+
+  refresh(
+    data: Auth.RefreshTokensRequest,
+  ): Observable<Auth.RefreshTokensResponse> {
+    return this.authService.refreshTokens(data);
   }
 }

@@ -2,8 +2,12 @@ import { Marks } from '@clarte/shared';
 import { Controller, Get, Param, ParseUUIDPipe } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { map, Observable } from 'rxjs';
-import { InjectUserClient, type IUserClient } from '../application';
-import { UserFindDTO } from './dto';
+import { InjectUserClient, type IUserClient } from '@/app/user/application';
+import { UserFindDTO } from '@/app/user/presentation/dto';
+import { type IJwtPayload } from '@clarte/shared-contracts/interfaces';
+import { AccessGuard } from '@clarte/shared-nest/guards';
+import { User } from '@clarte/shared-nest/decorators';
+import { UserMeDTO } from './dto/user-me.dto';
 
 @Controller('users')
 export class UserController extends Marks.Controller.Private {
@@ -44,6 +48,23 @@ export class UserController extends Marks.Controller.Private {
       map(
         (raw) =>
           new UserFindDTO({
+            id: raw.id,
+            login: raw.login,
+            avatarUrl: raw.avatarUrl,
+          }),
+      ),
+    );
+  }
+
+  @Get('me')
+  @ApiOkResponse({ type: UserMeDTO })
+  @ApiOperation({ summary: 'Получить профиль текущего пользователя' })
+  @AccessGuard()
+  me(@User() user: IJwtPayload) {
+    return this.userClient.findUserById(user.sub).pipe(
+      map(
+        (raw) =>
+          new UserMeDTO({
             id: raw.id,
             login: raw.login,
             avatarUrl: raw.avatarUrl,

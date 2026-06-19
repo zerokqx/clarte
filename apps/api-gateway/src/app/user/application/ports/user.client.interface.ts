@@ -1,18 +1,18 @@
-import { Contracts } from '@clarte/shared-contracts';
+import { User } from '@clarte/shared-contracts/proto';
 import { Observable } from 'rxjs';
 
 export interface IUserClient {
   findUserById(
     id: string,
-  ): Observable<Contracts.Proto.User.UserFindByIdResponse>;
+  ): Observable<User.UserFindByIdResponse>;
 
   findUserByLogin(
     login: string,
-  ): Observable<Contracts.Proto.User.UserFindByLoginResponse>;
+  ): Observable<User.UserFindByLoginResponse>;
 
-  createUser(data: Contracts.Proto.User.UserCreateRequest): Observable<void>;
+  createUser(data: User.UserCreateRequest): Observable<void>;
 
   getCredentialsByLogin(
     login: string,
-  ): Observable<Contracts.Proto.User.UserGetCredentialsByLoginResponse>;
+  ): Observable<User.UserGetCredentialsByLoginResponse>;
 }

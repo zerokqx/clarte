@@ -14,4 +14,6 @@ export abstract class Entity {
     if (this === other) return true;
     return this._id === other.id;
   }
+
+  abstract toPlain(): object;
 }

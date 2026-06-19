@@ -1,2 +1,2 @@
-export * from './validate-user.query';
-export * from './validate-user.handler';
+export * from '@/application/queries/validate-user/validate-user.query';
+export * from '@/application/queries/validate-user/validate-user.handler';

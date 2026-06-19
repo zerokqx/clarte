@@ -1,2 +1,2 @@
-export * from './jwt.module';
+export * from '@/infrastructure/jwt/jwt.module';
 

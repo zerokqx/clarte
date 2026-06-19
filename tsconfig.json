@@ -4,22 +4,13 @@
   "files": [],
   "references": [
     {
-      "path": "./apps/api-gateway-e2e"
-    },
-    {
       "path": "./apps/api-gateway"
     },
     {
       "path": "./packages/shared"
     },
     {
-      "path": "./apps/user-service-e2e"
-    },
-    {
       "path": "./apps/user-service"
-    },
-    {
-      "path": "./apps/auth-service-e2e"
     },
     {
       "path": "./apps/auth-service"
@@ -34,7 +25,16 @@
       "path": "./packages/shared-contracts"
     },
     {
-      "path": "./apps/frontend"
+      "path": "./apps/notes-service"
+    },
+    {
+      "path": "./apps/todo-service"
+    },
+    {
+      "path": "./packages/shared-event-types"
+    },
+    {
+      "path": "./apps/notification-service"
     }
   ]
 }

@@ -1,21 +1,23 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import {
-  DatabaseConfiguration,
-  databaseConfiguration,
-} from './database.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserOrmEntity } from './user.entity';
+import { UserOrmEntity } from '@/infrastructure/database/user.entity';
 
+import {
+  AppConfiguration,
+  DatabaseConfig,
+  DatabaseConfiguration,
+} from '@clarte/shared-nest/modules';
 @Module({
   imports: [
-    ConfigModule.forFeature(databaseConfiguration),
+    DatabaseConfig,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
         const { host, port, user, dbName, password } =
           config.getOrThrow<DatabaseConfiguration>('database');
+        const { isDev } = config.getOrThrow<AppConfiguration>('app-config');
         return {
           type: 'postgres',
           host,
@@ -24,7 +26,7 @@ import { UserOrmEntity } from './user.entity';
           database: dbName,
           password,
           entities: [UserOrmEntity],
-          synchronize: true,
+          synchronize: isDev,
         };
       },
     }),

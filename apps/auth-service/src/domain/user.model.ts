@@ -1,12 +1,18 @@
-import { DDD } from '@clarte/shared-domain';
-import { LoginVo, PasswordHashVo } from './value-objects';
-import { IPasswordHasher } from './ports';
+import { AggregateRoot } from '@clarte/shared-domain/domain';
+import { LoginVo, PasswordHashVo } from '@/domain/value-objects';
+import { IPasswordHasher } from '@/domain/ports';
 
-export class AuthUser extends DDD.AggregateRoot {
+interface AuthUserPlain {
+  id: string;
+  login: string;
+  passwordHash: string;
+}
+
+export class AuthUser extends AggregateRoot {
   private constructor(
     id: string,
-    private readonly login: LoginVo,
-    private readonly passwordHash: PasswordHashVo,
+    private readonly _login: LoginVo,
+    private readonly _passwordHash: PasswordHashVo,
   ) {
     super(id);
   }
@@ -41,14 +47,28 @@ export class AuthUser extends DDD.AggregateRoot {
     rawPassword: string,
     hasher: IPasswordHasher,
   ): Promise<boolean> {
-    return await hasher.compare(rawPassword, this.passwordHash.value);
+    return await hasher.compare(rawPassword, this.passwordHash);
   }
 
   public getProps() {
     return {
       id: this.id,
-      login: this.login.value,
-      passwordHash: this.passwordHash.value,
+      login: this.login,
+      passwordHash: this.passwordHash,
+    };
+  }
+  get login(): string {
+    return this._login.value;
+  }
+  get passwordHash(): string {
+    return this._passwordHash.value;
+  }
+
+  override toPlain(): AuthUserPlain {
+    return {
+      id: this.id,
+      login: this.login,
+      passwordHash: this.passwordHash,
     };
   }
 }

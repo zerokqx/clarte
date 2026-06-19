@@ -30,17 +30,12 @@
           "skipTypeCheck": true,
           "stripLeadingPaths": true
         }
-      },
-      "proto:generate": {
-        "executor": "nx:run-commands",
-        "options": {
-          "command": "mkdir -p packages/shared/src/ports/proto-types && find . -name \"*.proto\" -not -path \"*/node_modules/*\" | while read -r f; do pnpm exec protoc -I=$(dirname \"$f\") -I=. --ts_proto_out=packages/shared/src/ports/proto-types --ts_proto_opt=nestJs=true --ts_proto_opt=classValidator=true \"$(basename \"$f\")\"; done",
-          "cwd": "."
-        }
       }
     }
   },
   "dependencies": {
-    "@swc/helpers": "~0.5.18"
+    "@nestjs/microservices": "^11.0.4",
+    "@swc/helpers": "~0.5.18",
+    "rxjs": "^7.8.1"
   }
 }

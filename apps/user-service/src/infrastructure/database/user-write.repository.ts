@@ -1,9 +1,9 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserOrmEntity } from './user.entity';
-import { IUserWriteRepository } from '../../application/ports/user-repository.interface';
-import { User } from '../../domain/user.model';
-import { UserMapper } from '../mappers/user.mapper';
+import { UserOrmEntity } from '@/infrastructure/database/user.entity';
+import { IUserWriteRepository } from '@/application/ports/user-repository.interface';
+import { User } from '@/domain/user.model';
+import { UserMapper } from '@/infrastructure/mappers/user.mapper';
 
 export class UserWriteRepository implements IUserWriteRepository {
   constructor(

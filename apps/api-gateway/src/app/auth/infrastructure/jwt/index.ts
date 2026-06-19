@@ -1,1 +1,1 @@
-export * from "./jwt-key-provider"
+export * from "@/app/auth/infrastructure/jwt/jwt-key-provider"

@@ -7,7 +7,7 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Effect, pipe } from 'effect';
-import { ProblemDetailsException } from '@clarte/shared-domain';
+import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
 
 /**
  * Специальный класс для восстановления ошибки из gRPC-метаданных.

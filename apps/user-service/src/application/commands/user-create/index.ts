@@ -1,3 +1,3 @@
-export * from './user-create.command';
-export * from "./user-create.handler"
+export * from '@/application/commands/user-create/user-create.command';
+export * from "@/application/commands/user-create/user-create.handler"
 

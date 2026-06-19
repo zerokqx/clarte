@@ -1,1 +1,1 @@
-export * from './user-grpc-client.inject';
+export * from '@/infrastructure/decorators/user-grpc-client.inject';

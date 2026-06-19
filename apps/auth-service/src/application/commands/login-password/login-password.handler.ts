@@ -1,20 +1,23 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { LoginPasswordCommand } from './login-password.command';
-import { Contracts } from '@clarte/shared-contracts';
+import { LoginPasswordCommand } from '@/application/commands/login-password/login-password.command';
+import { Auth } from '@clarte/shared-contracts/proto';
 import { Cause, Effect, Exit, pipe } from 'effect';
-import { InjectPasswordHasher, InjectUserClient } from '../../decorators';
-import { type IJwtService, type IUserClient } from '../../ports';
+import { InjectPasswordHasher, InjectUserClient, InjectAuthRmqClient } from '@/application/decorators';
+import { type IJwtService, type IUserClient } from '@/application/ports';
+import { ClientProxy } from '@nestjs/microservices';
+import { UserEventPattern, type UserEventPayloadMap } from '@clarte/shared-event-types/user';
+import { firstValueFrom } from 'rxjs';
 import {
   UserCredentialsNotFound,
   UserServiceUnavailableException,
   PasswordVerificationFailedException,
-} from '../../exceptions';
+} from '@/application/exceptions';
 import {
   AuthUser,
   type IPasswordHasher,
   PasswordInvalidError,
-} from '../../../domain';
-import { InjectJwtService } from './jwt-service.inject';
+} from '@/domain';
+import { InjectJwtService } from '@/application/commands/login-password/jwt-service.inject';
 
 @CommandHandler(LoginPasswordCommand)
 export class LoginPasswordHandler
@@ -24,11 +27,12 @@ export class LoginPasswordHandler
     @InjectUserClient() private readonly userClient: IUserClient,
     @InjectPasswordHasher() private readonly passwordHasher: IPasswordHasher,
     @InjectJwtService() private readonly jwtService: IJwtService,
+    @InjectAuthRmqClient() private readonly rmqClient: ClientProxy,
   ) {}
 
   async execute(
     command: LoginPasswordCommand,
-  ): Promise<Contracts.Proto.Auth.LoginPasswordResponse> {
+  ): Promise<Auth.LoginPasswordResponse> {
     const exit = await pipe(
       Effect.tryPromise({
         try: () => this.userClient.getCredentialsByLogin(command.login),
@@ -80,7 +84,7 @@ export class LoginPasswordHandler
           try: async () => {
             const payload = {
               sub: user.id,
-              sid: '',
+              sid: '', // TODO Сделать session
             };
             const [accessToken, refreshToken] = await Promise.all([
               this.jwtService.generateAccess(payload),
@@ -100,11 +104,25 @@ export class LoginPasswordHandler
       Effect.runPromiseExit,
     );
 
-    return Exit.match(exit, {
+    const result = Exit.match(exit, {
       onFailure: (cause) => {
         throw Cause.squash(cause);
       },
-      onSuccess: (value: Contracts.Proto.Auth.LoginPasswordResponse) => value,
+      onSuccess: (value: Auth.LoginPasswordResponse) => value,
     });
+
+    if (result.success && result.userId) {
+      // Emit user.entered event to RMQ asynchronously
+      firstValueFrom(
+        this.rmqClient.emit(UserEventPattern.UserEntered, {
+          userId: result.userId,
+          userAgent: command.userAgent,
+        } satisfies UserEventPayloadMap[UserEventPattern.UserEntered]),
+      ).catch((err) => {
+        console.error('❌ Failed to emit user.entered event:', err);
+      });
+    }
+
+    return result;
   }
 }

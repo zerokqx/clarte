@@ -1,4 +1,4 @@
-import { ProblemDetailsException } from '@clarte/shared-domain';
+import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
 
 export class IncorrectPasswordFormatError extends ProblemDetailsException {
   override type = '/errors/incorrect-password-format';

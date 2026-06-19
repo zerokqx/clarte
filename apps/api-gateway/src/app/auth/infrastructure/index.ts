@@ -1,2 +1,2 @@
-export * from './clients';
-export * from './jwt';
+export * from '@/app/auth/infrastructure/clients';
+export * from '@/app/auth/infrastructure/jwt';

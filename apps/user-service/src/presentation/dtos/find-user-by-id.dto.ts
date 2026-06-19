@@ -1,12 +1,12 @@
-import { Contracts } from '@clarte/shared-contracts';
+import { User } from '@clarte/shared-contracts/proto';
 
 export class UserFindByIdDTO
-  implements Contracts.Proto.User.UserFindByIdResponse
+  implements User.UserFindByIdResponse
 {
   public readonly id!: string;
   public readonly login!: string;
   public readonly avatarUrl!: string;
-  constructor(partial: Partial<Contracts.Proto.User.UserFindByIdResponse>) {
+  constructor(partial: Partial<User.UserFindByIdResponse>) {
     Object.assign(this, partial);
   }
 }

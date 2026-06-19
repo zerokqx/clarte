@@ -1,0 +1,51 @@
+{
+  "name": "@clarte/shared-event-types",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@clarte/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./todo": {
+      "@clarte/source": "./src/todo/index.ts",
+      "types": "./dist/todo/index.d.ts",
+      "import": "./dist/todo/index.js",
+      "default": "./dist/todo/index.js"
+    },
+    "./user": {
+      "@clarte/source": "./src/user/index.ts",
+      "types": "./dist/user/index.d.ts",
+      "import": "./dist/user/index.js",
+      "default": "./dist/user/index.js"
+    }
+  },
+  "nx": {
+    "sourceRoot": "packages/shared-event-types/src",
+    "targets": {
+      "build": {
+        "executor": "@nx/js:swc",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "options": {
+          "outputPath": "packages/shared-event-types/dist",
+          "main": "packages/shared-event-types/src/index.ts",
+          "tsConfig": "packages/shared-event-types/tsconfig.lib.json",
+          "skipTypeCheck": true,
+          "stripLeadingPaths": true
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "@swc/helpers": "~0.5.18"
+  }
+}

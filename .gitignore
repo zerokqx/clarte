@@ -64,5 +64,4 @@ devenv.local.yaml
 *.key
 .env.local
 
-vite.config.*.timestamp*
-vitest.config.*.timestamp*
+test-output

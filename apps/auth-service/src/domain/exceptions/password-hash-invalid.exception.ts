@@ -1,5 +1,5 @@
 
-import { ProblemDetailsException } from '@clarte/shared-domain';
+import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
 
 export class PasswordHashInvalidError extends ProblemDetailsException {
   override type = '/errors/password-hash-invalid';

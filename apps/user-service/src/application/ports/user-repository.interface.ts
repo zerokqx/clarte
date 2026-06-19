@@ -1,5 +1,5 @@
-import { User } from '../../domain/user.model';
-import { CredentialsReadModel, UserReadModel } from '../models';
+import { User } from '@/domain/user.model';
+import { CredentialsReadModel, UserReadModel } from '@/application/models';
 
 export interface IUserWriteRepository {
   save(user: User): Promise<User>;

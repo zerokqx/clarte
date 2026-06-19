@@ -1,13 +1,20 @@
-import { DDD } from '@clarte/shared-domain';
-import { UserAvatar } from './value-objects/avatar.vo';
-import { UserLogin } from './value-objects/login.vo';
-import { UserPassword } from './value-objects/password.vo';
+import { Entity } from '@clarte/shared-domain/domain';
+import { UserAvatar } from '@/domain/value-objects/avatar.vo';
+import { UserLogin } from '@/domain/value-objects/login.vo';
+import { UserPassword } from '@/domain/value-objects/password.vo';
 
-export class User extends DDD.Entity {
+interface UserPlain {
+  id: string;
+  login: string;
+  passwordHash: string;
+  avatarUrl: string;
+}
+
+export class User extends Entity {
   private constructor(
     _id: string,
     private _login: UserLogin,
-    private _password: UserPassword,
+    private _passwordHash: UserPassword,
     private _avatarUrl: UserAvatar,
   ) {
     super(_id);
@@ -52,7 +59,7 @@ export class User extends DDD.Entity {
   }
 
   get passwordHash(): string {
-    return this._password.value;
+    return this._passwordHash.value;
   }
   get login(): string {
     return this._login.value;
@@ -60,5 +67,13 @@ export class User extends DDD.Entity {
 
   get avatarUrl(): string {
     return this._avatarUrl.value;
+  }
+  override toPlain(): UserPlain {
+    return {
+      id: this.id,
+      login: this.login,
+      passwordHash: this.passwordHash,
+      avatarUrl: this.avatarUrl,
+    };
   }
 }

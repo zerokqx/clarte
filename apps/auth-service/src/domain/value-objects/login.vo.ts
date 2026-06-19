@@ -1,7 +1,7 @@
-import { DDD } from '@clarte/shared-domain';
-import { LoginInvalidError } from '../exceptions';
+import { ValueObject } from '@clarte/shared-domain/domain';
+import { LoginInvalidError } from '@/domain/exceptions';
 
-export class LoginVo extends DDD.ValueObject<string> {
+export class LoginVo extends ValueObject<string> {
   private constructor(value: string) {
     super(value);
   }

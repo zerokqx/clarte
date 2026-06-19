@@ -2,8 +2,8 @@ import { JwtModule as JwtModuleNestJS } from '@nestjs/jwt';
 import { Module } from '@nestjs/common';
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { JwtService } from './jwt.service';
-import { JWT_SERVICE } from '../../application';
+import { JwtService } from '@/infrastructure/jwt/jwt.service';
+import { JWT_SERVICE } from '@/application';
 
 @Module({
   imports: [
