@@ -8,7 +8,7 @@ module.exports = {
       mock: true,
     },
     input: {
-      target: "http://localhost:5000/api/docs-json",
+      target: "http://localhost:5000/docs-json",
     },
   },
 };

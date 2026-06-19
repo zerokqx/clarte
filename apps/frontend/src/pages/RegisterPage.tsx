@@ -1,13 +1,25 @@
 import { useState } from "react";
-import { useForm } from "@mantine/form";
+import { useForm, schemaResolver } from "@mantine/form";
 import { TextInput, PasswordInput, Button, Paper, Title, Container, Stack } from "@mantine/core";
+import { z } from "zod";
 import { authApi } from "../api/auth";
 
-interface RegisterForm {
-  login: string;
-  password: string;
-  confirmPassword: string;
-}
+const registerSchema = z
+  .object({
+    login: z.string().min(3, "Логин должен быть минимум 3 символа"),
+    password: z.string()
+      .min(8, "Пароль должен быть минимум 8 символов")
+      .regex(/[A-Z]/, "Пароль должен содержать заглавную букву")
+      .regex(/[!@#$%^&*(),.?":{}|<>]/, "Пароль должен содержать спецсимвол")
+      .regex(/^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]+$/, "Только латинские буквы"),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Пароли не совпадают",
+    path: ["confirmPassword"],
+  });
+
+type RegisterForm = z.infer<typeof registerSchema>;
 
 export const RegisterPage = () => {
   const [error, setError] = useState("");
@@ -20,28 +32,7 @@ export const RegisterPage = () => {
       password: "",
       confirmPassword: "",
     },
-    validate: {
-      login: (value) => {
-        if (!value || value.length < 3) {
-          return "Логин должен быть минимум 3 символа";
-        }
-        return null;
-      },
-      password: (value) => {
-        if (!value) return "Введите пароль";
-        if (value.length < 8) return "Пароль должен быть минимум 8 символов";
-        if (!/[A-Z]/.test(value)) return "Пароль должен содержать заглавную букву";
-        if (!/[!@#$%^&*(),.?":{}|<>]/.test(value)) return "Пароль должен содержать спецсимвол";
-        if (!/^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]+$/.test(value)) return "Только латинские буквы";
-        return null;
-      },
-      confirmPassword: (value, values) => {
-        if (value !== values.password) {
-          return "Пароли не совпадают";
-        }
-        return null;
-      },
-    },
+    validate: schemaResolver(registerSchema, { sync: true }),
   });
 
   const handleSubmit = async (values: RegisterForm) => {
@@ -50,21 +41,15 @@ export const RegisterPage = () => {
     setSuccess(false);
     
     try {
-      const response = await authApi.register({
+      await authApi.register({
         login: values.login,
         password: values.password,
       });
-      
-      console.log("Регистрация успешна:", response);
       setSuccess(true);
-      
-      // Перенаправляем на страницу логина через 2 секунды
       setTimeout(() => {
         window.location.href = "/login";
       }, 2000);
-      
     } catch (err: any) {
-      console.error("Ошибка регистрации:", err);
       const message = err.response?.data?.message || err.message || "Ошибка регистрации";
       setError(message);
     } finally {

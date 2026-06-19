@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { useForm } from "@mantine/form";
+import { useForm, schemaResolver } from "@mantine/form";
 import { TextInput, PasswordInput, Button, Paper, Title, Container, Stack } from "@mantine/core";
+import { z } from "zod";
 import { authApi } from "../api/auth";
 
-interface LoginForm {
-  login: string;
-  password: string;
-}
+const loginSchema = z.object({
+  login: z.string().min(1, "Введите логин"),
+  password: z.string().min(1, "Введите пароль"),
+});
+
+type LoginForm = z.infer<typeof loginSchema>;
 
 export const LoginPage = () => {
   const [error, setError] = useState("");
@@ -17,18 +20,7 @@ export const LoginPage = () => {
       login: "",
       password: "",
     },
-    validate: {
-      login: (value) => {
-        if (!value || value.length < 3) {
-          return "Введите логин";
-        }
-        return null;
-      },
-      password: (value) => {
-        if (!value) return "Введите пароль";
-        return null;
-      },
-    },
+    validate: schemaResolver(loginSchema, { sync: true }),
   });
 
   const handleSubmit = async (values: LoginForm) => {
@@ -36,18 +28,12 @@ export const LoginPage = () => {
     setError("");
     
     try {
-      const response = await authApi.login({
+      await authApi.login({
         login: values.login,
         password: values.password,
       });
-      
-      console.log("Вход успешен:", response);
-      
-      // Перенаправляем на главную страницу
       window.location.href = "/";
-      
     } catch (err: any) {
-      console.error("Ошибка входа:", err);
       const message = err.response?.data?.message || err.message || "Неверный логин или пароль";
       setError(message);
     } finally {
