@@ -1,8 +1,11 @@
 import { Effect } from 'effect';
-import { S3StorageException, S3UploadException } from '../exceptions';
-import { S3DownloadException } from '../exceptions/s3-download.exception';
-import { S3DeleteException } from '../exceptions/s3-delete.exception';
-import { S3NotFoundException } from '../exceptions/s3-not-found.exception';
+import {
+  S3StorageException,
+  S3UploadException,
+  S3DownloadException,
+  S3DeleteException,
+  S3NotFoundException,
+} from '@clarte/shared-domain/exceptions';
 
 export interface IS3 {
   /**
