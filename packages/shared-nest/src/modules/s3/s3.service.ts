@@ -12,7 +12,7 @@ import {
   S3DeleteException,
   S3NotFoundException,
   S3StorageException,
-} from '@clarte/shared-domain/exceptions';
+} from './exceptions';
 
 @Injectable()
 export class S3Service implements IS3Service {

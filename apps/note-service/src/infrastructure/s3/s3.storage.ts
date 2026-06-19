@@ -3,13 +3,14 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { IS3 } from '@/application';
 import { S3ConfigurationType } from './s3.config';
-import { InjectS3Service, IS3Service } from '@clarte/shared-nest/modules';
 import {
+  InjectS3Service,
+  IS3Service,
   S3UploadException,
   S3DownloadException,
   S3DeleteException,
   S3NotFoundException,
-} from '@clarte/shared-domain/exceptions';
+} from '@clarte/shared-nest/modules';
 
 @Injectable()
 export class S3Storage implements IS3 {

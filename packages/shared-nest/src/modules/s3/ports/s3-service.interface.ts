@@ -5,7 +5,7 @@ import {
   S3DownloadException,
   S3DeleteException,
   S3NotFoundException,
-} from '@clarte/shared-domain/exceptions';
+} from '../exceptions';
 
 export abstract class IS3Service {
   /**

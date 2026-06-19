@@ -1,4 +1,4 @@
-import { ProblemDetailsException } from './base.exception';
+import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
 
 export abstract class S3StorageException extends ProblemDetailsException {
   abstract readonly _tag: string;
