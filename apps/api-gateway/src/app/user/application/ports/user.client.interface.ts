@@ -15,4 +15,12 @@ export interface IUserClient {
   getCredentialsByLogin(
     login: string,
   ): Observable<User.UserGetCredentialsByLoginResponse>;
+
+  userChangeAvatar(
+    data: User.UserEditChangeAvatarRequest,
+  ): Observable<void>;
+
+  uploadPresignedUrl(
+    data: User.UploadPresignedUrlRequest,
+  ): Observable<User.UploadPresignedUrlResponse>;
 }

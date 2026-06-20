@@ -79,8 +79,8 @@
 | `postgres` | **6001** | `notes-service` | База данных заметок |
 | `postgres` | **6002** | `todo-service` | База данных задач |
 | `postgres` | **6005** | `notification-service` | База данных уведомлений |
-| `minio` | **6003** | `notes-service` | S3 API MinIO |
-| `minio-console` | **6004** | `notes-service` | Консоль управления MinIO |
+| `minio` | **6003** | `root compose` | S3 API MinIO |
+| `minio-console` | **6004** | `root compose` | Консоль управления MinIO |
 
 ### Очереди и брокеры (Порты 7000+)
 | Сервис | Порт | Назначение |
@@ -89,3 +89,10 @@
 | `rabbitmq` | **7001** | Брокер сообщений RabbitMQ |
 | `rabbitmq-dashboard` | **7002** | Панель управления RabbitMQ (Management) |
 | `pgadmin` | **5050** | Панель управления PostgreSQL (вне схемы) |
+
+---
+
+## 📖 Документация (Documentation)
+
+* **[Генераторы CQRS (Commands & Queries)](docs/cqrs-generators.md)** — руководство по использованию скриптов автогенерации кода команд и запросов.
+

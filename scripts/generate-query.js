@@ -62,8 +62,8 @@ if (!fs.existsSync(targetDir)) {
 
 const queryContent = `import { Query } from '@nestjs/cqrs';
 
-export class ${pascalName}Query implements Query<any> {
-  constructor() {}
+export class ${pascalName}Query extends Query<any> {
+  constructor() {super()}
 }
 `;
 

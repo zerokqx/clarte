@@ -25,9 +25,6 @@
       "path": "./packages/shared-contracts"
     },
     {
-      "path": "./apps/notes-service"
-    },
-    {
       "path": "./apps/todo-service"
     },
     {
@@ -35,6 +32,9 @@
     },
     {
       "path": "./apps/notification-service"
+    },
+    {
+      "path": "./apps/note-service"
     }
   ]
 }

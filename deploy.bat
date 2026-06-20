@@ -1,34 +1,42 @@
 @echo off
-echo 🚀 Starting deployment and setup for Clarte on Windows...
 
-:: 1. Check if pnpm is installed, install globally if not present
+echo 🚀 Запуск развертывания и настройки Clarte на Windows...
+
+:: 1. Установка pnpm глобально, если он отсутствует
 where pnpm >nul 2>nul
 if %errorlevel% neq 0 (
-    echo 📦 Installing pnpm globally...
+    echo 📦 Установка pnpm глобально...
     call npm install -g pnpm
 ) else (
-    echo [OK] pnpm is already installed
+    echo ✔ pnpm уже установлен
 )
 
-:: 2. Install project dependencies
-echo 📦 Installing project dependencies...
+:: 2. Установка зависимостей проекта
+echo 📦 Установка зависимостей проекта...
 call pnpm install
 
-:: 3. Check if nx is installed globally, install if not present
+:: 3. Установка nx глобально, если он отсутствует
 where nx >nul 2>nul
 if %errorlevel% neq 0 (
-    echo 📦 Installing nx globally...
+    echo 📦 Установка nx глобально...
     call pnpm add --global nx
+    if %errorlevel% neq 0 (
+        echo ⚠️ Предупреждение: Не удалось установить nx глобально. Продолжаем с локальным запуском.
+    )
 ) else (
-    echo [OK] nx is already installed
+    echo ✔ nx уже установлен
 )
 
-:: 4. Start infrastructure containers (PostgreSQL, Redis, RabbitMQ)
-echo 🐳 Starting docker-compose infrastructure...
+:: 4. Запуск контейнеров инфраструктуры (PostgreSQL, Redis, RabbitMQ)
+echo 🐳 Запуск docker-compose инфраструктуры...
 call pnpm nx run-many --targets=compose-infra-up --no-tui
 
-:: 5. Start all microservices
-echo ⚡ Starting all microservices...
+:: 5. Прогрев кэша (сборка всех общих библиотек)
+echo 🔥 Прогрев кэша (сборка всех библиотек)...
+call pnpm nx run-many --target=build --projects=tag:type:package --no-tui
+
+:: 6. Запуск всех микросервисов
+echo ⚡ Запуск всех микросервисов...
 set NX_DAEMON=false
 call pnpm nx run-many --targets=serve --no-tui
 

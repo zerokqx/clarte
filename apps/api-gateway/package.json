@@ -7,7 +7,7 @@
       "build": {
         "executor": "nx:run-commands",
         "dependsOn": [
-          "@clarte/shared-contracts:proto:generate"
+          "^build"
         ],
         "options": {
           "command": "webpack-cli build",
@@ -85,8 +85,14 @@
     "@clarte/shared-contracts": "workspace:*",
     "@clarte/shared-nest": "workspace:*",
     "@nestjs/common": "^11.0.0",
+    "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.0.0",
+    "@nestjs/microservices": "^11.1.26",
     "@nestjs/platform-express": "^11.0.0",
+    "@nestjs/swagger": "^11.4.4",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
+    "cookie-parser": "^1.4.7",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
     "tslib": "^2.3.0"

@@ -11,8 +11,11 @@ import { COOKIE_NAME } from '@clarte/shared';
 import {
   InjectCookieInterceptorOptions,
   InjectCookieInterceptorUuid,
-} from '../decorators/cookie.decorator';
-import { type JwtCookieInterceptorOptions } from '../ports/di-tokens';
+} from '../decorators';
+
+export interface JwtCookieInterceptorOptions {
+  isProd: boolean;
+}
 
 @Injectable()
 export class JwtCookieInterceptor implements NestInterceptor {
@@ -26,7 +29,6 @@ export class JwtCookieInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const httpContext = context.switchToHttp();
     const response = httpContext.getResponse<Response>();
-
     return next.handle().pipe(
       map((data) => {
         // Проверяем, совпадает ли секретный UUID в возвращаемом значении
@@ -51,7 +53,6 @@ export class JwtCookieInterceptor implements NestInterceptor {
             });
           }
 
-          // Возвращаем пустой/успешный ответ, чтобы никто не видел сами токены в JSON
           return { success: true };
         }
 

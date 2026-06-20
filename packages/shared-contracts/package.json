@@ -34,6 +34,9 @@
     }
   },
   "nx": {
+    "tags": [
+      "type:package"
+    ],
     "sourceRoot": "packages/shared-contracts/src",
     "targets": {
       "build": {
@@ -41,16 +44,28 @@
         "outputs": [
           "{options.outputPath}"
         ],
+        "dependsOn": [
+          "proto:generate",
+          "^build"
+        ],
         "options": {
           "outputPath": "packages/shared-contracts/dist",
           "main": "packages/shared-contracts/src/index.ts",
           "tsConfig": "packages/shared-contracts/tsconfig.lib.json",
           "skipTypeCheck": true,
-          "stripLeadingPaths": true
+          "stripLeadingPaths": true,
+          "clean": false
         }
       },
       "proto:generate": {
         "executor": "nx:run-commands",
+        "cache": true,
+        "inputs": [
+          "{projectRoot}/src/ports/proto/**/*.proto"
+        ],
+        "outputs": [
+          "{projectRoot}/src/ports/proto-types"
+        ],
         "options": {
           "command": "mkdir -p packages/shared-contracts/src/ports/proto-types && find . -name \"*.proto\" -not -path \"*/node_modules/*\" | while read -r f; do pnpm exec protoc -I=$(dirname \"$f\") -I=. --ts_proto_out=packages/shared-contracts/src/ports/proto-types --ts_proto_opt=nestJs=true,unwrapEmpty=true \"$(basename \"$f\")\"; done",
           "cwd": "."

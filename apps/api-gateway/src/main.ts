@@ -23,7 +23,7 @@ async function bootstrap() {
   SwaggerModule.setup(swaggerPrefix, app, documentFactory);
   app.setGlobalPrefix(globalPrefix);
   const port = process.env.PORT || 3000;
-  app.use(cookieParser())
+  app.use(cookieParser());
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
@@ -39,9 +39,7 @@ async function bootstrap() {
   Logger.log(
     `🚀 Swagger is running on: http://localhost:${port}/${swaggerPrefix}`,
   );
-
   Logger.log('Protocol: HTTP');
-
   Logger.log('🚀 API Gateway started');
 }
 

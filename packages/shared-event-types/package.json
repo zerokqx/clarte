@@ -28,6 +28,9 @@
     }
   },
   "nx": {
+    "tags": [
+      "type:package"
+    ],
     "sourceRoot": "packages/shared-event-types/src",
     "targets": {
       "build": {

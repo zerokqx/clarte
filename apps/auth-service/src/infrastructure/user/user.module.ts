@@ -3,20 +3,23 @@ import { USER_CLIENT } from '@/application';
 import { UserClient } from '@/infrastructure/user/user.client';
 import { User } from '@clarte/shared-contracts/proto';
 import { getProtoPath } from '@clarte/shared-contracts/functions';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { USER_GRPC_CLIENT } from '@/infrastructure/ports';
-import { UserConfiguration, userConfiguration } from '@/infrastructure/user/user.configuration';
+import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared-nest/modules';
 
 @Module({
   imports: [
-    ConfigModule.forFeature(userConfiguration),
+    MicroserviceConfigModule.register({
+      registerAsName: 'user-service',
+      prefixOptions: { value: 'user_', upperCase: true },
+    }),
     ClientsModule.registerAsync([
       {
         name: USER_GRPC_CLIENT,
         useFactory(config: ConfigService) {
           const { host, port } =
-            config.getOrThrow<UserConfiguration>('user-service');
+            config.getOrThrow<MicroserviceConfigType>('user-service');
           return {
             transport: Transport.GRPC,
             options: {
