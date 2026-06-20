@@ -2,6 +2,7 @@ import { Title, Text, SimpleGrid, Paper, Group, ThemeIcon } from '@mantine/core'
 import { IconCheckbox, IconBell, IconNote } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '@/shared/config';
+import { TiptapDemo } from '@/features/tiptap-demo';
 
 const cards = [
   {
@@ -73,6 +74,9 @@ export function DashboardPage() {
           </Paper>
         ))}
       </SimpleGrid>
+
+      <TiptapDemo />
     </>
   );
 }
+
