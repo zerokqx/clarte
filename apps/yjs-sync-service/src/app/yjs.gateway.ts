@@ -3,7 +3,7 @@ import { Server, WebSocket } from 'ws';
 import { IncomingMessage } from 'http';
 import { setupWSConnection } from '@y/websocket-server/utils';
 
-@WebSocketGateway({ path: '/yjs' })
+@WebSocketGateway()
 export class YjsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
@@ -11,10 +11,9 @@ export class YjsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   handleConnection(connection: WebSocket, request: IncomingMessage) {
     console.log(`[Yjs Server] Новое подключение по URL: ${request.url}`);
     
-    // В Yjs WebSocket-провайдере имя комнаты передается в конце URL. Например: "/yjs/clarte-room"
-    // Парсим имя комнаты:
-    const docName = request.url ? request.url.replace('/yjs', '').replace(/^\//, '').split('?')[0] : 'clarte-room';
-    const room = docName || 'clarte-room';
+    // Парсим имя комнаты (последний сегмент пути, например, /yjs/clarte-room -> clarte-room)
+    const parts = request.url ? request.url.split('/') : [];
+    const room = parts[parts.length - 1]?.split('?')[0] || 'clarte-room';
     
     console.log(`[Yjs Server] Подключение назначено в комнату: ${room}`);
 
