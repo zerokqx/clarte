@@ -1,4 +1,5 @@
 import { TextInput, Button, Group, Stack } from '@mantine/core';
+import { DateInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import type { CreateTodoFormValues } from '../model/use-todos';
 
@@ -9,7 +10,7 @@ interface CreateTodoFormProps {
 
 export function CreateTodoForm({ onSubmit, isPending }: CreateTodoFormProps) {
   const form = useForm<CreateTodoFormValues>({
-    initialValues: { title: '', description: '', dueDate: undefined },
+    initialValues: { title: '', description: '', dueDate: null },
     validate: {
       title: (v: string) => (v.length < 1 ? 'Введите название' : null),
     },
@@ -31,6 +32,11 @@ export function CreateTodoForm({ onSubmit, isPending }: CreateTodoFormProps) {
           placeholder="Описание (необязательно)"
           {...form.getInputProps('description')}
         />
+        <DateInput
+          clearable
+          placeholder="Дата выполнения"
+          {...form.getInputProps('dueDate')}
+        />
         <Group justify="flex-end">
           <Button type="submit" loading={isPending} size="sm">
             Добавить
@@ -40,3 +46,4 @@ export function CreateTodoForm({ onSubmit, isPending }: CreateTodoFormProps) {
     </form>
   );
 }
+
