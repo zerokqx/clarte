@@ -477,15 +477,9 @@ importers:
 
   packages/shared:
     dependencies:
-      '@nestjs/microservices':
-        specifier: ^11.0.4
-        version: 11.1.26(@grpc/grpc-js@1.14.4)(@nestjs/common@11.1.26(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@11.1.26)(amqp-connection-manager@5.0.0(amqplib@2.0.1))(amqplib@2.0.1)(ioredis@5.10.1)(reflect-metadata@0.2.2)(rxjs@7.8.1)
       '@swc/helpers':
         specifier: ~0.5.18
         version: 0.5.18
-      rxjs:
-        specifier: ^7.8.1
-        version: 7.8.1
 
   packages/shared-contracts:
     dependencies:

@@ -22,6 +22,9 @@
     }
   },
   "nx": {
+    "tags": [
+      "type:package"
+    ],
     "sourceRoot": "packages/shared-domain/src",
     "targets": {
       "build": {

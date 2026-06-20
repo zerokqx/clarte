@@ -1,12 +1,3 @@
-import { Effect } from 'effect';
-import {
-  S3StorageException,
-  S3UploadException,
-  S3DownloadException,
-  S3DeleteException,
-  S3NotFoundException,
-} from '../exceptions';
-
 export abstract class IS3Service {
   /**
    * Generates a presigned URL for uploading a file (PUT request)
@@ -15,7 +6,8 @@ export abstract class IS3Service {
     bucket: string,
     key: string,
     expiresIn?: number,
-  ): Effect.Effect<string, S3StorageException>;
+    metadata?: Record<string, string>,
+  ): Promise<string>;
 
   /**
    * Generates a presigned URL for downloading/viewing a file (GET request)
@@ -24,7 +16,8 @@ export abstract class IS3Service {
     bucket: string,
     key: string,
     expiresIn?: number,
-  ): Effect.Effect<string, S3StorageException>;
+    metadata?: Record<string, string>,
+  ): Promise<string>;
 
   /**
    * Uploads a file buffer directly to S3
@@ -34,7 +27,8 @@ export abstract class IS3Service {
     key: string,
     file: Buffer,
     mimeType: string,
-  ): Effect.Effect<string, S3UploadException>;
+    metadata?: Record<string, string>,
+  ): Promise<string>;
 
   /**
    * Downloads a file buffer directly from S3
@@ -42,7 +36,8 @@ export abstract class IS3Service {
   abstract download(
     bucket: string,
     key: string,
-  ): Effect.Effect<Buffer, S3DownloadException | S3NotFoundException>;
+    metadata?: Record<string, string>,
+  ): Promise<Buffer>;
 
   /**
    * Deletes a file from S3
@@ -50,7 +45,7 @@ export abstract class IS3Service {
   abstract delete(
     bucket: string,
     key: string,
-  ): Effect.Effect<void, S3DeleteException | S3NotFoundException>;
+  ): Promise<void>;
 
   /**
    * Assembles a direct, permanent public URL for a file in a public bucket

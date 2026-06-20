@@ -89,3 +89,10 @@
 | `rabbitmq` | **7001** | Брокер сообщений RabbitMQ |
 | `rabbitmq-dashboard` | **7002** | Панель управления RabbitMQ (Management) |
 | `pgadmin` | **5050** | Панель управления PostgreSQL (вне схемы) |
+
+---
+
+## 📖 Документация (Documentation)
+
+* **[Генераторы CQRS (Commands & Queries)](docs/cqrs-generators.md)** — руководство по использованию скриптов автогенерации кода команд и запросов.
+

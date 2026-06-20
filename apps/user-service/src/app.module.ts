@@ -2,7 +2,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from '@/infrastructure/database/database.module';
 import { ConfigModule } from '@nestjs/config';
-import { AppConfigModule } from '@clarte/shared-nest/modules';
+import { AppConfigModule, S3SharedModule } from '@clarte/shared-nest/modules';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   USER_AVATAR_GENERATOR,
@@ -13,11 +13,13 @@ import {
   FindUserByLoginHandler,
   GetCredentialsByIdHandelr,
   UserCreateHandler,
+  ChangeAvatarHandler,
 } from '@/application';
 import {
   UserCredentialsController,
   UserFindRpcController,
   UserCreateController,
+  UserEditController,
 } from '@/presentation';
 import {
   UserAvatarGenerator,
@@ -26,9 +28,12 @@ import {
   UserWriteRepository,
 } from '@/infrastructure';
 import { RmqModule } from '@clarte/shared-nest/modules';
+import { PresignedUploadHandler } from './application/queries/presigned-upload';
+import { UserStorageController } from './presentation/user-storage.rpc.controller';
 
 @Module({
   imports: [
+    S3SharedModule,
     CqrsModule.forRoot(),
     ConfigModule.forRoot({
       envFilePath: ['.env.local', '.env'],
@@ -46,12 +51,16 @@ import { RmqModule } from '@clarte/shared-nest/modules';
     UserFindRpcController,
     UserCredentialsController,
     UserCreateController,
+    UserEditController,
+    UserStorageController,
   ],
   providers: [
     FindUserByIdHandler,
     FindUserByLoginHandler,
     GetCredentialsByIdHandelr,
     UserCreateHandler,
+    ChangeAvatarHandler,
+    PresignedUploadHandler,
     {
       provide: USER_READ_REPOSITORY,
       useClass: UserReadRepository,

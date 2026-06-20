@@ -1,1 +1,1 @@
-export * from './s3';
+// Infrastructure exports

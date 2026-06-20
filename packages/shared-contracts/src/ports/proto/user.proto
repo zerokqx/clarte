@@ -4,6 +4,17 @@ import "google/protobuf/empty.proto";
 
 package user;
 
+
+
+service UserEditService{
+
+rpc UserChangeAvatar(UserEditChangeAvatarRequest) returns(google.protobuf.Empty);
+
+}
+
+service UserStorageService{
+  rpc UploadPresignedUrl (UploadPresignedUrlRequest) returns (UploadPresignedUrlResponse);
+}
 service UserCreateService {
   rpc UserCreate(UserCreateRequest) returns (google.protobuf.Empty);
 }
@@ -51,4 +62,16 @@ message UserGetCredentialsByLoginResponse {
   string id = 1;
   string login = 2;
   string passwordHash = 3;
+}
+message UploadPresignedUrlResponse {
+  string url = 1;
+}
+
+message UserEditChangeAvatarRequest {
+  string userId = 1;
+  string avatarUrl = 2;
+}
+message UploadPresignedUrlRequest { 
+  string userId  = 1;
+
 }

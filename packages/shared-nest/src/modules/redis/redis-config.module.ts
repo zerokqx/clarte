@@ -23,4 +23,6 @@ const redisConfiguration = registerAs('redis', () => {
 })
 export class RedisConfigModule {}
 
+export { RedisConfigModule as RedisConfig };
+
 export type RedisConfiguration = ReturnType<typeof redisConfiguration>;

@@ -1,1 +1,2 @@
-export * from './s3.inject';
+// Application decorators exports
+export {};
