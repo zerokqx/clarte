@@ -3,12 +3,28 @@ import { RichTextEditor } from '@mantine/tiptap';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Collaboration from '@tiptap/extension-collaboration';
+import { WebsocketProvider } from 'y-websocket';
 import * as Y from 'yjs';
 import { Paper, Title, Text, Stack, Code, Button, Group, SimpleGrid, Card, Badge } from '@mantine/core';
 
 export function TiptapDemo() {
-  // Create a single shared Y.Doc
-  const sharedDoc = useMemo(() => new Y.Doc(), []);
+  // Create shared Y.Doc and WebSocket Provider
+  const { sharedDoc, provider } = useMemo(() => {
+    const doc = new Y.Doc();
+    const wsProvider = new WebsocketProvider(
+      'ws://localhost:4444/yjs',
+      'clarte-room',
+      doc
+    );
+    return { sharedDoc: doc, provider: wsProvider };
+  }, []);
+
+  // Cleanup websocket connection when component unmounts
+  useEffect(() => {
+    return () => {
+      provider.disconnect();
+    };
+  }, [provider]);
   
   const [editor1Html, setEditor1Html] = useState('');
   const [editor2Html, setEditor2Html] = useState('');
