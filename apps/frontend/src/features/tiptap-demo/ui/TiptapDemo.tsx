@@ -62,14 +62,8 @@ export function TiptapDemo() {
     if (editor1 && editor1Html === '') {
       // Set initial content if document is empty
       const xmlFragment = sharedDoc.getXmlFragment('content');
-      if (xmlFragment.length === 0) {
-        sharedDoc.transact(() => {
-          const type = sharedDoc.getText('content');
-          // Start with some text if empty
-          if (type.toString() === '') {
-            editor1.commands.setContent('<p>Привет! Попробуй отредактировать этот текст.</p><p>Изменения мгновенно отобразятся во втором редакторе ниже, так как они подключены к одному Yjs <b>Y.Doc</b>.</p>');
-          }
-        });
+      if (xmlFragment.toString() === '') {
+        editor1.commands.setContent('<p>Привет! Попробуй отредактировать этот текст.</p><p>Изменения мгновенно отобразятся во втором редакторе ниже, так как они подключены к одному Yjs <b>Y.Doc</b>.</p>');
       }
       setEditor1Html(editor1.getHTML());
     }
