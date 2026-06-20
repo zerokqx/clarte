@@ -24,6 +24,7 @@ export class ChangeAvatarHandler
   ) {}
 
   async execute(command: ChangeAvatarCommand): Promise<void> {
+    console.log(command)
     const program = pipe(
       Effect.tryPromise({
         try: () => this.domainRepo.findUserById(command.id),

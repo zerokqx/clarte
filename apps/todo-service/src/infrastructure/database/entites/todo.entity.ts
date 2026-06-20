@@ -30,5 +30,5 @@ export class TodoOrmEntity {
   createdAt!: Date;
 
   @UpdateDateColumn({ type: 'timestamp', name: 'updated_at' })
-  updated_at!: Date;
+  updatedAt!: Date;
 }
