@@ -35,6 +35,9 @@
     },
     {
       "path": "./apps/notification-service"
+    },
+    {
+      "path": "./apps/frontend"
     }
   ]
 }

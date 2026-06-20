@@ -1,6 +1,5 @@
 import axios from "axios";
 
-// API Gateway работает на порту 5000
 const API_BASE_URL = "/api";
 
 export const apiClient = axios.create({
@@ -12,7 +11,7 @@ export const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use((config) => {
-  console.log("Запрос:", config.method?.toUpperCase(), config.url);
+  console.log("Запрос:", config.method?.toUpperCase(), config.baseURL + config.url);
   return config;
 });
 

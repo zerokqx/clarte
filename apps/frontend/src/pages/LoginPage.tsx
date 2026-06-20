@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useForm, schemaResolver } from "@mantine/form";
+import { useForm } from "@mantine/form";
 import { TextInput, PasswordInput, Button, Paper, Title, Container, Stack } from "@mantine/core";
 import { z } from "zod";
-import { authApi } from "../api/auth";
+import { useAuth } from "../hooks/useAuth";
 
 const loginSchema = z.object({
   login: z.string().min(1, "Введите логин"),
@@ -13,31 +13,33 @@ type LoginForm = z.infer<typeof loginSchema>;
 
 export const LoginPage = () => {
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  
+  const { login, isLoading } = useAuth();
+
   const form = useForm<LoginForm>({
+    mode: "uncontrolled",
     initialValues: {
       login: "",
       password: "",
     },
-    validate: schemaResolver(loginSchema, { sync: true }),
+    validate: {
+      login: (value) => {
+        const result = loginSchema.shape.login.safeParse(value);
+        return result.success ? null : result.error.errors[0].message;
+      },
+      password: (value) => {
+        const result = loginSchema.shape.password.safeParse(value);
+        return result.success ? null : result.error.errors[0].message;
+      },
+    },
   });
 
   const handleSubmit = async (values: LoginForm) => {
-    setIsLoading(true);
     setError("");
-    
-    try {
-      await authApi.login({
-        login: values.login,
-        password: values.password,
-      });
+    const success = await login(values.login, values.password);
+    if (success) {
       window.location.href = "/";
-    } catch (err: any) {
-      const message = err.response?.data?.message || err.message || "Неверный логин или пароль";
-      setError(message);
-    } finally {
-      setIsLoading(false);
+    } else {
+      setError("Неверный логин или пароль");
     }
   };
 
@@ -55,7 +57,7 @@ export const LoginPage = () => {
               placeholder="Введите логин"
               {...form.getInputProps("login")}
             />
-            
+
             <PasswordInput
               label="Пароль"
               placeholder="Введите пароль"
@@ -68,14 +70,17 @@ export const LoginPage = () => {
               </div>
             )}
 
-            <Button type="submit" fullWidth loading={isLoading}>
+            <Button type="submit" fullWidth loading={isLoading} mt="sm">
               Войти
             </Button>
           </Stack>
         </form>
 
-        <div style={{ textAlign: "center", marginTop: "16px", fontSize: "14px", color: "#666" }}>
-          Нет аккаунта? <a href="/register" style={{ color: "#1a73e8", textDecoration: "none" }}>Зарегистрироваться</a>
+        <div style={{ textAlign: "center", marginTop: "20px", fontSize: "14px", color: "#666" }}>
+          Нет аккаунта?{" "}
+          <a href="/register" style={{ color: "#1a73e8", textDecoration: "none" }}>
+            Зарегистрироваться
+          </a>
         </div>
       </Paper>
     </Container>

@@ -1,17 +1,21 @@
 import { useState } from "react";
-import { useForm, schemaResolver } from "@mantine/form";
-import { TextInput, PasswordInput, Button, Paper, Title, Container, Stack } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { TextInput, PasswordInput, Button, Paper, Title, Container, Stack, Alert } from "@mantine/core";
 import { z } from "zod";
-import { authApi } from "../api/auth";
+import { useAuth } from "../hooks/useAuth";
 
 const registerSchema = z
   .object({
-    login: z.string().min(3, "Логин должен быть минимум 3 символа"),
+    login: z.string()
+      .min(3, "Логин должен быть минимум 3 символа")
+      .max(20, "Логин не должен превышать 20 символов")
+      .regex(/^[a-zA-Z0-9_]+$/, "Логин должен содержать только латинские буквы, цифры и _"),
     password: z.string()
       .min(8, "Пароль должен быть минимум 8 символов")
-      .regex(/[A-Z]/, "Пароль должен содержать заглавную букву")
-      .regex(/[!@#$%^&*(),.?":{}|<>]/, "Пароль должен содержать спецсимвол")
-      .regex(/^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]+$/, "Только латинские буквы"),
+      .max(32, "Пароль не должен превышать 32 символа")
+      .regex(/[A-Z]/, "Пароль должен содержать хотя бы одну заглавную букву")
+      .regex(/[!@#$%^&*(),.?":{}|<>]/, "Пароль должен содержать хотя бы один спецсимвол (!@#$%^&*())")
+      .regex(/^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]+$/, "Пароль должен содержать только латинские буквы и спецсимволы"),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -23,35 +27,68 @@ type RegisterForm = z.infer<typeof registerSchema>;
 
 export const RegisterPage = () => {
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  
+  const [isLoading, setIsLoading] = useState(false);
+  const { register } = useAuth();
+
   const form = useForm<RegisterForm>({
+    mode: "uncontrolled",
     initialValues: {
       login: "",
       password: "",
       confirmPassword: "",
     },
-    validate: schemaResolver(registerSchema, { sync: true }),
+    validate: {
+      login: (value) => {
+        const result = registerSchema.shape.login.safeParse(value);
+        return result.success ? null : result.error.errors[0].message;
+      },
+      password: (value) => {
+        const result = registerSchema.shape.password.safeParse(value);
+        return result.success ? null : result.error.errors[0].message;
+      },
+      confirmPassword: (value, values) => {
+        if (value !== values.password) {
+          return "Пароли не совпадают";
+        }
+        return null;
+      },
+    },
   });
 
   const handleSubmit = async (values: RegisterForm) => {
     setIsLoading(true);
     setError("");
     setSuccess(false);
-    
+
     try {
-      await authApi.register({
-        login: values.login,
-        password: values.password,
-      });
+      await register(values.login, values.password);
       setSuccess(true);
       setTimeout(() => {
         window.location.href = "/login";
       }, 2000);
     } catch (err: any) {
-      const message = err.response?.data?.message || err.message || "Ошибка регистрации";
-      setError(message);
+      console.error("Ошибка регистрации:", err);
+      
+      // Проверяем статус ответа
+      const status = err.response?.status;
+      const message = err.response?.data?.message || err.response?.data?.details || err.message;
+
+      if (status === 409 || message?.includes("already exists") || message?.includes("существует")) {
+        setError("Пользователь с таким логином уже существует");
+      } else if (status === 400) {
+        setError("Неверный формат данных. Проверьте введённые данные.");
+      } else if (status === 404) {
+        setError("Сервис регистрации недоступен. Попробуйте позже.");
+      } else if (status === 500) {
+        setError("Внутренняя ошибка сервера. Попробуйте позже.");
+      } else if (status === 503) {
+        setError("Сервис временно недоступен. Попробуйте позже.");
+      } else if (message) {
+        setError(message);
+      } else {
+        setError("Ошибка регистрации. Проверьте введённые данные и попробуйте снова.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -65,25 +102,26 @@ export const RegisterPage = () => {
         </Title>
 
         {success ? (
-          <div style={{ textAlign: "center", color: "green" }}>
-            <p> Регистрация успешна!</p>
-            <p>Перенаправление на страницу входа...</p>
-          </div>
+          <Alert title="Успешно!" color="green" variant="light">
+            Регистрация успешна! Перенаправление на страницу входа...
+          </Alert>
         ) : (
           <form onSubmit={form.onSubmit(handleSubmit)}>
             <Stack>
               <TextInput
                 label="Логин"
-                placeholder="Введите логин"
+                placeholder="Введите логин (мин. 3 символа)"
+                description="Латинские буквы, цифры и _"
                 {...form.getInputProps("login")}
               />
-              
+
               <PasswordInput
                 label="Пароль"
                 placeholder="Введите пароль"
+                description="8+ символов, заглавная буква, спецсимвол"
                 {...form.getInputProps("password")}
               />
-              
+
               <PasswordInput
                 label="Повторите пароль"
                 placeholder="Повторите пароль"
@@ -91,9 +129,9 @@ export const RegisterPage = () => {
               />
 
               {error && (
-                <div style={{ color: "red", textAlign: "center", fontSize: "14px" }}>
+                <Alert title="Ошибка" color="red" variant="light">
                   {error}
-                </div>
+                </Alert>
               )}
 
               <Button type="submit" fullWidth loading={isLoading}>
@@ -103,8 +141,11 @@ export const RegisterPage = () => {
           </form>
         )}
 
-        <div style={{ textAlign: "center", marginTop: "16px", fontSize: "14px", color: "#666" }}>
-          Уже есть аккаунт? <a href="/login" style={{ color: "#1a73e8", textDecoration: "none" }}>Войти</a>
+        <div style={{ textAlign: "center", marginTop: "20px", fontSize: "14px", color: "#666" }}>
+          Уже есть аккаунт?{" "}
+          <a href="/login" style={{ color: "#1a73e8", textDecoration: "none" }}>
+            Войти
+          </a>
         </div>
       </Paper>
     </Container>

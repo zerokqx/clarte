@@ -14,9 +14,5 @@
   },
   "devDependencies": {
     "orval": "^8.18.0"
-  },
-  "scripts": {
-    "generate-types": "orval",
-    "generate-types:watch": "orval --watch"
   }
 }

@@ -6,14 +6,14 @@ export const useProjects = () => {
 
   const addProject = (name: string) => {
     if (name.trim() && !projects.includes(name.trim())) {
-      setProjects(prev => [...prev, name.trim()]);
+      setProjects((prev) => [...prev, name.trim()]);
       return true;
     }
     return false;
   };
 
   const deleteProject = (name: string) => {
-    setProjects(prev => prev.filter(p => p !== name));
+    setProjects((prev) => prev.filter((p) => p !== name));
     if (selectedProject === name) {
       setSelectedProject(null);
     }
