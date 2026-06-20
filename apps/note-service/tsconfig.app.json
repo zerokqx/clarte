@@ -1,0 +1,42 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    // "module": "nodenext",
+    "types": ["node"],
+    // "rootDir": "src",
+    // "moduleResolution": "nodenext",
+    "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo",
+    "experimentalDecorators": true,
+    "allowImportingTsExtensions": false,
+    "emitDecoratorMetadata": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "target": "es2021"
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": [
+    "out-tsc",
+    "dist",
+    "jest.config.ts",
+    "jest.config.cts",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts",
+    "eslint.config.js",
+    "eslint.config.cjs",
+    "eslint.config.mjs"
+  ],
+  "references": [
+    {
+      "path": "../../packages/shared-nest/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/shared-domain/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/shared-contracts/tsconfig.lib.json"
+    }
+  ]
+}

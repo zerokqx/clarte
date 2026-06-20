@@ -1,0 +1,273 @@
+{
+  "openapi": "3.0.0",
+  "info": { "title": "Clarte API", "version": "1.0" },
+  "components": {
+    "schemas": {
+      "LoginDTO": {
+        "type": "object",
+        "required": ["login", "password"],
+        "properties": {
+          "login": { "type": "string", "example": "user" },
+          "password": { "type": "string", "example": "12345678" }
+        }
+      },
+      "LoginResponseDTO": {
+        "type": "object",
+        "properties": {
+          "accessToken": { "type": "string" },
+          "refreshToken": { "type": "string" }
+        }
+      },
+      "RegisterDTO": {
+        "type": "object",
+        "required": ["login", "password"],
+        "properties": {
+          "login": { "type": "string" },
+          "password": { "type": "string" }
+        }
+      },
+      "UserFindDTO": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "login": { "type": "string" },
+          "avatarUrl": { "type": "string" }
+        }
+      },
+      "UserMeDTO": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "login": { "type": "string" },
+          "avatarUrl": { "type": "string" }
+        }
+      },
+      "UserChangeAvatarDTO": {
+        "type": "object",
+        "required": ["avatarUrl"],
+        "properties": {
+          "avatarUrl": { "type": "string" }
+        }
+      },
+      "UserS3StorageDTO": {
+        "type": "object",
+        "properties": {
+          "urlPublic": { "type": "string" },
+          "urlPresigned": { "type": "string" }
+        }
+      },
+      "CreateTodoDTO": {
+        "type": "object",
+        "required": ["title"],
+        "properties": {
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "dueDate": { "type": "string" }
+        }
+      },
+      "UpdateTodoDTO": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "due_date": { "type": "string" },
+          "is_completed": { "type": "boolean" }
+        }
+      },
+      "TodoDTO": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "userId": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "isCompleted": { "type": "boolean" },
+          "dueDate": { "type": "string" },
+          "createdAt": { "type": "string" },
+          "updatedAt": { "type": "string" }
+        }
+      },
+      "NotificationDTO": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "text": { "type": "string" },
+          "createdAt": { "type": "string" }
+        }
+      }
+    },
+    "securitySchemes": {
+      "cookie": { "type": "apiKey", "in": "cookie", "name": "jwt-access" }
+    }
+  },
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "operationId": "authControllerLogin",
+        "summary": "Авторизоваться по логину и паролю",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/LoginDTO" } } }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/LoginResponseDTO" } } }
+          }
+        }
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "operationId": "authControllerRegister",
+        "summary": "Зарегистрироваться по логину и паролю",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RegisterDTO" } } }
+        },
+        "responses": { "201": { "description": "Пользователь успешно зарегистрирован" } }
+      }
+    },
+    "/api/auth/refresh": {
+      "post": {
+        "tags": ["Auth"],
+        "operationId": "authControllerRefresh",
+        "summary": "Обновить токены",
+        "security": [{ "cookie": [] }],
+        "responses": { "200": { "description": "Токены обновлены" } }
+      }
+    },
+    "/api/users/id/{id}": {
+      "get": {
+        "tags": ["Users"],
+        "operationId": "getUsersId",
+        "summary": "Получить пользователя по ID",
+        "security": [{ "cookie": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UserFindDTO" } } }
+          }
+        }
+      }
+    },
+    "/api/users/login/{login}": {
+      "get": {
+        "tags": ["Users"],
+        "operationId": "getUsersLogin",
+        "summary": "Получить пользователя по логину",
+        "security": [{ "cookie": [] }],
+        "parameters": [{ "name": "login", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UserFindDTO" } } }
+          }
+        }
+      }
+    },
+    "/api/users/me": {
+      "get": {
+        "tags": ["Users"],
+        "operationId": "getUsersMe",
+        "summary": "Получить профиль текущего пользователя",
+        "security": [{ "cookie": [] }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UserMeDTO" } } }
+          }
+        }
+      }
+    },
+    "/api/users/change-avatar": {
+      "patch": {
+        "tags": ["Users"],
+        "operationId": "patchUsersChangeAvatar",
+        "summary": "Изменить аватар пользователя",
+        "security": [{ "cookie": [] }],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UserChangeAvatarDTO" } } }
+        },
+        "responses": { "204": { "description": "Аватар успешно изменен" } }
+      }
+    },
+    "/api/users/s3-storage": {
+      "get": {
+        "tags": ["Users"],
+        "operationId": "getUsersS3Storage",
+        "summary": "Получить presigned URL для загрузки аватара в S3",
+        "security": [{ "cookie": [] }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UserS3StorageDTO" } } }
+          }
+        }
+      }
+    },
+    "/api/todos": {
+      "get": {
+        "tags": ["Todos"],
+        "operationId": "getUserTodos",
+        "summary": "Получить список задач текущего пользователя",
+        "security": [{ "cookie": [] }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/TodoDTO" } } } }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Todos"],
+        "operationId": "createTodo",
+        "summary": "Создать новую задачу",
+        "security": [{ "cookie": [] }],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CreateTodoDTO" } } }
+        },
+        "responses": {
+          "200": {
+            "description": "Успешно создано",
+            "content": { "application/json": { "schema": { "type": "object", "properties": { "id": { "type": "string" } } } } }
+          }
+        }
+      }
+    },
+    "/api/todos/{id}": {
+      "patch": {
+        "tags": ["Todos"],
+        "operationId": "updateTodo",
+        "summary": "Обновить существующую задачу",
+        "security": [{ "cookie": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UpdateTodoDTO" } } }
+        },
+        "responses": { "200": { "description": "Успешно обновлено" } }
+      }
+    },
+    "/api/notifications": {
+      "get": {
+        "tags": ["Notifications"],
+        "operationId": "getUserNotifications",
+        "summary": "Получить список уведомлений текущего пользователя",
+        "security": [{ "cookie": [] }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/NotificationDTO" } } } }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+import { ValueObject } from '@clarte/shared-domain/domain';
+import { IncorrectPasswordFormatError } from '@/domain/exceptions/incorrect-password-format';
+
+export class UserPassword extends ValueObject<string> {
+  private constructor(value: string) {
+    super(value);
+  }
+
+  public static restore(value: string): UserPassword {
+    return new UserPassword(value);
+  }
+
+  public static create(value: string): UserPassword {
+    if (!value || value.trim() === '')
+      throw new IncorrectPasswordFormatError('Password is not pass');
+    return new UserPassword(value);
+  }
+}

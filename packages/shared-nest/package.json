@@ -1,0 +1,103 @@
+{
+  "name": "@clarte/shared-nest",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    "./guards": {
+      "@clarte/source": "./src/guards/index.ts",
+      "types": "./dist/guards/index.d.ts",
+      "import": "./dist/guards/index.js",
+      "default": "./dist/guards/index.js"
+    },
+    "./filters": {
+      "@clarte/source": "./src/filters/index.ts",
+      "types": "./dist/filters/index.d.ts",
+      "import": "./dist/filters/index.js",
+      "default": "./dist/filters/index.js"
+    },
+    "./interceptors": {
+      "@clarte/source": "./src/interceptors/index.ts",
+      "types": "./dist/interceptors/index.d.ts",
+      "import": "./dist/interceptors/index.js",
+      "default": "./dist/interceptors/index.js"
+    },
+    "./modules": {
+      "@clarte/source": "./src/modules/index.ts",
+      "types": "./dist/modules/index.d.ts",
+      "import": "./dist/modules/index.js",
+      "default": "./dist/modules/index.js"
+    },
+    "./strategies": {
+      "@clarte/source": "./src/strategies/index.ts",
+      "types": "./dist/strategies/index.d.ts",
+      "import": "./dist/strategies/index.js",
+      "default": "./dist/strategies/index.js"
+    },
+    "./functions": {
+      "@clarte/source": "./src/functions/index.ts",
+      "types": "./dist/functions/index.d.ts",
+      "import": "./dist/functions/index.js",
+      "default": "./dist/functions/index.js"
+    },
+    "./decorators": {
+      "@clarte/source": "./src/decorators/index.ts",
+      "types": "./dist/decorators/index.d.ts",
+      "import": "./dist/decorators/index.js",
+      "default": "./dist/decorators/index.js"
+    },
+    "./ports": {
+      "@clarte/source": "./src/ports/index.ts",
+      "types": "./dist/ports/index.d.ts",
+      "import": "./dist/ports/index.js",
+      "default": "./dist/ports/index.js"
+    }
+  },
+  "nx": {
+    "tags": [
+      "type:package"
+    ],
+    "sourceRoot": "packages/shared-nest/src",
+    "targets": {
+      "build": {
+        "executor": "@nx/js:swc",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "options": {
+          "outputPath": "packages/shared-nest/dist",
+          "main": "packages/shared-nest/src/index.ts",
+          "tsConfig": "packages/shared-nest/tsconfig.lib.json",
+          "skipTypeCheck": true,
+          "stripLeadingPaths": true
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1069.0",
+    "@aws-sdk/s3-request-presigner": "^3.1072.0",
+    "@clarte/shared": "workspace:*",
+    "@clarte/shared-contracts": "workspace:*",
+    "@clarte/shared-domain": "workspace:*",
+    "@grpc/grpc-js": "^1.14.4",
+    "@humanwhocodes/env": "^4.0.1",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/config": "^4.0.4",
+    "@nestjs/microservices": "^11.1.26",
+    "@nestjs/passport": "^11.0.5",
+    "@swc/helpers": "~0.5.18",
+    "effect": "^3.21.3",
+    "express": "^5.2.1",
+    "nestjs-s3": "^3.0.1",
+    "passport-jwt": "^4.0.1",
+    "rxjs": "^7.8.0"
+  },
+  "devDependencies": {
+    "@types/passport-jwt": "^4.0.1"
+  }
+}

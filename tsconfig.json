@@ -1,0 +1,43 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compileOnSave": false,
+  "files": [],
+  "references": [
+    {
+      "path": "./apps/api-gateway"
+    },
+    {
+      "path": "./packages/shared"
+    },
+    {
+      "path": "./apps/user-service"
+    },
+    {
+      "path": "./apps/auth-service"
+    },
+    {
+      "path": "./packages/shared-nest"
+    },
+    {
+      "path": "./packages/shared-domain"
+    },
+    {
+      "path": "./packages/shared-contracts"
+    },
+    {
+      "path": "./apps/todo-service"
+    },
+    {
+      "path": "./packages/shared-event-types"
+    },
+    {
+      "path": "./apps/notification-service"
+    },
+    {
+      "path": "./apps/note-service"
+    },
+    {
+      "path": "./apps/frontend"
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "name": "@clarte/shared-contracts",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    "./interfaces": {
+      "@clarte/source": "./src/ports/interfaces/index.ts",
+      "types": "./dist/ports/interfaces/index.d.ts",
+      "import": "./dist/ports/interfaces/index.js",
+      "default": "./dist/ports/interfaces/index.js"
+    },
+    "./proto": {
+      "@clarte/source": "./src/ports/proto-types/index.ts",
+      "types": "./dist/ports/proto-types/index.d.ts",
+      "import": "./dist/ports/proto-types/index.js",
+      "default": "./dist/ports/proto-types/index.js"
+    },
+    "./di-tokens": {
+      "@clarte/source": "./src/ports/di-tokens.ts",
+      "types": "./dist/ports/di-tokens.d.ts",
+      "import": "./dist/ports/di-tokens.js",
+      "default": "./dist/ports/di-tokens.js"
+    },
+    "./functions": {
+      "@clarte/source": "./src/functions/get-proto-path.ts",
+      "types": "./dist/functions/get-proto-path.d.ts",
+      "import": "./dist/functions/get-proto-path.js",
+      "default": "./dist/functions/get-proto-path.js"
+    }
+  },
+  "nx": {
+    "tags": [
+      "type:package"
+    ],
+    "sourceRoot": "packages/shared-contracts/src",
+    "targets": {
+      "build": {
+        "executor": "@nx/js:swc",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "dependsOn": [
+          "proto:generate",
+          "^build"
+        ],
+        "options": {
+          "outputPath": "packages/shared-contracts/dist",
+          "main": "packages/shared-contracts/src/index.ts",
+          "tsConfig": "packages/shared-contracts/tsconfig.lib.json",
+          "skipTypeCheck": true,
+          "stripLeadingPaths": true,
+          "clean": false
+        }
+      },
+      "proto:generate": {
+        "executor": "nx:run-commands",
+        "cache": true,
+        "inputs": [
+          "{projectRoot}/src/ports/proto/**/*.proto"
+        ],
+        "outputs": [
+          "{projectRoot}/src/ports/proto-types"
+        ],
+        "options": {
+          "command": "mkdir -p packages/shared-contracts/src/ports/proto-types && find . -name \"*.proto\" -not -path \"*/node_modules/*\" | while read -r f; do pnpm exec protoc -I=$(dirname \"$f\") -I=. --ts_proto_out=packages/shared-contracts/src/ports/proto-types --ts_proto_opt=nestJs=true,unwrapEmpty=true \"$(basename \"$f\")\"; done",
+          "cwd": "."
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "@nestjs/microservices": "^11.0.4",
+    "@swc/helpers": "~0.5.18",
+    "rxjs": "^7.8.1"
+  }
+}

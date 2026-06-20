@@ -1,0 +1,48 @@
+{
+  "name": "@clarte/shared-domain",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    "./domain": {
+      "@clarte/source": "./src/domain/index.ts",
+      "types": "./dist/domain/index.d.ts",
+      "import": "./dist/domain/index.js",
+      "default": "./dist/domain/index.js"
+    },
+    "./exceptions": {
+      "@clarte/source": "./src/exceptions/index.ts",
+      "types": "./dist/exceptions/index.d.ts",
+      "import": "./dist/exceptions/index.js",
+      "default": "./dist/exceptions/index.js"
+    }
+  },
+  "nx": {
+    "tags": [
+      "type:package"
+    ],
+    "sourceRoot": "packages/shared-domain/src",
+    "targets": {
+      "build": {
+        "executor": "@nx/js:swc",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "options": {
+          "outputPath": "packages/shared-domain/dist",
+          "main": "packages/shared-domain/src/index.ts",
+          "tsConfig": "packages/shared-domain/tsconfig.lib.json",
+          "skipTypeCheck": true,
+          "stripLeadingPaths": true
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "@swc/helpers": "~0.5.18"
+  }
+}
