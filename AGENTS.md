@@ -82,3 +82,5 @@ A "solo microservice" is a microservice that encapsulates exactly one distinct e
 5. **Правила TypeScript и Линтера**:
    * Строго соблюдайте правила `@typescript-eslint/no-inferrable-types`. Не пишите тип свойства класса или переменной, если он тривиально выводится из дефолтного значения (пишите `public readonly userAgent = ''` вместо `public readonly userAgent: string = ''`).
 
+
+Before a big task from the user, it is always necessary to commit the current changes and only after that start working.

@@ -4,6 +4,8 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { User } from '@clarte/shared-contracts/proto';
 import { getProtoPath } from '@clarte/shared-contracts/functions';
 import { UserController } from '@/app/user/presentation/user.controller';
+import { UserStorageController } from '@/app/user/presentation/user-storage.controller';
+import { UserEditController } from '@/app/user/presentation/user-edit.controller';
 import { UserClient } from '@/app/user/infrastructure/clients/user.client';
 import { USER_CLIENT, USER_GRPC_CLIENT } from '@/app/user/application';
 import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared-nest/modules';
@@ -33,7 +35,7 @@ import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared
       },
     ]),
   ],
-  controllers: [UserController],
+  controllers: [UserController, UserStorageController, UserEditController],
   providers: [
     {
       provide: USER_CLIENT,
