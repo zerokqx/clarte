@@ -1,4 +1,4 @@
-import { prefixForEnv } from '@/functions';
+import { prefixForEnv } from '@clarte/shared';
 import { Env } from '@humanwhocodes/env';
 import { registerAs } from '@nestjs/config';
 

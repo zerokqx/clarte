@@ -29,8 +29,22 @@ services:
     volumes:
       - redis_data:/data
     restart: always
+  minio:
+    image: minio/minio
+    container_name: clarte-minio
+    ports:
+      - '${MINIO_PORT:-6003}:9000'
+      - '${MINIO_CONSOLE_PORT:-6004}:9001'
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD}
+    restart: always
 volumes:
   redis_data:
+  minio_data:
 networks:
   default:
     name: clarte-network

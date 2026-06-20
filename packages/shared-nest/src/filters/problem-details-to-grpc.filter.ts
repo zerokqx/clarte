@@ -2,7 +2,7 @@ import { status as GrpcStatus, Metadata } from '@grpc/grpc-js';
 import { Catch, RpcExceptionFilter, ArgumentsHost } from '@nestjs/common';
 import { Observable, throwError } from 'rxjs';
 import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
-import * as Enums from '@/enums';
+import * as Enums from './enums/status-map.enum';
 
 @Catch(ProblemDetailsException)
 export class ProblemDetailsToGrpcExceptionFilter

@@ -40,7 +40,6 @@ export class NotificationRpcController implements Notification.NotificationServi
   @EventPattern(UserEventPattern.UserCreated)
   async handleUserCreated(
     @Payload() data: IUserCreatedPayload,
-    @Ctx() context: RmqContext,
   ) {
     try {
       this.logger.log(`Received RMQ Event "user.created" for user: ${data.userId}`);
@@ -65,7 +64,6 @@ export class NotificationRpcController implements Notification.NotificationServi
   @EventPattern(UserEventPattern.UserEntered)
   async handleUserEntered(
     @Payload() data: IUserEnteredPayload,
-    @Ctx() context: RmqContext,
   ) {
     try {
       this.logger.log(`Received RMQ Event "user.entered" for user: ${data.userId}`);

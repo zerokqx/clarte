@@ -1,34 +1,38 @@
 #!/usr/bin/env bash
 
-# Exit immediately if a command exits with a non-zero status
+# Выходить при ошибке выполнения любой команды
 set -e
 
-echo "🚀 Starting deployment and setup for Clarte..."
+echo "🚀 Запуск развертывания и настройки Clarte..."
 
-# 1. Install pnpm globally if not present
-if ! command -v pnpm &> /dev/null; then
-  echo "📦 Installing pnpm globally..."
+# 1. Установка pnpm глобально, если он отсутствует
+if ! command -v pnpm &>/dev/null; then
+  echo "📦 Установка pnpm глобально..."
   npm install -g pnpm
 else
-  echo "✔ pnpm is already installed"
+  echo "✔ pnpm уже установлен"
 fi
 
-# 2. Install project dependencies
-echo "📦 Installing project dependencies..."
+# 2. Установка зависимостей проекта
+echo "📦 Установка зависимостей проекта..."
 pnpm install
 
-# 3. Install nx globally if not present
-if ! command -v nx &> /dev/null; then
-  echo "📦 Installing nx globally..."
-  pnpm add --global nx || echo "⚠️ Warning: Failed to install nx globally. Proceeding with local execution."
+# 3. Установка nx глобально, если он отсутствует
+if ! command -v nx &>/dev/null; then
+  echo "📦 Установка nx глобально..."
+  pnpm add --global nx || echo "⚠️ Предупреждение: Не удалось установить nx глобально. Продолжаем с локальным запуском."
 else
-  echo "✔ nx is already installed"
+  echo "✔ nx уже установлен"
 fi
 
-# 4. Start infrastructure containers
-echo "🐳 Starting docker-compose infrastructure..."
+# 4. Запуск контейнеров инфраструктуры (PostgreSQL, Redis, RabbitMQ)
+echo "🐳 Запуск docker-compose инфраструктуры..."
 pnpm nx run-many --targets=compose-infra-up --no-tui
 
-# 5. Start microservices
-echo "⚡ Starting all microservices..."
+# 5. Прогрев кэша (сборка всех общих библиотек)
+echo "🔥 Прогрев кэша (сборка всех библиотек)..."
+pnpm nx run-many --target=build --projects=tag:type:package --no-tui
+
+# 6. Запуск всех микросервисов
+echo "⚡ Запуск всех микросервисов..."
 NX_DAEMON=false pnpm nx run-many --targets=serve --no-tui

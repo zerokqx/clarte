@@ -17,4 +17,11 @@ export class UserWriteRepository implements IUserWriteRepository {
     const userOrmEntity = await this.userRepository.save(entityToSave);
     return UserMapper.toDomain(userOrmEntity);
   }
+
+  async findUserById(id: string): Promise<User> {
+    const userFromDb = await this.userRepository.findOneOrFail({
+      where: { id },
+    });
+    return UserMapper.toDomain(userFromDb);
+  }
 }

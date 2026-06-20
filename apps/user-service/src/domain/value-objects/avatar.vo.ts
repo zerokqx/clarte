@@ -7,13 +7,24 @@ export class UserAvatar extends ValueObject<string> {
   }
 
   static create(value: string): UserAvatar {
-    const URL_REGEX =
-      /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{2,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)$/;
     const isDataUri = value.startsWith('data:image/');
-    if (!URL_REGEX.test(value) && !isDataUri) {
-      throw new AvatarWrongError('Передан некорректный формат URL для аватара');
+
+    if (!isDataUri && !this.isValidUrl(value)) {
+      throw new AvatarWrongError(
+        'Передан некорректный формат URL или Data URI для аватара',
+      );
     }
+
     return new UserAvatar(value);
+  }
+
+  private static isValidUrl(value: string): boolean {
+    try {
+      const url = new URL(value);
+      return url.protocol === 'http:' || url.protocol === 'https:';
+    } catch {
+      return false;
+    }
   }
 
   static restore(value: string): UserAvatar {

@@ -9,6 +9,8 @@ export class UserClient implements IUserClient, OnModuleInit {
   private findService!: User.UserFindServiceClient;
   private createService!: User.UserCreateServiceClient;
   private credentialsService!: User.UserCredentialsServiceClient;
+  private editService!: User.UserEditServiceClient;
+  private storageService!: User.UserStorageServiceClient;
 
   constructor(
     @InjectUserGrpcClient() private readonly userGrpcClient: ClientGrpc,
@@ -22,6 +24,12 @@ export class UserClient implements IUserClient, OnModuleInit {
     );
     this.credentialsService = this.userGrpcClient.getService(
       User.USER_CREDENTIALS_SERVICE_NAME,
+    );
+    this.editService = this.userGrpcClient.getService(
+      User.USER_EDIT_SERVICE_NAME,
+    );
+    this.storageService = this.userGrpcClient.getService(
+      User.USER_STORAGE_SERVICE_NAME,
     );
   }
 
@@ -45,5 +53,17 @@ export class UserClient implements IUserClient, OnModuleInit {
     login: string,
   ): Observable<User.UserGetCredentialsByLoginResponse> {
     return this.credentialsService.getCredentialsByLogin({ login });
+  }
+
+  userChangeAvatar(
+    data: User.UserEditChangeAvatarRequest,
+  ): Observable<void> {
+    return this.editService.userChangeAvatar(data).pipe(map(() => void 0));
+  }
+
+  uploadPresignedUrl(
+    data: User.UploadPresignedUrlRequest,
+  ): Observable<User.UploadPresignedUrlResponse> {
+    return this.storageService.uploadPresignedUrl(data);
   }
 }

@@ -47,7 +47,73 @@ export interface UserGetCredentialsByLoginResponse {
   passwordHash: string;
 }
 
+export interface UserEditChangeAvatarRequest {
+  userId: string;
+  avatarUrl: string;
+}
+
+export interface UploadPresignedUrlResponse {
+  urlPublic: string;
+  urlPresigned: string;
+}
+
+export interface UploadPresignedUrlRequest {
+  userId: string;
+}
+
 export const USER_PACKAGE_NAME = "user";
+
+export interface UserEditServiceClient {
+  userChangeAvatar(request: UserEditChangeAvatarRequest): Observable<Empty>;
+}
+
+export interface UserEditServiceController {
+  userChangeAvatar(request: UserEditChangeAvatarRequest): void | Promise<void>;
+}
+
+export function UserEditServiceControllerMethods() {
+  return function (constructor: Function) {
+    const grpcMethods: string[] = ["userChangeAvatar"];
+    for (const method of grpcMethods) {
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
+      GrpcMethod("UserEditService", method)(constructor.prototype[method], method, descriptor);
+    }
+    const grpcStreamMethods: string[] = [];
+    for (const method of grpcStreamMethods) {
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
+      GrpcStreamMethod("UserEditService", method)(constructor.prototype[method], method, descriptor);
+    }
+  };
+}
+
+export const USER_EDIT_SERVICE_NAME = "UserEditService";
+
+export interface UserStorageServiceClient {
+  uploadPresignedUrl(request: UploadPresignedUrlRequest): Observable<UploadPresignedUrlResponse>;
+}
+
+export interface UserStorageServiceController {
+  uploadPresignedUrl(
+    request: UploadPresignedUrlRequest,
+  ): Promise<UploadPresignedUrlResponse> | Observable<UploadPresignedUrlResponse> | UploadPresignedUrlResponse;
+}
+
+export function UserStorageServiceControllerMethods() {
+  return function (constructor: Function) {
+    const grpcMethods: string[] = ["uploadPresignedUrl"];
+    for (const method of grpcMethods) {
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
+      GrpcMethod("UserStorageService", method)(constructor.prototype[method], method, descriptor);
+    }
+    const grpcStreamMethods: string[] = [];
+    for (const method of grpcStreamMethods) {
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
+      GrpcStreamMethod("UserStorageService", method)(constructor.prototype[method], method, descriptor);
+    }
+  };
+}
+
+export const USER_STORAGE_SERVICE_NAME = "UserStorageService";
 
 export interface UserCreateServiceClient {
   userCreate(request: UserCreateRequest): Observable<Empty>;

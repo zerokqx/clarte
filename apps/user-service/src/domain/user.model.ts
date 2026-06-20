@@ -48,8 +48,10 @@ export class User extends Entity {
     );
   }
 
-  public changeAvatar(newAvatar: string): void {
-    this._avatarUrl = UserAvatar.create(newAvatar);
+  public changeAvatar(newAvatar: string, defaultAvatar: string): void {
+    this._avatarUrl = UserAvatar.create(
+      newAvatar.trim() === '' ? defaultAvatar : newAvatar,
+    );
   }
 
   public changeLogin(newRawLogin: string): void {

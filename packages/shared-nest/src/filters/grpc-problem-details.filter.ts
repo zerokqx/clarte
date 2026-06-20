@@ -5,7 +5,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { type Response } from 'express';
-import * as Enums from '@/enums';
+import * as Enums from './enums/status-map.enum';
 
 export function extractProblemDetails(
   exception: any,
