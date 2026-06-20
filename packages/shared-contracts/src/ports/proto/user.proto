@@ -4,16 +4,14 @@ import "google/protobuf/empty.proto";
 
 package user;
 
-
-
-service UserEditService{
-
-rpc UserChangeAvatar(UserEditChangeAvatarRequest) returns(google.protobuf.Empty);
-
+service UserEditService {
+  rpc UserChangeAvatar(UserEditChangeAvatarRequest)
+      returns (google.protobuf.Empty);
 }
 
-service UserStorageService{
-  rpc UploadPresignedUrl (UploadPresignedUrlRequest) returns (UploadPresignedUrlResponse);
+service UserStorageService {
+  rpc UploadPresignedUrl(UploadPresignedUrlRequest)
+      returns (UploadPresignedUrlResponse);
 }
 service UserCreateService {
   rpc UserCreate(UserCreateRequest) returns (google.protobuf.Empty);
@@ -25,7 +23,8 @@ service UserFindService {
 }
 
 service UserCredentialsService {
-  rpc GetCredentialsByLogin(UserGetCredentialsByLoginRequest) returns (UserGetCredentialsByLoginResponse);
+  rpc GetCredentialsByLogin(UserGetCredentialsByLoginRequest)
+      returns (UserGetCredentialsByLoginResponse);
 }
 
 message UserFindByIdRequest {
@@ -63,15 +62,16 @@ message UserGetCredentialsByLoginResponse {
   string login = 2;
   string passwordHash = 3;
 }
-message UploadPresignedUrlResponse {
-  string url = 1;
-}
 
 message UserEditChangeAvatarRequest {
   string userId = 1;
   string avatarUrl = 2;
 }
-message UploadPresignedUrlRequest { 
-  string userId  = 1;
 
+message UploadPresignedUrlResponse {
+  string urlPublic = 1;
+  string urlPresigned = 2;
+}
+message UploadPresignedUrlRequest {
+  string userId = 1;
 }

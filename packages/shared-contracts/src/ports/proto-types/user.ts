@@ -47,13 +47,14 @@ export interface UserGetCredentialsByLoginResponse {
   passwordHash: string;
 }
 
-export interface UploadPresignedUrlResponse {
-  url: string;
-}
-
 export interface UserEditChangeAvatarRequest {
   userId: string;
   avatarUrl: string;
+}
+
+export interface UploadPresignedUrlResponse {
+  urlPublic: string;
+  urlPresigned: string;
 }
 
 export interface UploadPresignedUrlRequest {

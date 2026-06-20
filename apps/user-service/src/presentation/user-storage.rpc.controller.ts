@@ -10,9 +10,9 @@ export class UserStorageController
   async uploadPresignedUrl(
     request: User.UploadPresignedUrlRequest,
   ): Promise<User.UploadPresignedUrlResponse> {
-    const url = await this.queryBus.execute(
+    const data = await this.queryBus.execute(
       new PresignedUploadQuery(request.userId),
     );
-    return { url };
+    return { urlPresigned: data.urlPresigned, urlPublic: data.urlPublic };
   }
 }

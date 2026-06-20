@@ -1,17 +1,4 @@
 services:
-  minio:
-    image: minio/minio
-    # profiles:
-    #   - minio
-    ports:
-      - '${MINIO_PORT:-6003}:9000'
-      - '${MINIO_CONSOLE_PORT:-6004}:9001'
-    volumes:
-      - minio_data:/data
-    command: server /data --console-address ":9001"
-    environment:
-      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
-      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD}
   postgres:
     profiles:
       - db
@@ -28,7 +15,6 @@ services:
     restart: always
 volumes:
   postgres_data:
-  minio_data:
 networks:
   default:
     external: true
