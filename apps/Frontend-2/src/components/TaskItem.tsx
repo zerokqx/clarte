@@ -1,5 +1,5 @@
-import React from 'react';
-import { Paper, Group, ActionIcon, Menu, TextInput } from '@mantine/core';
+import React from "react";
+import { Paper, Group, ActionIcon, Menu, TextInput, Badge } from "@mantine/core";
 import {
   IconCheck,
   IconTrash,
@@ -8,7 +8,8 @@ import {
   IconFolder,
   IconInbox,
   IconClock,
-} from '@tabler/icons-react';
+  IconFlag,
+} from "@tabler/icons-react";
 
 interface Task {
   id: string;
@@ -16,8 +17,9 @@ interface Task {
   description?: string;
   isCompleted: boolean;
   dueDate?: string;
-  section: 'Входящие' | 'Сегодня' | 'Предстоящие';
+  section: "Входящие" | "Сегодня" | "Предстоящие";
   project?: string;
+  priority: "high" | "medium" | "low";
 }
 
 interface TaskItemProps {
@@ -25,16 +27,29 @@ interface TaskItemProps {
   projects: string[];
   onToggle: (id: string) => void;
   onDelete: (id: string) => void;
-  onMove: (id: string, section: 'Входящие' | 'Сегодня' | 'Предстоящие') => void;
+  onMove: (id: string, section: "Входящие" | "Сегодня" | "Предстоящие") => void;
   onMoveToProject: (id: string, project: string | undefined) => void;
   onStartEditing: (id: string) => void;
   onUpdateTitle: (id: string, title: string) => void;
+  onUpdatePriority: (id: string, priority: "high" | "medium" | "low") => void;
   onDragStart: (id: string) => void;
   onDragEnd: () => void;
   isDragging: boolean;
   editingTaskId: string | null;
   isCompleted: boolean;
 }
+
+const priorityColors = {
+  high: "red",
+  medium: "orange",
+  low: "gray",
+};
+
+const priorityLabels = {
+  high: "Высокий",
+  medium: "Средний",
+  low: "Низкий",
+};
 
 export const TaskItem: React.FC<TaskItemProps> = ({
   task,
@@ -45,6 +60,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
   onMoveToProject,
   onStartEditing,
   onUpdateTitle,
+  onUpdatePriority,
   onDragStart,
   onDragEnd,
   isDragging,
@@ -53,7 +69,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
 }) => {
   return (
     <Paper
-      className={`task-item ${isCompleted ? 'completed' : ''} ${isDragging ? 'dragging' : ''}`}
+      className={`task-item priority-${task.priority || "medium"} ${isCompleted ? "completed" : ""} ${isDragging ? "dragging" : ""}`}
       draggable
       onDragStart={() => onDragStart(task.id)}
       onDragEnd={onDragEnd}
@@ -62,7 +78,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
       <Group align="flex-start" gap={12} style={{ flex: 1, minWidth: 0 }}>
         <ActionIcon
           variant="subtle"
-          color={isCompleted ? 'green' : 'gray'}
+          color={isCompleted ? "green" : "gray"}
           onClick={() => onToggle(task.id)}
           className="task-checkbox"
         >
@@ -76,31 +92,31 @@ export const TaskItem: React.FC<TaskItemProps> = ({
               autoFocus
               onBlur={(e) => onUpdateTitle(task.id, e.currentTarget.value)}
               onKeyDown={(e) => {
-                if (e.key === 'Enter') {
+                if (e.key === "Enter") {
                   onUpdateTitle(task.id, e.currentTarget.value);
                 }
-                if (e.key === 'Escape') {
-                  onStartEditing('');
+                if (e.key === "Escape") {
+                  onStartEditing("");
                 }
               }}
               size="xs"
             />
           ) : (
             <div
-              className={`task-title ${isCompleted ? 'completed' : ''}`}
+              className={`task-title ${isCompleted ? "completed" : ""}`}
               onDoubleClick={() => onStartEditing(task.id)}
             >
               {task.title}
             </div>
           )}
-          {task.description && task.description !== 'Описание отсутствует' && (
+          {task.description && task.description !== "Описание отсутствует" && (
             <div className="task-description">{task.description}</div>
           )}
           <div className="task-meta">
             {task.dueDate && (
               <span className="task-meta-item">
                 <IconCalendar size={12} stroke={1.5} />
-                {new Date(task.dueDate).toLocaleDateString('ru-RU')}
+                {new Date(task.dueDate).toLocaleDateString("ru-RU")}
               </span>
             )}
             {task.project && (
@@ -109,6 +125,9 @@ export const TaskItem: React.FC<TaskItemProps> = ({
                 {task.project}
               </span>
             )}
+            <Badge size="xs" variant="light" color={priorityColors[task.priority || "medium"]}>
+              {priorityLabels[task.priority || "medium"]}
+            </Badge>
             <span className="task-section-badge">{task.section}</span>
           </div>
         </div>
@@ -123,22 +142,13 @@ export const TaskItem: React.FC<TaskItemProps> = ({
           </Menu.Target>
           <Menu.Dropdown>
             <Menu.Label>Переместить в</Menu.Label>
-            <Menu.Item
-              leftSection={<IconInbox size={14} />}
-              onClick={() => onMove(task.id, 'Входящие')}
-            >
+            <Menu.Item leftSection={<IconInbox size={14} />} onClick={() => onMove(task.id, "Входящие")}>
               Входящие
             </Menu.Item>
-            <Menu.Item
-              leftSection={<IconCalendar size={14} />}
-              onClick={() => onMove(task.id, 'Сегодня')}
-            >
+            <Menu.Item leftSection={<IconCalendar size={14} />} onClick={() => onMove(task.id, "Сегодня")}>
               Сегодня
             </Menu.Item>
-            <Menu.Item
-              leftSection={<IconClock size={14} />}
-              onClick={() => onMove(task.id, 'Предстоящие')}
-            >
+            <Menu.Item leftSection={<IconClock size={14} />} onClick={() => onMove(task.id, "Предстоящие")}>
               Предстоящие
             </Menu.Item>
             <Menu.Divider />
@@ -152,19 +162,23 @@ export const TaskItem: React.FC<TaskItemProps> = ({
                 {p}
               </Menu.Item>
             ))}
-            <Menu.Item
-              leftSection={<IconFolder size={14} />}
-              onClick={() => onMoveToProject(task.id, undefined)}
-            >
+            <Menu.Item leftSection={<IconFolder size={14} />} onClick={() => onMoveToProject(task.id, undefined)}>
               Без проекта
+            </Menu.Item>
+            <Menu.Divider />
+            <Menu.Label>Приоритет</Menu.Label>
+            <Menu.Item leftSection={<IconFlag size={14} />} color="red" onClick={() => onUpdatePriority(task.id, "high")}>
+              Высокий
+            </Menu.Item>
+            <Menu.Item leftSection={<IconFlag size={14} />} color="orange" onClick={() => onUpdatePriority(task.id, "medium")}>
+              Средний
+            </Menu.Item>
+            <Menu.Item leftSection={<IconFlag size={14} />} color="gray" onClick={() => onUpdatePriority(task.id, "low")}>
+              Низкий
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>
-        <ActionIcon
-          variant="subtle"
-          color="red"
-          onClick={() => onDelete(task.id)}
-        >
+        <ActionIcon variant="subtle" color="red" onClick={() => onDelete(task.id)}>
           <IconTrash size={16} stroke={1.5} />
         </ActionIcon>
       </Group>

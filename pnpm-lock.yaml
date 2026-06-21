@@ -274,6 +274,43 @@ importers:
         specifier: ^5.1.4
         version: 5.1.4(webpack@5.107.2)
 
+  apps/Frontend-2:
+    dependencies:
+      '@mantine/core':
+        specifier: ^9.3.2
+        version: 9.3.2(@mantine/hooks@9.3.2(react@19.2.7))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@mantine/form':
+        specifier: ^9.3.2
+        version: 9.3.2(react@19.2.7)
+      '@mantine/hooks':
+        specifier: ^9.3.2
+        version: 9.3.2(react@19.2.7)
+      '@tabler/icons-react':
+        specifier: ^3.44.0
+        version: 3.44.0(react@19.2.7)
+      '@tanstack/react-query':
+        specifier: ^5.101.0
+        version: 5.101.0(react@19.2.7)
+      axios:
+        specifier: ^1.16.0
+        version: 1.16.0
+      react-router-dom:
+        specifier: ^7.18.0
+        version: 7.18.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      y-websocket:
+        specifier: ^3.0.0
+        version: 3.0.0(yjs@13.6.31)
+      yjs:
+        specifier: ^13.6.31
+        version: 13.6.31
+      zod:
+        specifier: ^4.4.3
+        version: 4.4.3
+    devDependencies:
+      orval:
+        specifier: ^8.18.0
+        version: 8.18.0(prettier@3.8.4)(typescript@5.9.3)
+
   apps/api-gateway:
     dependencies:
       '@clarte/shared':
@@ -377,43 +414,6 @@ importers:
       '@types/passport-jwt':
         specifier: ^4.0.1
         version: 4.0.1
-
-  apps/frontend:
-    dependencies:
-      '@mantine/core':
-        specifier: ^9.3.2
-        version: 9.3.2(@mantine/hooks@9.3.2(react@19.2.7))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@mantine/form':
-        specifier: ^9.3.2
-        version: 9.3.2(react@19.2.7)
-      '@mantine/hooks':
-        specifier: ^9.3.2
-        version: 9.3.2(react@19.2.7)
-      '@tabler/icons-react':
-        specifier: ^3.44.0
-        version: 3.44.0(react@19.2.7)
-      '@tanstack/react-query':
-        specifier: ^5.101.0
-        version: 5.101.0(react@19.2.7)
-      axios:
-        specifier: ^1.16.0
-        version: 1.16.0
-      react-router-dom:
-        specifier: ^7.18.0
-        version: 7.18.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      y-websocket:
-        specifier: ^3.0.0
-        version: 3.0.0(yjs@13.6.31)
-      yjs:
-        specifier: ^13.6.31
-        version: 13.6.31
-      zod:
-        specifier: ^4.4.3
-        version: 4.4.3
-    devDependencies:
-      orval:
-        specifier: ^8.18.0
-        version: 8.18.0(prettier@3.8.4)(typescript@5.9.3)
 
   apps/note-service:
     dependencies:

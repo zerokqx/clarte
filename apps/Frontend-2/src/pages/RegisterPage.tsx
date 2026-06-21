@@ -81,7 +81,7 @@ export const RegisterPage = () => {
     } catch (err: any) {
       console.error('Ошибка регистрации:', err);
 
-      // Проверяем статус ответа
+      
       const status = err.response?.status;
       const message =
         err.response?.data?.message ||

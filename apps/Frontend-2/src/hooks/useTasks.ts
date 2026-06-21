@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { apiClient } from '../api/client';
+import { useState, useEffect } from "react";
+import { apiClient } from "../api/client";
 
 export interface Task {
   id: string;
@@ -7,8 +7,9 @@ export interface Task {
   description?: string;
   isCompleted: boolean;
   dueDate?: string;
-  section: 'Входящие' | 'Сегодня' | 'Предстоящие';
+  section: "Входящие" | "Сегодня" | "Предстоящие";
   project?: string;
+  priority: "high" | "medium" | "low";
   createdAt: string;
   updatedAt: string;
 }
@@ -22,51 +23,46 @@ export const useTasks = () => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await apiClient.get<any[]>('/todos');
+      const response = await apiClient.get<any[]>("/todos");
       const fetchedTasks = response.data || [];
 
-      // Read local storage metadata and deleted IDs
-      const localMeta = JSON.parse(
-        localStorage.getItem('todo_task_metadata') || '{}',
-      );
-      const deletedIds: string[] = JSON.parse(
-        localStorage.getItem('todo_deleted_ids') || '[]',
-      );
+      const localMeta = JSON.parse(localStorage.getItem("todo_task_metadata") || "{}");
+      const deletedIds: string[] = JSON.parse(localStorage.getItem("todo_deleted_ids") || "[]");
 
       const mappedTasks: Task[] = fetchedTasks
         .filter((t) => !deletedIds.includes(t.id))
         .map((t) => {
           const meta = localMeta[t.id] || {};
           let section = meta.section;
-
+          
           if (!section) {
-            // Determine default section based on due date
             if (t.dueDate) {
               const taskDate = new Date(t.dueDate);
               taskDate.setHours(0, 0, 0, 0);
               const today = new Date();
               today.setHours(0, 0, 0, 0);
-
+              
               if (taskDate.getTime() === today.getTime()) {
-                section = 'Сегодня';
+                section = "Сегодня";
               } else if (taskDate.getTime() > today.getTime()) {
-                section = 'Предстоящие';
+                section = "Предстоящие";
               } else {
-                section = 'Входящие';
+                section = "Входящие";
               }
             } else {
-              section = 'Входящие';
+              section = "Входящие";
             }
           }
 
           return {
             id: t.id,
             title: t.title,
-            description: t.description || '',
+            description: t.description || "",
             isCompleted: t.isCompleted,
             dueDate: t.dueDate,
-            section: section || 'Входящие',
+            section: section || "Входящие",
             project: meta.project || undefined,
+            priority: meta.priority || "medium",
             createdAt: t.createdAt,
             updatedAt: t.updatedAt,
           };
@@ -74,12 +70,8 @@ export const useTasks = () => {
 
       setTasks(mappedTasks);
     } catch (err: any) {
-      console.error('Ошибка при получении задач:', err);
-      setError(
-        err.response?.data?.message ||
-          err.message ||
-          'Не удалось загрузить задачи',
-      );
+      console.error(err);
+      setError(err.response?.data?.message || err.message || "Не удалось загрузить задачи");
     } finally {
       setIsLoading(false);
     }
@@ -89,14 +81,11 @@ export const useTasks = () => {
     fetchTasks();
   }, []);
 
-  const addTask = async (
-    taskData: Omit<Task, 'id' | 'createdAt' | 'updatedAt'>,
-  ) => {
+  const addTask = async (taskData: Omit<Task, "id" | "createdAt" | "updatedAt">) => {
     setIsLoading(true);
     setError(null);
     try {
-      // Prepare due date
-      let dueDateIso = '';
+      let dueDateIso = "";
       if (taskData.dueDate) {
         const d = new Date(taskData.dueDate);
         d.setHours(23, 59, 59, 999);
@@ -107,9 +96,8 @@ export const useTasks = () => {
         dueDateIso = d.toISOString();
       }
 
-      // Backend requires description to be min 10 chars. If empty, send fallback.
-      const rawDesc = taskData.description?.trim() || '';
-      const finalDesc = rawDesc.length >= 10 ? rawDesc : 'Описание отсутствует';
+      const rawDesc = taskData.description?.trim() || "";
+      const finalDesc = rawDesc.length >= 10 ? rawDesc : "Описание отсутствует";
 
       const payload = {
         title: taskData.title,
@@ -117,29 +105,23 @@ export const useTasks = () => {
         dueDate: dueDateIso,
       };
 
-      const response = await apiClient.post<{ id: string }>('/todos', payload);
+      const response = await apiClient.post<{ id: string }>("/todos", payload);
       const newId = response.data.id;
 
-      // Save local metadata (section, project)
-      const localMeta = JSON.parse(
-        localStorage.getItem('todo_task_metadata') || '{}',
-      );
+      const localMeta = JSON.parse(localStorage.getItem("todo_task_metadata") || "{}");
       localMeta[newId] = {
         section: taskData.section,
         project: taskData.project,
+        priority: taskData.priority || "medium",
       };
-      localStorage.setItem('todo_task_metadata', JSON.stringify(localMeta));
+      localStorage.setItem("todo_task_metadata", JSON.stringify(localMeta));
 
-      // Re-fetch to keep everything in sync
       await fetchTasks();
       return true;
     } catch (err: any) {
-      console.error('Ошибка при добавлении задачи:', err);
-      const msg =
-        err.response?.data?.details ||
-        err.response?.data?.message ||
-        err.message;
-      setError(msg || 'Не удалось добавить задачу');
+      console.error(err);
+      const msg = err.response?.data?.details || err.response?.data?.message || err.message;
+      setError(msg || "Не удалось добавить задачу");
       throw err;
     } finally {
       setIsLoading(false);
@@ -147,15 +129,11 @@ export const useTasks = () => {
   };
 
   const deleteTask = async (id: string) => {
-    // Add to deleted IDs in local storage (since there is no DELETE endpoint in the backend API)
-    const deletedIds: string[] = JSON.parse(
-      localStorage.getItem('todo_deleted_ids') || '[]',
-    );
+    const deletedIds: string[] = JSON.parse(localStorage.getItem("todo_deleted_ids") || "[]");
     if (!deletedIds.includes(id)) {
       deletedIds.push(id);
-      localStorage.setItem('todo_deleted_ids', JSON.stringify(deletedIds));
+      localStorage.setItem("todo_deleted_ids", JSON.stringify(deletedIds));
     }
-    // Filter locally immediately
     setTasks((prev) => prev.filter((t) => t.id !== id));
   };
 
@@ -165,36 +143,27 @@ export const useTasks = () => {
 
     const newCompleted = !task.isCompleted;
 
-    // Optimistically update local state
     setTasks((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, isCompleted: newCompleted } : t)),
+      prev.map((t) => (t.id === id ? { ...t, isCompleted: newCompleted } : t))
     );
 
     try {
       await apiClient.patch(`/todos/${id}`, {
         is_completed: newCompleted,
       });
-      // Re-fetch to confirm sync
       await fetchTasks();
     } catch (err: any) {
-      console.error('Ошибка при обновлении статуса задачи:', err);
-      // Rollback optimistic update
+      console.error(err);
       setTasks((prev) =>
-        prev.map((t) =>
-          t.id === id ? { ...t, isCompleted: !newCompleted } : t,
-        ),
+        prev.map((t) => (t.id === id ? { ...t, isCompleted: !newCompleted } : t))
       );
-      setError(
-        err.response?.data?.message ||
-          err.message ||
-          'Не удалось обновить задачу',
-      );
+      setError(err.response?.data?.message || err.message || "Не удалось обновить задачу");
     }
   };
 
   const updateTaskTitle = async (id: string, title: string) => {
     if (!title.trim() || title.length < 10 || title.length > 50) {
-      setError('Название должно быть от 10 до 50 символов');
+      setError("Название должно быть от 10 до 50 символов");
       return;
     }
 
@@ -204,38 +173,42 @@ export const useTasks = () => {
       });
       await fetchTasks();
     } catch (err: any) {
-      console.error('Ошибка при обновлении названия задачи:', err);
-      setError(
-        err.response?.data?.message ||
-          err.message ||
-          'Не удалось переименовать задачу',
-      );
+      console.error(err);
+      setError(err.response?.data?.message || err.message || "Не удалось переименовать задачу");
     }
   };
 
-  const moveTask = (
-    id: string,
-    section: 'Входящие' | 'Сегодня' | 'Предстоящие',
-  ) => {
-    const localMeta = JSON.parse(
-      localStorage.getItem('todo_task_metadata') || '{}',
-    );
+  const moveTask = (id: string, section: "Входящие" | "Сегодня" | "Предстоящие") => {
+    const localMeta = JSON.parse(localStorage.getItem("todo_task_metadata") || "{}");
     if (!localMeta[id]) localMeta[id] = {};
     localMeta[id].section = section;
-    localStorage.setItem('todo_task_metadata', JSON.stringify(localMeta));
+    localStorage.setItem("todo_task_metadata", JSON.stringify(localMeta));
 
-    setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, section } : t)));
+    setTasks((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, section } : t))
+    );
   };
 
   const moveTaskToProject = (id: string, project: string | undefined) => {
-    const localMeta = JSON.parse(
-      localStorage.getItem('todo_task_metadata') || '{}',
-    );
+    const localMeta = JSON.parse(localStorage.getItem("todo_task_metadata") || "{}");
     if (!localMeta[id]) localMeta[id] = {};
     localMeta[id].project = project;
-    localStorage.setItem('todo_task_metadata', JSON.stringify(localMeta));
+    localStorage.setItem("todo_task_metadata", JSON.stringify(localMeta));
 
-    setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, project } : t)));
+    setTasks((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, project } : t))
+    );
+  };
+
+  const updateTaskPriority = (id: string, priority: "high" | "medium" | "low") => {
+    const localMeta = JSON.parse(localStorage.getItem("todo_task_metadata") || "{}");
+    if (!localMeta[id]) localMeta[id] = {};
+    localMeta[id].priority = priority;
+    localStorage.setItem("todo_task_metadata", JSON.stringify(localMeta));
+
+    setTasks((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, priority } : t))
+    );
   };
 
   return {
@@ -248,6 +221,7 @@ export const useTasks = () => {
     moveTask,
     moveTaskToProject,
     updateTaskTitle,
+    updateTaskPriority,
     refreshTasks: fetchTasks,
   };
 };
