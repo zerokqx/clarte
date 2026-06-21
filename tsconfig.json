@@ -40,13 +40,13 @@
       "path": "./apps/yjs-sync-service"
     },
     {
-      "path": "./frontend"
-    },
-    {
       "path": "./apps/ws-gateway-e2e"
     },
     {
       "path": "./apps/ws-gateway"
+    },
+    {
+      "path": "./apps/frontend"
     }
   ]
 }
