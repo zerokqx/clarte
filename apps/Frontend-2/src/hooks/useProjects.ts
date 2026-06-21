@@ -1,12 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from 'react';
 
 export const useProjects = () => {
-  const [projects, setProjects] = useState<string[]>(["Личное", "Работа"]);
+  const [projects, setProjects] = useState<string[]>(() => {
+    const saved = localStorage.getItem('todo_projects');
+    return saved ? JSON.parse(saved) : ['Личное', 'Работа'];
+  });
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
 
+  useEffect(() => {
+    localStorage.setItem('todo_projects', JSON.stringify(projects));
+  }, [projects]);
+
   const addProject = (name: string) => {
-    if (name.trim() && !projects.includes(name.trim())) {
-      setProjects((prev) => [...prev, name.trim()]);
+    const trimmed = name.trim();
+    if (trimmed && !projects.includes(trimmed)) {
+      setProjects((prev) => [...prev, trimmed]);
       return true;
     }
     return false;

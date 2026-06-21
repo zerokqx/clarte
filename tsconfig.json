@@ -35,6 +35,9 @@
     },
     {
       "path": "./apps/note-service"
+    },
+    {
+      "path": "./apps/frontend"
     }
   ]
 }

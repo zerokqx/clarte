@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useMemo } from 'react';
 
 interface Task {
   id: string;
@@ -6,7 +6,7 @@ interface Task {
   description?: string;
   isCompleted: boolean;
   dueDate?: string;
-  section: "Входящие" | "Сегодня" | "Предстоящие";
+  section: 'Входящие' | 'Сегодня' | 'Предстоящие';
   project?: string;
   createdAt: string;
   updatedAt: string;
@@ -14,10 +14,10 @@ interface Task {
 
 export const useTaskFilters = (
   tasks: Task[],
-  selectedView: "Входящие" | "Сегодня" | "Предстоящие",
+  selectedView: 'Входящие' | 'Сегодня' | 'Предстоящие',
   selectedProject: string | null,
   searchQuery: string,
-  filterStatus: "all" | "active" | "completed"
+  filterStatus: 'all' | 'active' | 'completed',
 ) => {
   return useMemo(() => {
     let filtered = tasks;
@@ -32,13 +32,13 @@ export const useTaskFilters = (
       filtered = filtered.filter(
         (t) =>
           t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          t.description?.toLowerCase().includes(searchQuery.toLowerCase())
+          t.description?.toLowerCase().includes(searchQuery.toLowerCase()),
       );
     }
 
-    if (filterStatus === "active") {
+    if (filterStatus === 'active') {
       filtered = filtered.filter((t) => !t.isCompleted);
-    } else if (filterStatus === "completed") {
+    } else if (filterStatus === 'completed') {
       filtered = filtered.filter((t) => t.isCompleted);
     }
 
