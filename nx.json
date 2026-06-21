@@ -54,7 +54,8 @@
       "exclude": [
         "apps/notes-service-e2e/**/*",
         "apps/todo-service-e2e/**/*",
-        "apps/notification-service-e2e/**/*"
+        "apps/notification-service-e2e/**/*",
+        "apps/ws-gateway-e2e/**/*"
       ]
     },
     {

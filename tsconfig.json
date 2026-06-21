@@ -41,6 +41,12 @@
     },
     {
       "path": "./frontend"
+    },
+    {
+      "path": "./apps/ws-gateway-e2e"
+    },
+    {
+      "path": "./apps/ws-gateway"
     }
   ]
 }
