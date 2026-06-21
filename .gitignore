@@ -67,3 +67,4 @@ devenv.local.yaml
 test-output
 
 vite.config.*.timestamp*
+vitest.config.*.timestamp*

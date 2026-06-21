@@ -1,0 +1,28 @@
+/* Базовый контейнер для кастомного курсора стороннего пользователя */
+:global(.collaboration-carets__caret) {
+  position: relative;
+  margin-left: -1px;
+  margin-right: -1px;
+  border-left: 2px solid;
+  border-right: 2px solid;
+  border-color: currentColor; /* Цвет будет браться из свойства user.color */
+  word-break: normal;
+  pointer-events: none;
+}
+
+/* Плашка с именем пользователя над курсором */
+:global(.collaboration-carets__label) {
+  position: absolute;
+  top: -1.4em;
+  left: -2px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  user-select: none;
+  color: #fff;
+  padding: 1px 4px;
+  border-radius: 3px 3px 3px 0;
+  background-color: currentColor; /* Цвет подложки тоже подстроится под user.color */
+  white-space: nowrap;
+}

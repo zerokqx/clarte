@@ -36,6 +36,7 @@
     "@nx/node": "22.7.5",
     "@nx/react": "22.7.5",
     "@nx/vite": "22.7.5",
+    "@nx/vitest": "22.7.5",
     "@nx/web": "22.7.5",
     "@nx/webpack": "22.7.5",
     "@swc-node/register": "1.11.1",
@@ -43,6 +44,8 @@
     "@swc/core": "1.15.8",
     "@swc/helpers": "0.5.18",
     "@swc/jest": "~0.2.38",
+    "@testing-library/dom": "10.4.0",
+    "@testing-library/react": "16.3.0",
     "@types/cookie-parser": "^1.4.10",
     "@types/express": "^5.0.6",
     "@types/jest": "~30.0.0",
@@ -51,10 +54,15 @@
     "@types/react-dom": "^19.0.0",
     "@types/ws": "^8.18.1",
     "@vitejs/plugin-react": "^6.0.0",
+    "@vitest/coverage-v8": "~4.1.0",
     "@vitest/ui": "~4.1.0",
     "autoprefixer": "10.4.13",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^10.0.0",
+    "eslint-plugin-import": "2.31.0",
+    "eslint-plugin-jsx-a11y": "6.10.1",
+    "eslint-plugin-react": "7.35.0",
+    "eslint-plugin-react-hooks": "5.0.0",
     "jest": "~30.3.0",
     "jest-environment-node": "~30.3.0",
     "jest-util": "~30.3.0",
@@ -91,7 +99,6 @@
     "@nestjs/swagger": "^11.4.4",
     "@nestjs/typeorm": "^11.0.1",
     "@nestjs/websockets": "^11.1.27",
-    "@y/websocket-server": "^0.1.5",
     "amqp-connection-manager": "^5.0.0",
     "amqplib": "^2.0.1",
     "argon2": "^0.44.0",
@@ -111,7 +118,7 @@
     "rxjs": "^7.8.0",
     "typeorm": "^1.0.0",
     "ws": "^8.21.0",
-    "y-websocket": "^3.0.0",
+    "y-websocket": "^1.5.0",
     "zod": "^4.4.3"
   },
   "pnpm": {
@@ -132,5 +139,3 @@
     "yjs": "13.6.31"
   }
 }
-
-
