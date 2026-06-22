@@ -63,15 +63,15 @@
           "build"
         ],
         "options": {
-          "buildTarget": "@clarte/notes-service:build",
+          "buildTarget": "@clarte/note-service:build",
           "runBuildTargetDependencies": false
         },
         "configurations": {
           "development": {
-            "buildTarget": "@clarte/notes-service:build:development"
+            "buildTarget": "@clarte/note-service:build:development"
           },
           "production": {
-            "buildTarget": "@clarte/notes-service:build:production"
+            "buildTarget": "@clarte/note-service:build:production"
           }
         }
       },
