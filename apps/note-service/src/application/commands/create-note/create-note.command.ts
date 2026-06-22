@@ -1,7 +1,20 @@
 import { Command } from '@nestjs/cqrs';
 
-export class CreateNoteCommand extends Command<void> {
-  constructor(readonly text: string) {
+export type CreateNoteCommandProps = {
+  text: string;
+  tags: string[];
+  bytes: Uint8Array | null;
+};
+export class CreateNoteCommand
+  extends Command<string>
+  implements CreateNoteCommandProps
+{
+  public readonly text!: string;
+  public readonly tags!: string[];
+  public readonly bytes!: Uint8Array | null;
+
+  constructor(props: CreateNoteCommandProps) {
     super();
+    Object.assign(this, props);
   }
 }

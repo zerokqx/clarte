@@ -30,5 +30,4 @@ async function bootstrap() {
   await app.listen();
   Logger.log(`🚀 Microservice Todo is running on grpc://${HOST}:${PORT}`);
 }
-
 bootstrap();
