@@ -35,6 +35,15 @@
     },
     {
       "path": "./apps/note-service"
+    },
+    {
+      "path": "./apps/yjs-sync-service"
+    },
+    {
+      "path": "./apps/ws-gateway"
+    },
+    {
+      "path": "./apps/frontend"
     }
   ]
 }

@@ -20,6 +20,6 @@ pnpm nx build notes-service
 ## Конфигурация
 
 - Порт gRPC по умолчанию: `5003`
-- База данных: PostgreSQL (`port: 6001`, БД: `clarte_notes_db`)
+- База данных: MongoDB (`port: 6001`, БД: `clarte_db`)
 - Объектное хранилище: MinIO (`S3 API port: 6003`, `Console port: 6004`)
 - Контракты описаны в `notes.proto`.

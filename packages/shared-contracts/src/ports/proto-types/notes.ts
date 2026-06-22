@@ -7,27 +7,61 @@
 /* eslint-disable */
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
-import { Empty } from "./google/protobuf/empty";
 
 export const protobufPackage = "notes";
 
+export interface CreateNoteResponse {
+  id: string;
+}
+
+export interface Note {
+  id: string;
+  tags: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface GetNoteByIdRequest {
+  id: string;
+}
+
+export interface GetBytesRequest {
+  id: string;
+}
+
+export interface GetBytesResponse {
+  bytes: Uint8Array;
+}
+
 export interface CreateNoteRequest {
   text: string;
+  tags: string[];
+  bytes?: Uint8Array | undefined;
 }
 
 export const NOTES_PACKAGE_NAME = "notes";
 
 export interface NotesServiceClient {
-  createNote(request: CreateNoteRequest): Observable<Empty>;
+  createNote(request: CreateNoteRequest): Observable<CreateNoteResponse>;
+
+  getBytes(request: GetBytesRequest): Observable<GetBytesResponse>;
+
+  getNoteById(request: GetBytesRequest): Observable<Note>;
 }
 
 export interface NotesServiceController {
-  createNote(request: CreateNoteRequest): void | Promise<void>;
+  createNote(
+    request: CreateNoteRequest,
+  ): Promise<CreateNoteResponse> | Observable<CreateNoteResponse> | CreateNoteResponse;
+
+  getBytes(request: GetBytesRequest): Promise<GetBytesResponse> | Observable<GetBytesResponse> | GetBytesResponse;
+
+  getNoteById(request: GetBytesRequest): Promise<Note> | Observable<Note> | Note;
 }
 
 export function NotesServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["createNote"];
+    const grpcMethods: string[] = ["createNote", "getBytes", "getNoteById"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("NotesService", method)(constructor.prototype[method], method, descriptor);
