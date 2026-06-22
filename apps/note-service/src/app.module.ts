@@ -1,4 +1,4 @@
-import { ConfigService } from '@nestjs/config';
+import { ConfigService, ConfigModule } from '@nestjs/config';
 import {
   AppConfigModule,
   CompactConfigModule,
@@ -27,6 +27,9 @@ interface MongoConfiguration {
 }
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: ['.env.local', '.env'],
+    }),
     CompactConfigModule.register<MongoConfiguration, string>({
       registerAsName: 'mongo-config',
       prefixOptions: { upperCase: true, value: 'mongo_' },

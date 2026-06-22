@@ -18,5 +18,6 @@ import { NoteReadRepository, NoteWriteRepository } from './repository';
       useClass: NoteWriteRepository,
     },
   ],
+  exports: [NOTE_READ_REPO, NOTE_WRITE_REPO],
 })
 export class DatabaseModule {}
