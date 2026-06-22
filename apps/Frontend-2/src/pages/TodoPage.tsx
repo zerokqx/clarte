@@ -140,6 +140,7 @@ export const TodoPage = () => {
   const [notifications, setNotifications] = useState<any[]>([]);
   const [notificationsOpened, setNotificationsOpened] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [isOffline, setIsOffline] = useState(false);
 
   const [connectModalOpened, { open: openConnectModal, close: closeConnectModal }] = useDisclosure(false);
   const [shareIdInput, setShareIdInput] = useState("");
@@ -149,8 +150,18 @@ export const TodoPage = () => {
       try {
         const res = await apiClient.get("/users/me");
         setUserProfile(res.data);
-      } catch (err) {
-        console.error(err);
+        localStorage.setItem("clarte_user_profile", JSON.stringify(res.data));
+      } catch (err: any) {
+        if (err.response?.status !== 503) {
+          console.error(err);
+        }
+        setIsOffline(true);
+        const cached = localStorage.getItem("clarte_user_profile");
+        if (cached) {
+          setUserProfile(JSON.parse(cached));
+        } else {
+          setUserProfile({ id: "local-user", login: "Локальный пользователь", avatarUrl: "" });
+        }
       }
     };
     fetchProfile();
@@ -162,8 +173,31 @@ export const TodoPage = () => {
       const list = res.data || [];
       setNotifications(list);
       setUnreadCount(list.length);
-    } catch (err) {
-      console.error(err);
+      localStorage.setItem("clarte_notifications_cache", JSON.stringify(list));
+      setIsOffline(false);
+    } catch (err: any) {
+      if (err.response?.status !== 503) {
+        console.error(err);
+      }
+      setIsOffline(true);
+      const cached = localStorage.getItem("clarte_notifications_cache");
+      if (cached) {
+        const list = JSON.parse(cached);
+        setNotifications(list);
+        setUnreadCount(list.length);
+      } else {
+        const initialMockNotifs = [
+          {
+            id: "welcome-notif-1",
+            title: "Система Clarte",
+            message: "Вы подключены в автономном режиме. Сервер недоступен.",
+            read: false,
+            createdAt: new Date().toISOString(),
+          }
+        ];
+        setNotifications(initialMockNotifs);
+        setUnreadCount(initialMockNotifs.length);
+      }
     }
   };
 
@@ -509,8 +543,8 @@ export const TodoPage = () => {
                 <Text size="sm" fw={600} style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                   {userProfile.login}
                 </Text>
-                <Text size="xs" color="dimmed">
-                  В сети
+                <Text size="xs" color={isOffline ? "orange" : "dimmed"} fw={isOffline ? 600 : 400}>
+                  {isOffline ? "Автономный режим" : "В сети"}
                 </Text>
               </div>
             </Group>

@@ -25,6 +25,7 @@ export const useTasks = () => {
     try {
       const response = await apiClient.get<any[]>("/todos");
       const fetchedTasks = response.data || [];
+      localStorage.setItem("clarte_tasks_cache", JSON.stringify(fetchedTasks));
 
       const localMeta = JSON.parse(localStorage.getItem("todo_task_metadata") || "{}");
       const deletedIds: string[] = JSON.parse(localStorage.getItem("todo_deleted_ids") || "[]");
@@ -70,8 +71,83 @@ export const useTasks = () => {
 
       setTasks(mappedTasks);
     } catch (err: any) {
-      console.error(err);
-      setError(err.response?.data?.message || err.message || "Не удалось загрузить задачи");
+      if (err.response?.status !== 503) {
+        console.error(err);
+      }
+      
+      // Fallback to localStorage cache
+      let cached = localStorage.getItem("clarte_tasks_cache");
+      if (!cached) {
+        // Initialize cache with default mock tasks so the screen is never blank/broken
+        const initialMockTasks = [
+          {
+            id: "welcome-task-1",
+            title: "Добро пожаловать в Clarte! 👋",
+            description: "Это ознакомительная задача. Вы можете отмечать задачи как выполненные, перемещать их и редактировать.",
+            isCompleted: false,
+            dueDate: new Date().toISOString(),
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          },
+          {
+            id: "welcome-task-2",
+            title: "Изучить функциональную модель IDEF0 📂",
+            description: "Посмотрите спецификацию IDEF0.md в корне проекта для ознакомления с архитектурой системы.",
+            isCompleted: false,
+            dueDate: new Date().toISOString(),
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          }
+        ];
+        localStorage.setItem("clarte_tasks_cache", JSON.stringify(initialMockTasks));
+        cached = JSON.stringify(initialMockTasks);
+      }
+
+      const fetchedTasks = JSON.parse(cached);
+      const localMeta = JSON.parse(localStorage.getItem("todo_task_metadata") || "{}");
+      const deletedIds: string[] = JSON.parse(localStorage.getItem("todo_deleted_ids") || "[]");
+
+      const mappedTasks: Task[] = fetchedTasks
+        .filter((t: any) => !deletedIds.includes(t.id))
+        .map((t: any) => {
+          const meta = localMeta[t.id] || {};
+          let section = meta.section;
+          
+          if (!section) {
+            if (t.dueDate) {
+              const taskDate = new Date(t.dueDate);
+              taskDate.setHours(0, 0, 0, 0);
+              const today = new Date();
+              today.setHours(0, 0, 0, 0);
+              
+              if (taskDate.getTime() === today.getTime()) {
+                section = "Сегодня";
+              } else if (taskDate.getTime() > today.getTime()) {
+                section = "Предстоящие";
+              } else {
+                section = "Входящие";
+              }
+            } else {
+              section = "Входящие";
+            }
+          }
+
+          return {
+            id: t.id,
+            title: t.title,
+            description: t.description || "",
+            isCompleted: t.isCompleted,
+            dueDate: t.dueDate,
+            section: section || "Входящие",
+            project: meta.project || undefined,
+            priority: meta.priority || "medium",
+            createdAt: t.createdAt,
+            updatedAt: t.updatedAt,
+          };
+        });
+
+      setTasks(mappedTasks);
+      setError("Автономный режим: Сервер задач недоступен. Отображаются локальные данные.");
     } finally {
       setIsLoading(false);
     }
@@ -105,8 +181,27 @@ export const useTasks = () => {
         dueDate: dueDateIso,
       };
 
-      const response = await apiClient.post<{ id: string }>("/todos", payload);
-      const newId = response.data.id;
+      let newId: string;
+      try {
+        const response = await apiClient.post<{ id: string }>("/todos", payload);
+        newId = response.data.id;
+      } catch (apiErr: any) {
+        console.warn("Ошибка при обращении к API, создание задачи локально:", apiErr);
+        // Create offline task in local cache
+        newId = `local-task-${Math.random().toString(36).substr(2, 9)}-${Date.now()}`;
+        const cached = localStorage.getItem("clarte_tasks_cache");
+        const cachedTasks = cached ? JSON.parse(cached) : [];
+        cachedTasks.push({
+          id: newId,
+          title: taskData.title,
+          description: finalDesc,
+          isCompleted: false,
+          dueDate: dueDateIso,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        });
+        localStorage.setItem("clarte_tasks_cache", JSON.stringify(cachedTasks));
+      }
 
       const localMeta = JSON.parse(localStorage.getItem("todo_task_metadata") || "{}");
       localMeta[newId] = {
@@ -134,7 +229,25 @@ export const useTasks = () => {
       deletedIds.push(id);
       localStorage.setItem("todo_deleted_ids", JSON.stringify(deletedIds));
     }
+
+    // Delete from cache as well
+    const cached = localStorage.getItem("clarte_tasks_cache");
+    if (cached) {
+      const cachedTasks = JSON.parse(cached);
+      const updated = cachedTasks.filter((t: any) => t.id !== id);
+      localStorage.setItem("clarte_tasks_cache", JSON.stringify(updated));
+    }
+
     setTasks((prev) => prev.filter((t) => t.id !== id));
+
+    // Async attempt to delete from server
+    try {
+      await apiClient.delete(`/todos/${id}`).catch(err => {
+        console.warn("Удаление на сервере отложено: ", err);
+      });
+    } catch (err) {
+      // Ignored since we deleted it locally
+    }
   };
 
   const toggleComplete = async (id: string) => {
@@ -147,6 +260,13 @@ export const useTasks = () => {
       prev.map((t) => (t.id === id ? { ...t, isCompleted: newCompleted } : t))
     );
 
+    const cached = localStorage.getItem("clarte_tasks_cache");
+    if (cached) {
+      const cachedTasks = JSON.parse(cached);
+      const updated = cachedTasks.map((t: any) => t.id === id ? { ...t, isCompleted: newCompleted } : t);
+      localStorage.setItem("clarte_tasks_cache", JSON.stringify(updated));
+    }
+
     try {
       await apiClient.patch(`/todos/${id}`, {
         is_completed: newCompleted,
@@ -154,10 +274,7 @@ export const useTasks = () => {
       await fetchTasks();
     } catch (err: any) {
       console.error(err);
-      setTasks((prev) =>
-        prev.map((t) => (t.id === id ? { ...t, isCompleted: !newCompleted } : t))
-      );
-      setError(err.response?.data?.message || err.message || "Не удалось обновить задачу");
+      setError("Задача обновлена локально. Ошибка соединения с сервером.");
     }
   };
 
@@ -167,6 +284,18 @@ export const useTasks = () => {
       return;
     }
 
+    // Update in local cache
+    const cached = localStorage.getItem("clarte_tasks_cache");
+    if (cached) {
+      const cachedTasks = JSON.parse(cached);
+      const updated = cachedTasks.map((t: any) => t.id === id ? { ...t, title: title.trim() } : t);
+      localStorage.setItem("clarte_tasks_cache", JSON.stringify(updated));
+    }
+
+    setTasks((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, title: title.trim() } : t))
+    );
+
     try {
       await apiClient.patch(`/todos/${id}`, {
         title: title.trim(),
@@ -174,7 +303,7 @@ export const useTasks = () => {
       await fetchTasks();
     } catch (err: any) {
       console.error(err);
-      setError(err.response?.data?.message || err.message || "Не удалось переименовать задачу");
+      setError("Название обновлено локально. Ошибка соединения с сервером.");
     }
   };
 

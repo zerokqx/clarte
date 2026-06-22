@@ -25,7 +25,10 @@ apiClient.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.error('Ошибка:', error.response?.status, error.response?.data);
+    // Only log actual errors, not expected 503 service unavailable states handled offline
+    if (error.response?.status !== 503) {
+      console.error('Ошибка:', error.response?.status, error.response?.data);
+    }
     if (error.response?.status === 401) {
       window.location.href = '/login';
     }
