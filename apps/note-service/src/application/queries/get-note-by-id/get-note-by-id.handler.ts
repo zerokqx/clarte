@@ -7,7 +7,7 @@ import type { INoteRepositoryRead } from '@/application/ports';
 @QueryHandler(GetNoteByIdQuery)
 export class GetNoteByIdHandler implements IQueryHandler<GetNoteByIdQuery, NoteReadModel | null> {
   constructor(
-    @InjectNoteRepo.read() private readonly noteReadRepo: INoteRepositoryRead,
+    @InjectNoteRepo('r') private readonly noteReadRepo: INoteRepositoryRead,
   ) {}
 
   async execute(query: GetNoteByIdQuery): Promise<NoteReadModel | null> {

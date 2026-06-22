@@ -6,7 +6,7 @@ import type { INoteRepositoryRead } from '@/application/ports';
 @QueryHandler(GetBytesQuery)
 export class GetBytesHandler implements IQueryHandler<GetBytesQuery, Uint8Array | null> {
   constructor(
-    @InjectNoteRepo.read() private readonly noteReadRepo: INoteRepositoryRead,
+    @InjectNoteRepo('r') private readonly noteReadRepo: INoteRepositoryRead,
   ) {}
 
   async execute(query: GetBytesQuery): Promise<Uint8Array | null> {
