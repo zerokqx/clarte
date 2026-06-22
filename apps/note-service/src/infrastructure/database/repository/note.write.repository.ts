@@ -14,7 +14,7 @@ export class NoteWriteRepository implements INoteRepositoryWrite {
     const newNote = new this.noteModel({
       _id: note.id,
       text: note.text,
-      bytes: note.bytes,
+      bytes: note.bytes ? Buffer.from(note.bytes) : null,
       tags: note.tags,
     });
     await newNote.save();
