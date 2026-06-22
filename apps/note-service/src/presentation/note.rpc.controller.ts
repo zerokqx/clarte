@@ -14,12 +14,12 @@ export class NotesController implements Notes.NotesServiceController {
 
   async createNote(request: Notes.CreateNoteRequest): Promise<void> {
     const bytes = request.bytes ? new Uint8Array(request.bytes) : null;
-    await this.commandBus.execute(new CreateNoteCommand(request.text, request.tags, bytes));
+    await this.commandBus.execute(new CreateNoteCommand({ text: request.text, tags: request.tags, bytes }));
     return {} as any;
   }
 
   async getBytes(request: Notes.GetBytesRequest): Promise<Notes.GetBytesResponse> {
-    const bytes = await this.queryBus.execute<GetBytesQuery, Uint8Array | null>(new GetBytesQuery(request.id));
+    const bytes = await this.queryBus.execute<GetBytesQuery, Uint8Array | null>(new GetBytesQuery({ id: request.id }));
     if (!bytes) {
       throw new RpcException({ code: status.NOT_FOUND, message: 'Note not found' });
     }
@@ -27,7 +27,7 @@ export class NotesController implements Notes.NotesServiceController {
   }
 
   async getNoteById(request: Notes.GetBytesRequest): Promise<Notes.Note> {
-    const note = await this.queryBus.execute(new GetNoteByIdQuery(request.id));
+    const note = await this.queryBus.execute(new GetNoteByIdQuery({ id: request.id }));
     if (!note) {
       throw new RpcException({ code: status.NOT_FOUND, message: 'Note not found' });
     }

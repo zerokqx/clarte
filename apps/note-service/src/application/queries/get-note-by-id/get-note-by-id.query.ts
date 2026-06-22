@@ -1,5 +1,11 @@
 import { IQuery } from '@nestjs/cqrs';
 
+export type GetNoteByIdQueryProps = Omit<GetNoteByIdQuery, never>;
+
 export class GetNoteByIdQuery implements IQuery {
-  constructor(public readonly id: string) {}
+  public readonly id!: string;
+
+  constructor(props: GetNoteByIdQueryProps) {
+    Object.assign(this, props);
+  }
 }
