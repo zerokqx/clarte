@@ -40,9 +40,6 @@
       "path": "./apps/yjs-sync-service"
     },
     {
-      "path": "./apps/ws-gateway-e2e"
-    },
-    {
       "path": "./apps/ws-gateway"
     },
     {

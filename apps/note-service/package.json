@@ -1,5 +1,5 @@
 {
-  "name": "@clarte/notes-service",
+  "name": "@clarte/note-service",
   "version": "0.0.1",
   "private": true,
   "nx": {
@@ -91,7 +91,9 @@
     "@clarte/shared-nest": "workspace:*",
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
+    "@nestjs/mongoose": "^11.0.4",
     "@nestjs/platform-express": "^11.0.0",
+    "mongoose": "^9.7.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
     "tslib": "^2.3.0"

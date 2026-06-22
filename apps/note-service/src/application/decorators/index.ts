@@ -1,2 +1,1 @@
-// Application decorators exports
-export {};
+export * from './note.repo.inject';
