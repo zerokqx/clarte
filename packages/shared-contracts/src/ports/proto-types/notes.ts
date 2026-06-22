@@ -7,9 +7,12 @@
 /* eslint-disable */
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
-import { Empty } from "./google/protobuf/empty";
 
 export const protobufPackage = "notes";
+
+export interface CreateNoteResponse {
+  id: string;
+}
 
 export interface Note {
   id: string;
@@ -33,13 +36,13 @@ export interface GetBytesResponse {
 export interface CreateNoteRequest {
   text: string;
   tags: string[];
-  bytes: Uint8Array;
+  bytes?: Uint8Array | undefined;
 }
 
 export const NOTES_PACKAGE_NAME = "notes";
 
 export interface NotesServiceClient {
-  createNote(request: CreateNoteRequest): Observable<Empty>;
+  createNote(request: CreateNoteRequest): Observable<CreateNoteResponse>;
 
   getBytes(request: GetBytesRequest): Observable<GetBytesResponse>;
 
@@ -47,7 +50,9 @@ export interface NotesServiceClient {
 }
 
 export interface NotesServiceController {
-  createNote(request: CreateNoteRequest): void | Promise<void>;
+  createNote(
+    request: CreateNoteRequest,
+  ): Promise<CreateNoteResponse> | Observable<CreateNoteResponse> | CreateNoteResponse;
 
   getBytes(request: GetBytesRequest): Promise<GetBytesResponse> | Observable<GetBytesResponse> | GetBytesResponse;
 

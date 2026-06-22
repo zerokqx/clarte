@@ -8,11 +8,17 @@ import type { INoteRepositoryWrite } from '@/application/ports';
 @CommandHandler(CreateNoteCommand)
 export class CreateNoteHandler implements ICommandHandler<CreateNoteCommand> {
   constructor(
-    @InjectNoteRepo('w') private readonly noteWriteRepo: INoteRepositoryWrite
+    @InjectNoteRepo('w') private readonly noteWriteRepo: INoteRepositoryWrite,
   ) {}
 
-  async execute(command: CreateNoteCommand): Promise<void> {
-    const note = Note.create(randomUUID(), command.text, command.tags, command.bytes);
+  async execute(command: CreateNoteCommand): Promise<string> {
+    const note = Note.create(
+      randomUUID(),
+      command.text,
+      command.tags,
+      command.bytes,
+    );
     await this.noteWriteRepo.save(note);
+    return note.id;
   }
 }

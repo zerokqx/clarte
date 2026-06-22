@@ -6,7 +6,7 @@ export type CreateNoteCommandProps = {
   bytes: Uint8Array | null;
 };
 export class CreateNoteCommand
-  extends Command<void>
+  extends Command<string>
   implements CreateNoteCommandProps
 {
   public readonly text!: string;

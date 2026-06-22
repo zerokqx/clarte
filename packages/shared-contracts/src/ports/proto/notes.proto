@@ -3,9 +3,14 @@ import "google/protobuf/empty.proto";
 package notes;
 
 service NotesService {
-  rpc CreateNote(CreateNoteRequest) returns (google.protobuf.Empty);
+  rpc CreateNote(CreateNoteRequest) returns (CreateNoteResponse);
   rpc GetBytes(GetBytesRequest) returns (GetBytesResponse);
   rpc GetNoteById(GetBytesRequest) returns (Note);
+}
+
+
+message CreateNoteResponse {
+  string id = 1;
 }
 
 message Note {
@@ -29,5 +34,5 @@ message GetBytesResponse {
 message CreateNoteRequest {
   string text = 1;
   repeated string tags = 2;
-  bytes bytes = 3;
+  optional bytes bytes = 3;
 }

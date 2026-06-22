@@ -12,12 +12,14 @@ export class NotesController implements Notes.NotesServiceController {
     private readonly queryBus: QueryBus,
   ) {}
 
-  async createNote(request: Notes.CreateNoteRequest): Promise<void> {
+  async createNote(
+    request: Notes.CreateNoteRequest,
+  ): Promise<Notes.CreateNoteResponse> {
     const bytes = request.bytes ? new Uint8Array(request.bytes) : null;
-    await this.commandBus.execute(
+    const data = await this.commandBus.execute(
       new CreateNoteCommand({ text: request.text, tags: request.tags, bytes }),
     );
-    return {} as any;
+    return { id: data };
   }
 
   async getBytes(
