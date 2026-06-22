@@ -1641,3 +1641,5 @@ function Demo() {
   );
 }
 ```
+
+Declarations of all services of running applications (microservices, databases, queues) are located in the file README.md

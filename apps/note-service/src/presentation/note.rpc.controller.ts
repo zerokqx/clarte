@@ -17,7 +17,7 @@ export class NotesController implements Notes.NotesServiceController {
   ): Promise<Notes.CreateNoteResponse> {
     const bytes = request.bytes ? new Uint8Array(request.bytes) : null;
     const data = await this.commandBus.execute(
-      new CreateNoteCommand({ text: request.text, tags: request.tags, bytes }),
+      new CreateNoteCommand({ text: request.text, tags: request.tags, authorId: request.authorId, bytes }),
     );
     return { id: data };
   }
@@ -37,7 +37,7 @@ export class NotesController implements Notes.NotesServiceController {
     return { bytes: Buffer.from(bytes) };
   }
 
-  async getNoteById(request: Notes.GetBytesRequest): Promise<Notes.Note> {
+  async getNoteById(request: Notes.GetNoteByIdRequest): Promise<Notes.Note> {
     const note = await this.queryBus.execute(
       new GetNoteByIdQuery({ id: request.id }),
     );
@@ -49,9 +49,16 @@ export class NotesController implements Notes.NotesServiceController {
     }
     return {
       id: note.id,
+      text: note.text,
       tags: note.tags,
+      authorId: note.authorId,
       createdAt: note.createdAt.toISOString(),
       updatedAt: note.updatedAt.toISOString(),
     };
+  }
+
+  async saveNoteBytes(request: Notes.SaveNoteBytesRequest): Promise<void> {
+    // TODO: Implement save bytes command if not exists
+    console.log('Save note bytes requested for note', request.id);
   }
 }

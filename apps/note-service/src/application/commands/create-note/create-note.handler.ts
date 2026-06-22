@@ -17,6 +17,7 @@ export class CreateNoteHandler implements ICommandHandler<CreateNoteCommand> {
       command.text,
       command.tags,
       command.bytes,
+      command.authorId,
     );
     await this.noteWriteRepo.save(note);
     return note.id;

@@ -26,7 +26,7 @@ import {
 
 import CollaborationCursor from '@tiptap/extension-collaboration-caret';
 
-import { WebrtcProvider } from 'y-webrtc';
+import { HocuspocusProvider } from '@hocuspocus/provider';
 import { useCallback } from 'react';
 
 function stringToPastelColor(name: string): string {
@@ -45,7 +45,11 @@ function stringToPastelColor(name: string): string {
 }
 
 const doc = new Y.Doc();
-const provider = new WebrtcProvider('clarte-cursor-demo-123', doc);
+const provider = new HocuspocusProvider({
+  url: 'ws://localhost:5006/yjs',
+  name: 'clarte-cursor-demo-123',
+  document: doc,
+});
 
 export function App() {
   const name = 'User ' + Math.floor(Math.random() * 1500);

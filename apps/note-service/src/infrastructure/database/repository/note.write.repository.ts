@@ -15,6 +15,7 @@ export class NoteWriteRepository implements INoteRepositoryWrite {
       _id: note.id,
       text: note.text,
       bytes: note.bytes ? Buffer.from(note.bytes) : null,
+      authorId: note.authorId,
       tags: note.tags,
     });
     await newNote.save();

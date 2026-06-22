@@ -78,15 +78,23 @@
     }
   },
   "dependencies": {
+    "@clarte/shared-contracts": "workspace:*",
+    "@clarte/shared-domain": "workspace:*",
+    "@clarte/shared-nest": "workspace:*",
     "@hocuspocus/server": "^4.3.0",
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
+    "@nestjs/jwt": "^11.0.2",
     "@nestjs/platform-express": "^11.0.0",
+    "jsonwebtoken": "^9.0.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "ws": "^8.21.0"
   },
   "devDependencies": {
-    "@nestjs/testing": "^11.0.0"
+    "@nestjs/testing": "^11.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/ws": "^8.18.1"
   }
 }

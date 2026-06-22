@@ -12,6 +12,9 @@ export class Note {
   @Prop({ type: String, required: true, default: '' })
   text!: string;
 
+  @Prop({ type: String, required: true })
+  authorId!: string;
+
   @Prop({ type: Buffer })
   bytes!: Buffer;
 
