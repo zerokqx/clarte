@@ -13,6 +13,7 @@ import type { IncomingMessage } from 'http';
 import type { Duplex } from 'node:stream';
 import { InjectHocuspocusOptions } from '../application/decorators';
 import { lastValueFrom } from 'rxjs';
+import * as Y from 'yjs';
 
 @Injectable()
 export class HocuspocusAdapter
@@ -23,17 +24,26 @@ export class HocuspocusAdapter
   constructor(
     @InjectHocuspocusOptions() private readonly options: IHocuspocusOptions,
   ) {
-    this.server = new Server({
+    this.server = new Server<{ sub: string }>({
       name: 'clarte-hocuspocus',
       async onConnect(data) {
         Logger.log(`[Hocuspocus] onConnect: documentName=${data.documentName}`);
       },
+      async onLoadDocument(data) {
+        const source$ = options.noteClient.getBytes(data.context.sub);
+        const bytes = await lastValueFrom(source$);
+        if (bytes) {
+          Y.applyUpdate(data.document, bytes);
+        }
+        return data.document;
+      },
+
       async onChange(data) {
         Logger.log(`[Hocuspocus] onChange: documentName=${data.documentName}`);
       },
       async onAuthenticate(data) {
         const payload = await options.jwtValidator.validate(data.token);
-        const access$ = options.noteAccessChecker.check(
+        const access$ = options.noteClient.checkAccess(
           payload.sub,
           data.documentName,
         );
