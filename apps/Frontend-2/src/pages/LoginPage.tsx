@@ -24,7 +24,7 @@ export const LoginPage = () => {
   const form = useForm<LoginForm>({
     mode: 'uncontrolled',
     initialValues: {
-      login: '',
+      login: localStorage.getItem('clarte_saved_login') || '',
       password: '',
     },
     validate: {
@@ -42,6 +42,7 @@ export const LoginPage = () => {
   const handleSubmit = async (values: LoginForm) => {
     const success = await login(values.login, values.password);
     if (success) {
+      localStorage.setItem('clarte_saved_login', values.login);
       window.location.href = '/';
     }
   };

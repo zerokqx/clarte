@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Box, Text, Group, Badge, Paper, Tooltip, Button } from "@mantine/core";
-import { IconCopy, IconCheck, IconUsers, IconCloudCheck, IconEdit } from "@tabler/icons-react";
+import { Box, Text, Group, Badge, Paper, Tooltip, Button, Select } from "@mantine/core";
+import { IconCopy, IconCheck, IconUsers, IconCloudCheck, IconEdit, IconTypography } from "@tabler/icons-react";
 import * as Y from "yjs";
 import { WebsocketProvider } from "y-websocket";
 
@@ -52,6 +52,9 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
   const [activeUsers, setActiveUsers] = useState<{ name: string; color: string; isTyping: boolean }[]>([]);
   const [copied, setCopied] = useState(false);
   const [syncing, setSyncing] = useState(true);
+  const [fontFamily, setFontFamily] = useState<string>(() => {
+    return localStorage.getItem("clarte_editor_font") || "Inter";
+  });
   
   const ydocRef = useRef<Y.Doc | null>(null);
   const providerRef = useRef<WebsocketProvider | null>(null);
@@ -239,6 +242,27 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
           </Box>
           
           <Group gap="xs">
+            <Select
+              size="xs"
+              value={fontFamily}
+              onChange={(val) => {
+                if (val) {
+                  setFontFamily(val);
+                  localStorage.setItem("clarte_editor_font", val);
+                }
+              }}
+              data={[
+                { value: "Inter", label: "Inter (Без засечек)" },
+                { value: "Montserrat", label: "Montserrat" },
+                { value: "Merriweather", label: "Merriweather (Книжный)" },
+                { value: "Playfair Display", label: "Playfair Display" },
+                { value: "Fira Code", label: "Fira Code (Моноширинный)" },
+              ]}
+              leftSection={<IconTypography size={14} />}
+              style={{ width: 150 }}
+              radius="md"
+            />
+
             <Badge
               variant="light"
               color={syncing ? "orange" : "green"}
@@ -308,7 +332,7 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
             borderRadius: "8px",
             padding: "16px",
             fontSize: "15px",
-            fontFamily: "inherit",
+            fontFamily: fontFamily,
             resize: "none",
             outline: "none",
             lineHeight: "1.6",

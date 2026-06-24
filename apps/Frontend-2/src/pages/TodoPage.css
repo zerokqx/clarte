@@ -453,3 +453,92 @@
   color: #909296;
   background: #1a1b1e;
 }
+
+/* --- Basic Animations & Premium Transitions --- */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.task-item {
+  animation: fadeInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease !important;
+}
+
+.task-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.nav-item {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, color 0.2s ease !important;
+}
+
+.nav-item:hover {
+  transform: translateX(4px);
+}
+
+.add-project-btn {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, color 0.2s ease !important;
+}
+
+.add-project-btn:hover {
+  transform: translateX(4px);
+}
+
+.logo svg {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.logo:hover svg {
+  transform: rotate(12deg) scale(1.1);
+}
+
+.notification-item {
+  animation: fadeIn 0.2s ease-out both;
+  transition: background-color 0.2s ease, transform 0.2s ease !important;
+}
+
+.notification-item:hover {
+  transform: scale(1.01);
+}
+
+.collaborative-editor-container textarea {
+  transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+.mantine-Modal-content {
+  animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.empty-state {
+  animation: fadeIn 0.5s ease-out both;
+}
+

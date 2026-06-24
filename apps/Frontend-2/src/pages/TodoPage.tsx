@@ -141,6 +141,13 @@ export const TodoPage = () => {
   const [notificationsOpened, setNotificationsOpened] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isOffline, setIsOffline] = useState(false);
+  const [readNotificationIds, setReadNotificationIds] = useState<string[]>(() => {
+    try {
+      return JSON.parse(localStorage.getItem("clarte_read_notifications") || "[]");
+    } catch {
+      return [];
+    }
+  });
 
   const [connectModalOpened, { open: openConnectModal, close: closeConnectModal }] = useDisclosure(false);
   const [shareIdInput, setShareIdInput] = useState("");
@@ -172,7 +179,11 @@ export const TodoPage = () => {
       const res = await apiClient.get("/notifications");
       const list = res.data || [];
       setNotifications(list);
-      setUnreadCount(list.length);
+      
+      const storedReadIds: string[] = JSON.parse(localStorage.getItem("clarte_read_notifications") || "[]");
+      const unread = list.filter((n: any) => !storedReadIds.includes(n.id));
+      setUnreadCount(unread.length);
+      
       localStorage.setItem("clarte_notifications_cache", JSON.stringify(list));
       setIsOffline(false);
     } catch (err: any) {
@@ -184,21 +195,42 @@ export const TodoPage = () => {
       if (cached) {
         const list = JSON.parse(cached);
         setNotifications(list);
-        setUnreadCount(list.length);
+        const storedReadIds: string[] = JSON.parse(localStorage.getItem("clarte_read_notifications") || "[]");
+        const unread = list.filter((n: any) => !storedReadIds.includes(n.id));
+        setUnreadCount(unread.length);
       } else {
         const initialMockNotifs = [
           {
             id: "welcome-notif-1",
             title: "Система Clarte",
-            message: "Вы подключены в автономном режиме. Сервер недоступен.",
+            text: "Вы подключены в автономном режиме. Сервер недоступен.",
             read: false,
             createdAt: new Date().toISOString(),
           }
         ];
         setNotifications(initialMockNotifs);
-        setUnreadCount(initialMockNotifs.length);
+        const storedReadIds: string[] = JSON.parse(localStorage.getItem("clarte_read_notifications") || "[]");
+        const unread = initialMockNotifs.filter((n: any) => !storedReadIds.includes(n.id));
+        setUnreadCount(unread.length);
       }
     }
+  };
+
+  const markAllNotificationsAsRead = () => {
+    const allIds = notifications.map((n) => n.id);
+    setReadNotificationIds(allIds);
+    localStorage.setItem("clarte_read_notifications", JSON.stringify(allIds));
+    setUnreadCount(0);
+  };
+
+  const markNotificationAsRead = (id: string) => {
+    setReadNotificationIds((prev) => {
+      if (prev.includes(id)) return prev;
+      const next = [...prev, id];
+      localStorage.setItem("clarte_read_notifications", JSON.stringify(next));
+      return next;
+    });
+    setUnreadCount((prev) => Math.max(0, prev - 1));
   };
 
   useEffect(() => {
@@ -575,8 +607,13 @@ export const TodoPage = () => {
                     </Indicator>
                   </Popover.Target>
                   <Popover.Dropdown p={0}>
-                    <div style={{ padding: "12px 16px", borderBottom: "1px solid #f1f3f5" }}>
+                    <div style={{ padding: "12px 16px", borderBottom: "1px solid #f1f3f5", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                       <Text fw={600} size="sm">Уведомления</Text>
+                      {unreadCount > 0 && (
+                        <Button variant="subtle" size="xs" color="indigo" onClick={markAllNotificationsAsRead} style={{ fontSize: "11px", height: "auto", padding: "2px 6px" }}>
+                          Прочитать всё
+                        </Button>
+                      )}
                     </div>
                     <ScrollArea.Autosize maxHeight={300}>
                       {notifications.length === 0 ? (
@@ -585,15 +622,47 @@ export const TodoPage = () => {
                           <Text size="xs">Нет новых уведомлений</Text>
                         </div>
                       ) : (
-                        notifications.map((n) => (
-                          <div key={n.id} style={{ padding: "12px 16px", borderBottom: "1px solid #f1f3f5", fontSize: "13px" }}>
-                            <Text fw={600} size="xs" color="indigo">{n.title}</Text>
-                            <Text size="xs" mt={2} style={{ color: "#4b5563" }}>{n.text}</Text>
-                            <Text size="10px" color="dimmed" mt={4}>
-                              {new Date(n.createdAt).toLocaleDateString("ru-RU")} {new Date(n.createdAt).toLocaleTimeString("ru-RU", { hour: '2-digit', minute: '2-digit' })}
-                            </Text>
-                          </div>
-                        ))
+                        notifications.map((n) => {
+                          const isUnread = !readNotificationIds.includes(n.id);
+                          return (
+                            <div
+                              key={n.id}
+                              onClick={() => markNotificationAsRead(n.id)}
+                              style={{
+                                padding: "12px 16px",
+                                borderBottom: "1px solid #f1f3f5",
+                                fontSize: "13px",
+                                cursor: "pointer",
+                                backgroundColor: isUnread ? (colorScheme === "dark" ? "#1c2436" : "#f5f7ff") : "transparent",
+                                transition: "background-color 0.2s ease, transform 0.2s ease",
+                                position: "relative"
+                              }}
+                              className="notification-item"
+                            >
+                              <Group justify="space-between" align="flex-start" wrap="nowrap">
+                                <Text fw={isUnread ? 700 : 600} size="xs" color={isUnread ? "indigo" : "dimmed"}>
+                                  {n.title}
+                                </Text>
+                                {isUnread && (
+                                  <span style={{
+                                    width: "6px",
+                                    height: "6px",
+                                    backgroundColor: "#4f46e5",
+                                    borderRadius: "50%",
+                                    display: "inline-block",
+                                    marginTop: "4px"
+                                  }} />
+                                )}
+                              </Group>
+                              <Text size="xs" mt={2} style={{ color: colorScheme === "dark" ? "#c1c2c5" : "#4b5563" }}>
+                                {n.text || n.message}
+                              </Text>
+                              <Text size="10px" color="dimmed" mt={4}>
+                                {new Date(n.createdAt).toLocaleDateString("ru-RU")} {new Date(n.createdAt).toLocaleTimeString("ru-RU", { hour: '2-digit', minute: '2-digit' })}
+                              </Text>
+                            </div>
+                          );
+                        })
                       )}
                     </ScrollArea.Autosize>
                   </Popover.Dropdown>
