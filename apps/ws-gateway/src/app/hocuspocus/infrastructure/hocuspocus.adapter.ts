@@ -1,3 +1,4 @@
+import { Redis } from '@hocuspocus/extension-redis';
 import { Server } from '@hocuspocus/server';
 import {
   Injectable,
@@ -21,18 +22,26 @@ export class HocuspocusAdapter
 {
   public readonly server: Server;
 
-  constructor(
-    @InjectHocuspocusOptions() private readonly options: IHocuspocusOptions,
-  ) {
+  constructor(@InjectHocuspocusOptions() options: IHocuspocusOptions) {
+    const redis = options.redis;
     this.server = new Server<{ sub: string }>({
       name: 'clarte-hocuspocus',
+      extensions: [
+        new Redis({
+          port: redis.port,
+          host: redis.host,
+          options: {
+            password: redis.password,
+          },
+        }),
+      ],
       async onConnect(data) {
         Logger.log(`[Hocuspocus] onConnect: documentName=${data.documentName}`);
       },
       async onLoadDocument(data) {
         const source$ = options.noteClient.getBytes(data.documentName);
         const bytes = await lastValueFrom(source$);
-        Logger.log(bytes)
+        Logger.log(bytes);
         if (bytes && bytes.length > 0) {
           Y.applyUpdate(data.document, bytes);
         }
@@ -44,11 +53,13 @@ export class HocuspocusAdapter
         const authorId = data.lastContext.sub || 'anonymous';
         const save$ = options.noteClient.saveNoteBytes(
           data.documentName,
-          "",
+          '',
           bytes,
         );
         await lastValueFrom(save$);
-        Logger.log(`[Hocuspocus] Document ${data.documentName} saved successfully!`);
+        Logger.log(
+          `[Hocuspocus] Document ${data.documentName} saved successfully!`,
+        );
       },
 
       async onChange(data) {

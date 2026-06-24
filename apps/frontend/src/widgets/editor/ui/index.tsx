@@ -2,7 +2,7 @@ import 'highlight.js/styles/tokyo-night-dark.css';
 
 import { Markdown } from '@tiptap/markdown';
 import { all, createLowlight } from 'lowlight';
-
+import { ListKit } from '@tiptap/extension-list';
 import { TextAlign } from '@tiptap/extension-text-align';
 import { Loader, Stack } from '@mantine/core';
 import { RichTextEditor, Link } from '@mantine/tiptap';
@@ -67,17 +67,15 @@ export function ClarteEditor({ documentId }: ClarteEditorProps) {
     [documentId],
   );
   const editor = useEditor({
-    
     extensions: [
-      
-      Collaboration.configure({ document: doc , }),
+      Collaboration.configure({ document: doc }),
       StarterKit.configure({ link: false, undoRedo: false, codeBlock: false }),
       CollaborationCursor.configure({
         provider: provider,
         user: {
           avatar: 'https://avatars.githubusercontent.com/u/89585170?v=4',
           name,
-          color: stringToPastelColor(name), // Красный курсор
+          color: stringToPastelColor(name), 
         },
         render: (user) => {
           const cursor = document.createElement('span');
@@ -116,14 +114,15 @@ export function ClarteEditor({ documentId }: ClarteEditorProps) {
       }),
 
       CodeBlockLowlight.configure({ lowlight }),
+      ListKit.configure({ taskItem: { nested: true } }),
       TextStyle,
       Color,
       Placeholder.configure({ placeholder: 'Напишите что нибудь...' }),
       Image,
       Link,
       TextAlign.configure({
-        types: ['heading', 'paragraph'], // Разрешаем выравнивать заголовки и текст
-        alignments: ['left', 'center', 'right', 'justify'], // Доступные режимы
+        types: ['heading', 'paragraph'],
+        alignments: ['left', 'center', 'right', 'justify'],
       }),
       Markdown.configure({ html: false }),
     ],
@@ -137,7 +136,7 @@ export function ClarteEditor({ documentId }: ClarteEditorProps) {
   }, [editor]);
 
   return (
-    <Suspense fallback={<Loader/>}>
+    <Suspense fallback={<Loader />}>
       <Stack p={'lg'}>
         <RichTextEditor editor={editor}>
           <BubbleMenu editor={editor}>

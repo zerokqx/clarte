@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { Auth, Notes } from '@clarte/shared-contracts/proto';
+import {  Notes } from '@clarte/shared-contracts/proto';
 
 export interface INoteClient {
   getBytes(id: string): Observable<Uint8Array>;
