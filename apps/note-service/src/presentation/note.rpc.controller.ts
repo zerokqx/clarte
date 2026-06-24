@@ -1,9 +1,11 @@
 import { CreateNoteCommand } from '@/application/commands/create-note';
+import { SaveNoteBytesCommand } from '@/application/commands/save-note-bytes';
 import { GetBytesQuery, GetNoteByIdQuery } from '@/application/queries';
 import { Notes } from '@clarte/shared-contracts/proto';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { status } from '@grpc/grpc-js';
 import { RpcException } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
 
 @Notes.NotesServiceControllerMethods()
 export class NotesController implements Notes.NotesServiceController {
@@ -17,7 +19,12 @@ export class NotesController implements Notes.NotesServiceController {
   ): Promise<Notes.CreateNoteResponse> {
     const bytes = request.bytes ? new Uint8Array(request.bytes) : null;
     const data = await this.commandBus.execute(
-      new CreateNoteCommand({ text: request.text, tags: request.tags, authorId: request.authorId, bytes }),
+      new CreateNoteCommand({
+        text: request.text,
+        tags: request.tags,
+        authorId: request.authorId,
+        bytes,
+      }),
     );
     return { id: data };
   }
@@ -57,8 +64,22 @@ export class NotesController implements Notes.NotesServiceController {
     };
   }
 
+  accessCheck(
+    request: Notes.AccessCheckRequest,
+  ):
+    | Promise<Notes.AccessCheckResponse>
+    | Observable<Notes.AccessCheckResponse>
+    | Notes.AccessCheckResponse {
+    return { status: true };
+  }
   async saveNoteBytes(request: Notes.SaveNoteBytesRequest): Promise<void> {
-    // TODO: Implement save bytes command if not exists
-    console.log('Save note bytes requested for note', request.id);
+    const bytes = new Uint8Array(request.bytes);
+    await this.commandBus.execute(
+      new SaveNoteBytesCommand({
+        id: request.id,
+        bytes,
+        authorId: request.authorId,
+      }),
+    );
   }
 }

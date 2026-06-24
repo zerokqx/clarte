@@ -10,14 +10,32 @@ export class NoteWriteRepository implements INoteRepositoryWrite {
     private readonly noteModel: Model<NoteDocument>,
   ) {}
 
+  async findById(id: string): Promise<Note | null> {
+    const doc = await this.noteModel.findById(id).exec();
+    if (!doc) return null;
+    return Note.restore(
+      doc._id,
+      doc.text,
+      doc.tags,
+      doc.bytes ? new Uint8Array(doc.bytes) : null,
+      doc.authorId,
+      doc.createdAt,
+      doc.updatedAt,
+    );
+  }
+
   async save(note: Note): Promise<void> {
-    const newNote = new this.noteModel({
-      _id: note.id,
-      text: note.text,
-      bytes: note.bytes ? Buffer.from(note.bytes) : null,
-      authorId: note.authorId,
-      tags: note.tags,
-    });
-    await newNote.save();
+    await this.noteModel.findByIdAndUpdate(
+      note.id,
+      {
+        text: note.text,
+        bytes: note.bytes ? Buffer.from(note.bytes) : null,
+        authorId: note.authorId,
+        tags: note.tags,
+        updatedAt: note.updatedAt,
+      },
+      { upsert: true },
+    );
   }
 }
+

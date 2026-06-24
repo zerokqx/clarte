@@ -47,7 +47,7 @@ function stringToPastelColor(name: string): string {
 const doc = new Y.Doc();
 const provider = new HocuspocusProvider({
   url: 'ws://localhost:5006/yjs',
-  name: 'clarte-cursor-demo-123',
+  name: '8e4f995f-e396-4a55-aeaa-1ae6693a21c7',
   document: doc,
 });
 

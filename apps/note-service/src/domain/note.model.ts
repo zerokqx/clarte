@@ -1,6 +1,10 @@
 import { Entity } from '@clarte/shared-domain/domain';
 import { TextVo } from './value-objects';
 
+
+type NoteProps = Pick<Note, never>
+
+
 interface NotePlain {
   id: string;
   text: string;

@@ -9,22 +9,15 @@ import { JwtService } from '@nestjs/jwt';
 import { NOTE_CLIENT } from './note';
 
 import { type INoteClient } from './note';
-import { map } from 'rxjs';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     NoteModule,
     HocuspocusModule.registerAsync({
-      imports: [AuthModule],
+      imports: [AuthModule, NoteModule],
       useFactory(jwtService: JwtService, noteService: INoteClient) {
         return {
-          noteAccessChecker: {
-            check(authorId, noteId) {
-              return noteService
-                .checkAccess(authorId, noteId)
-                .pipe(map((response) => response.status));
-            },
-          },
+          noteClient: noteService,
           jwtValidator: {
             async validate(token) {
               return jwtService.verifyAsync(token);

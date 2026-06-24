@@ -7,6 +7,7 @@ import {
 import { Module, Provider } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { CreateNoteHandler } from './application/commands/create-note';
+import { SaveNoteBytesHandler } from './application/commands/save-note-bytes';
 import { GetBytesHandler, GetNoteByIdHandler } from './application/queries';
 import { NotesController } from './presentation';
 import { DatabaseModule } from './infrastructure/database';
@@ -14,6 +15,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 const handlers: Provider[] = [
   CreateNoteHandler,
+  SaveNoteBytesHandler,
   GetNoteByIdHandler,
   GetBytesHandler,
 ];
