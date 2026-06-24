@@ -2,7 +2,7 @@ export type NoteReadModelProps = Omit<NoteReadModel, never>;
 
 export class NoteReadModel {
   readonly id!: string;
-  readonly text!: string;
+  // readonly text!: string;
   readonly tags!: string[];
   readonly authorId!: string;
   readonly createdAt!: Date;

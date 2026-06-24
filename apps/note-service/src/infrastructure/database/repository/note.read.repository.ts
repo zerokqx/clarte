@@ -12,16 +12,15 @@ export class NoteReadRepository implements INoteRepositoryRead {
   ) {}
   async findById(id: string): Promise<NoteReadModel | null> {
     const note = await this.noteModel
-      .findById(id)
-      .select('-bytes')
+      .findOne({ _id: id })
+      .select('-bytes -text')
       .lean()
       .exec();
 
     if (!note) return null;
     return new NoteReadModel({
       id: note._id,
-      text: note.text,
-      tags: note.tags || [],
+      tags: note.tags,
       authorId: note.authorId,
       updatedAt: note.updatedAt,
       createdAt: note.createdAt,
@@ -30,11 +29,11 @@ export class NoteReadRepository implements INoteRepositoryRead {
 
   async getBytesFromNoteById(id: string): Promise<Uint8Array | null> {
     const note = await this.noteModel
-      .findById(id)
-      .select('bytes')
+      .findOne({ _id: id })
+      .select('bytes -_id')
       .lean()
       .exec();
-    if (!note) return null;
+    if (!note || !note.bytes) return null;
     return new Uint8Array(note.bytes.buffer);
   }
 }
