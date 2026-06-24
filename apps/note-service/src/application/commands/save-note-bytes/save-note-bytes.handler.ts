@@ -2,13 +2,10 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { SaveNoteBytesCommand } from './save-note-bytes.command';
 import { InjectNoteRepo } from '@/application/decorators';
 import type { INoteRepositoryWrite } from '@/application/ports';
-import { RpcException } from '@nestjs/microservices';
-import { status } from '@grpc/grpc-js';
+import { NoteNotFoundException } from '@/application/exceptions';
 
 @CommandHandler(SaveNoteBytesCommand)
-export class SaveNoteBytesHandler
-  implements ICommandHandler<SaveNoteBytesCommand>
-{
+export class SaveNoteBytesHandler implements ICommandHandler<SaveNoteBytesCommand> {
   constructor(
     @InjectNoteRepo('w') private readonly noteWriteRepo: INoteRepositoryWrite,
   ) {}
@@ -16,12 +13,8 @@ export class SaveNoteBytesHandler
   async execute(command: SaveNoteBytesCommand): Promise<void> {
     const note = await this.noteWriteRepo.findById(command.id);
 
-    if (!note) {
-      throw new RpcException({
-        code: status.NOT_FOUND,
-        message: 'Note not found',
-      });
-    }
+    if (!note)
+      throw new NoteNotFoundException(`Note id=${command.id} not found`);
 
     note.changeBytes(command.bytes);
 
