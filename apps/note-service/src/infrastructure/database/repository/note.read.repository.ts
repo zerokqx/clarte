@@ -17,6 +17,7 @@ export class NoteReadRepository implements INoteRepositoryRead {
       .lean()
       .exec();
 
+    console.log(note);
     if (!note) return null;
     return new NoteReadModel({
       id: note._id,
@@ -30,9 +31,11 @@ export class NoteReadRepository implements INoteRepositoryRead {
   async getBytesFromNoteById(id: string): Promise<Uint8Array | null> {
     const note = await this.noteModel
       .findOne({ _id: id })
-      .select('bytes -_id')
+      .select('bytes')
       .lean()
       .exec();
+
+    console.log(note);
     if (!note || !note.bytes) return null;
     return new Uint8Array(note.bytes.buffer);
   }

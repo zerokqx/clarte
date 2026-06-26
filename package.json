@@ -87,6 +87,7 @@
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.14.4",
+    "@grpc/proto-loader": "^0.8.1",
     "@hocuspocus/extension-redis": "^4.3.0",
     "@humanwhocodes/env": "^4.0.1",
     "@nestjs/bullmq": "^11.0.4",

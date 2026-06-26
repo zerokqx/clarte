@@ -35,13 +35,10 @@ export class NotesController implements Notes.NotesServiceController {
     const bytes = await this.queryBus.execute<GetBytesQuery, Uint8Array | null>(
       new GetBytesQuery({ id: request.id }),
     );
-    if (!bytes) {
-      throw new RpcException({
-        code: status.NOT_FOUND,
-        message: 'Note not found',
-      });
-    }
-    return { bytes: Buffer.from(bytes) };
+    const responseBytes = bytes
+      ? Buffer.from(bytes.buffer || bytes)
+      : Buffer.alloc(0);
+    return { bytes: responseBytes };
   }
 
   async getNoteById(request: Notes.GetNoteByIdRequest): Promise<Notes.Note> {

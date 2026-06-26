@@ -10,6 +10,9 @@ export class GetBytesHandler implements IQueryHandler<GetBytesQuery, Uint8Array 
   ) {}
 
   async execute(query: GetBytesQuery): Promise<Uint8Array | null> {
-    return this.noteReadRepo.getBytesFromNoteById(query.id);
+    const d = await this.noteReadRepo.getBytesFromNoteById(query.id);
+
+    console.log(d, query)
+    return d
   }
 }
