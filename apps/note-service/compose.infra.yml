@@ -1,7 +1,7 @@
 services:
   mongodb:
-    profiles:
-      - db
+    # profiles:
+    #   - db
     image: mongo:latest
     container_name: clarte-notes-service-mongodb
     ports:

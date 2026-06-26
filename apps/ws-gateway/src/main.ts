@@ -8,6 +8,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { Env } from '@humanwhocodes/env';
 import { Transport, type MicroserviceOptions } from '@nestjs/microservices';
+import { HOCUSPOCUS_SERVER, type IHocuspocusServerPort } from './app/hocuspocus/application/ports';
 
 async function bootstrap() {
   const env = new Env();
@@ -31,9 +32,22 @@ async function bootstrap() {
       },
     },
   });
+
+  const hocuspocusServer = app.get<IHocuspocusServerPort>(HOCUSPOCUS_SERVER);
+  const httpServer = app.getHttpServer();
+  httpServer.on('upgrade', (request: any, socket: any, head: any) => {
+    const pathname = request.url;
+    Logger.log(`[HTTP Upgrade] Request to ${pathname}`);
+    if (pathname?.startsWith('/yjs')) {
+      Logger.log(`[HTTP Upgrade] Handled by crossws. Passing to Hocuspocus...`);
+      hocuspocusServer.handleUpgrade(request, socket, head);
+    }
+  });
+
   await app.startAllMicroservices();
   await app.listen(PORT);
   Logger.log(`🚀 WS Gateway HTTP/Socket.io is running on port: ${PORT}`);
+  Logger.log(`🔗 Hocuspocus (Yjs) is available at ws://localhost:${PORT}/yjs`);
   Logger.log(`🚀 WS Gateway RMQ Listener attached to queue: ws_gateway_queue`);
 }
 

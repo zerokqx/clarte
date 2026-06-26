@@ -6,6 +6,10 @@
     "targets": {
       "build": {
         "executor": "nx:run-commands",
+        "dependsOn": [
+          "build",
+          "generate-keys"
+        ],
         "options": {
           "command": "webpack-cli build",
           "args": [
@@ -77,6 +81,11 @@
       },
       "generate-keys": {
         "executor": "nx:run-commands",
+        "cache": true,
+        "outputs": [
+          "{workspaceRoot}/apps/auth-service/src/assets/private.key",
+          "{workspaceRoot}/apps/auth-service/src/assets/public.key"
+        ],
         "options": {
           "commands": [
             "mkdir -p src/assets",

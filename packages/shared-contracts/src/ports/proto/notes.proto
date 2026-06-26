@@ -5,20 +5,33 @@ package notes;
 service NotesService {
   rpc CreateNote(CreateNoteRequest) returns (CreateNoteResponse);
   rpc GetBytes(GetBytesRequest) returns (GetBytesResponse);
-  rpc GetNoteById(GetBytesRequest) returns (Note);
+  rpc GetNoteById(GetNoteByIdRequest) returns (Note);
+  rpc SaveNoteBytes(SaveNoteBytesRequest) returns (google.protobuf.Empty);
+  rpc AccessCheck(AccessCheckRequest) returns (AccessCheckResponse);
 }
-
 
 message CreateNoteResponse {
   string id = 1;
 }
 
+message AccessCheckRequest {
+ string noteId = 1;
+ string authorId = 2;
+}
+
+message AccessCheckResponse {
+ bool status = 1;
+}
 message Note {
   string id = 1;
   repeated string tags = 2;
   string createdAt = 3;
   string updatedAt = 4;
+  string text = 5;
+  string authorId = 6;
+  optional bytes bytes = 7;
 }
+
 message GetNoteByIdRequest {
   string id = 1;
 }
@@ -34,5 +47,12 @@ message GetBytesResponse {
 message CreateNoteRequest {
   string text = 1;
   repeated string tags = 2;
-  optional bytes bytes = 3;
+  string authorId = 3;
+  optional bytes bytes = 4;
+}
+
+message SaveNoteBytesRequest {
+  string id = 1;
+  bytes bytes = 2;
+  string authorId = 3;
 }

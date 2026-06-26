@@ -1641,3 +1641,10 @@ function Demo() {
   );
 }
 ```
+
+## 1.0 Port declaration
+Declarations of all services of running applications (microservices, databases, queues) are located in the file README.md
+
+## 1.1 Exception Declaration
+
+RPC errors in microservices are never thrown; they are thrown as Problems according to the RFC7807 standard. An exception class inheriting from RFC7807 is created in the exceptions directory, for example, in the application layer or domain layer.
