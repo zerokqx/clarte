@@ -8,52 +8,80 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root';
-import { Route as AuthenticatedDRouteImport } from './routes/_authenticated/d';
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as NotAuthenticatedRouteRouteImport } from './routes/_not-authenticated/route'
+import { Route as NotAuthenticatedLoginRouteImport } from './routes/_not-authenticated/login'
 
-const AuthenticatedDRoute = AuthenticatedDRouteImport.update({
-  id: '/_authenticated/d',
-  path: '/d',
+const NotAuthenticatedRouteRoute = NotAuthenticatedRouteRouteImport.update({
+  id: '/_not-authenticated',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
+const NotAuthenticatedLoginRoute = NotAuthenticatedLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => NotAuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/d': typeof AuthenticatedDRoute;
+  '/': typeof NotAuthenticatedRouteRouteWithChildren
+  '/login': typeof NotAuthenticatedLoginRoute
 }
 export interface FileRoutesByTo {
-  '/d': typeof AuthenticatedDRoute;
+  '/': typeof NotAuthenticatedRouteRouteWithChildren
+  '/login': typeof NotAuthenticatedLoginRoute
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport;
-  '/_authenticated/d': typeof AuthenticatedDRoute;
+  __root__: typeof rootRouteImport
+  '/_not-authenticated': typeof NotAuthenticatedRouteRouteWithChildren
+  '/_not-authenticated/login': typeof NotAuthenticatedLoginRoute
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: '/d';
-  fileRoutesByTo: FileRoutesByTo;
-  to: '/d';
-  id: '__root__' | '/_authenticated/d';
-  fileRoutesById: FileRoutesById;
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '/' | '/login'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '/login'
+  id: '__root__' | '/_not-authenticated' | '/_not-authenticated/login'
+  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  AuthenticatedDRoute: typeof AuthenticatedDRoute;
+  NotAuthenticatedRouteRoute: typeof NotAuthenticatedRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_authenticated/d': {
-      id: '/_authenticated/d';
-      path: '/d';
-      fullPath: '/d';
-      preLoaderRoute: typeof AuthenticatedDRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+    '/_not-authenticated': {
+      id: '/_not-authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof NotAuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_not-authenticated/login': {
+      id: '/_not-authenticated/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof NotAuthenticatedLoginRouteImport
+      parentRoute: typeof NotAuthenticatedRouteRoute
+    }
   }
 }
 
+interface NotAuthenticatedRouteRouteChildren {
+  NotAuthenticatedLoginRoute: typeof NotAuthenticatedLoginRoute
+}
+
+const NotAuthenticatedRouteRouteChildren: NotAuthenticatedRouteRouteChildren = {
+  NotAuthenticatedLoginRoute: NotAuthenticatedLoginRoute,
+}
+
+const NotAuthenticatedRouteRouteWithChildren =
+  NotAuthenticatedRouteRoute._addFileChildren(
+    NotAuthenticatedRouteRouteChildren,
+  )
+
 const rootRouteChildren: RootRouteChildren = {
-  AuthenticatedDRoute: AuthenticatedDRoute,
-};
+  NotAuthenticatedRouteRoute: NotAuthenticatedRouteRouteWithChildren,
+}
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()

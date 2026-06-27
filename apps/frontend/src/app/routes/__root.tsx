@@ -1,3 +1,9 @@
-import { createRootRoute } from '@tanstack/react-router';
+import { createRootRouteWithContext } from '@tanstack/react-router';
+import { EventCallable, Store } from 'effector';
 
-export const Route = createRootRoute({});
+export interface MyRouterContext {
+  isAuthenticated: boolean;
+  notAuthenticated: ()=>void;
+}
+
+export const Route = createRootRouteWithContext<MyRouterContext>()({});

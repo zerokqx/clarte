@@ -5,6 +5,7 @@ import { App } from './app';
 import { AppProviders } from './providers';
 import { routeTree } from '@/app/route-tree.gen';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
+import { TanstackRouterProvider } from './providers/tanstack-router';
 
 async function enableMocking() {
   if (import.meta.env.VITE_MOCK !== 'true') {
@@ -18,20 +19,12 @@ async function enableMocking() {
   });
 }
 
-const router = createRouter({ routeTree });
-
-declare module '@tanstack/react-router' {
-  interface Register {
-    router: typeof router;
-  }
-}
 
 enableMocking().then(() => {
   const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
   root.render(
     <AppProviders>
-      <RouterProvider router={router} />
       <App />
     </AppProviders>,
   );
