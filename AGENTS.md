@@ -28,46 +28,47 @@
 A "solo microservice" is a microservice that encapsulates exactly one distinct entity or aggregate root (e.g., `user-service`). It is responsible solely for the lifecycle, state, and business rules of that specific domain concept without bleeding into other domains. It owns its own database and exposes its capabilities via well-defined contracts (gRPC, HTTP).
 
 **DDD + CQRS in Solo Microservices:**
+
 - **DDD (Domain-Driven Design):** Focuses on isolating the core business logic (Domain) from infrastructure and framework concerns. Even in a single-entity microservice, it helps maintain a clean boundary around the entity's behavior.
 - **CQRS (Command Query Responsibility Segregation):** Segregates operations that modify state (Commands) from operations that read state (Queries). In a solo microservice, this means having distinct execution paths and models for reading the entity vs. updating/creating it, which improves maintainability and scalability.
 
 ## Стиль написания кода и архитектурные правила
 
 1. **Чистая архитектура и DDD структуры**:
-   * Разделение слоев во всех сервисах должно быть строгим:
+   - Разделение слоев во всех сервисах должно быть строгим:
      - `domain`: содержит сущности-агрегаты (Aggregate Roots), объекты-значения (Value Objects) для валидации полей (например, `IdVo`, `TitleVo`) и доменные исключения. Логика сущностей не должна зависеть от внешних библиотек.
      - `application`: прикладной слой, содержит CQRS-команды/запросы (`commands`/`queries`), порты (`ports`/интерфейсы) и декораторы.
      - `infrastructure`: техническая реализация (адаптеры БД TypeORM, клиенты gRPC/RMQ).
      - `presentation`: контроллеры gRPC/RMQ и HTTP-эндпоинты шлюза (api-gateway).
 
 2. **Внедрение зависимостей (Dependency Injection) и декораторы**:
-   * Никогда не внедряйте классы инфраструктуры напрямую в прикладной слой или контроллеры.
-   * Всегда объявляйте интерфейсы (порты) в `application/ports/`.
-   * Объявляйте символьные токены (DI Tokens) в `application/ports/di-tokens.ts`:
+   - Никогда не внедряйте классы инфраструктуры напрямую в прикладной слой или контроллеры.
+   - Всегда объявляйте интерфейсы (порты) в `application/ports/`.
+   - Объявляйте символьные токены (DI Tokens) в `application/ports/di-tokens.ts`:
      ```typescript
      export const MY_SERVICE = Symbol('My service');
      ```
-   * Создавайте кастомные декораторы инъекции в `application/decorators/` с помощью утилиты `mkInject` из `@clarte/shared-nest/functions`:
+   - Создавайте кастомные декораторы инъекции в `application/decorators/` с помощью утилиты `mkInject` из `@clarte/shared-nest/functions`:
      ```typescript
      export const InjectMyService = mkInject(MY_SERVICE);
      ```
-   * Внедряйте зависимости только через эти декораторы: `@InjectMyService() private readonly service: IMyService`.
+   - Внедряйте зависимости только через эти декораторы: `@InjectMyService() private readonly service: IMyService`.
 
 3. **Событийно-ориентированная архитектура (RabbitMQ)**:
-   * Описание событий находится в библиотеке `packages/shared-event-types`. Паттерны событий объявляются в `UserEventPattern`, а типы полезной нагрузки — в `UserEventPayloadMap`.
-   * При публикации событий используйте `ClientProxy.emit()` совместно с RxJS `firstValueFrom` и конструкцией `satisfies` для строгой проверки типов:
+   - Описание событий находится в библиотеке `packages/shared-event-types`. Паттерны событий объявляются в `UserEventPattern`, а типы полезной нагрузки — в `UserEventPayloadMap`.
+   - При публикации событий используйте `ClientProxy.emit()` совместно с RxJS `firstValueFrom` и конструкцией `satisfies` для строгой проверки типов:
      ```typescript
      firstValueFrom(
        this.rmqClient.emit(UserEventPattern.UserCreated, {
          userId: user.id,
          login: user.login,
-       } satisfies UserEventPayloadMap[UserEventPattern.UserCreated])
+       } satisfies UserEventPayloadMap[UserEventPattern.UserCreated]),
      ).catch((err) => console.error(err));
      ```
-   * Обработчики событий в микросервисах декорируются `@EventPattern(...)` и принимают строго типизированные аргументы `@Payload() data: IEventPayload`.
+   - Обработчики событий в микросервисах декорируются `@EventPattern(...)` и принимают строго типизированные аргументы `@Payload() data: IEventPayload`.
 
 4. **Функциональный подход и Effect TS**:
-   * Сложные асинхронные цепочки, таймауты, ретраи и обработку ошибок в прикладных обработчиках (Handlers) следует реализовывать в функциональном стиле с использованием библиотеки `effect`:
+   - Сложные асинхронные цепочки, таймауты, ретраи и обработку ошибок в прикладных обработчиках (Handlers) следует реализовывать в функциональном стиле с использованием библиотеки `effect`:
      ```typescript
      const exit = await pipe(
        Effect.tryPromise({
@@ -75,20 +76,17 @@ A "solo microservice" is a microservice that encapsulates exactly one distinct e
          catch: (err) => new CustomException(err),
        }),
        Effect.timeout('3 seconds'),
-       Effect.runPromiseExit
+       Effect.runPromiseExit,
      );
      ```
 
 5. **Правила TypeScript и Линтера**:
-   * Строго соблюдайте правила `@typescript-eslint/no-inferrable-types`. Не пишите тип свойства класса или переменной, если он тривиально выводится из дефолтного значения (пишите `public readonly userAgent = ''` вместо `public readonly userAgent: string = ''`).
-
+   - Строго соблюдайте правила `@typescript-eslint/no-inferrable-types`. Не пишите тип свойства класса или переменной, если он тривиально выводится из дефолтного значения (пишите `public readonly userAgent = ''` вместо `public readonly userAgent: string = ''`).
 
 Before a big task from the user, it is always necessary to commit the current changes and only after that start working.
 
-
-
-
 # Rich text editor
+
 Package: @mantine/tiptap
 Import: import { Rich text editor } from '@mantine/tiptap';
 Description: Tiptap based rich text editor
@@ -206,7 +204,6 @@ function Demo() {
 }
 ```
 
-
 ## Subtle variant
 
 `variant="subtle"` removes borders from the control groups, makes controls
@@ -247,7 +244,6 @@ function Demo() {
 }
 ```
 
-
 ## Controlled
 
 To control the editor state, create a wrapper component and pass the `onChange` handler
@@ -263,10 +259,7 @@ interface RichTextEditorProps {
   onChange: (value: string) => void;
 }
 
-export function RichTextEditor({
-  value,
-  onChange,
-}: RichTextEditorProps) {
+export function RichTextEditor({ value, onChange }: RichTextEditorProps) {
   const editor = useEditor({
     extensions: [StarterKit],
     content: value,
@@ -305,45 +298,45 @@ npm install @tiptap/extension-superscript
 
 Included with `@tiptap/starter-kit` (should be installed by default):
 
-* `RichTextEditor.H1`
-* `RichTextEditor.H2`
-* `RichTextEditor.H3`
-* `RichTextEditor.H4`
-* `RichTextEditor.H5`
-* `RichTextEditor.H6`
-* `RichTextEditor.BulletList`
-* `RichTextEditor.OrderedList`
-* `RichTextEditor.Bold`
-* `RichTextEditor.Italic`
-* `RichTextEditor.Strikethrough`
-* `RichTextEditor.ClearFormatting`
-* `RichTextEditor.Blockquote`
-* `RichTextEditor.Code`
-* `RichTextEditor.CodeBlock`
-* `RichTextEditor.Hr`
-* `RichTextEditor.Undo`
-* `RichTextEditor.Redo`
-* `RichTextEditor.Underline`
-* `RichTextEditor.Unlink`
+- `RichTextEditor.H1`
+- `RichTextEditor.H2`
+- `RichTextEditor.H3`
+- `RichTextEditor.H4`
+- `RichTextEditor.H5`
+- `RichTextEditor.H6`
+- `RichTextEditor.BulletList`
+- `RichTextEditor.OrderedList`
+- `RichTextEditor.Bold`
+- `RichTextEditor.Italic`
+- `RichTextEditor.Strikethrough`
+- `RichTextEditor.ClearFormatting`
+- `RichTextEditor.Blockquote`
+- `RichTextEditor.Code`
+- `RichTextEditor.CodeBlock`
+- `RichTextEditor.Hr`
+- `RichTextEditor.Undo`
+- `RichTextEditor.Redo`
+- `RichTextEditor.Underline`
+- `RichTextEditor.Unlink`
 
 Controls that require [@tiptap/extension-text-align](https://www.npmjs.com/package/@tiptap/extension-text-align) extension:
 
-* `RichTextEditor.AlignLeft`
-* `RichTextEditor.AlignRight`
-* `RichTextEditor.AlignCenter`
-* `RichTextEditor.AlignJustify`
+- `RichTextEditor.AlignLeft`
+- `RichTextEditor.AlignRight`
+- `RichTextEditor.AlignCenter`
+- `RichTextEditor.AlignJustify`
 
 Controls that require [@tiptap/extension-color](https://www.npmjs.com/package/@tiptap/extension-color) and [@tiptap/extension-text-style](https://www.npmjs.com/package/@tiptap/extension-text-style) extensions:
 
-* `RichTextEditor.ColorPicker`
-* `RichTextEditor.Color`
-* `RichTextEditor.UnsetColor`
+- `RichTextEditor.ColorPicker`
+- `RichTextEditor.Color`
+- `RichTextEditor.UnsetColor`
 
 Other controls with required extensions:
 
-* `RichTextEditor.Superscript` requires [@tiptap/extension-superscript](https://www.npmjs.com/package/@tiptap/extension-superscript)
-* `RichTextEditor.Subscript` requires [@tiptap/extension-subscript](https://www.npmjs.com/package/@tiptap/extension-subscript)
-* `RichTextEditor.Highlight` requires [@tiptap/extension-highlight](https://www.npmjs.com/package/@tiptap/extension-highlight)
+- `RichTextEditor.Superscript` requires [@tiptap/extension-superscript](https://www.npmjs.com/package/@tiptap/extension-superscript)
+- `RichTextEditor.Subscript` requires [@tiptap/extension-subscript](https://www.npmjs.com/package/@tiptap/extension-subscript)
+- `RichTextEditor.Highlight` requires [@tiptap/extension-highlight](https://www.npmjs.com/package/@tiptap/extension-highlight)
 
 ## Placeholder
 
@@ -377,7 +370,6 @@ function Demo() {
   );
 }
 ```
-
 
 ## Link extension
 
@@ -419,9 +411,9 @@ npm install @tiptap/extension-color @tiptap/extension-text-style
 
 You can use the following controls to change text color:
 
-* `RichTextEditor.ColorPicker` – allows you to pick colors from given predefined color swatches and with the [ColorPicker](https://mantine.dev/llms/core-color-picker.md) component
-* `RichTextEditor.Color` – allows you to apply a given color with one click
-* `RichTextEditor.UnsetColor` – clears color styles
+- `RichTextEditor.ColorPicker` – allows you to pick colors from given predefined color swatches and with the [ColorPicker](https://mantine.dev/llms/core-color-picker.md) component
+- `RichTextEditor.Color` – allows you to apply a given color with one click
+- `RichTextEditor.UnsetColor` – clears color styles
 
 ```tsx
 import { useEditor } from '@tiptap/react';
@@ -478,7 +470,6 @@ function Demo() {
   );
 }
 ```
-
 
 ## Code highlight
 
@@ -570,12 +561,11 @@ function Demo() {
 }
 ```
 
-
 ## Source code mode
 
 You can use the following control to see and edit the source code of editor content:
 
-* `RichTextEditor.SourceCode` – allows switching on/off source code mode
+- `RichTextEditor.SourceCode` – allows switching on/off source code mode
 
 ```tsx
 import { useEditor } from '@tiptap/react';
@@ -584,12 +574,13 @@ import { RichTextEditor } from '@mantine/tiptap';
 import { useState } from 'react';
 
 function Demo() {
-  const [isSourceCodeModeActive, onSourceCodeTextSwitch] = useState(false)
+  const [isSourceCodeModeActive, onSourceCodeTextSwitch] = useState(false);
 
   const editor = useEditor({
     extensions: [StarterKit],
     shouldRerenderOnTransaction: true,
-    content: '<p>Source code control example</p><p>New line with <strong>bold text</strong></p><p>New line with <em>italic</em> <em>text</em></p>',
+    content:
+      '<p>Source code control example</p><p>New line with <strong>bold text</strong></p><p>New line with <em>italic</em> <em>text</em></p>',
   });
 
   return (
@@ -616,7 +607,6 @@ function Demo() {
   );
 }
 ```
-
 
 ## Tasks
 
@@ -676,7 +666,6 @@ function Demo() {
   );
 }
 ```
-
 
 ## Typography styles
 
@@ -752,7 +741,6 @@ export const typographyStyles: MantineDemo = {
 };
 ```
 
-
 ## Bubble menu
 
 You can use the [BubbleMenu](https://tiptap.dev/api/extensions/bubble-menu) component
@@ -788,7 +776,6 @@ function Demo() {
 }
 ```
 
-
 ## Floating menu
 
 You can use the [FloatingMenu](https://tiptap.dev/api/extensions/floating-menu) component
@@ -823,7 +810,6 @@ function Demo() {
   );
 }
 ```
-
 
 ## Sticky toolbar
 
@@ -911,7 +897,6 @@ function Demo() {
 }
 ```
 
-
 ## Editor context
 
 Use the `useRichTextEditorContext` hook to get the [Editor](https://tiptap.dev/api/editor) from
@@ -924,13 +909,7 @@ import { useRichTextEditorContext } from '@mantine/tiptap';
 
 function Demo() {
   const { editor } = useRichTextEditorContext();
-  return (
-    <Button
-      onClick={() => editor?.chain().focus().toggleBold().run()}
-    >
-      Make bold
-    </Button>
-  );
+  return <Button onClick={() => editor?.chain().focus().toggleBold().run()}>Make bold</Button>;
 }
 ```
 
@@ -978,7 +957,6 @@ function Demo() {
 }
 ```
 
-
 ## Change icons
 
 You can change the icon of a control by setting the `icon` prop. It accepts a component
@@ -1014,7 +992,6 @@ function Demo() {
   );
 }
 ```
-
 
 ## Labels and localization
 
@@ -1244,9 +1221,8 @@ export const DEFAULT_LABELS: RichTextEditorLabels = {
 };
 ```
 
-
-
 # HooksPackage
+
 Package: @mantine/hooks
 Import: import { HooksPackage } from '@mantine/hooks';
 
@@ -1412,14 +1388,12 @@ function Demo() {
 }
 ```
 
-
 ## License
 
 MIT
 
-
-
 # CorePackage
+
 Package: @mantine/core
 Import: import { CorePackage } from '@mantine/core';
 
@@ -1474,13 +1448,13 @@ function Demo() {
         <Stepper.Step label="Final step" description="Get full access">
           Step 3 content: Get full access
         </Stepper.Step>
-        <Stepper.Completed>
-          Completed, click back button to get to previous step
-        </Stepper.Completed>
+        <Stepper.Completed>Completed, click back button to get to previous step</Stepper.Completed>
       </Stepper>
 
       <Group justify="center" mt="xl">
-        <Button variant="default" onClick={prevStep}>Back</Button>
+        <Button variant="default" onClick={prevStep}>
+          Back
+        </Button>
         <Button onClick={nextStep}>Next step</Button>
       </Group>
     </>
@@ -1488,14 +1462,12 @@ function Demo() {
 }
 ```
 
-
 ## License
 
 MIT
 
-
-
 # GettingStartedDates
+
 Package: @mantine/dates
 Import: import { GettingStartedDates } from '@mantine/dates';
 
@@ -1532,8 +1504,6 @@ import '@mantine/dates/styles.css';
 
 After installing the `@mantine/dates` package and importing styles, you can use all components from it:
 
-
-
 ## Date values as strings
 
 `@mantine/dates` components work with date strings: `YYYY-MM-DD` or `YYYY-MM-DD HH:mm:ss` depending on the component. Those strings do not include any timezone-specific information.
@@ -1549,10 +1519,10 @@ date library in your application, you will need to install it separately.
 The `DatesProvider` component lets you set various settings that are shared across all
 components exported from the `@mantine/dates` package. `DatesProvider` supports the following settings:
 
-* `locale` – dayjs locale. Note that you also need to import the corresponding locale module from dayjs. The default value is `en`.
-* `firstDayOfWeek` – a number from 0 to 6, where 0 is Sunday and 6 is Saturday. The default value is 1 – Monday.
-* `weekendDays` – an array of numbers from 0 to 6, where 0 is Sunday and 6 is Saturday. The default value is `[0, 6]` – Saturday and Sunday.
-* `consistentWeeks` – boolean. If `true`, every month will have 6 weeks. The default value is `false`.
+- `locale` – dayjs locale. Note that you also need to import the corresponding locale module from dayjs. The default value is `en`.
+- `firstDayOfWeek` – a number from 0 to 6, where 0 is Sunday and 6 is Saturday. The default value is 1 – Monday.
+- `weekendDays` – an array of numbers from 0 to 6, where 0 is Sunday and 6 is Saturday. The default value is `[0, 6]` – Saturday and Sunday.
+- `consistentWeeks` – boolean. If `true`, every month will have 6 weeks. The default value is `false`.
 
 ```tsx
 import 'dayjs/locale/ru';
@@ -1567,7 +1537,6 @@ function Demo() {
   );
 }
 ```
-
 
 ## Consistent weeks
 
@@ -1585,7 +1554,6 @@ function Demo() {
   );
 }
 ```
-
 
 ## Custom parse format
 
@@ -1613,11 +1581,7 @@ import 'dayjs/locale/ru';
 import { DatesProvider } from '@mantine/dates';
 
 function Demo() {
-  return (
-    <DatesProvider settings={{ locale: 'ru' }}>
-      {/* Your app  */}
-    </DatesProvider>
-  );
+  return <DatesProvider settings={{ locale: 'ru' }}>{/* Your app  */}</DatesProvider>;
 }
 ```
 
@@ -1634,15 +1598,12 @@ import 'dayjs/locale/ru';
 import { DatesProvider } from '@mantine/dates';
 
 function Demo() {
-  return (
-    <DatesProvider settings={{ locale: 'ru' }}>
-      {/* Your app  */}
-    </DatesProvider>
-  );
+  return <DatesProvider settings={{ locale: 'ru' }}>{/* Your app  */}</DatesProvider>;
 }
 ```
 
 ## 1.0 Port declaration
+
 Declarations of all services of running applications (microservices, databases, queues) are located in the file README.md
 
 ## 1.1 Exception Declaration

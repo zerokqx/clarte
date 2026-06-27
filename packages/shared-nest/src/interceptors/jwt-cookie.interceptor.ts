@@ -1,17 +1,9 @@
-import {
-  CallHandler,
-  ExecutionContext,
-  Injectable,
-  NestInterceptor,
-} from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { type Response } from 'express';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { COOKIE_NAME } from '@clarte/shared';
-import {
-  InjectCookieInterceptorOptions,
-  InjectCookieInterceptorUuid,
-} from '../decorators';
+import { InjectCookieInterceptorOptions, InjectCookieInterceptorUuid } from '../decorators';
 
 export interface JwtCookieInterceptorOptions {
   isProd: boolean;
@@ -39,6 +31,7 @@ export class JwtCookieInterceptor implements NestInterceptor {
             response.cookie(COOKIE_NAME.JWT_ACCESS, accessToken, {
               httpOnly: true,
               secure: this.options.isProd,
+              path: '/',
               sameSite: 'lax',
               maxAge: 30 * 60 * 1000, // 30 минут
             });
@@ -47,6 +40,7 @@ export class JwtCookieInterceptor implements NestInterceptor {
           if (refreshToken) {
             response.cookie(COOKIE_NAME.JWT_REFRESH, refreshToken, {
               httpOnly: true,
+              path: '/',
               secure: this.options.isProd,
               sameSite: 'lax',
               maxAge: 30 * 24 * 60 * 60 * 1000, // 30 дней

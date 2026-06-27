@@ -1,9 +1,6 @@
 import { getProtoPath } from '@clarte/shared-contracts/functions';
 import { ConfigService } from '@nestjs/config';
-import {
-  MicroserviceConfigModule,
-  MicroserviceConfigType,
-} from '@clarte/shared-nest/modules';
+import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared-nest/modules';
 import { Global, Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { Auth } from '@clarte/shared-contracts/proto';
@@ -30,8 +27,7 @@ type Algorithm = NonNullable<JwtVerifyOptions['algorithms']>[number];
       {
         name: AUTH_GRPC_CLIENT,
         useFactory(config: ConfigService) {
-          const { host, port } =
-            config.getOrThrow<MicroserviceConfigType>('auth-service');
+          const { host, port } = config.getOrThrow<MicroserviceConfigType>('auth-service');
 
           return {
             transport: Transport.GRPC,

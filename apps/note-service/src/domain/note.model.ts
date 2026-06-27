@@ -1,9 +1,7 @@
 import { Entity } from '@clarte/shared-domain/domain';
 import { TextVo } from './value-objects';
 
-
-type NoteProps = Pick<Note, never>
-
+type NoteProps = Pick<Note, never>;
 
 interface NotePlain {
   id: string;
@@ -27,7 +25,13 @@ export class Note extends Entity {
     super(id);
   }
 
-  public static create(id: string, text: string, tags: string[] = [], bytes: Uint8Array | null = null, authorId: string) {
+  public static create(
+    id: string,
+    text: string,
+    tags: string[] = [],
+    bytes: Uint8Array | null = null,
+    authorId: string,
+  ) {
     const now = new Date();
     return new Note(id, TextVo.create(text), tags, bytes, authorId, now, now);
   }

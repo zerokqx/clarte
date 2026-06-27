@@ -11,11 +11,7 @@ export class NoteReadRepository implements INoteRepositoryRead {
     private readonly noteModel: Model<NoteDocument>,
   ) {}
   async findById(id: string): Promise<NoteReadModel | null> {
-    const note = await this.noteModel
-      .findOne({ _id: id })
-      .select('-bytes -text')
-      .lean()
-      .exec();
+    const note = await this.noteModel.findOne({ _id: id }).select('-bytes -text').lean().exec();
 
     console.log(note);
     if (!note) return null;
@@ -29,14 +25,14 @@ export class NoteReadRepository implements INoteRepositoryRead {
   }
 
   async getBytesFromNoteById(id: string): Promise<Uint8Array | null> {
-    const note = await this.noteModel
-      .findOne({ _id: id })
-      .select('bytes')
-      .lean()
-      .exec();
+    const note = await this.noteModel.findOne({ _id: id }).select('bytes').lean().exec();
 
     console.log(note);
     if (!note || !note.bytes) return null;
     return new Uint8Array(note.bytes.buffer);
+  }
+  userHasAccessTo(userId: string): (noteId: string) => Promise<boolean> {
+    return async (noteId: string) =>
+      !!(await this.noteModel.exists({ authorId: userId, _id: noteId }).exec());
   }
 }

@@ -5,11 +5,11 @@
 // source: notes.proto
 
 /* eslint-disable */
-import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
-import { Observable } from "rxjs";
-import { Empty } from "./google/protobuf/empty";
+import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
+import { Empty } from './google/protobuf/empty';
 
-export const protobufPackage = "notes";
+export const protobufPackage = 'notes';
 
 export interface CreateNoteResponse {
   id: string;
@@ -59,7 +59,7 @@ export interface SaveNoteBytesRequest {
   authorId: string;
 }
 
-export const NOTES_PACKAGE_NAME = "notes";
+export const NOTES_PACKAGE_NAME = 'notes';
 
 export interface NotesServiceClient {
   createNote(request: CreateNoteRequest): Observable<CreateNoteResponse>;
@@ -78,7 +78,9 @@ export interface NotesServiceController {
     request: CreateNoteRequest,
   ): Promise<CreateNoteResponse> | Observable<CreateNoteResponse> | CreateNoteResponse;
 
-  getBytes(request: GetBytesRequest): Promise<GetBytesResponse> | Observable<GetBytesResponse> | GetBytesResponse;
+  getBytes(
+    request: GetBytesRequest,
+  ): Promise<GetBytesResponse> | Observable<GetBytesResponse> | GetBytesResponse;
 
   getNoteById(request: GetNoteByIdRequest): Promise<Note> | Observable<Note> | Note;
 
@@ -91,17 +93,23 @@ export interface NotesServiceController {
 
 export function NotesServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["createNote", "getBytes", "getNoteById", "saveNoteBytes", "accessCheck"];
+    const grpcMethods: string[] = [
+      'createNote',
+      'getBytes',
+      'getNoteById',
+      'saveNoteBytes',
+      'accessCheck',
+    ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod("NotesService", method)(constructor.prototype[method], method, descriptor);
+      GrpcMethod('NotesService', method)(constructor.prototype[method], method, descriptor);
     }
     const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod("NotesService", method)(constructor.prototype[method], method, descriptor);
+      GrpcStreamMethod('NotesService', method)(constructor.prototype[method], method, descriptor);
     }
   };
 }
 
-export const NOTES_SERVICE_NAME = "NotesService";
+export const NOTES_SERVICE_NAME = 'NotesService';

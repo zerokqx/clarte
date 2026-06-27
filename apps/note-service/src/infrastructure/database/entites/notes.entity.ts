@@ -3,7 +3,7 @@ import { HydratedDocument } from 'mongoose';
 
 @Schema({ collection: 'notes', timestamps: true })
 export class Note {
-  @Prop({ type: String, required: true })
+  @Prop({ type: String, required: true, immutable: true })
   _id!: string;
 
   @Prop({ type: [String], default: [] })
@@ -12,10 +12,14 @@ export class Note {
   @Prop({ type: String, required: true, default: '' })
   text!: string;
 
-  @Prop({ type: String, required: true, index: true })
+  @Prop({ type: String, required: true, index: true, immutable: true })
   authorId!: string;
 
-  @Prop({ type: Buffer })
+  @Prop({
+    type: Buffer,
+    required: false,
+    default: () => Buffer.alloc(0),
+  })
   bytes!: Buffer;
 
   updatedAt!: Date;

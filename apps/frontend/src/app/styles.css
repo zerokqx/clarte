@@ -1,10 +1,7 @@
-/* You can add global styles to this file, and also import other style files */
-
 .tiptap {
   padding-top: 1.5rem;
 }
 
-/* Базовый контейнер для кастомного курсора стороннего пользователя */
 .collaboration-carets__caret {
   position: relative;
   margin-left: -1px;

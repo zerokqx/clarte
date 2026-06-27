@@ -8,6 +8,9 @@
     "@mantine/hooks": "^9.3.2",
     "@mantine/tiptap": "^9.3.2",
     "@phosphor-icons/react": "^2.1.10",
+    "@tanstack/react-query": "^5.101.1",
+    "@tanstack/react-router": "^1.170.16",
+    "@tanstack/react-router-devtools": "^1.167.0",
     "@tiptap/extension-code-block": "^3.27.1",
     "@tiptap/extension-code-block-lowlight": "^3.27.1",
     "@tiptap/extension-collaboration": "^3.27.1",
@@ -23,12 +26,51 @@
     "@tiptap/pm": "^3.27.1",
     "@tiptap/react": "^3.27.1",
     "@tiptap/starter-kit": "^3.27.1",
+    "effector": "^23.4.4",
     "highlight.js": "^11.11.1",
     "lowlight": "^3.3.0",
+    "orval": "^8.19.0",
     "react-yjs": "^2.0.1",
     "y-protocols": "^1.0.7",
     "y-webrtc": "^10.3.0",
     "y-websocket": "^1.5.0",
     "yjs": "^13.6.31"
+  },
+  "nx": {
+    "targets": {
+      "orval": {
+        "executor": "nx:run-commands",
+        "cache": true,
+        "inputs": [
+          "{projectRoot}/orval.config.ts",
+          {
+            "env": "VITE_BACKEND_PORT"
+          },
+          {
+            "env": "VITE_BACKEND_HOST"
+          }
+        ],
+        "outputs": [
+          "{projectRoot}/src/shared/api/orval/generated"
+        ],
+        "options": {
+          "command": "orval",
+          "args": [
+            "--config=./orval.config.ts"
+          ],
+          "cwd": "apps/frontend"
+        }
+      }
+    }
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^10.5.0",
+    "@tanstack/router-plugin": "^1.168.18",
+    "msw": "^2.14.6"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

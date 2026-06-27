@@ -18,19 +18,12 @@ import { map } from 'rxjs';
     NoteModule,
     HocuspocusModule.registerAsync({
       imports: [AuthModule, NoteModule, RedisModule],
-      useFactory(
-        jwtService: JwtService,
-        noteService: INoteClient,
-        config: ConfigService,
-      ) {
-        const { host, port, password } =
-          config.getOrThrow<IRedisConfiguration>('redis-config');
+      useFactory(jwtService: JwtService, noteService: INoteClient, config: ConfigService) {
+        const { host, port, password } = config.getOrThrow<IRedisConfiguration>('redis-config');
         return {
           noteClient: {
             checkAccess(authorId, noteId) {
-              return noteService
-                .checkAccess(authorId, noteId)
-                .pipe(map((res) => res.status));
+              return noteService.checkAccess(authorId, noteId).pipe(map((res) => res.status));
             },
             getBytes(id) {
               return noteService.getBytes(id);

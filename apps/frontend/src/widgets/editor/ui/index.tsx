@@ -33,6 +33,8 @@ import CollaborationCursor from '@tiptap/extension-collaboration-caret';
 
 import { HocuspocusProvider } from '@hocuspocus/provider';
 import { Suspense, useCallback, useMemo } from 'react';
+import { useUserControllerMe } from '../../../shared/api/orval';
+import { useLogger } from '@mantine/hooks';
 
 const lowlight = createLowlight(all);
 function stringToPastelColor(name: string): string {
@@ -56,6 +58,8 @@ interface ClarteEditorProps {
   documentId: string;
 }
 export function ClarteEditor({ documentId }: ClarteEditorProps) {
+  const d = useUserControllerMe();
+  useLogger('T', [d]);
   const name = 'User ' + Math.floor(Math.random() * 1500);
   const provider = useMemo(
     () =>
@@ -75,7 +79,7 @@ export function ClarteEditor({ documentId }: ClarteEditorProps) {
         user: {
           avatar: 'https://avatars.githubusercontent.com/u/89585170?v=4',
           name,
-          color: stringToPastelColor(name), 
+          color: stringToPastelColor(name),
         },
         render: (user) => {
           const cursor = document.createElement('span');
