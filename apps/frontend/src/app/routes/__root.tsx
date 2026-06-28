@@ -1,18 +1,12 @@
-import {
-  createRootRouteWithContext,
-  Outlet,
-  useRouteContext,
-} from '@tanstack/react-router';
+import { createRootRouteWithContext, Outlet, useRouteContext } from '@tanstack/react-router';
 import { MyRouterContext } from '../providers/tanstack-router';
 import { z } from 'zod';
 import { Loader } from '@mantine/core';
 
 const RouterComponent = () => {
   const context = useRouteContext({ from: '__root__' });
-  if (context.authState === 'initial') {
-    console.log('LOADER, authState is initial');
-    return <Loader size={'lg'} />;
-  }
+  if (context.authState === 'initial') return <Loader size={'lg'} />;
+
   return <Outlet />;
 };
 

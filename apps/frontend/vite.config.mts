@@ -3,6 +3,8 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { tanstackRouter } from '@tanstack/router-plugin/vite';
 
+import sassDts from 'vite-plugin-sass-dts';
+
 export default defineConfig(({ mode }) => {
   const APP = './src/app';
   const env = loadEnv(mode, import.meta.dirname, '');
@@ -13,6 +15,7 @@ export default defineConfig(({ mode }) => {
   const proxyTarget = `http://${backendHost}:${backendPort}`;
 
   return {
+    css: { modules: { localsConvention: 'camelCase', exportGlobals:true, } },
     root: import.meta.dirname,
     cacheDir: '../node_modules/.vite/frontend',
     resolve: { tsconfigPaths: true },
@@ -41,6 +44,9 @@ export default defineConfig(({ mode }) => {
         routesDirectory: APP + '/routes',
       }),
       react(),
+      sassDts({
+        allFiles: true,
+      }),
     ],
     // Uncomment this if you are using workers.
     // worker: {

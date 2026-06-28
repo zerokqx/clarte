@@ -16,7 +16,8 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "rootDir": "src"
+    "rootDir": "src",
+    "allowArbitraryExtensions": true
   },
   "exclude": [
     "out-tsc",

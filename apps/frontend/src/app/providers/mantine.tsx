@@ -3,5 +3,9 @@ import { ReactProvider } from '@/shared/types';
 import { theme } from '../mantine/theme';
 
 export const MantineProvider: ReactProvider = ({ children }) => {
-  return <MantineProviderOriginal theme={theme} defaultColorScheme='dark'>{children}</MantineProviderOriginal>;
+  return (
+    <MantineProviderOriginal theme={theme} defaultColorScheme="dark">
+      {children}
+    </MantineProviderOriginal>
+  );
 };
