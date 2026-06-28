@@ -10,10 +10,23 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as NotAuthenticatedRouteRouteImport } from './routes/_not-authenticated/route'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as NotAuthenticatedLoginRouteImport } from './routes/_not-authenticated/login'
+import { Route as AuthenticatedDRouteImport } from './routes/_authenticated/d'
+import { Route as AuthenticatedCIndexRouteImport } from './routes/_authenticated/c/index'
 
 const NotAuthenticatedRouteRoute = NotAuthenticatedRouteRouteImport.update({
   id: '/_not-authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NotAuthenticatedLoginRoute = NotAuthenticatedLoginRouteImport.update({
@@ -21,29 +34,56 @@ const NotAuthenticatedLoginRoute = NotAuthenticatedLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => NotAuthenticatedRouteRoute,
 } as any)
+const AuthenticatedDRoute = AuthenticatedDRouteImport.update({
+  id: '/d',
+  path: '/d',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCIndexRoute = AuthenticatedCIndexRouteImport.update({
+  id: '/c/',
+  path: '/c/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof NotAuthenticatedRouteRouteWithChildren
+  '/': typeof IndexRoute
+  '/d': typeof AuthenticatedDRoute
   '/login': typeof NotAuthenticatedLoginRoute
+  '/c/': typeof AuthenticatedCIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof NotAuthenticatedRouteRouteWithChildren
+  '/': typeof IndexRoute
+  '/d': typeof AuthenticatedDRoute
   '/login': typeof NotAuthenticatedLoginRoute
+  '/c': typeof AuthenticatedCIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_not-authenticated': typeof NotAuthenticatedRouteRouteWithChildren
+  '/_authenticated/d': typeof AuthenticatedDRoute
   '/_not-authenticated/login': typeof NotAuthenticatedLoginRoute
+  '/_authenticated/c/': typeof AuthenticatedCIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login'
+  fullPaths: '/' | '/d' | '/login' | '/c/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login'
-  id: '__root__' | '/_not-authenticated' | '/_not-authenticated/login'
+  to: '/' | '/d' | '/login' | '/c'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/_not-authenticated'
+    | '/_authenticated/d'
+    | '/_not-authenticated/login'
+    | '/_authenticated/c/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   NotAuthenticatedRouteRoute: typeof NotAuthenticatedRouteRouteWithChildren
 }
 
@@ -56,6 +96,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotAuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_not-authenticated/login': {
       id: '/_not-authenticated/login'
       path: '/login'
@@ -63,8 +117,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotAuthenticatedLoginRouteImport
       parentRoute: typeof NotAuthenticatedRouteRoute
     }
+    '/_authenticated/d': {
+      id: '/_authenticated/d'
+      path: '/d'
+      fullPath: '/d'
+      preLoaderRoute: typeof AuthenticatedDRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/c/': {
+      id: '/_authenticated/c/'
+      path: '/c'
+      fullPath: '/c/'
+      preLoaderRoute: typeof AuthenticatedCIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedDRoute: typeof AuthenticatedDRoute
+  AuthenticatedCIndexRoute: typeof AuthenticatedCIndexRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedDRoute: AuthenticatedDRoute,
+  AuthenticatedCIndexRoute: AuthenticatedCIndexRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface NotAuthenticatedRouteRouteChildren {
   NotAuthenticatedLoginRoute: typeof NotAuthenticatedLoginRoute
@@ -80,6 +161,8 @@ const NotAuthenticatedRouteRouteWithChildren =
   )
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   NotAuthenticatedRouteRoute: NotAuthenticatedRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport

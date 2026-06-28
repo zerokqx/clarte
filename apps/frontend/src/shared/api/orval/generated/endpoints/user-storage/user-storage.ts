@@ -5,24 +5,36 @@
  * Gateway for microservices
  * OpenAPI spec version: 1.0
  */
-import { useQuery } from '@tanstack/react-query';
+import {
+  useQuery
+} from '@tanstack/react-query';
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  QueryClient,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseQueryOptions,
-  UseQueryResult,
+  UseQueryResult
 } from '@tanstack/react-query';
 
-import type { UserS3StorageDTO } from '../../model';
+import type {
+  UserS3StorageDTO
+} from '../../model';
 
 import { customInstance } from '../../../axios-custom-instance';
 import type { ErrorType } from '../../../axios-custom-instance';
 
 type AwaitedInput<T> = PromiseLike<T> | T;
 
-type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
+      type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
+
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
+
 
 const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKey: K } => {
   const result = { queryKey } as T & { queryKey: K };
@@ -43,68 +55,91 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
  * @summary Получить presigned URL для загрузки аватара в S3
  */
 export const userStorageControllerGetPresignedUrl = (
-  options?: SecondParameter<typeof customInstance>,
-  signal?: AbortSignal,
+
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-  return customInstance<UserS3StorageDTO>(
-    { url: `/api/users/s3-storage`, method: 'GET', signal },
-    options,
-  );
-};
+
+
+      return customInstance<UserS3StorageDTO>(
+      {url: `/api/users/s3-storage`, method: 'GET', signal
+    },
+      options);
+    }
+
+
+
 
 export const getUserStorageControllerGetPresignedUrlQueryKey = () => {
-  return [`/api/users/s3-storage`] as const;
-};
+    return [
+    `/api/users/s3-storage`
+    ] as const;
+    }
 
-export const getUserStorageControllerGetPresignedUrlQueryOptions = <
-  TData = Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>,
-  TError = ErrorType<unknown>,
->(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>,
-    TError,
-    TData
-  >;
-  request?: SecondParameter<typeof customInstance>;
-}) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const queryKey = queryOptions?.queryKey ?? getUserStorageControllerGetPresignedUrlQueryKey();
+export const getUserStorageControllerGetPresignedUrlQueryOptions = <TData = Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>
-  > = ({ signal }) => userStorageControllerGetPresignedUrl(requestOptions, signal);
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+  const queryKey =  queryOptions?.queryKey ?? getUserStorageControllerGetPresignedUrlQueryKey();
 
-export type UserStorageControllerGetPresignedUrlQueryResult = NonNullable<
-  Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>
->;
-export type UserStorageControllerGetPresignedUrlQueryError = ErrorType<unknown>;
 
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>> = ({ signal }) => userStorageControllerGetPresignedUrl(requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type UserStorageControllerGetPresignedUrlQueryResult = NonNullable<Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>>
+export type UserStorageControllerGetPresignedUrlQueryError = ErrorType<unknown>
+
+
+export function useUserStorageControllerGetPresignedUrl<TData = Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>, TError = ErrorType<unknown>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>,
+          TError,
+          Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useUserStorageControllerGetPresignedUrl<TData = Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>,
+          TError,
+          Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useUserStorageControllerGetPresignedUrl<TData = Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Получить presigned URL для загрузки аватара в S3
  */
 
-export function useUserStorageControllerGetPresignedUrl<
-  TData = Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>,
-  TError = ErrorType<unknown>,
->(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>,
-    TError,
-    TData
-  >;
-  request?: SecondParameter<typeof customInstance>;
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getUserStorageControllerGetPresignedUrlQueryOptions(options);
+export function useUserStorageControllerGetPresignedUrl<TData = Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userStorageControllerGetPresignedUrl>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const queryOptions = getUserStorageControllerGetPresignedUrlQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return withQueryKey(query, queryOptions.queryKey);
 }
+
+
+
+
+
+

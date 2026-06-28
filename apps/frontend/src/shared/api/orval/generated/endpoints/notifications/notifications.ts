@@ -5,24 +5,36 @@
  * Gateway for microservices
  * OpenAPI spec version: 1.0
  */
-import { useQuery } from '@tanstack/react-query';
+import {
+  useQuery
+} from '@tanstack/react-query';
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  QueryClient,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseQueryOptions,
-  UseQueryResult,
+  UseQueryResult
 } from '@tanstack/react-query';
 
-import type { NotificationDTO } from '../../model';
+import type {
+  NotificationDTO
+} from '../../model';
 
 import { customInstance } from '../../../axios-custom-instance';
 import type { ErrorType } from '../../../axios-custom-instance';
 
 type AwaitedInput<T> = PromiseLike<T> | T;
 
-type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
+      type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
+
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
+
 
 const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKey: K } => {
   const result = { queryKey } as T & { queryKey: K };
@@ -43,69 +55,91 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
  * @summary Получить список уведомлений текущего пользователя
  */
 export const notificationControllerGetUserNotifications = (
-  options?: SecondParameter<typeof customInstance>,
-  signal?: AbortSignal,
+
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-  return customInstance<NotificationDTO[]>(
-    { url: `/api/notifications`, method: 'GET', signal },
-    options,
-  );
-};
+
+
+      return customInstance<NotificationDTO[]>(
+      {url: `/api/notifications`, method: 'GET', signal
+    },
+      options);
+    }
+
+
+
 
 export const getNotificationControllerGetUserNotificationsQueryKey = () => {
-  return [`/api/notifications`] as const;
-};
+    return [
+    `/api/notifications`
+    ] as const;
+    }
 
-export const getNotificationControllerGetUserNotificationsQueryOptions = <
-  TData = Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>,
-  TError = ErrorType<unknown>,
->(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>,
-    TError,
-    TData
-  >;
-  request?: SecondParameter<typeof customInstance>;
-}) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ?? getNotificationControllerGetUserNotificationsQueryKey();
+export const getNotificationControllerGetUserNotificationsQueryOptions = <TData = Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>
-  > = ({ signal }) => notificationControllerGetUserNotifications(requestOptions, signal);
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+  const queryKey =  queryOptions?.queryKey ?? getNotificationControllerGetUserNotificationsQueryKey();
 
-export type NotificationControllerGetUserNotificationsQueryResult = NonNullable<
-  Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>
->;
-export type NotificationControllerGetUserNotificationsQueryError = ErrorType<unknown>;
 
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>> = ({ signal }) => notificationControllerGetUserNotifications(requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type NotificationControllerGetUserNotificationsQueryResult = NonNullable<Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>>
+export type NotificationControllerGetUserNotificationsQueryError = ErrorType<unknown>
+
+
+export function useNotificationControllerGetUserNotifications<TData = Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>, TError = ErrorType<unknown>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>,
+          TError,
+          Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useNotificationControllerGetUserNotifications<TData = Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>,
+          TError,
+          Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useNotificationControllerGetUserNotifications<TData = Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Получить список уведомлений текущего пользователя
  */
 
-export function useNotificationControllerGetUserNotifications<
-  TData = Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>,
-  TError = ErrorType<unknown>,
->(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>,
-    TError,
-    TData
-  >;
-  request?: SecondParameter<typeof customInstance>;
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getNotificationControllerGetUserNotificationsQueryOptions(options);
+export function useNotificationControllerGetUserNotifications<TData = Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof notificationControllerGetUserNotifications>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const queryOptions = getNotificationControllerGetUserNotificationsQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return withQueryKey(query, queryOptions.queryKey);
 }
+
+
+
+
+
+

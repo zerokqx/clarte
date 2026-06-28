@@ -5,14 +5,14 @@
  * Gateway for microservices
  * OpenAPI spec version: 1.0
  */
-import { faker } from '@faker-js/faker';
+import {
+  faker
+} from '@faker-js/faker';
 
-import type { UserS3StorageDTO } from '../../model';
+import type {
+  UserS3StorageDTO
+} from '../../model';
 
-export const getUserStorageControllerGetPresignedUrlResponseMock = (
-  overrideResponse: Partial<Extract<UserS3StorageDTO, object>> = {},
-): UserS3StorageDTO => ({
-  urlPublic: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  urlPresigned: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  ...overrideResponse,
-});
+
+export const getUserStorageControllerGetPresignedUrlResponseMock = (overrideResponse: Partial<Extract<UserS3StorageDTO, object>> = {}): UserS3StorageDTO => ({urlPublic: faker.string.alpha({length: {min: 10, max: 20}}), urlPresigned: faker.string.alpha({length: {min: 10, max: 20}}), ...overrideResponse})
+

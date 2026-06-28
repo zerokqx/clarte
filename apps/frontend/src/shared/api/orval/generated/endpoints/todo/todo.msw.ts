@@ -5,98 +5,64 @@
  * Gateway for microservices
  * OpenAPI spec version: 1.0
  */
-import { faker } from '@faker-js/faker';
+import {
+  faker
+} from '@faker-js/faker';
 
-import { HttpResponse, http } from 'msw';
-import type { RequestHandlerOptions } from 'msw';
+import {
+  HttpResponse,
+  http
+} from 'msw';
+import type {
+  RequestHandlerOptions
+} from 'msw';
 
-import type { TodoControllerCreateTodo200, TodoDTO } from '../../model';
+import type {
+  TodoControllerCreateTodo200,
+  TodoDTO
+} from '../../model';
 
-export const getTodoControllerCreateTodoResponseMock = (
-  overrideResponse: Partial<Extract<TodoControllerCreateTodo200, object>> = {},
-): TodoControllerCreateTodo200 => ({
-  id: faker.helpers.arrayElement([faker.string.alpha({ length: { min: 10, max: 20 } }), undefined]),
-  ...overrideResponse,
-});
 
-export const getTodoControllerGetUserTodosResponseMock = (): TodoDTO[] =>
-  Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
-    id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    userId: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    title: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    description: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    isCompleted: faker.datatype.boolean(),
-    dueDate: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    createdAt: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    updatedAt: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  }));
+export const getTodoControllerCreateTodoResponseMock = (overrideResponse: Partial<Extract<TodoControllerCreateTodo200, object>> = {}): TodoControllerCreateTodo200 => ({id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), ...overrideResponse})
 
-export const getTodoControllerCreateTodoMockHandler = (
-  overrideResponse?:
-    | TodoControllerCreateTodo200
-    | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<TodoControllerCreateTodo200> | TodoControllerCreateTodo200),
-  options?: RequestHandlerOptions,
-) => {
-  return http.post(
-    '*/api/todos',
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
-      return HttpResponse.json(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === 'function'
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getTodoControllerCreateTodoResponseMock(),
-        { status: 200 },
-      );
-    },
-    options,
-  );
-};
+export const getTodoControllerGetUserTodosResponseMock = (): TodoDTO[] => (Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({id: faker.string.alpha({length: {min: 10, max: 20}}), userId: faker.string.alpha({length: {min: 10, max: 20}}), title: faker.string.alpha({length: {min: 10, max: 20}}), description: faker.string.alpha({length: {min: 10, max: 20}}), isCompleted: faker.datatype.boolean(), dueDate: faker.string.alpha({length: {min: 10, max: 20}}), createdAt: faker.string.alpha({length: {min: 10, max: 20}}), updatedAt: faker.string.alpha({length: {min: 10, max: 20}})})))
 
-export const getTodoControllerGetUserTodosMockHandler = (
-  overrideResponse?:
-    | TodoDTO[]
-    | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<TodoDTO[]> | TodoDTO[]),
-  options?: RequestHandlerOptions,
-) => {
-  return http.get(
-    '*/api/todos',
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
-      return HttpResponse.json(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === 'function'
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getTodoControllerGetUserTodosResponseMock(),
-        { status: 200 },
-      );
-    },
-    options,
-  );
-};
 
-export const getTodoControllerUpdateTodoMockHandler = (
-  overrideResponse?:
-    | void
-    | ((info: Parameters<Parameters<typeof http.patch>[1]>[0]) => Promise<void> | void),
-  options?: RequestHandlerOptions,
-) => {
-  return http.patch(
-    '*/api/todos/:id',
-    async (info: Parameters<Parameters<typeof http.patch>[1]>[0]) => {
-      if (typeof overrideResponse === 'function') {
-        await overrideResponse(info);
-      }
+export const getTodoControllerCreateTodoMockHandler = (overrideResponse?: TodoControllerCreateTodo200 | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TodoControllerCreateTodo200> | TodoControllerCreateTodo200), options?: RequestHandlerOptions) => {
+  return http.post('*/api/todos', async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
 
-      return new HttpResponse(null, { status: 200 });
-    },
-    options,
-  );
-};
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getTodoControllerCreateTodoResponseMock(),
+      { status: 200
+      })
+  }, options)
+}
+
+export const getTodoControllerGetUserTodosMockHandler = (overrideResponse?: TodoDTO[] | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<TodoDTO[]> | TodoDTO[]), options?: RequestHandlerOptions) => {
+  return http.get('*/api/todos', async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getTodoControllerGetUserTodosResponseMock(),
+      { status: 200
+      })
+  }, options)
+}
+
+export const getTodoControllerUpdateTodoMockHandler = (overrideResponse?: void | ((info: Parameters<Parameters<typeof http.patch>[1]>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
+  return http.patch('*/api/todos/:id', async (info: Parameters<Parameters<typeof http.patch>[1]>[0]) => {
+  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
+
+    return new HttpResponse(null,
+      { status: 200
+      })
+  }, options)
+}
 export const getTodoMock = () => [
   getTodoControllerCreateTodoMockHandler(),
   getTodoControllerGetUserTodosMockHandler(),
-  getTodoControllerUpdateTodoMockHandler(),
-];
+  getTodoControllerUpdateTodoMockHandler()
+]

@@ -5,25 +5,25 @@
  * Gateway for microservices
  * OpenAPI spec version: 1.0
  */
-import { HttpResponse, http } from 'msw';
-import type { RequestHandlerOptions } from 'msw';
+import {
+  HttpResponse,
+  http
+} from 'msw';
+import type {
+  RequestHandlerOptions
+} from 'msw';
 
-export const getUserEditControllerChangeAvatarMockHandler = (
-  overrideResponse?:
-    | void
-    | ((info: Parameters<Parameters<typeof http.patch>[1]>[0]) => Promise<void> | void),
-  options?: RequestHandlerOptions,
-) => {
-  return http.patch(
-    '*/api/users/change-avatar',
-    async (info: Parameters<Parameters<typeof http.patch>[1]>[0]) => {
-      if (typeof overrideResponse === 'function') {
-        await overrideResponse(info);
-      }
 
-      return new HttpResponse(null, { status: 204 });
-    },
-    options,
-  );
-};
-export const getUserEditMock = () => [getUserEditControllerChangeAvatarMockHandler()];
+
+export const getUserEditControllerChangeAvatarMockHandler = (overrideResponse?: void | ((info: Parameters<Parameters<typeof http.patch>[1]>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
+  return http.patch('*/api/users/change-avatar', async (info: Parameters<Parameters<typeof http.patch>[1]>[0]) => {
+  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
+
+    return new HttpResponse(null,
+      { status: 204
+      })
+  }, options)
+}
+export const getUserEditMock = () => [
+  getUserEditControllerChangeAvatarMockHandler()
+]

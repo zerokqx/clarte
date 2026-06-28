@@ -5,16 +5,14 @@
  * Gateway for microservices
  * OpenAPI spec version: 1.0
  */
-import { faker } from '@faker-js/faker';
+import {
+  faker
+} from '@faker-js/faker';
 
-import type { LoginResponseDTO } from '../../model';
+import type {
+  LoginResponseDTO
+} from '../../model';
 
-export const getAuthControllerLoginResponseMock = (
-  overrideResponse: Partial<Extract<LoginResponseDTO, object>> = {},
-): LoginResponseDTO => ({
-  success: faker.datatype.boolean(),
-  accessToken: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  refreshToken: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  userId: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  ...overrideResponse,
-});
+
+export const getAuthControllerLoginResponseMock = (overrideResponse: Partial<Extract<LoginResponseDTO, object>> = {}): LoginResponseDTO => ({success: faker.datatype.boolean(), accessToken: faker.string.alpha({length: {min: 10, max: 20}}), refreshToken: faker.string.alpha({length: {min: 10, max: 20}}), userId: faker.string.alpha({length: {min: 10, max: 20}}), ...overrideResponse})
+

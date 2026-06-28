@@ -45,7 +45,16 @@ export class JwtCookieInterceptor implements NestInterceptor {
               sameSite: 'lax',
               maxAge: 30 * 24 * 60 * 60 * 1000, // 30 дней
             });
+
+            response.cookie(COOKIE_NAME.HAS_SESSION, '1', {
+              httpOnly: false,
+              path: '/',
+              secure: this.options.isProd,
+              sameSite: 'lax',
+              maxAge: 30 * 24 * 60 * 60 * 1000, // совпадает с refresh
+            });
           }
+
 
           return { success: true };
         }

@@ -1,3 +1,4 @@
+
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactProvider } from '@/shared/types';
 

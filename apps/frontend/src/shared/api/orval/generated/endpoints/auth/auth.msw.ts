@@ -5,85 +5,70 @@
  * Gateway for microservices
  * OpenAPI spec version: 1.0
  */
-import { faker } from '@faker-js/faker';
+import {
+  faker
+} from '@faker-js/faker';
 
-import { HttpResponse, http } from 'msw';
-import type { RequestHandlerOptions } from 'msw';
+import {
+  HttpResponse,
+  http
+} from 'msw';
+import type {
+  RequestHandlerOptions
+} from 'msw';
 
-import type { LoginResponseDTO } from '../../model';
+import type {
+  LoginResponseDTO
+} from '../../model';
 
-export const getAuthControllerLoginResponseMock = (
-  overrideResponse: Partial<Extract<LoginResponseDTO, object>> = {},
-): LoginResponseDTO => ({
-  success: faker.datatype.boolean(),
-  accessToken: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  refreshToken: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  userId: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  ...overrideResponse,
-});
 
-export const getAuthControllerLoginMockHandler = (
-  overrideResponse?:
-    | LoginResponseDTO
-    | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<LoginResponseDTO> | LoginResponseDTO),
-  options?: RequestHandlerOptions,
-) => {
-  return http.post(
-    '*/api/auth/login',
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
-      return HttpResponse.json(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === 'function'
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getAuthControllerLoginResponseMock(),
-        { status: 200 },
-      );
-    },
-    options,
-  );
-};
-export const getAuthControllerRegisterMockHandler = (
-  overrideResponse?:
-    | void
-    | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<void> | void),
-  options?: RequestHandlerOptions,
-) => {
-  return http.post(
-    '*/api/auth/register',
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
-      if (typeof overrideResponse === 'function') {
-        await overrideResponse(info);
-      }
+export const getAuthControllerLoginResponseMock = (overrideResponse: Partial<Extract<LoginResponseDTO, object>> = {}): LoginResponseDTO => ({success: faker.datatype.boolean(), accessToken: faker.string.alpha({length: {min: 10, max: 20}}), refreshToken: faker.string.alpha({length: {min: 10, max: 20}}), userId: faker.string.alpha({length: {min: 10, max: 20}}), ...overrideResponse})
 
-      return new HttpResponse(null, { status: 200 });
-    },
-    options,
-  );
-};
 
-export const getAuthControllerRefreshMockHandler = (
-  overrideResponse?:
-    | void
-    | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<void> | void),
-  options?: RequestHandlerOptions,
-) => {
-  return http.post(
-    '*/api/auth/refresh',
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
-      if (typeof overrideResponse === 'function') {
-        await overrideResponse(info);
-      }
+export const getAuthControllerLoginMockHandler = (overrideResponse?: LoginResponseDTO | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<LoginResponseDTO> | LoginResponseDTO), options?: RequestHandlerOptions) => {
+  return http.post('*/api/auth/login', async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
 
-      return new HttpResponse(null, { status: 200 });
-    },
-    options,
-  );
-};
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getAuthControllerLoginResponseMock(),
+      { status: 200
+      })
+  }, options)
+}
+
+export const getAuthControllerRegisterMockHandler = (overrideResponse?: void | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
+  return http.post('*/api/auth/register', async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
+
+    return new HttpResponse(null,
+      { status: 200
+      })
+  }, options)
+}
+
+export const getAuthControllerCheckStatusMockHandler = (overrideResponse?: void | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
+  return http.get('*/api/auth/check', async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
+
+    return new HttpResponse(null,
+      { status: 200
+      })
+  }, options)
+}
+
+export const getAuthControllerRefreshMockHandler = (overrideResponse?: void | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
+  return http.post('*/api/auth/refresh', async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
+
+    return new HttpResponse(null,
+      { status: 200
+      })
+  }, options)
+}
 export const getAuthMock = () => [
   getAuthControllerLoginMockHandler(),
   getAuthControllerRegisterMockHandler(),
-  getAuthControllerRefreshMockHandler(),
-];
+  getAuthControllerCheckStatusMockHandler(),
+  getAuthControllerRefreshMockHandler()
+]

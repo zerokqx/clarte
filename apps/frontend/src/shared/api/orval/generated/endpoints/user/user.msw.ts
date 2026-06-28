@@ -5,107 +5,68 @@
  * Gateway for microservices
  * OpenAPI spec version: 1.0
  */
-import { faker } from '@faker-js/faker';
+import {
+  faker
+} from '@faker-js/faker';
 
-import { HttpResponse, http } from 'msw';
-import type { RequestHandlerOptions } from 'msw';
+import {
+  HttpResponse,
+  http
+} from 'msw';
+import type {
+  RequestHandlerOptions
+} from 'msw';
 
-import type { UserFindDTO, UserMeDTO } from '../../model';
+import type {
+  UserFindDTO,
+  UserMeDTO
+} from '../../model';
 
-export const getUserControllerFindUserByIdResponseMock = (
-  overrideResponse: Partial<Extract<UserFindDTO, object>> = {},
-): UserFindDTO => ({
-  id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  login: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  avatarUrl: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  ...overrideResponse,
-});
 
-export const getUserControllerFindUserByLoginResponseMock = (
-  overrideResponse: Partial<Extract<UserFindDTO, object>> = {},
-): UserFindDTO => ({
-  id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  login: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  avatarUrl: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  ...overrideResponse,
-});
+export const getUserControllerFindUserByIdResponseMock = (overrideResponse: Partial<Extract<UserFindDTO, object>> = {}): UserFindDTO => ({id: faker.string.alpha({length: {min: 10, max: 20}}), login: faker.string.alpha({length: {min: 10, max: 20}}), avatarUrl: faker.string.alpha({length: {min: 10, max: 20}}), ...overrideResponse})
 
-export const getUserControllerMeResponseMock = (
-  overrideResponse: Partial<Extract<UserMeDTO, object>> = {},
-): UserMeDTO => ({
-  id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  login: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  avatarUrl: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  ...overrideResponse,
-});
+export const getUserControllerFindUserByLoginResponseMock = (overrideResponse: Partial<Extract<UserFindDTO, object>> = {}): UserFindDTO => ({id: faker.string.alpha({length: {min: 10, max: 20}}), login: faker.string.alpha({length: {min: 10, max: 20}}), avatarUrl: faker.string.alpha({length: {min: 10, max: 20}}), ...overrideResponse})
 
-export const getUserControllerFindUserByIdMockHandler = (
-  overrideResponse?:
-    | UserFindDTO
-    | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<UserFindDTO> | UserFindDTO),
-  options?: RequestHandlerOptions,
-) => {
-  return http.get(
-    '*/api/users/id/:id',
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
-      return HttpResponse.json(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === 'function'
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getUserControllerFindUserByIdResponseMock(),
-        { status: 200 },
-      );
-    },
-    options,
-  );
-};
+export const getUserControllerMeResponseMock = (overrideResponse: Partial<Extract<UserMeDTO, object>> = {}): UserMeDTO => ({id: faker.string.alpha({length: {min: 10, max: 20}}), login: faker.string.alpha({length: {min: 10, max: 20}}), avatarUrl: faker.string.alpha({length: {min: 10, max: 20}}), ...overrideResponse})
 
-export const getUserControllerFindUserByLoginMockHandler = (
-  overrideResponse?:
-    | UserFindDTO
-    | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<UserFindDTO> | UserFindDTO),
-  options?: RequestHandlerOptions,
-) => {
-  return http.get(
-    '*/api/users/login/:login',
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
-      return HttpResponse.json(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === 'function'
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getUserControllerFindUserByLoginResponseMock(),
-        { status: 200 },
-      );
-    },
-    options,
-  );
-};
 
-export const getUserControllerMeMockHandler = (
-  overrideResponse?:
-    | UserMeDTO
-    | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<UserMeDTO> | UserMeDTO),
-  options?: RequestHandlerOptions,
-) => {
-  return http.get(
-    '*/api/users/me',
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
-      return HttpResponse.json(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === 'function'
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getUserControllerMeResponseMock(),
-        { status: 200 },
-      );
-    },
-    options,
-  );
-};
+export const getUserControllerFindUserByIdMockHandler = (overrideResponse?: UserFindDTO | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<UserFindDTO> | UserFindDTO), options?: RequestHandlerOptions) => {
+  return http.get('*/api/users/id/:id', async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getUserControllerFindUserByIdResponseMock(),
+      { status: 200
+      })
+  }, options)
+}
+
+export const getUserControllerFindUserByLoginMockHandler = (overrideResponse?: UserFindDTO | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<UserFindDTO> | UserFindDTO), options?: RequestHandlerOptions) => {
+  return http.get('*/api/users/login/:login', async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getUserControllerFindUserByLoginResponseMock(),
+      { status: 200
+      })
+  }, options)
+}
+
+export const getUserControllerMeMockHandler = (overrideResponse?: UserMeDTO | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<UserMeDTO> | UserMeDTO), options?: RequestHandlerOptions) => {
+  return http.get('*/api/users/me', async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getUserControllerMeResponseMock(),
+      { status: 200
+      })
+  }, options)
+}
 export const getUserMock = () => [
   getUserControllerFindUserByIdMockHandler(),
   getUserControllerFindUserByLoginMockHandler(),
-  getUserControllerMeMockHandler(),
-];
+  getUserControllerMeMockHandler()
+]

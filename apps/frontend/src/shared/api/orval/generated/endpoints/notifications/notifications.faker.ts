@@ -5,14 +5,14 @@
  * Gateway for microservices
  * OpenAPI spec version: 1.0
  */
-import { faker } from '@faker-js/faker';
+import {
+  faker
+} from '@faker-js/faker';
 
-import type { NotificationDTO } from '../../model';
+import type {
+  NotificationDTO
+} from '../../model';
 
-export const getNotificationControllerGetUserNotificationsResponseMock = (): NotificationDTO[] =>
-  Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
-    id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    title: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    text: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    createdAt: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  }));
+
+export const getNotificationControllerGetUserNotificationsResponseMock = (): NotificationDTO[] => (Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({id: faker.string.alpha({length: {min: 10, max: 20}}), title: faker.string.alpha({length: {min: 10, max: 20}}), text: faker.string.alpha({length: {min: 10, max: 20}}), createdAt: faker.string.alpha({length: {min: 10, max: 20}})})))
+

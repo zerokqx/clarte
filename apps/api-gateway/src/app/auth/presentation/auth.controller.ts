@@ -2,21 +2,18 @@ import { Marks } from '@clarte/shared';
 import {
   Body,
   Controller,
+  Get,
   Headers,
   HttpCode,
   HttpStatus,
   Post,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { InjectAuthClient, type IAuthClient } from '@/app/auth/aplication';
-import {
-  LoginDTO,
-  LoginResponseDTO,
-  RegisterDTO,
-} from '@/app/auth/presentation/dtos';
+import { LoginDTO, LoginResponseDTO, RegisterDTO } from '@/app/auth/presentation/dtos';
 import { map } from 'rxjs';
-import { RefreshGuard } from '@clarte/shared-nest/guards';
+import { AccessAuthGuard, AccessGuard, RefreshGuard } from '@clarte/shared-nest/guards';
 import { JwtCookieInterceptor } from '@clarte/shared-nest/interceptors';
 import { User, InjectCookieInterceptorUuid } from '@clarte/shared-nest/decorators';
 import { type IAuthenticatedUser } from '@clarte/shared-contracts/interfaces';
@@ -37,10 +34,7 @@ export class AuthController extends Marks.Controller.Mixed {
   @ApiOkResponse({ type: LoginResponseDTO })
   @Post('login')
   @UseInterceptors(JwtCookieInterceptor)
-  login(
-    @Body() body: LoginDTO,
-    @Headers('user-agent') userAgent = '',
-  ) {
+  login(@Body() body: LoginDTO, @Headers('user-agent') userAgent = '') {
     return this.authClient.login({ ...body, userAgent }).pipe(
       map(({ accessToken, refreshToken }) => ({
         accessToken,
@@ -56,6 +50,16 @@ export class AuthController extends Marks.Controller.Mixed {
   @Post('register')
   register(@Body() body: RegisterDTO) {
     return this.authClient.register(body);
+  }
+
+  @ApiOperation({ summary: 'Проверяет авторизован ли пользователь' })
+  @ApiOkResponse({ description: 'Пользователь аунтетифицирован и авторизован' })
+  @ApiUnauthorizedResponse({ description: 'Пользователь не авторизован' })
+  @AccessGuard()
+  @HttpCode(HttpStatus.OK)
+  @Get('check')
+  checkStatus() {
+    return;
   }
 
   @Post('refresh')

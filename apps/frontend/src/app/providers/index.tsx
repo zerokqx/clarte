@@ -1,17 +1,18 @@
 import { ReactNode } from 'react';
-import { MantineProvider } from '@mantine/core';
 import { TanstackQueryProvider } from './tanstack-query';
 import { TanstackRouterProvider } from './tanstack-router';
+import { MantineProvider } from './mantine';
 
 interface AppProvidersProps {
   children: ReactNode;
 }
 
-export function AppProviders({ children }: AppProvidersProps) {
+export function AppProviders() {
   return (
     <TanstackQueryProvider>
-      <TanstackRouterProvider />
-      <MantineProvider>{children}</MantineProvider>
+      <MantineProvider>
+        <TanstackRouterProvider />
+      </MantineProvider>
     </TanstackQueryProvider>
   );
 }

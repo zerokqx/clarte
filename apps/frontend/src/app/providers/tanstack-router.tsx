@@ -1,12 +1,18 @@
 import { useUnit } from 'effector-react';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { routeTree } from '@/app/route-tree.gen';
-import { $isAuthenticated, notAuthenticated } from '@/shared/model';
+import { $authenticatedStatus, notAuthenticated, TAuthState } from '@/shared/model';
+import { useEffect } from 'react';
+
+export interface MyRouterContext {
+  authState: TAuthState;
+  notAuthenticated: () => void;
+}
 
 const router = createRouter({
   routeTree,
   context: {
-    isAuthenticated: undefined!,
+    authState: undefined!,
     notAuthenticated: undefined!,
   },
 });
@@ -18,12 +24,17 @@ declare module '@tanstack/react-router' {
 }
 
 export const TanstackRouterProvider = () => {
-  const [isAuthenticated, notAuthenticatedCallback] = useUnit([$isAuthenticated, notAuthenticated]);
+  const [authState, notAuthenticatedCallback] = useUnit([$authenticatedStatus, notAuthenticated]);
+
+  useEffect(() => {
+    router.invalidate();
+  }, [authState]);
+
   return (
     <RouterProvider
       router={router}
       context={{
-        isAuthenticated,
+        authState,
         notAuthenticated: notAuthenticatedCallback,
       }}
     />

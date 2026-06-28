@@ -5,44 +5,37 @@
  * Gateway for microservices
  * OpenAPI spec version: 1.0
  */
-import { faker } from '@faker-js/faker';
+import {
+  faker
+} from '@faker-js/faker';
 
-import { HttpResponse, http } from 'msw';
-import type { RequestHandlerOptions } from 'msw';
+import {
+  HttpResponse,
+  http
+} from 'msw';
+import type {
+  RequestHandlerOptions
+} from 'msw';
 
-import type { NotificationDTO } from '../../model';
+import type {
+  NotificationDTO
+} from '../../model';
 
-export const getNotificationControllerGetUserNotificationsResponseMock = (): NotificationDTO[] =>
-  Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
-    id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    title: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    text: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    createdAt: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  }));
 
-export const getNotificationControllerGetUserNotificationsMockHandler = (
-  overrideResponse?:
-    | NotificationDTO[]
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<NotificationDTO[]> | NotificationDTO[]),
-  options?: RequestHandlerOptions,
-) => {
-  return http.get(
-    '*/api/notifications',
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
-      return HttpResponse.json(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === 'function'
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getNotificationControllerGetUserNotificationsResponseMock(),
-        { status: 200 },
-      );
-    },
-    options,
-  );
-};
+export const getNotificationControllerGetUserNotificationsResponseMock = (): NotificationDTO[] => (Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({id: faker.string.alpha({length: {min: 10, max: 20}}), title: faker.string.alpha({length: {min: 10, max: 20}}), text: faker.string.alpha({length: {min: 10, max: 20}}), createdAt: faker.string.alpha({length: {min: 10, max: 20}})})))
+
+
+export const getNotificationControllerGetUserNotificationsMockHandler = (overrideResponse?: NotificationDTO[] | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<NotificationDTO[]> | NotificationDTO[]), options?: RequestHandlerOptions) => {
+  return http.get('*/api/notifications', async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getNotificationControllerGetUserNotificationsResponseMock(),
+      { status: 200
+      })
+  }, options)
+}
 export const getNotificationsMock = () => [
-  getNotificationControllerGetUserNotificationsMockHandler(),
-];
+  getNotificationControllerGetUserNotificationsMockHandler()
+]

@@ -5,33 +5,19 @@
  * Gateway for microservices
  * OpenAPI spec version: 1.0
  */
-import { faker } from '@faker-js/faker';
+import {
+  faker
+} from '@faker-js/faker';
 
-import type { UserFindDTO, UserMeDTO } from '../../model';
+import type {
+  UserFindDTO,
+  UserMeDTO
+} from '../../model';
 
-export const getUserControllerFindUserByIdResponseMock = (
-  overrideResponse: Partial<Extract<UserFindDTO, object>> = {},
-): UserFindDTO => ({
-  id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  login: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  avatarUrl: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  ...overrideResponse,
-});
 
-export const getUserControllerFindUserByLoginResponseMock = (
-  overrideResponse: Partial<Extract<UserFindDTO, object>> = {},
-): UserFindDTO => ({
-  id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  login: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  avatarUrl: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  ...overrideResponse,
-});
+export const getUserControllerFindUserByIdResponseMock = (overrideResponse: Partial<Extract<UserFindDTO, object>> = {}): UserFindDTO => ({id: faker.string.alpha({length: {min: 10, max: 20}}), login: faker.string.alpha({length: {min: 10, max: 20}}), avatarUrl: faker.string.alpha({length: {min: 10, max: 20}}), ...overrideResponse})
 
-export const getUserControllerMeResponseMock = (
-  overrideResponse: Partial<Extract<UserMeDTO, object>> = {},
-): UserMeDTO => ({
-  id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  login: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  avatarUrl: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  ...overrideResponse,
-});
+export const getUserControllerFindUserByLoginResponseMock = (overrideResponse: Partial<Extract<UserFindDTO, object>> = {}): UserFindDTO => ({id: faker.string.alpha({length: {min: 10, max: 20}}), login: faker.string.alpha({length: {min: 10, max: 20}}), avatarUrl: faker.string.alpha({length: {min: 10, max: 20}}), ...overrideResponse})
+
+export const getUserControllerMeResponseMock = (overrideResponse: Partial<Extract<UserMeDTO, object>> = {}): UserMeDTO => ({id: faker.string.alpha({length: {min: 10, max: 20}}), login: faker.string.alpha({length: {min: 10, max: 20}}), avatarUrl: faker.string.alpha({length: {min: 10, max: 20}}), ...overrideResponse})
+
