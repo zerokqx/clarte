@@ -1,14 +1,13 @@
-import { loginForm } from './login-form.module.css';
-
-import { WarningIcon } from '@phosphor-icons/react';
 import '@/features/login/model';
 import { Button, Group, PasswordInput, Stack, Text, TextInput, ThemeIcon } from '@mantine/core';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { $lastLogin, lastLoginChanged, loginSuccesed } from '../model';
 import { useUnit } from 'effector-react';
 import { useLoginMutation } from '../api';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
 import { RootErrorForm } from '@/shared/ui/root-error-form';
+import { LoginSchema } from '../model/login.schema';
 
 interface LoginFormProps {
   onSuccess?: () => void;
@@ -32,6 +31,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
     formState: { errors, isSubmitting },
   } = useForm<LoginFormState>({
     defaultValues: { login: lastLogin ?? '', password: '' },
+    resolver: zodResolver(LoginSchema),
   });
 
   const onSubmit: SubmitHandler<LoginFormState> = async (data) => {
@@ -55,8 +55,8 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
   return (
     <Stack component={'form'} onSubmit={handleSubmit(onSubmit)}>
       {errors.root && <RootErrorForm message={errors.root.message} />}
-      <TextInput {...register('login')} label={'Логин'} />
-      <PasswordInput {...register('password')} label={'Пароль'} />
+      <TextInput {...register('login')} label={'Логин'} error={errors.login?.message} />
+      <PasswordInput {...register('password')} label={'Пароль'} error={errors.password?.message} />
       <TextInput opacity={0} />
       <Button type="submit" loading={isSubmitting}>
         Войти
