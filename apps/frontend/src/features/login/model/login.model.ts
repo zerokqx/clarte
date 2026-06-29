@@ -1,16 +1,23 @@
-import { authStore } from '@/entities/session';
-import { createEvent, createStore, sample } from 'effector';
-import { persist } from 'effector-storage/local';
+import { makeAutoObservable } from 'mobx';
 
-export const $lastLogin = createStore<string>('');
-export const loginSuccesed = createEvent();
-export const lastLoginChanged = createEvent<string>();
+/**
+ * Стор MobX для управления состоянием логина.
+ * Сохраняет имя последнего успешно вошедшего пользователя в localStorage.
+ */
+class LoginStore {
+  lastLogin = localStorage.getItem('last-login') || '';
 
-persist({ store: $lastLogin, key: 'last-login' });
+  constructor() {
+    makeAutoObservable(this);
+  }
 
-sample({ clock: lastLoginChanged, target: $lastLogin });
+  /**
+   * Обновляет имя последнего вошедшего пользователя.
+   */
+  setLastLogin(login: string) {
+    this.lastLogin = login;
+    localStorage.setItem('last-login', login);
+  }
+}
 
-loginSuccesed.watch(() => {
-  authStore.status = 'authenticated';
-});
-
+export const loginStore = new LoginStore();

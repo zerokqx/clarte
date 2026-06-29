@@ -83,10 +83,18 @@ class AuthStore implements IAuthStore {
   setAnonymous() {
     this.status = 'anonymous';
   }
+
+  /**
+   * Устанавливает статус авторизации как успешный.
+   */
+  setAuthenticated() {
+    this.status = 'authenticated';
+  }
 }
 
 /**
  * Глобальный экземпляр хранилища авторизации (Singleton).
  */
 export const authStore = new AuthStore();
+
 

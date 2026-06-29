@@ -506,18 +506,6 @@ importers:
       dayjs:
         specifier: ^1.11.21
         version: 1.11.21
-      effector:
-        specifier: ^23.4.4
-        version: 23.4.4
-      effector-logger:
-        specifier: ^0.15.0
-        version: 0.15.0(effector@23.4.4)
-      effector-react:
-        specifier: ^23.3.0
-        version: 23.3.0(effector@23.4.4)(react@19.2.7)
-      effector-storage:
-        specifier: ^8.0.0
-        version: 8.0.0(effector@23.4.4)
       highlight.js:
         specifier: ^11.11.1
         version: 11.11.1
@@ -536,9 +524,6 @@ importers:
       orval:
         specifier: ^8.19.0
         version: 8.19.0(@faker-js/faker@10.5.0)(prettier@3.9.1)(typescript@5.9.3)
-      patronum:
-        specifier: ^2.3.0
-        version: 2.3.0(effector@23.4.4)
       react-hook-form:
         specifier: ^7.80.0
         version: 7.80.0(react@19.2.7)
@@ -570,9 +555,6 @@ importers:
       eslint:
         specifier: ^9.39.4
         version: 9.39.4(jiti@2.7.0)
-      eslint-plugin-effector:
-        specifier: ^0.19.0
-        version: 0.19.0(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3)
       msw:
         specifier: ^2.14.6
         version: 2.14.6(@types/node@20.19.9)(typescript@5.9.3)
@@ -6317,9 +6299,6 @@ packages:
   detect-node-es@1.1.0:
     resolution: {integrity: sha512-ypdmJU/TbBby2Dxibuv7ZLW3Bs1QEmM7nHjEANfohJLvE0XVujisn1qPJcZxg+qDucsr+bP6fLD1rPS3AhJ7EQ==}
 
-  detect-node@2.0.4:
-    resolution: {integrity: sha512-ZIzRpLJrOj7jjP2miAtgqIfmzbxa4ZOr5jJc601zklsfEx9oTzmmj2nVpIPRpNlRTIh8lc1kyViIY7BWSGNmKw==}
-
   detect-node@2.1.0:
     resolution: {integrity: sha512-T0NIuQpnTvFDATNuHN5roPwSBG83rFsuO+MXXH9/3N1eFbn4wcPjttvjMLEPWJ0RGUYgQE7cGgS3tNxbqCGM7g==}
 
@@ -6410,27 +6389,6 @@ packages:
 
   effect@3.21.4:
     resolution: {integrity: sha512-B89v/xSgPbl1J2Ai2u18jxq3odpFauU1rC6/eSs4FeNHi72kwKdJp12VGigvRV2lK+kRnx+OOz41XV8guZd4gQ==}
-
-  effector-logger@0.15.0:
-    resolution: {integrity: sha512-Eq/00DPW9N0Tsu0z+VlXQtlR3TdAJQraD56iadFHCBnDU31fBJxmD1wwED/yGFKI5QGMgITGFUXnKHTN1hcrNg==}
-    peerDependencies:
-      effector: ^22.8.8 || ^23.0.0
-
-  effector-react@23.3.0:
-    resolution: {integrity: sha512-QR0+x1EnbiWhO80Yc0GVF+I9xCYoxBm3t+QLB5Wg+1uY1Q1BrSWDmKvJaJJZ/+9BU4RAr25yS5J2EkdWnicu8g==}
-    engines: {node: '>=11.0.0'}
-    peerDependencies:
-      effector: ^23.0.0
-      react: '>=16.8.0 <20.0.0'
-
-  effector-storage@8.0.0:
-    resolution: {integrity: sha512-sCR6umIVbfbK+ipd6WYWCxdv5iJdpzirSQLbaqauUmVXUPZTBr3VlQ3UMIFzRsojGABCxaBTVOmPjt8qph4i5w==}
-    peerDependencies:
-      effector: ^23.0.0
-
-  effector@23.4.4:
-    resolution: {integrity: sha512-QkZboRN28K/iwxigDhlJcI3ux3aNbt8kYGGH/GkqWG0OlGeyuBhb7PdM89Iu+ogV8Lmz16xIlwnXR2UNWI6psg==}
-    engines: {node: '>=11.0.0'}
 
   ejs@5.0.1:
     resolution: {integrity: sha512-COqBPFMxuPTPspXl2DkVYaDS3HtrD1GpzOGkNTJ1IYkifq/r9h8SVEFrjA3D9/VJGOEoMQcrlhpntcSUrM8k6A==}
@@ -6603,13 +6561,6 @@ packages:
         optional: true
       eslint-import-resolver-webpack:
         optional: true
-
-  eslint-plugin-effector@0.19.0:
-    resolution: {integrity: sha512-NftbPEtKlOkmKAvx0vi1enD5dKbLbbnUfNRxMR0bSaCMgPbM/Cj4qTHja3+FgmtIoSWGT6oAwoFiT5jfbnILEA==}
-    engines: {node: '>=21.1.0'}
-    peerDependencies:
-      eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
-      typescript: '>=5.0.0'
 
   eslint-plugin-import@2.31.0:
     resolution: {integrity: sha512-ixmkI62Rbc2/w8Vfxyh1jQRTdRTF52VxwRVHl/ykPAmqG+Nb7/kNn+byLP0LxPgI7zWA16Jt82SybJInmMia3A==}
@@ -7970,9 +7921,6 @@ packages:
     resolution: {integrity: sha512-ZZow9HBI5O6EPgSJLUb8n2NKgmVWTwCvHGwFuJlMjvLFqlGG6pjirPhtdsseaLZjSibD8eegzmYpUZwoIlj2cQ==}
     engines: {node: '>=4.0'}
 
-  just-debounce-it@1.5.0:
-    resolution: {integrity: sha512-itSWJS5d2DTSCizVJ2Z0Djx/dGmUGfZe7WNfUfVP23+htGcIcPHbEjL4eB8ljojTs/+oYwLexImRRCP0A2WXjA==}
-
   jwa@2.0.1:
     resolution: {integrity: sha512-hRF04fqJIP8Abbkq5NKGN0Bbr3JxlQ+qhZufXVr0DvujKy93ZCbXZMHDL4EOtodSbCWxOqR8MS1tXA5hwqCXDg==}
 
@@ -8987,11 +8935,6 @@ packages:
 
   pathe@2.0.3:
     resolution: {integrity: sha512-WUjGcAqP1gQacoQe+OBJsFA7Ld4DyXuUIjZ5cc75cLHvJ7dtNsTugphxIADwspS+AraAUePCKrSVtPLFj/F88w==}
-
-  patronum@2.3.0:
-    resolution: {integrity: sha512-BfKIOpoymVz6XnkOn8Fi5QZ1a3r/3lXdd8BcdHmYDbIXPTIRnD1EPFBFev/DheWnOge6/ZswEqgNF2ANLGOxLw==}
-    peerDependencies:
-      effector: ^23
 
   pause@0.0.1:
     resolution: {integrity: sha512-KG8UEiEVkR3wGEb4m5yZkVCzigAD+cVEJck2CzYZO37ZGJfctvVptVO192MwrtPhzONn6go8ylnOdMhKqi4nfg==}
@@ -16262,18 +16205,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/type-utils@8.61.0(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3)':
-    dependencies:
-      '@typescript-eslint/types': 8.61.0
-      '@typescript-eslint/typescript-estree': 8.61.0(typescript@5.9.3)
-      '@typescript-eslint/utils': 8.61.0(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3)
-      debug: 4.4.3
-      eslint: 9.39.4(jiti@2.7.0)
-      ts-api-utils: 2.5.0(typescript@5.9.3)
-      typescript: 5.9.3
-    transitivePeerDependencies:
-      - supports-color
-
   '@typescript-eslint/type-utils@8.62.0(eslint@9.39.4(jiti@2.4.2))(typescript@5.9.3)':
     dependencies:
       '@typescript-eslint/types': 8.62.0
@@ -16327,17 +16258,6 @@ snapshots:
       '@typescript-eslint/types': 8.61.0
       '@typescript-eslint/typescript-estree': 8.61.0(typescript@5.9.3)
       eslint: 9.39.4(jiti@2.4.2)
-      typescript: 5.9.3
-    transitivePeerDependencies:
-      - supports-color
-
-  '@typescript-eslint/utils@8.61.0(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3)':
-    dependencies:
-      '@eslint-community/eslint-utils': 4.9.1(eslint@9.39.4(jiti@2.7.0))
-      '@typescript-eslint/scope-manager': 8.61.0
-      '@typescript-eslint/types': 8.61.0
-      '@typescript-eslint/typescript-estree': 8.61.0(typescript@5.9.3)
-      eslint: 9.39.4(jiti@2.7.0)
       typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
@@ -17820,8 +17740,6 @@ snapshots:
 
   detect-node-es@1.1.0: {}
 
-  detect-node@2.0.4: {}
-
   detect-node@2.1.0: {}
 
   detect-port@2.1.0:
@@ -17912,24 +17830,6 @@ snapshots:
     dependencies:
       '@standard-schema/spec': 1.1.0
       fast-check: 3.23.2
-
-  effector-logger@0.15.0(effector@23.4.4):
-    dependencies:
-      detect-node: 2.0.4
-      effector: 23.4.4
-      just-debounce-it: 1.5.0
-
-  effector-react@23.3.0(effector@23.4.4)(react@19.2.7):
-    dependencies:
-      effector: 23.4.4
-      react: 19.2.7
-      use-sync-external-store: 1.6.0(react@19.2.7)
-
-  effector-storage@8.0.0(effector@23.4.4):
-    dependencies:
-      effector: 23.4.4
-
-  effector@23.4.4: {}
 
   ejs@5.0.1: {}
 
@@ -18165,16 +18065,6 @@ snapshots:
       '@typescript-eslint/parser': 8.62.0(eslint@9.39.4(jiti@2.4.2))(typescript@5.9.3)
       eslint: 9.39.4(jiti@2.4.2)
       eslint-import-resolver-node: 0.3.10
-    transitivePeerDependencies:
-      - supports-color
-
-  eslint-plugin-effector@0.19.0(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3):
-    dependencies:
-      '@typescript-eslint/type-utils': 8.61.0(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3)
-      '@typescript-eslint/utils': 8.61.0(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3)
-      eslint: 9.39.4(jiti@2.7.0)
-      esquery: 1.7.0
-      typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
 
@@ -20171,8 +20061,6 @@ snapshots:
       object.assign: 4.1.7
       object.values: 1.2.1
 
-  just-debounce-it@1.5.0: {}
-
   jwa@2.0.1:
     dependencies:
       buffer-equal-constant-time: 1.0.1
@@ -21270,10 +21158,6 @@ snapshots:
   path-type@4.0.0: {}
 
   pathe@2.0.3: {}
-
-  patronum@2.3.0(effector@23.4.4):
-    dependencies:
-      effector: 23.4.4
 
   pause@0.0.1: {}
 

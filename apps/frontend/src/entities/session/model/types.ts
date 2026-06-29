@@ -11,4 +11,5 @@ export interface IAuthStore {
   initAuth(): Promise<void>;
   refreshTokens(): Promise<void>;
   setAnonymous(): void;
+  setAuthenticated(): void;
 }

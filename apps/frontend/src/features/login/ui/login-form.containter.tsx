@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import { useUnit } from 'effector-react';
+import { observer } from 'mobx-react-lite';
 import { AxiosError } from 'axios';
-import { $lastLogin, lastLoginChanged, loginSuccesed } from '../model';
+import { authStore } from '@/entities/session';
+import { loginStore } from '../model';
 import { useLoginMutation } from '../api';
 import { LoginFormState, LoginFormView } from './login-form.view';
 
@@ -10,13 +11,7 @@ interface LoginFormContainerProps {
   onSuccess?: () => void;
 }
 
-export const LoginForm = ({ onSuccess }: LoginFormContainerProps) => {
-  const [loginSuccesedFn, lastLoginChangedFn, lastLogin] = useUnit([
-    loginSuccesed,
-    lastLoginChanged,
-    $lastLogin,
-  ]);
-  
+export const LoginForm = observer(({ onSuccess }: LoginFormContainerProps) => {
   const { mutateAsync, isPending } = useLoginMutation();
   const [rootError, setRootError] = useState<string | null>(null);
 
@@ -25,8 +20,10 @@ export const LoginForm = ({ onSuccess }: LoginFormContainerProps) => {
       setRootError(null);
       await mutateAsync({ data });
       
-      loginSuccesedFn();
-      lastLoginChangedFn(data.login);
+      // Обновляем состояние авторизации и последнего входа
+      authStore.setAuthenticated();
+      loginStore.setLastLogin(data.login);
+      
       onSuccess?.();
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -44,8 +41,8 @@ export const LoginForm = ({ onSuccess }: LoginFormContainerProps) => {
     <LoginFormView
       onSubmit={handleSubmit}
       isSubmitting={isPending}
-      lastLoginName={lastLogin}
+      lastLoginName={loginStore.lastLogin}
       rootError={rootError}
     />
   );
-};
+});
