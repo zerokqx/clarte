@@ -1,4 +1,3 @@
-import { useMe } from '@/entities/user';
 import { layoutStore } from '@/shared/model';
 import { Header } from '@/widgets/header';
 import { Spotlight } from '@/widgets/spotlight';
@@ -11,13 +10,19 @@ export const Route = createFileRoute('/_authenticated/c')({
 });
 
 function RouteComponent() {
-  const { data } = useMe();
-
   return (
-    <AppShell header={{ collapsed: !layoutStore.headerVisible, height: 50 }}>
+    <AppShell
+      header={{ collapsed: !layoutStore.headerVisible, height: 50 }}
+      navbar={{
+        collapsed: { desktop: !layoutStore.navbarVisible, mobile: !layoutStore.navbarVisible },
+        width: 300,
+        breakpoint: 'xs',
+      }}
+    >
       <AppShell.Header>
-        <Header avatarUrl={data?.avatarUrl} login={data?.login ?? 'anonymous'} />
+        <Header />
       </AppShell.Header>
+      <AppShell.Navbar>dwdwdawdawdadawdaw</AppShell.Navbar>
       <AppShell.Main>
         <Spotlight />
         <Outlet />

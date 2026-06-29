@@ -7,9 +7,5 @@ export const Route = createFileRoute('/_authenticated')({
       throw redirect({ to: '/login', search: { location: window.location.pathname } });
   },
 
-  component: () => (
-    <>
-      <Outlet />
-    </>
-  ),
+  component: () => <Outlet />,
 });
