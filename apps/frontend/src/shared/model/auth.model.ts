@@ -3,19 +3,40 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { COOKIE_NAME } from '@clarte/shared';
 
+/**
+ * Состояние авторизации пользователя в приложении.
+ */
 export type TAuthState = 'authenticated' | 'initial' | 'anonymous';
 
+/**
+ * Стор MobX для управления состоянием авторизации пользователя.
+ * Инкапсулирует бизнес-логику проверки сессии, обновления токенов доступа
+ * и хранения текущего статуса авторизации.
+ */
 class AuthStore {
+  /**
+   * Текущий статус авторизации.
+   */
   status: TAuthState = 'initial';
 
   constructor() {
     makeAutoObservable(this);
   }
 
+  /**
+   * Возвращает true, если в куках присутствует флаг активной сессии.
+   */
   private get hasSession(): boolean {
     return Cookies.get(COOKIE_NAME.HAS_SESSION) === '1';
   }
 
+  /**
+   * Инициализирует сессию пользователя при старте приложения.
+   * Оптимизирует загрузку: если кука активной сессии отсутствует,
+   * мгновенно переводит статус в `anonymous` без отправки сетевых запросов.
+   * Если сессия есть, проверяет её актуальность и автоматически запускает
+   * обновление токенов в случае ошибки проверки (например, при истечении access-токена).
+   */
   async initAuth() {
     if (!this.hasSession) {
       this.status = 'anonymous';
@@ -38,6 +59,14 @@ class AuthStore {
     }
   }
 
+  /**
+   * Обновляет токены доступа на бэкенде.
+   * При успешном обновлении статус пользователя устанавливается в `authenticated`.
+   * В случае провала (например, если сессия на сервере аннулирована)
+   * переводит статус в `anonymous` и пробрасывает ошибку для обработки.
+   *
+   * @throws Пробрасывает ошибку сетевого запроса, если обновление токенов не удалось.
+   */
   async refreshTokens() {
     try {
       await axios.post('/api/auth/refresh');
@@ -53,4 +82,8 @@ class AuthStore {
   }
 }
 
+/**
+ * Глобальный экземпляр хранилища авторизации (Singleton).
+ */
 export const authStore = new AuthStore();
+
