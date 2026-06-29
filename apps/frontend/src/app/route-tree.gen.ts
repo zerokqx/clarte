@@ -13,7 +13,7 @@ import { Route as NotAuthenticatedRouteRouteImport } from './routes/_not-authent
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as NotAuthenticatedLoginRouteImport } from './routes/_not-authenticated/login'
-import { Route as AuthenticatedDRouteImport } from './routes/_authenticated/d'
+import { Route as AuthenticatedCRouteRouteImport } from './routes/_authenticated/c/route'
 import { Route as AuthenticatedCIndexRouteImport } from './routes/_authenticated/c/index'
 
 const NotAuthenticatedRouteRoute = NotAuthenticatedRouteRouteImport.update({
@@ -34,26 +34,25 @@ const NotAuthenticatedLoginRoute = NotAuthenticatedLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => NotAuthenticatedRouteRoute,
 } as any)
-const AuthenticatedDRoute = AuthenticatedDRouteImport.update({
-  id: '/d',
-  path: '/d',
+const AuthenticatedCRouteRoute = AuthenticatedCRouteRouteImport.update({
+  id: '/c',
+  path: '/c',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedCIndexRoute = AuthenticatedCIndexRouteImport.update({
-  id: '/c/',
-  path: '/c/',
-  getParentRoute: () => AuthenticatedRouteRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedCRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/d': typeof AuthenticatedDRoute
+  '/c': typeof AuthenticatedCRouteRouteWithChildren
   '/login': typeof NotAuthenticatedLoginRoute
   '/c/': typeof AuthenticatedCIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/d': typeof AuthenticatedDRoute
   '/login': typeof NotAuthenticatedLoginRoute
   '/c': typeof AuthenticatedCIndexRoute
 }
@@ -62,21 +61,21 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_not-authenticated': typeof NotAuthenticatedRouteRouteWithChildren
-  '/_authenticated/d': typeof AuthenticatedDRoute
+  '/_authenticated/c': typeof AuthenticatedCRouteRouteWithChildren
   '/_not-authenticated/login': typeof NotAuthenticatedLoginRoute
   '/_authenticated/c/': typeof AuthenticatedCIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/d' | '/login' | '/c/'
+  fullPaths: '/' | '/c' | '/login' | '/c/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/d' | '/login' | '/c'
+  to: '/' | '/login' | '/c'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/_not-authenticated'
-    | '/_authenticated/d'
+    | '/_authenticated/c'
     | '/_not-authenticated/login'
     | '/_authenticated/c/'
   fileRoutesById: FileRoutesById
@@ -117,31 +116,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotAuthenticatedLoginRouteImport
       parentRoute: typeof NotAuthenticatedRouteRoute
     }
-    '/_authenticated/d': {
-      id: '/_authenticated/d'
-      path: '/d'
-      fullPath: '/d'
-      preLoaderRoute: typeof AuthenticatedDRouteImport
+    '/_authenticated/c': {
+      id: '/_authenticated/c'
+      path: '/c'
+      fullPath: '/c'
+      preLoaderRoute: typeof AuthenticatedCRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/c/': {
       id: '/_authenticated/c/'
-      path: '/c'
+      path: '/'
       fullPath: '/c/'
       preLoaderRoute: typeof AuthenticatedCIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      parentRoute: typeof AuthenticatedCRouteRoute
     }
   }
 }
 
-interface AuthenticatedRouteRouteChildren {
-  AuthenticatedDRoute: typeof AuthenticatedDRoute
+interface AuthenticatedCRouteRouteChildren {
   AuthenticatedCIndexRoute: typeof AuthenticatedCIndexRoute
 }
 
-const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedDRoute: AuthenticatedDRoute,
+const AuthenticatedCRouteRouteChildren: AuthenticatedCRouteRouteChildren = {
   AuthenticatedCIndexRoute: AuthenticatedCIndexRoute,
+}
+
+const AuthenticatedCRouteRouteWithChildren =
+  AuthenticatedCRouteRoute._addFileChildren(AuthenticatedCRouteRouteChildren)
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedCRouteRoute: typeof AuthenticatedCRouteRouteWithChildren
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedCRouteRoute: AuthenticatedCRouteRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =

@@ -1,5 +1,6 @@
 import '@mantine/core/styles.css';
 import '@mantine/tiptap/styles.css';
+import '@mantine/spotlight/styles.css';
 import * as ReactDOM from 'react-dom/client';
 import { AppProviders } from './providers';
 import { enableLogging } from 'mobx-logger';
@@ -9,7 +10,7 @@ import { setupAxiosInterceptors } from '@/shared/api';
 setupAxiosInterceptors(() => authStore.refreshTokens());
 if (import.meta.env.DEV) {
   enableLogging({
-    transaction:true,
+    transaction: true,
     predicate: () => true,
     action: true,
     reaction: true,

@@ -21,7 +21,8 @@ export const AuthModal = () => {
   const stack: AuthModalStack = useModalsStack(['login', 'register']);
 
   useEffect(() => {
-    if (stack.state.login || stack.state.register) {
+    const { login, register } = stack.state;
+    if (login || register) {
       setScale(0.5);
       return;
     }

@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UserMeDTO {
-  @ApiProperty()
+  @ApiProperty({ required: true })
   public readonly id!: string;
-  @ApiProperty()
+  @ApiProperty({ required: true })
   public readonly login!: string;
-  @ApiProperty()
+  @ApiProperty({ required: true })
   public readonly avatarUrl!: string;
 
   constructor(partial: Partial<UserMeDTO>) {

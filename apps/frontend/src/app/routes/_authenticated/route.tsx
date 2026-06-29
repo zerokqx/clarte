@@ -1,3 +1,4 @@
+import { Header } from '@/widgets/header';
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_authenticated')({
@@ -5,5 +6,10 @@ export const Route = createFileRoute('/_authenticated')({
     if (context.authState === 'anonymous')
       throw redirect({ to: '/login', search: { location: window.location.pathname } });
   },
-  component: () => <Outlet />,
+
+  component: () => (
+    <>
+      <Outlet />
+    </>
+  ),
 });
