@@ -3,7 +3,11 @@ import '@mantine/tiptap/styles.css';
 import * as ReactDOM from 'react-dom/client';
 import { AppProviders } from './providers';
 import { attachLogger } from 'effector-logger';
-import { authStore } from '@/shared/model';
+import { authStore } from '@/entities/session';
+import { setupAxiosInterceptors } from '@/shared/api';
+
+// Настройка перехватчиков Axios
+setupAxiosInterceptors(() => authStore.refreshTokens());
 
 import.meta.env.DEV && attachLogger();
 async function enableMocking() {
@@ -25,3 +29,4 @@ enableMocking().then(() => {
 
   authStore.initAuth();
 });
+

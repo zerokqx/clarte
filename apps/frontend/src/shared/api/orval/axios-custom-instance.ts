@@ -1,4 +1,3 @@
-import { authStore } from '@/shared/model';
 import Axios, { InternalAxiosRequestConfig, AxiosError, HttpStatusCode } from 'axios';
 
 // Кастомное расширение типа конфига для поддержки флага повтора
@@ -16,6 +15,17 @@ let failedQueue: Array<{
   resolve: (value: unknown) => void;
   reject: (reason: unknown) => void;
 }> = [];
+
+// Обработчик обновления токенов, внедряемый извне
+let refreshTokensHandler: (() => Promise<void>) | null = null;
+
+/**
+ * Инициализирует перехватчики (interceptors) для Axios, внедряя функцию обновления токена.
+ * Позволяет избежать зависимости low-level слоя shared от high-level слоя entities.
+ */
+export const setupAxiosInterceptors = (onUnauthorized: () => Promise<void>) => {
+  refreshTokensHandler = onUnauthorized;
+};
 
 // Очистка очереди запросов
 const processQueue = (error: Error | null) => {
@@ -48,8 +58,6 @@ AXIOS_INSTANCE.interceptors.response.use(
           .then(() => {
             // Перед повторным вызовом убеждаемся, что флаг взведен
             originalRequest._retry = true;
-            // Если токены передаются в Headers (а не в HTTP-only куках), раскомментируй:
-            // originalRequest.headers.Authorization = `Bearer ${getFreshToken()}`;
             return AXIOS_INSTANCE(originalRequest);
           })
           .catch((err) => Promise.reject(err));
@@ -60,7 +68,11 @@ AXIOS_INSTANCE.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        await authStore.refreshTokens();
+        if (refreshTokensHandler) {
+          await refreshTokensHandler();
+        } else {
+          throw new Error('Refresh token handler is not initialized');
+        }
 
         processQueue(null);
 

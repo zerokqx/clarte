@@ -1,11 +1,8 @@
-import { useUnit } from 'effector-react';
+import { observer } from 'mobx-react-lite';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { routeTree } from '@/app/route-tree.gen';
-import { $authenticatedStatus, notAuthenticated, TAuthState } from '@/shared/model';
+import { authStore, TAuthState } from '@/entities/session';
 import { useEffect } from 'react';
-
-
-
 
 export interface MyRouterContext {
   authState: TAuthState;
@@ -26,8 +23,12 @@ declare module '@tanstack/react-router' {
   }
 }
 
-export const TanstackRouterProvider = () => {
-  const [authState, notAuthenticatedCallback] = useUnit([$authenticatedStatus, notAuthenticated]);
+export const TanstackRouterProvider = observer(() => {
+  const authState = authStore.status;
+
+  const notAuthenticatedCallback = () => {
+    authStore.setAnonymous();
+  };
 
   useEffect(() => {
     router.invalidate();
@@ -42,4 +43,5 @@ export const TanstackRouterProvider = () => {
       }}
     />
   );
-};
+});
+

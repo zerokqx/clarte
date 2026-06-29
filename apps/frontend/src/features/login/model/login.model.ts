@@ -1,4 +1,4 @@
-import { authenticated } from '@/shared/model';
+import { authStore } from '@/entities/session';
 import { createEvent, createStore, sample } from 'effector';
 import { persist } from 'effector-storage/local';
 
@@ -10,7 +10,7 @@ persist({ store: $lastLogin, key: 'last-login' });
 
 sample({ clock: lastLoginChanged, target: $lastLogin });
 
-sample({
-  clock: loginSuccesed,
-  target: authenticated,
+loginSuccesed.watch(() => {
+  authStore.status = 'authenticated';
 });
+

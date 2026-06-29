@@ -2,7 +2,7 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { COOKIE_NAME } from '@clarte/shared';
-import type { IAuthStore, TAuthState } from '../types';
+import { IAuthStore, TAuthState } from './types';
 
 /**
  * Стор MobX для управления состоянием авторизации пользователя.
@@ -76,9 +76,17 @@ class AuthStore implements IAuthStore {
       throw error;
     }
   }
+
+  /**
+   * Сбрасывает статус авторизации на анонимный.
+   */
+  setAnonymous() {
+    this.status = 'anonymous';
+  }
 }
 
 /**
  * Глобальный экземпляр хранилища авторизации (Singleton).
  */
 export const authStore = new AuthStore();
+
