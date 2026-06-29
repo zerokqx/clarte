@@ -89,16 +89,16 @@
     "@clarte/shared-contracts": "workspace:*",
     "@clarte/shared-domain": "workspace:*",
     "@clarte/shared-nest": "workspace:*",
-    "@nestjs/common": "^11.0.0",
-    "@nestjs/core": "^11.0.0",
+    "@nestjs/common": "^11.1.27",
+    "@nestjs/core": "^11.1.27",
     "@nestjs/mongoose": "^11.0.4",
-    "@nestjs/platform-express": "^11.0.0",
-    "mongoose": "^9.7.1",
+    "@nestjs/platform-express": "^11.1.27",
+    "mongoose": "^9.7.3",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.0",
+    "rxjs": "^7.8.2",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@nestjs/testing": "^11.0.0"
+    "@nestjs/testing": "^11.1.27"
   }
 }

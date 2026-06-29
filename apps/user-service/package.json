@@ -86,17 +86,17 @@
     "@clarte/shared-domain": "workspace:*",
     "@clarte/shared-event-types": "workspace:*",
     "@clarte/shared-nest": "workspace:*",
-    "@dicebear/core": "^10.2.0",
+    "@dicebear/core": "^10.3.0",
     "@dicebear/styles": "^10.2.0",
-    "@nestjs/common": "^11.0.0",
-    "@nestjs/core": "^11.0.0",
-    "@nestjs/microservices": "^11.0.0",
-    "@nestjs/platform-express": "^11.0.0",
+    "@nestjs/common": "^11.1.27",
+    "@nestjs/core": "^11.1.27",
+    "@nestjs/microservices": "^11.1.27",
+    "@nestjs/platform-express": "^11.1.27",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.0",
+    "rxjs": "^7.8.2",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@nestjs/testing": "^11.0.0"
+    "@nestjs/testing": "^11.1.27"
   }
 }

@@ -5,9 +5,7 @@
     "emitDeclarationOnly": true,
     "importHelpers": true,
     "isolatedModules": true,
-    "lib": [
-      "es2022"
-    ],
+    "lib": ["es2022"],
     "module": "ESNext",
     "moduleResolution": "bundler",
     "noEmitOnError": true,
@@ -24,8 +22,6 @@
     //   ]
     // },
     "target": "ES2022",
-    "customConditions": [
-      "@clarte/source"
-    ]
+    "customConditions": ["@clarte/source"]
   }
 }

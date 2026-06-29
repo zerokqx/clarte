@@ -1,14 +1,10 @@
 import { ConfigService, ConfigModule } from '@nestjs/config';
-import {
-  AppConfigModule,
-  CompactConfigModule,
-  S3SharedModule,
-} from '@clarte/shared-nest/modules';
+import { AppConfigModule, CompactConfigModule, S3SharedModule } from '@clarte/shared-nest/modules';
 import { Module, Provider } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { CreateNoteHandler } from './application/commands/create-note';
 import { SaveNoteBytesHandler } from './application/commands/save-note-bytes';
-import { GetBytesHandler, GetNoteByIdHandler } from './application/queries';
+import { AccessCheckHandler, GetBytesHandler, GetNoteByIdHandler } from './application/queries';
 import { NotesController } from './presentation';
 import { DatabaseModule } from './infrastructure/database';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -18,6 +14,7 @@ const handlers: Provider[] = [
   SaveNoteBytesHandler,
   GetNoteByIdHandler,
   GetBytesHandler,
+  AccessCheckHandler,
 ];
 
 interface MongoConfiguration {

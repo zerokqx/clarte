@@ -14,6 +14,12 @@
       "import": "./dist/guards/index.js",
       "default": "./dist/guards/index.js"
     },
+    "./types": {
+      "@clarte/source": "./src/types/index.ts",
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/types/index.js",
+      "default": "./dist/types/index.js"
+    },
     "./filters": {
       "@clarte/source": "./src/filters/index.ts",
       "types": "./dist/filters/index.d.ts",
@@ -73,29 +79,30 @@
           "main": "packages/shared-nest/src/index.ts",
           "tsConfig": "packages/shared-nest/tsconfig.lib.json",
           "skipTypeCheck": true,
-          "stripLeadingPaths": true
+          "stripLeadingPaths": true,
+          "clean": false
         }
       }
     }
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1069.0",
-    "@aws-sdk/s3-request-presigner": "^3.1072.0",
+    "@aws-sdk/client-s3": "^3.1075.0",
+    "@aws-sdk/s3-request-presigner": "^3.1075.0",
     "@clarte/shared": "workspace:*",
     "@clarte/shared-contracts": "workspace:*",
     "@clarte/shared-domain": "workspace:*",
     "@grpc/grpc-js": "^1.14.4",
     "@humanwhocodes/env": "^4.0.1",
-    "@nestjs/common": "^11.0.0",
+    "@nestjs/common": "^11.1.27",
     "@nestjs/config": "^4.0.4",
-    "@nestjs/microservices": "^11.1.26",
+    "@nestjs/microservices": "^11.1.27",
     "@nestjs/passport": "^11.0.5",
-    "@swc/helpers": "~0.5.18",
-    "effect": "^3.21.3",
+    "@swc/helpers": "~0.5.23",
+    "effect": "^3.21.4",
     "express": "^5.2.1",
     "nestjs-s3": "^3.0.1",
     "passport-jwt": "^4.0.1",
-    "rxjs": "^7.8.0"
+    "rxjs": "^7.8.2"
   },
   "devDependencies": {
     "@types/passport-jwt": "^4.0.1"

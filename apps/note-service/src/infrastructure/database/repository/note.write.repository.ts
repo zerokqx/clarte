@@ -38,4 +38,3 @@ export class NoteWriteRepository implements INoteRepositoryWrite {
     );
   }
 }
-

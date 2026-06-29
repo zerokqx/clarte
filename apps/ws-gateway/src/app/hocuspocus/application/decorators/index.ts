@@ -1,2 +1,2 @@
 export * from './hocuspocus.inject';
-export * from './jwt-validator.inject'
+export * from './jwt-validator.inject';

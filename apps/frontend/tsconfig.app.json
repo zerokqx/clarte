@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
@@ -11,7 +12,12 @@
       "@nx/react/typings/image.d.ts",
       "vite/client"
     ],
-    "rootDir": "src"
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "rootDir": "src",
+    "allowArbitraryExtensions": true
   },
   "exclude": [
     "out-tsc",
@@ -32,5 +38,10 @@
     "eslint.config.cjs",
     "eslint.config.mjs"
   ],
-  "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"]
+  "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"],
+  "references": [
+    {
+      "path": "../../packages/shared/tsconfig.lib.json"
+    }
+  ]
 }

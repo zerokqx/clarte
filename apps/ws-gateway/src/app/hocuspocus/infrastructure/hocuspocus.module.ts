@@ -1,9 +1,6 @@
 import { Module } from '@nestjs/common';
 import { HocuspocusAdapter } from './hocuspocus.adapter';
-import {
-  ConfigurableModuleClass,
-  HOCUSPOCUS_SERVER,
-} from '../application/ports';
+import { ConfigurableModuleClass, HOCUSPOCUS_SERVER } from '../application/ports';
 
 const hocuspocusProvider = {
   provide: HOCUSPOCUS_SERVER,

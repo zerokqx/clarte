@@ -7,16 +7,12 @@ import { type ClientGrpc } from '@nestjs/microservices';
 
 export class AuthClient implements IAuthClient, OnModuleInit {
   private authService!: Auth.AuthServiceClient;
-  constructor(
-    @InjectAuthGrpcClient() private readonly grpcAuthClient: ClientGrpc,
-  ) {}
+  constructor(@InjectAuthGrpcClient() private readonly grpcAuthClient: ClientGrpc) {}
   onModuleInit() {
     this.authService = this.grpcAuthClient.getService(Auth.AUTH_SERVICE_NAME);
   }
 
   getPublicKey(): Observable<string> {
-    return this.authService
-      .getPublicJwtKey({})
-      .pipe(map((response) => response.key));
+    return this.authService.getPublicJwtKey({}).pipe(map((response) => response.key));
   }
 }

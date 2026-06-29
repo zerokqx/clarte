@@ -10,7 +10,6 @@ if %errorlevel% neq 0 (
 ) else (
     echo ✔ pnpm уже установлен
 )
-
 :: 2. Установка зависимостей проекта
 echo 📦 Установка зависимостей проекта...
 call pnpm install

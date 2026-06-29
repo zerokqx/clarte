@@ -48,3 +48,4 @@ volumes:
 networks:
   default:
     name: clarte-network
+    external: true
