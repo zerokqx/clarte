@@ -1,10 +1,7 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
-    "default": [
-      "{projectRoot}/**/*",
-      "sharedGlobals"
-    ],
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
       "default",
       "!{projectRoot}/.eslintrc.json",
@@ -55,9 +52,10 @@
         "targetName": "test"
       },
       "exclude": [
-        "apps/notes-service-e2e/**/*",
+        "apps/note-service-e2e/**/*",
         "apps/todo-service-e2e/**/*",
-        "apps/notification-service-e2e/**/*"
+        "apps/notification-service-e2e/**/*",
+        "apps/ws-gateway-e2e/**/*"
       ]
     },
     {
@@ -86,19 +84,12 @@
   "analytics": false,
   "targetDefaults": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ]
+      "dependsOn": ["^build"]
     },
     "@nx/js:swc": {
       "cache": true,
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "production",
-        "^production"
-      ]
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     },
     "compose-infra-up": {
       "executor": "nx:run-commands",
@@ -119,9 +110,24 @@
       }
     },
     "test": {
-      "dependsOn": [
-        "^build"
-      ]
+      "dependsOn": ["^build"]
+    }
+  },
+  "generators": {
+    "@nx/react": {
+      "application": {
+        "babel": true,
+        "style": "tailwind",
+        "linter": "none",
+        "bundler": "vite"
+      },
+      "component": {
+        "style": "tailwind"
+      },
+      "library": {
+        "style": "tailwind",
+        "linter": "none"
+      }
     }
   },
   "generators": {

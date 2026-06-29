@@ -8,6 +8,7 @@
 * **Node.js**: `22.21.1` — [Скачать Node.js](https://nodejs.org/)
 * **Git** — [Скачать Git](https://git-scm.com/)
 * **Docker** & **Docker Compose** — [Скачать Docker Desktop](https://www.docker.com/products/docker-desktop/)
+* **OpenSSL** (необязательно, если ключи уже сгенерированы) — требуется для генерации RSA-ключей. В Windows устанавливается командой `winget install ShiningLight.OpenSSL.Light`
 
 ---
 
@@ -76,11 +77,11 @@
 | Ресурс | Порт | Сервис | Назначение |
 | :--- | :--- | :--- | :--- |
 | `postgres` | **6000** | `user-service` | База данных пользователей |
-| `postgres` | **6001** | `notes-service` | База данных заметок |
+| `mongodb` | **6001** | `notes-service` | База данных заметок |
 | `postgres` | **6002** | `todo-service` | База данных задач |
-| `postgres` | **6005** | `notification-service` | База данных уведомлений |
 | `minio` | **6003** | `root compose` | S3 API MinIO |
 | `minio-console` | **6004** | `root compose` | Консоль управления MinIO |
+| `postgres` | **6005** | `notification-service` | База данных уведомлений |
 
 ### Очереди и брокеры (Порты 7000+)
 | Сервис | Порт | Назначение |

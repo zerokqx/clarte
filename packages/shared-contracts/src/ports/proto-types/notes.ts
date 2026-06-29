@@ -11,23 +11,87 @@ import { Empty } from "./google/protobuf/empty";
 
 export const protobufPackage = "notes";
 
+export interface CreateNoteResponse {
+  id: string;
+}
+
+export interface AccessCheckRequest {
+  noteId: string;
+  authorId: string;
+}
+
+export interface AccessCheckResponse {
+  status: boolean;
+}
+
+export interface Note {
+  id: string;
+  tags: string[];
+  createdAt: string;
+  updatedAt: string;
+  text: string;
+  authorId: string;
+  bytes?: Uint8Array | undefined;
+}
+
+export interface GetNoteByIdRequest {
+  id: string;
+}
+
+export interface GetBytesRequest {
+  id: string;
+}
+
+export interface GetBytesResponse {
+  bytes: Uint8Array;
+}
+
 export interface CreateNoteRequest {
   text: string;
+  tags: string[];
+  authorId: string;
+  bytes?: Uint8Array | undefined;
+}
+
+export interface SaveNoteBytesRequest {
+  id: string;
+  bytes: Uint8Array;
+  authorId: string;
 }
 
 export const NOTES_PACKAGE_NAME = "notes";
 
 export interface NotesServiceClient {
-  createNote(request: CreateNoteRequest): Observable<Empty>;
+  createNote(request: CreateNoteRequest): Observable<CreateNoteResponse>;
+
+  getBytes(request: GetBytesRequest): Observable<GetBytesResponse>;
+
+  getNoteById(request: GetNoteByIdRequest): Observable<Note>;
+
+  saveNoteBytes(request: SaveNoteBytesRequest): Observable<Empty>;
+
+  accessCheck(request: AccessCheckRequest): Observable<AccessCheckResponse>;
 }
 
 export interface NotesServiceController {
-  createNote(request: CreateNoteRequest): void | Promise<void>;
+  createNote(
+    request: CreateNoteRequest,
+  ): Promise<CreateNoteResponse> | Observable<CreateNoteResponse> | CreateNoteResponse;
+
+  getBytes(request: GetBytesRequest): Promise<GetBytesResponse> | Observable<GetBytesResponse> | GetBytesResponse;
+
+  getNoteById(request: GetNoteByIdRequest): Promise<Note> | Observable<Note> | Note;
+
+  saveNoteBytes(request: SaveNoteBytesRequest): void | Promise<void>;
+
+  accessCheck(
+    request: AccessCheckRequest,
+  ): Promise<AccessCheckResponse> | Observable<AccessCheckResponse> | AccessCheckResponse;
 }
 
 export function NotesServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["createNote"];
+    const grpcMethods: string[] = ["createNote", "getBytes", "getNoteById", "saveNoteBytes", "accessCheck"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("NotesService", method)(constructor.prototype[method], method, descriptor);

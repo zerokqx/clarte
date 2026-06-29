@@ -37,7 +37,13 @@
       "path": "./apps/note-service"
     },
     {
-      "path": "./apps/Frontend-2"
+      "path": "./apps/yjs-sync-service"
+    },
+    {
+      "path": "./apps/ws-gateway"
+    },
+    {
+      "path": "./apps/frontend"
     }
   ]
 }

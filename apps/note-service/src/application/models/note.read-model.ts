@@ -1,8 +1,14 @@
+export type NoteReadModelProps = Omit<NoteReadModel, never>;
+
 export class NoteReadModel {
-  constructor(
-    readonly id: string,
-    readonly text: string,
-    readonly createdAt: Date,
-    readonly updatedAt: Date,
-  ) {}
+  readonly id!: string;
+  // readonly text!: string;
+  readonly tags!: string[];
+  readonly authorId!: string;
+  readonly createdAt!: Date;
+  readonly updatedAt!: Date;
+  // readonly bytes!: Uint8Array;
+  constructor(props: NoteReadModelProps) {
+    Object.assign(this, props);
+  }
 }

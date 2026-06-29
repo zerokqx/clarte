@@ -1,15 +1,58 @@
-
 syntax = "proto3";
 import "google/protobuf/empty.proto";
 package notes;
 
 service NotesService {
-   rpc CreateNote(CreateNoteRequest) returns (google.protobuf.Empty);
-};
-
-
-message CreateNoteRequest{
- string text = 1;
+  rpc CreateNote(CreateNoteRequest) returns (CreateNoteResponse);
+  rpc GetBytes(GetBytesRequest) returns (GetBytesResponse);
+  rpc GetNoteById(GetNoteByIdRequest) returns (Note);
+  rpc SaveNoteBytes(SaveNoteBytesRequest) returns (google.protobuf.Empty);
+  rpc AccessCheck(AccessCheckRequest) returns (AccessCheckResponse);
 }
 
+message CreateNoteResponse {
+  string id = 1;
+}
 
+message AccessCheckRequest {
+ string noteId = 1;
+ string authorId = 2;
+}
+
+message AccessCheckResponse {
+ bool status = 1;
+}
+message Note {
+  string id = 1;
+  repeated string tags = 2;
+  string createdAt = 3;
+  string updatedAt = 4;
+  string text = 5;
+  string authorId = 6;
+  optional bytes bytes = 7;
+}
+
+message GetNoteByIdRequest {
+  string id = 1;
+}
+
+message GetBytesRequest {
+  string id = 1;
+}
+
+message GetBytesResponse {
+  bytes bytes = 1;
+}
+
+message CreateNoteRequest {
+  string text = 1;
+  repeated string tags = 2;
+  string authorId = 3;
+  optional bytes bytes = 4;
+}
+
+message SaveNoteBytesRequest {
+  string id = 1;
+  bytes bytes = 2;
+  string authorId = 3;
+}
