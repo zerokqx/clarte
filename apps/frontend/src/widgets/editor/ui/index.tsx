@@ -16,18 +16,16 @@ import { TextStyle } from '@tiptap/extension-text-style';
 import Collaboration from '@tiptap/extension-collaboration';
 import Placeholder from '@tiptap/extension-placeholder';
 import * as Y from 'yjs';
-import {
-  AlignRightIcon,
-  ImageSquareIcon,
-  LinkIcon,
-  QuotesIcon,
-  TextAlignCenterIcon,
-  TextAlignJustifyIcon,
-  TextBIcon,
-  TextItalicIcon,
-  TextStrikethroughIcon,
-  TextUnderlineIcon,
-} from '@phosphor-icons/react';
+import { AlignRightIcon } from '@phosphor-icons/react/dist/ssr/AlignRight';
+import { ImageSquareIcon } from '@phosphor-icons/react/dist/ssr/ImageSquare';
+import { LinkIcon } from '@phosphor-icons/react/dist/ssr/Link';
+import { QuotesIcon } from '@phosphor-icons/react/dist/ssr/Quotes';
+import { TextAlignCenterIcon } from '@phosphor-icons/react/dist/ssr/TextAlignCenter';
+import { TextAlignJustifyIcon } from '@phosphor-icons/react/dist/ssr/TextAlignJustify';
+import { TextBIcon } from '@phosphor-icons/react/dist/ssr/TextB';
+import { TextItalicIcon } from '@phosphor-icons/react/dist/ssr/TextItalic';
+import { TextStrikethroughIcon } from '@phosphor-icons/react/dist/ssr/TextStrikethrough';
+import { TextUnderlineIcon } from '@phosphor-icons/react/dist/ssr/TextUnderline';
 
 import CollaborationCursor from '@tiptap/extension-collaboration-caret';
 

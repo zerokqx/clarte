@@ -1,6 +1,6 @@
 import { main } from './index.module.css';
 import { Group, ThemeIcon, Text } from '@mantine/core';
-import { WarningIcon } from '@phosphor-icons/react';
+import { WarningIcon } from '@phosphor-icons/react/dist/ssr/Warning';
 
 interface RootErrorFormProps {
   message?: string;
