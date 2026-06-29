@@ -1,5 +1,5 @@
 import { Modal } from '@mantine/core';
-import { LoginForm } from './login-form';
+import { LoginForm } from './login-form.view';
 
 interface LoginModalProps extends Pick<Modal.Props, 'opened' | 'onClose'> {}
 

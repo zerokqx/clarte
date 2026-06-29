@@ -1,5 +1,6 @@
+import {pipe} from "effect"
 import '@/features/login/model';
-import { Button, Group, PasswordInput, Stack, Text, TextInput, ThemeIcon } from '@mantine/core';
+import { Button, PasswordInput, Stack, TextInput } from '@mantine/core';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { $lastLogin, lastLoginChanged, loginSuccesed } from '../model';
 import { useUnit } from 'effector-react';
@@ -10,20 +11,24 @@ import { RootErrorForm } from '@/shared/ui/root-error-form';
 import { LoginSchema } from '../model/login.schema';
 
 interface LoginFormProps {
+  onSubmit: (data: LoginFormState) => void;
   onSuccess?: () => void;
+  lastLoginName?: string
 }
+
 interface LoginFormState {
   login: string;
   password: string;
 }
 
-export const LoginForm = ({ onSuccess }: LoginFormProps) => {
-  const [loginSuccesedFn, lastLoginChangedFn, lastLogin] = useUnit([
-    loginSuccesed,
-    lastLoginChanged,
-    $lastLogin,
-  ]);
-  const { mutateAsync } = useLoginMutation();
+export const LoginForm = ({ onSuccess ,onSubmit, lastLoginName}: LoginFormProps) => {
+  // const [loginSuccesedFn, lastLoginChangedFn, lastLogin] = useUnit([
+  //   loginSuccesed,
+  //   lastLoginChanged,
+  //   $lastLogin,
+  // ]);
+  // const { mutateAsync } = useLoginMutation();
+
   const {
     register,
     handleSubmit,
@@ -33,7 +38,6 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
     defaultValues: { login: lastLogin ?? '', password: '' },
     resolver: zodResolver(LoginSchema),
   });
-
   const onSubmit: SubmitHandler<LoginFormState> = async (data) => {
     try {
       await mutateAsync({ data });
