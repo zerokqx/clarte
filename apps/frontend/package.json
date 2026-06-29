@@ -39,6 +39,7 @@
     "mobx-logger": "^0.7.1",
     "mobx-persist-store": "^1.1.8",
     "mobx-react-lite": "^4.1.1",
+    "motion": "^12.42.0",
     "orval": "^8.19.0",
     "react-hook-form": "^7.80.0",
     "react-yjs": "^2.0.1",

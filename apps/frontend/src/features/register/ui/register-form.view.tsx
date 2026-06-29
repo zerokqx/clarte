@@ -30,16 +30,29 @@ export const RegisterFormView = ({
   });
 
   return (
-    <Stack component={'form'} onSubmit={handleSubmit(onSubmit)}>
-      {(rootError || errors.root) && (
-        <Alert color="red" variant="filled" icon={<WarningIcon />}>
-          {rootError || errors.root?.message}
-        </Alert>
-      )}
-      <TextInput {...register('login')} label={'Логин'} error={errors.login?.message} />
-      <PasswordInput {...register('password')} label={'Пароль'} error={errors.password?.message} />
-      <TextInput opacity={0} style={{ height: 0, margin: 0, padding: 0 }} />
-      <Button type="submit" loading={isSubmitting}>
+    <Stack gap="xl" component="form" onSubmit={handleSubmit(onSubmit)}>
+      <Stack gap="md">
+        {(rootError || errors.root) && (
+          <Alert color="red" variant="light" icon={<WarningIcon size={16} />}>
+            {rootError || errors.root?.message}
+          </Alert>
+        )}
+        <TextInput
+          {...register('login')}
+          label="Логин"
+          error={errors.login?.message}
+          placeholder="Придумайте логин"
+          size="md"
+        />
+        <PasswordInput
+          {...register('password')}
+          label="Пароль"
+          error={errors.password?.message}
+          placeholder="Придумайте пароль"
+          size="md"
+        />
+      </Stack>
+      <Button type="submit" loading={isSubmitting} size="md">
         Зарегистрироваться
       </Button>
     </Stack>

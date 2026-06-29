@@ -1,7 +1,5 @@
-import { LoginModal } from '@/features/login';
-import { useDisclosure } from '@mantine/hooks';
+import { AuthModal } from '@/widgets/auth-modal';
 
 export const LoginPage = () => {
-  const [opened, { close }] = useDisclosure(true);
-  return <LoginModal opened={opened} onClose={close} />;
+  return <AuthModal />;
 };

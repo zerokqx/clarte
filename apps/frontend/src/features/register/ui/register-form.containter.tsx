@@ -19,11 +19,9 @@ export const RegisterForm = observer(({ onSuccess }: RegisterFormContainerProps)
     try {
       setRootError(null);
       await mutateAsync({ data });
-      
-      // Авторизуем пользователя и сохраняем его логин в историю
       authStore.setAuthenticated();
       loginStore.setLastLogin(data.login);
-      
+
       onSuccess?.();
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -38,10 +36,6 @@ export const RegisterForm = observer(({ onSuccess }: RegisterFormContainerProps)
   };
 
   return (
-    <RegisterFormView
-      onSubmit={handleSubmit}
-      isSubmitting={isPending}
-      rootError={rootError}
-    />
+    <RegisterFormView onSubmit={handleSubmit} isSubmitting={isPending} rootError={rootError} />
   );
 });
