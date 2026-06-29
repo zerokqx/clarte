@@ -1,9 +1,5 @@
-import { authenticated, notAuthenticated, refreshTokensFx } from '@/shared/model';
-import Axios, {
-  InternalAxiosRequestConfig,
-  AxiosError,
-  HttpStatusCode,
-} from 'axios';
+import { authStore } from '@/shared/model';
+import Axios, { InternalAxiosRequestConfig, AxiosError, HttpStatusCode } from 'axios';
 
 // Кастомное расширение типа конфига для поддержки флага повтора
 interface CustomRequestConfig extends InternalAxiosRequestConfig {
@@ -12,7 +8,7 @@ interface CustomRequestConfig extends InternalAxiosRequestConfig {
 
 export const AXIOS_INSTANCE = Axios.create({
   baseURL: '',
-  withCredentials: true, // Важно, если рефреш/аксесс токен сидят в куках
+  withCredentials: true, // Важно, так как рефреш/аксесс токен сидят в куках
 });
 
 let isRefreshing = false;
@@ -44,7 +40,7 @@ AXIOS_INSTANCE.interceptors.response.use(
       originalRequest &&
       !originalRequest._retry
     ) {
-      // Если прямо сейчас КТО-ТО ДРУГОЙ уже обновляет токен
+      // Если прямо сейчас КТО-ТО ДРУГОЙ уже обновляет токен через MobX / Axios
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
@@ -52,7 +48,7 @@ AXIOS_INSTANCE.interceptors.response.use(
           .then(() => {
             // Перед повторным вызовом убеждаемся, что флаг взведен
             originalRequest._retry = true;
-            // Если токены в Headers, здесь нужно заново прописать:
+            // Если токены передаются в Headers (а не в HTTP-only куках), раскомментируй:
             // originalRequest.headers.Authorization = `Bearer ${getFreshToken()}`;
             return AXIOS_INSTANCE(originalRequest);
           })
@@ -64,24 +60,13 @@ AXIOS_INSTANCE.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        // Запускаем эффект Effector для обновления токенов
-        await refreshTokensFx();
+        await authStore.refreshTokens();
 
-        // Переводим стейт в авторизованный
-        authenticated();
-
-        // Пропускаем всю очередь накопившихся запросов
         processQueue(null);
 
-        // Повторяем наш текущий (первый) запрос
         return AXIOS_INSTANCE(originalRequest);
       } catch (refreshError) {
-        // Если рефреш сдох — сбрасываем авторизацию в Effector
-        notAuthenticated();
-
-        // Отклоняем всю очередь запросов со звуком боли
         processQueue(refreshError as Error);
-
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;

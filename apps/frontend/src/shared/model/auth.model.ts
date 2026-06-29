@@ -2,18 +2,14 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { COOKIE_NAME } from '@clarte/shared';
-
-/**
- * Состояние авторизации пользователя в приложении.
- */
-export type TAuthState = 'authenticated' | 'initial' | 'anonymous';
+import type { IAuthStore, TAuthState } from '../types';
 
 /**
  * Стор MobX для управления состоянием авторизации пользователя.
  * Инкапсулирует бизнес-логику проверки сессии, обновления токенов доступа
  * и хранения текущего статуса авторизации.
  */
-class AuthStore {
+class AuthStore implements IAuthStore {
   /**
    * Текущий статус авторизации.
    */
@@ -86,4 +82,3 @@ class AuthStore {
  * Глобальный экземпляр хранилища авторизации (Singleton).
  */
 export const authStore = new AuthStore();
-

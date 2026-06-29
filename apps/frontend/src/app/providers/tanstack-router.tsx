@@ -4,6 +4,9 @@ import { routeTree } from '@/app/route-tree.gen';
 import { $authenticatedStatus, notAuthenticated, TAuthState } from '@/shared/model';
 import { useEffect } from 'react';
 
+
+
+
 export interface MyRouterContext {
   authState: TAuthState;
   notAuthenticated: () => void;
