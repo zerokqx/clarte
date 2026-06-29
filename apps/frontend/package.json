@@ -40,6 +40,7 @@
     "highlight.js": "^11.11.1",
     "lowlight": "^3.3.0",
     "mobx": "^6.16.1",
+    "mobx-logger": "^0.7.1",
     "mobx-react-lite": "^4.1.1",
     "orval": "^8.19.0",
     "patronum": "^2.3.0",

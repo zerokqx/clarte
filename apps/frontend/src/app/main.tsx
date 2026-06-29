@@ -2,12 +2,20 @@ import '@mantine/core/styles.css';
 import '@mantine/tiptap/styles.css';
 import * as ReactDOM from 'react-dom/client';
 import { AppProviders } from './providers';
+import { enableLogging } from 'mobx-logger';
 import { attachLogger } from 'effector-logger';
 import { authStore } from '@/entities/session';
 import { setupAxiosInterceptors } from '@/shared/api';
 
-// Настройка перехватчиков Axios
 setupAxiosInterceptors(() => authStore.refreshTokens());
+if (import.meta.env.DEV) {
+  enableLogging({
+    predicate: () => true,
+    action: true,
+    reaction: true,
+    compute: true,
+  });
+}
 
 import.meta.env.DEV && attachLogger();
 async function enableMocking() {
@@ -22,11 +30,6 @@ async function enableMocking() {
 
 enableMocking().then(() => {
   const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-
-  root.render(
-    <AppProviders/>
-  );
-
+  root.render(<AppProviders />);
   authStore.initAuth();
 });
-
