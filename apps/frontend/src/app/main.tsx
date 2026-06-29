@@ -9,6 +9,7 @@ import { setupAxiosInterceptors } from '@/shared/api';
 setupAxiosInterceptors(() => authStore.refreshTokens());
 if (import.meta.env.DEV) {
   enableLogging({
+    transaction:true,
     predicate: () => true,
     action: true,
     reaction: true,

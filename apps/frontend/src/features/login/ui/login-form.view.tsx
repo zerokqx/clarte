@@ -1,8 +1,8 @@
-import { Button, PasswordInput, Stack, TextInput } from '@mantine/core';
+import { Alert, Button, PasswordInput, Stack, TextInput } from '@mantine/core';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { RootErrorForm } from '@/shared/ui/root-error-form';
 import { LoginSchema } from '../model/login.schema';
+import { WarningIcon } from '@phosphor-icons/react/dist/csr/Warning';
 
 export interface LoginFormState {
   login: string;
@@ -34,7 +34,9 @@ export const LoginFormView = ({
   return (
     <Stack component={'form'} onSubmit={handleSubmit(onSubmit)}>
       {(rootError || errors.root) && (
-        <RootErrorForm message={rootError || errors.root?.message} />
+        <Alert color="red" variant="filled" icon={<WarningIcon />}>
+          {rootError}
+        </Alert>
       )}
       <TextInput {...register('login')} label={'Логин'} error={errors.login?.message} />
       <PasswordInput {...register('password')} label={'Пароль'} error={errors.password?.message} />

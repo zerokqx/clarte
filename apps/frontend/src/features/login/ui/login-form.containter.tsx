@@ -6,6 +6,7 @@ import { authStore } from '@/entities/session';
 import { loginStore } from '../model';
 import { useLoginMutation } from '../api';
 import { LoginFormState, LoginFormView } from './login-form.view';
+import { Loader } from '@mantine/core';
 
 interface LoginFormContainerProps {
   onSuccess?: () => void;
@@ -15,15 +16,16 @@ export const LoginForm = observer(({ onSuccess }: LoginFormContainerProps) => {
   const { mutateAsync, isPending } = useLoginMutation();
   const [rootError, setRootError] = useState<string | null>(null);
 
+  if (!loginStore.isReady) return <Loader />;
+
   const handleSubmit: SubmitHandler<LoginFormState> = async (data) => {
     try {
       setRootError(null);
       await mutateAsync({ data });
-      
-      // Обновляем состояние авторизации и последнего входа
+
       authStore.setAuthenticated();
       loginStore.setLastLogin(data.login);
-      
+
       onSuccess?.();
     } catch (err) {
       if (err instanceof AxiosError) {

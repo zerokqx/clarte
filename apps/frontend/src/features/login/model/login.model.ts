@@ -1,3 +1,4 @@
+import { makePersistable, isHydrated } from 'mobx-persist-store';
 import { makeAutoObservable } from 'mobx';
 
 /**
@@ -5,10 +6,18 @@ import { makeAutoObservable } from 'mobx';
  * Сохраняет имя последнего успешно вошедшего пользователя в localStorage.
  */
 class LoginStore {
-  lastLogin = localStorage.getItem('last-login') || '';
+  lastLogin = '';
 
   constructor() {
     makeAutoObservable(this);
+    makePersistable(this, {
+      name: 'LoginStore',
+      properties: ['lastLogin'],
+      storage: window.localStorage,
+    });
+  }
+  get isReady() {
+    return isHydrated(this);
   }
 
   /**
