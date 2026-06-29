@@ -1,9 +1,10 @@
-import { Modal, useModalsStack } from '@mantine/core';
+import { Modal} from '@mantine/core';
 import { LoginModal } from '@/features/login';
 import { RegisterModal } from '@/features/register';
+import { AuthModalStack } from '../model';
 
 interface AuthModalsStackProps {
-  stack: ReturnType<typeof useModalsStack>;
+  stack: AuthModalStack;
   isMobile: boolean;
 }
 
