@@ -1,73 +1,56 @@
-import { COOKIE_NAME } from '@clarte/shared';
-import axios, { AxiosResponse } from 'axios';
-import { createEvent, createStore, createEffect, sample } from 'effector';
+import { makeAutoObservable, runInAction } from 'mobx';
+import axios from 'axios';
 import Cookies from 'js-cookie';
-
-const hasSession = () => Cookies.get(COOKIE_NAME.HAS_SESSION) === '1';
+import { COOKIE_NAME } from '@clarte/shared';
 
 export type TAuthState = 'authenticated' | 'initial' | 'anonymous';
 
-export const $authenticatedStatus = createStore<TAuthState>('initial');
-export const appStarted = createEvent();
-export const authenticated = createEvent();
-export const notAuthenticated = createEvent();
+class AuthStore {
+  status: TAuthState = 'initial';
 
-$authenticatedStatus
-  .on(authenticated, () => 'authenticated')
-  .on(notAuthenticated, () => 'anonymous');
+  constructor() {
+    makeAutoObservable(this);
+  }
 
-export const checkAuthFx = createEffect<void, void>(async () => {
-  await axios.get('/api/auth/check');
-});
+  private get hasSession(): boolean {
+    return Cookies.get(COOKIE_NAME.HAS_SESSION) === '1';
+  }
 
-export const refreshTokensFx = createEffect<void, AxiosResponse>(async () => {
-  return await axios.post('/api/auth/refresh');
-});
+  async initAuth() {
+    if (!this.hasSession) {
+      this.status = 'anonymous';
+      return;
+    }
 
-// === ЦЕПОЧКА ИНИЦИАЛИЗАЦИИ ===
+    try {
+      await axios.get('/api/auth/check');
+      runInAction(() => {
+        this.status = 'authenticated';
+      });
+    } catch {
+      if (this.hasSession) {
+        await this.refreshTokens();
+      } else {
+        runInAction(() => {
+          this.status = 'anonymous';
+        });
+      }
+    }
+  }
 
-// 1. Старт: Если кука есть -> проверяем сессию
-sample({
-  clock: appStarted,
-  filter: hasSession,
-  target: checkAuthFx,
-});
+  async refreshTokens() {
+    try {
+      await axios.post('/api/auth/refresh');
+      runInAction(() => {
+        this.status = 'authenticated';
+      });
+    } catch (error) {
+      runInAction(() => {
+        this.status = 'anonymous';
+      });
+      throw error;
+    }
+  }
+}
 
-// 2. Старт: Если куки нет -> заведомо аноним (не ждем бэкенд)
-sample({
-  clock: appStarted,
-  filter: () => !hasSession(),
-  target: notAuthenticated,
-});
-
-// 3. Проверка успешна -> авторизован
-sample({
-  clock: checkAuthFx.done,
-  target: authenticated,
-});
-
-// 4. Проверка упала (например, access-токен протух), но кука сессии на месте -> рефрешим
-sample({
-  clock: checkAuthFx.fail,
-  filter: hasSession,
-  target: refreshTokensFx,
-});
-
-// 5. Проверка упала И куки уже нет (бэк мог её снести или она пропала) -> аноним
-sample({
-  clock: checkAuthFx.fail,
-  filter: () => !hasSession(),
-  target: notAuthenticated,
-});
-
-// 6. Рефреш успешен -> восстановили сессию
-sample({
-  clock: refreshTokensFx.done,
-  target: authenticated,
-});
-
-// 7. Рефреш упал (сессия сдохла на бэке) -> железно аноним (без фильтров!)
-sample({
-  clock: refreshTokensFx.fail,
-  target: notAuthenticated,
-});
+export const authStore = new AuthStore();
