@@ -43,7 +43,7 @@
       "path": "./apps/ws-gateway"
     },
     {
-      "path": "./apps/Frontend-2"
+      "path": "./apps/frontend"
     }
   ]
 }
