@@ -3,11 +3,20 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@clarte/shared": "workspace:*",
     "@hocuspocus/provider": "^4.3.0",
-    "@mantine/core": "^9.3.2",
-    "@mantine/hooks": "^9.3.2",
-    "@mantine/tiptap": "^9.3.2",
+    "@hookform/resolvers": "^5.4.0",
+    "@mantine/core": "^9.4.1",
+    "@mantine/dates": "^9.4.1",
+    "@mantine/hooks": "^9.4.1",
+    "@mantine/modals": "^9.4.1",
+    "@mantine/notifications": "^9.4.1",
+    "@mantine/spotlight": "^9.4.1",
+    "@mantine/tiptap": "^9.4.1",
     "@phosphor-icons/react": "^2.1.10",
+    "@tanstack/react-query": "^5.101.2",
+    "@tanstack/react-router": "^1.170.16",
+    "@tanstack/react-router-devtools": "^1.167.0",
     "@tiptap/extension-code-block": "^3.27.1",
     "@tiptap/extension-code-block-lowlight": "^3.27.1",
     "@tiptap/extension-collaboration": "^3.27.1",
@@ -23,12 +32,63 @@
     "@tiptap/pm": "^3.27.1",
     "@tiptap/react": "^3.27.1",
     "@tiptap/starter-kit": "^3.27.1",
+    "dayjs": "^1.11.21",
     "highlight.js": "^11.11.1",
     "lowlight": "^3.3.0",
+    "mobx": "^6.16.1",
+    "mobx-logger": "^0.7.1",
+    "mobx-persist-store": "^1.1.8",
+    "mobx-react-lite": "^4.1.1",
+    "motion": "^12.42.0",
+    "orval": "^8.19.0",
+    "react-hook-form": "^7.80.0",
     "react-yjs": "^2.0.1",
     "y-protocols": "^1.0.7",
     "y-webrtc": "^10.3.0",
-    "y-websocket": "^1.5.0",
-    "yjs": "^13.6.31"
+    "y-websocket": "^1.5.4",
+    "yjs": "13.6.31",
+    "zod": "link:@hookform/resolvers/zod"
+  },
+  "nx": {
+    "targets": {
+      "orval": {
+        "executor": "nx:run-commands",
+        "cache": true,
+        "inputs": [
+          "{projectRoot}/orval.config.ts",
+          {
+            "env": "VITE_BACKEND_PORT"
+          },
+          {
+            "env": "VITE_BACKEND_HOST"
+          }
+        ],
+        "outputs": [
+          "{projectRoot}/src/shared/api/orval/generated"
+        ],
+        "options": {
+          "command": "orval",
+          "args": [
+            "--config=./orval.config.ts"
+          ],
+          "cwd": "apps/frontend"
+        }
+      }
+    }
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^10.5.0",
+    "@tanstack/router-plugin": "^1.168.18",
+    "eslint": "^9.39.4",
+    "msw": "^2.14.6",
+    "postcss": "8.4.38",
+    "postcss-preset-mantine": "^1.18.0",
+    "postcss-simple-vars": "^7.0.1",
+    "vite-plugin-sass-dts": "^1.3.37"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

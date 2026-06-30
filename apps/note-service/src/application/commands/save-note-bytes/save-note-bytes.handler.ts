@@ -6,12 +6,8 @@ import { NoteNotFoundException } from '@/application/exceptions';
 import { Effect, pipe } from 'effect';
 
 @CommandHandler(SaveNoteBytesCommand)
-export class SaveNoteBytesHandler
-  implements ICommandHandler<SaveNoteBytesCommand>
-{
-  constructor(
-    @InjectNoteRepo('w') private readonly noteWriteRepo: INoteRepositoryWrite,
-  ) {}
+export class SaveNoteBytesHandler implements ICommandHandler<SaveNoteBytesCommand> {
+  constructor(@InjectNoteRepo('w') private readonly noteWriteRepo: INoteRepositoryWrite) {}
 
   async execute(command: SaveNoteBytesCommand): Promise<void> {
     const program = pipe(
@@ -38,4 +34,3 @@ export class SaveNoteBytesHandler
     await Effect.runPromise(program);
   }
 }
-

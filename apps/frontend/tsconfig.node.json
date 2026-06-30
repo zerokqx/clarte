@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "target": "ES2022", // Современный Node.js отлично понимает ES2022/ES2023
+    "module": "NodeNext", // Включает правильную работу с ESM/CJS в Node
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2022"], // Никакого "DOM", только фичи Node/JS
+    "strict": true, // Строгая проверка типов
+    "esModuleInterop": true, // Чтобы работал `import { env } from 'process'` без боли
+    "skipLibCheck": true, // Чтобы не проверять типы внутри node_modules
+    "isolatedModules": true // Нужно для быстрых сборщиков вроде esbuild/tsup
+  },
+  "include": [
+    "orval.config.ts", // Твой конфиг Orval
+    "global.d.ts" // Файл, где мы расширяли process.env
+  ]
+}

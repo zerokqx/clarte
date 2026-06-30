@@ -9,9 +9,7 @@ import { DatabaseException } from '@/application/exceptions';
 
 @CommandHandler(CreateNoteCommand)
 export class CreateNoteHandler implements ICommandHandler<CreateNoteCommand> {
-  constructor(
-    @InjectNoteRepo('w') private readonly noteWriteRepo: INoteRepositoryWrite,
-  ) {}
+  constructor(@InjectNoteRepo('w') private readonly noteWriteRepo: INoteRepositoryWrite) {}
 
   async execute(command: CreateNoteCommand): Promise<string> {
     const note = Note.create(

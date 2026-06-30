@@ -1,0 +1,95 @@
+.tiptap {
+  padding-top: 1.5rem;
+}
+
+.collaboration-carets__caret {
+  position: relative;
+  margin-left: -1px;
+  margin-right: -1px;
+  border-left: 2px solid;
+  border-right: 2px solid;
+  border-color: currentColor;
+  word-break: normal;
+  pointer-events: none;
+}
+
+/* Плашка с именем пользователя над курсором */
+.collaboration-carets__label {
+  position: absolute !important;
+  top: -20px !important;
+  left: -2px !important;
+  font-size: 12px !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+  line-height: 20px !important;
+  height: 20px !important;
+  box-sizing: border-box !important;
+  user-select: none !important;
+  color: #fff !important;
+  padding: 0 6px !important;
+  border-radius: 3px 3px 3px 0 !important;
+  background-color: currentColor;
+  white-space: nowrap !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  width: max-content !important;
+  max-width: none !important;
+}
+
+.collaboration-carets__avatar {
+  width: 14px !important;
+  height: 14px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  flex-shrink: 0 !important;
+  vertical-align: middle !important;
+  margin: 0 !important;
+  display: block !important;
+}
+
+/* ==========================================================================
+   ГЛОБАЛЬНЫЙ СБРОС ЦВЕТА АВТОЗАПОЛНЕНИЯ (PASSWORD MANAGER FILL)
+   ========================================================================== */
+
+/* 1. Для темной темы (Next.js / Vercel style) */
+[data-mantine-color-scheme='dark'] input:-webkit-autofill,
+[data-mantine-color-scheme='dark'] input:-webkit-autofill:hover,
+[data-mantine-color-scheme='dark'] input:-webkit-autofill:focus,
+[data-mantine-color-scheme='dark'] input:-webkit-autofill:active {
+  /* Перенаправляем цвет текста в заливку, отменяя стандартный цвет браузера */
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+
+  /* Цвет текста инпута (белый/светло-серый) */
+  -webkit-text-fill-color: #ecedee !important;
+
+  /* Внутренняя тень вместо фона. Ставим глубокий цвет инпута (#161617) */
+  box-shadow: inset 0 0 0 1000px #161617 !important;
+
+  /* Цвет текста иконки "глазика" и других элементов внутри инпута */
+  caret-color: #ecedee !important;
+}
+
+/* 2. Для светлой темы (на случай, если она используется) */
+[data-mantine-color-scheme='light'] input:-webkit-autofill,
+[data-mantine-color-scheme='light'] input:-webkit-autofill:hover,
+[data-mantine-color-scheme='light'] input:-webkit-autofill:focus,
+[data-mantine-color-scheme='light'] input:-webkit-autofill:active {
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+
+  /* Тёмный текст для светлой темы */
+  -webkit-text-fill-color: #18181b !important;
+
+  /* Чистый светло-серый фон для инпута в светлой теме (#F4F4F5) */
+  box-shadow: inset 0 0 0 1000px #f4f4f5 !important;
+
+  caret-color: #18181b !important;
+}
+
+/* 3. Дополнительный хак для Firefox */
+input:autofill {
+  background-color: var(--mb-input-bg, #161617) !important;
+  color: var(--mb-input-color, #ecedee) !important;
+}
