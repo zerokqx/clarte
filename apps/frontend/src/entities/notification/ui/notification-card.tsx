@@ -1,5 +1,5 @@
 import { NotificationDTO } from '@/shared/api/orval/generated/model';
-import { Box, Text } from '@mantine/core';
+import { Box, Text, Flex } from '@mantine/core';
 import { BellIcon } from '@phosphor-icons/react/dist/csr/Bell';
 import { ReactNode } from 'react';
 
@@ -25,15 +25,14 @@ const getFormattedDate = (dateStr: string) => {
 
 export const NotificationCard = ({ data, actionSlot }: NotificationCardProps) => {
   return (
-    <Box
+    <Flex
       p="md"
+      gap="md"
+      pos="relative"
+      bg={{ base: 'white', dark: 'dark.7' }}
       style={{
-        display: 'flex',
-        gap: 'var(--mantine-spacing-md)',
-        backgroundColor: 'light-dark(var(--mantine-color-white), var(--mantine-color-dark-7))',
         borderBottom: '1px solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5))',
         transition: 'background-color 0.15s ease',
-        position: 'relative',
         userSelect: 'none',
         cursor: 'pointer',
         '&:hover': {
@@ -41,67 +40,41 @@ export const NotificationCard = ({ data, actionSlot }: NotificationCardProps) =>
         },
       }}
     >
-      <Box
-        style={{
-          display: 'flex',
-          alignItems: 'flex-start',
-          justifyContent: 'center',
-          color: 'var(--mantine-color-violet-filled)',
-          marginTop: '2px',
-        }}
-      >
+      <Box c="violet" mt={2} display="flex" style={{ alignItems: 'flex-start' }}>
         <BellIcon size={18} weight="bold" />
       </Box>
 
-      <Box style={{ display: 'flex', flexDirection: 'column', gap: '4px', flex: 1 }}>
-        <Box
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'baseline',
-            gap: 'var(--mantine-spacing-sm)',
-          }}
-        >
+      <Flex direction="column" gap={4} style={{ flex: 1 }}>
+        <Flex justify="space-between" align="baseline" gap="sm">
           <Text
             size="sm"
             fw={600}
-            style={{
-              color: 'light-dark(var(--mantine-color-gray-9), var(--mantine-color-dark-0))',
-              lineHeight: 1.3,
-            }}
+            c={{ base: 'gray.9', dark: 'dark.0' }}
+            lh={1.3}
           >
             {data.title}
           </Text>
           <Text
-            style={{
-              fontSize: 'calc(var(--mantine-font-size-xs) * 0.85)',
-              color: 'var(--mantine-color-placeholder)',
-              whiteSpace: 'nowrap',
-              fontWeight: 500,
-              textTransform: 'uppercase',
-              letterSpacing: '0.3px',
-            }}
+            fz="calc(var(--mantine-font-size-xs) * 0.85)"
+            c="placeholder"
+            fw={500}
+            tt="uppercase"
+            lts="0.3px"
+            style={{ whiteSpace: 'nowrap' }}
           >
             {getFormattedDate(data.createdAt)}
           </Text>
-        </Box>
-        <Text size="xs" color="dimmed" style={{ lineHeight: 1.4 }}>
+        </Flex>
+        <Text size="xs" c="dimmed" lh={1.4}>
           {data.text}
         </Text>
-      </Box>
+      </Flex>
 
       {actionSlot && (
-        <Box
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            alignSelf: 'center',
-          }}
-        >
+        <Flex align="center" justify="center" style={{ alignSelf: 'center' }}>
           {actionSlot}
-        </Box>
+        </Flex>
       )}
-    </Box>
+    </Flex>
   );
 };
