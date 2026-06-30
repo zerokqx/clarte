@@ -7,7 +7,6 @@ import {
   indicatorCapsule,
   pulseDotWrapper,
   pulseDot,
-  pulseDotRing,
   statusText,
   exitButton,
 } from './zen-mode-indicator.module.css';
@@ -24,15 +23,14 @@ export const ZenModeIndicator = observer(() => {
             top: '30px',
           }}
           key="zen-mode-indicator"
-          initial={{ opacity: 0, scale: 0.9, y: 15 }}
+          initial={{ opacity: 0, scale: 0.95, y: 10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.9, y: -15 }}
-          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          exit={{ opacity: 0, scale: 0.95, y: -10 }}
+          transition={{ duration: 0.2, ease: 'easeOut' }}
         >
           <Group gap="xs" className={indicatorCapsule}>
             <div className={pulseDotWrapper}>
               <span className={pulseDot} />
-              <span className={pulseDotRing} />
             </div>
             
             <Text className={statusText}>Zen Mode</Text>
@@ -53,4 +51,5 @@ export const ZenModeIndicator = observer(() => {
     </AnimatePresence>
   );
 });
+
 
