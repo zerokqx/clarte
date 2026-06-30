@@ -17,6 +17,7 @@ export const NotificationPopover = () => {
     >
       <Popover.Target>
         <ActionIcon
+          visibleFrom="md"
           variant="subtle"
           color="gray"
           onClick={() => setOpened((o) => !o)}

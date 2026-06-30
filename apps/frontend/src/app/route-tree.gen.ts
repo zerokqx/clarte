@@ -15,6 +15,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as NotAuthenticatedLoginRouteImport } from './routes/_not-authenticated/login'
 import { Route as AuthenticatedCRouteRouteImport } from './routes/_authenticated/c/route'
 import { Route as AuthenticatedCIndexRouteImport } from './routes/_authenticated/c/index'
+import { Route as AuthenticatedCNotificationsRouteImport } from './routes/_authenticated/c/notifications'
 
 const NotAuthenticatedRouteRoute = NotAuthenticatedRouteRouteImport.update({
   id: '/_not-authenticated',
@@ -44,16 +45,24 @@ const AuthenticatedCIndexRoute = AuthenticatedCIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedCRouteRoute,
 } as any)
+const AuthenticatedCNotificationsRoute =
+  AuthenticatedCNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedCRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/c': typeof AuthenticatedCRouteRouteWithChildren
   '/login': typeof NotAuthenticatedLoginRoute
+  '/c/notifications': typeof AuthenticatedCNotificationsRoute
   '/c/': typeof AuthenticatedCIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof NotAuthenticatedLoginRoute
+  '/c/notifications': typeof AuthenticatedCNotificationsRoute
   '/c': typeof AuthenticatedCIndexRoute
 }
 export interface FileRoutesById {
@@ -63,13 +72,14 @@ export interface FileRoutesById {
   '/_not-authenticated': typeof NotAuthenticatedRouteRouteWithChildren
   '/_authenticated/c': typeof AuthenticatedCRouteRouteWithChildren
   '/_not-authenticated/login': typeof NotAuthenticatedLoginRoute
+  '/_authenticated/c/notifications': typeof AuthenticatedCNotificationsRoute
   '/_authenticated/c/': typeof AuthenticatedCIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/c' | '/login' | '/c/'
+  fullPaths: '/' | '/c' | '/login' | '/c/notifications' | '/c/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/c'
+  to: '/' | '/login' | '/c/notifications' | '/c'
   id:
     | '__root__'
     | '/'
@@ -77,6 +87,7 @@ export interface FileRouteTypes {
     | '/_not-authenticated'
     | '/_authenticated/c'
     | '/_not-authenticated/login'
+    | '/_authenticated/c/notifications'
     | '/_authenticated/c/'
   fileRoutesById: FileRoutesById
 }
@@ -130,14 +141,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCIndexRouteImport
       parentRoute: typeof AuthenticatedCRouteRoute
     }
+    '/_authenticated/c/notifications': {
+      id: '/_authenticated/c/notifications'
+      path: '/notifications'
+      fullPath: '/c/notifications'
+      preLoaderRoute: typeof AuthenticatedCNotificationsRouteImport
+      parentRoute: typeof AuthenticatedCRouteRoute
+    }
   }
 }
 
 interface AuthenticatedCRouteRouteChildren {
+  AuthenticatedCNotificationsRoute: typeof AuthenticatedCNotificationsRoute
   AuthenticatedCIndexRoute: typeof AuthenticatedCIndexRoute
 }
 
 const AuthenticatedCRouteRouteChildren: AuthenticatedCRouteRouteChildren = {
+  AuthenticatedCNotificationsRoute: AuthenticatedCNotificationsRoute,
   AuthenticatedCIndexRoute: AuthenticatedCIndexRoute,
 }
 
