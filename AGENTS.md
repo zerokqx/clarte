@@ -83,6 +83,9 @@ A "solo microservice" is a microservice that encapsulates exactly one distinct e
 5. **Правила TypeScript и Линтера**:
    - Строго соблюдайте правила `@typescript-eslint/no-inferrable-types`. Не пишите тип свойства класса или переменной, если он тривиально выводится из дефолтного значения (пишите `public readonly userAgent = ''` вместо `public readonly userAgent: string = ''`).
 
+6. **Правила стилизации компонентов (Mantine)**:
+   - При стилизации UI-компонентов всегда отдавайте приоритет встроенным возможностям Mantine (Props, Style Props, Styles API). Создавать файлы CSS-модулей допускается только в том случае, если стандартных возможностей Mantine недостаточно для реализации интерфейса.
+
 Before a big task from the user, it is always necessary to commit the current changes and only after that start working.
 
 # Rich text editor

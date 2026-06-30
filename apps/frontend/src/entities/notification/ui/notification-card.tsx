@@ -2,16 +2,6 @@ import { NotificationDTO } from '@/shared/api/orval/generated/model';
 import { Box, Text } from '@mantine/core';
 import { BellIcon } from '@phosphor-icons/react/dist/csr/Bell';
 import { ReactNode } from 'react';
-import {
-  card,
-  iconWrapper,
-  contentWrapper,
-  headerRow,
-  title,
-  text as textClass,
-  time as timeClass,
-  actionSlot as actionSlotClass,
-} from './notification-card.module.css';
 
 export interface NotificationCardProps {
   data: NotificationDTO;
@@ -35,20 +25,83 @@ const getFormattedDate = (dateStr: string) => {
 
 export const NotificationCard = ({ data, actionSlot }: NotificationCardProps) => {
   return (
-    <Box className={card}>
-      <div className={iconWrapper}>
+    <Box
+      p="md"
+      style={{
+        display: 'flex',
+        gap: 'var(--mantine-spacing-md)',
+        backgroundColor: 'light-dark(var(--mantine-color-white), var(--mantine-color-dark-7))',
+        borderBottom: '1px solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5))',
+        transition: 'background-color 0.15s ease',
+        position: 'relative',
+        userSelect: 'none',
+        cursor: 'pointer',
+        '&:hover': {
+          backgroundColor: 'light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6))',
+        },
+      }}
+    >
+      <Box
+        style={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          justifyContent: 'center',
+          color: 'var(--mantine-color-violet-filled)',
+          marginTop: '2px',
+        }}
+      >
         <BellIcon size={18} weight="bold" />
-      </div>
+      </Box>
 
-      <div className={contentWrapper}>
-        <div className={headerRow}>
-          <Text className={title}>{data.title}</Text>
-          <Text className={timeClass}>{getFormattedDate(data.createdAt)}</Text>
-        </div>
-        <Text className={textClass}>{data.text}</Text>
-      </div>
+      <Box style={{ display: 'flex', flexDirection: 'column', gap: '4px', flex: 1 }}>
+        <Box
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'baseline',
+            gap: 'var(--mantine-spacing-sm)',
+          }}
+        >
+          <Text
+            size="sm"
+            fw={600}
+            style={{
+              color: 'light-dark(var(--mantine-color-gray-9), var(--mantine-color-dark-0))',
+              lineHeight: 1.3,
+            }}
+          >
+            {data.title}
+          </Text>
+          <Text
+            style={{
+              fontSize: 'calc(var(--mantine-font-size-xs) * 0.85)',
+              color: 'var(--mantine-color-placeholder)',
+              whiteSpace: 'nowrap',
+              fontWeight: 500,
+              textTransform: 'uppercase',
+              letterSpacing: '0.3px',
+            }}
+          >
+            {getFormattedDate(data.createdAt)}
+          </Text>
+        </Box>
+        <Text size="xs" color="dimmed" style={{ lineHeight: 1.4 }}>
+          {data.text}
+        </Text>
+      </Box>
 
-      {actionSlot && <div className={actionSlotClass}>{actionSlot}</div>}
+      {actionSlot && (
+        <Box
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            alignSelf: 'center',
+          }}
+        >
+          {actionSlot}
+        </Box>
+      )}
     </Box>
   );
 };
