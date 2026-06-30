@@ -1,0 +1,73 @@
+.indicator-capsule {
+  display: flex;
+  align-items: center;
+  gap: var(--mantine-spacing-xs);
+  padding: calc(var(--mantine-spacing-xs) / 1.5) var(--mantine-spacing-sm);
+  border-radius: var(--mantine-radius-md);
+  
+  /* Solid Flat Background and Border */
+  background-color: var(--indicator-bg);
+  border: 1px solid var(--indicator-border);
+  box-shadow: none;
+  
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.indicator-capsule:hover {
+  border-color: var(--indicator-border-hover);
+  background-color: var(--indicator-bg-hover);
+}
+
+.pulse-dot-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 2px;
+}
+
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--pulse-color);
+}
+
+.status-text {
+  font-size: var(--mantine-font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--indicator-text);
+  line-height: 1;
+}
+
+.exit-button {
+  transition: all 0.15s ease;
+  color: var(--indicator-text);
+  opacity: 0.6;
+}
+
+.exit-button:hover {
+  opacity: 1;
+  color: var(--mantine-color-red-6);
+  background-color: transparent;
+}
+
+:root {
+  --indicator-bg: var(--mantine-color-white);
+  --indicator-bg-hover: var(--mantine-color-gray-0);
+  --indicator-border: var(--mantine-color-gray-3);
+  --indicator-border-hover: var(--mantine-color-gray-5);
+  --indicator-text: var(--mantine-color-gray-7);
+  --pulse-color: var(--mantine-color-green-6);
+}
+
+[data-mantine-color-scheme='dark'] {
+  --indicator-bg: var(--mantine-color-dark-6);
+  --indicator-bg-hover: var(--mantine-color-dark-5);
+  --indicator-border: var(--mantine-color-dark-4);
+  --indicator-border-hover: var(--mantine-color-dark-2);
+  --indicator-text: var(--mantine-color-dark-0);
+  --pulse-color: var(--mantine-color-green-4);
+}

@@ -1,4 +1,4 @@
-import { animate, motion } from 'motion/react';
+import { motion } from 'motion/react';
 import {
   Center,
   Container,
@@ -12,15 +12,17 @@ import { GreetingCard } from './greeting-card';
 import { AuthEntryPanel } from './auth-entry-panel';
 import { AuthModalsStack } from './auth-modals-stack';
 import { useEffect, useState } from 'react';
+import { AuthModalStack } from '../model';
 
 export const AuthModal = () => {
   const [scale, setScale] = useState(1);
   const theme = useMantineTheme();
   const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
-  const stack = useModalsStack(['login', 'register']);
+  const stack: AuthModalStack = useModalsStack(['login', 'register']);
 
   useEffect(() => {
-    if (stack.state.login || stack.state.register) {
+    const { login, register } = stack.state;
+    if (login || register) {
       setScale(0.5);
       return;
     }
@@ -45,7 +47,6 @@ export const AuthModal = () => {
             </SimpleGrid>
           </Paper>
         </Container>
-
         <AuthModalsStack stack={stack} isMobile={!!isMobile} />
       </motion.div>
     </Center>
