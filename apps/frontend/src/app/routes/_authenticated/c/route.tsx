@@ -1,7 +1,7 @@
 import { layoutStore } from '@/shared/model';
 import { Header } from '@/widgets/header';
 import { Navbar } from '@/widgets/navbar';
-import { NotificationsList } from '@/widgets/notifications';
+import { NotificationPopover } from '@/widgets/notifications';
 import { Spotlight } from '@/widgets/spotlight';
 import { ZenModeIndicator } from '@/widgets/zen-mode-indicator'; import { AppShell, Button, useMantineColorScheme } from '@mantine/core';
 import { LayoutIcon } from '@phosphor-icons/react/dist/icons/Layout';
@@ -24,7 +24,7 @@ function RouteComponent() {
       }}
     >
       <AppShell.Header>
-        <Header />
+        <Header rightSection={<NotificationPopover />} />
       </AppShell.Header>
       <AppShell.Navbar>
         <Navbar>
@@ -45,7 +45,6 @@ function RouteComponent() {
         <Button onClick={() => layoutStore.toggleZenMode()}>Change zen</Button>
         <Spotlight />
         <Outlet />
-        <NotificationsList/>
       </AppShell.Main>
     </AppShell>
   );

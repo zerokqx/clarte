@@ -1,5 +1,6 @@
 import { SidebarIcon } from '@phosphor-icons/react/dist/csr/Sidebar';
 import { ActionIcon, Avatar, Group, Skeleton, Text, UnstyledButton } from '@mantine/core';
+import { ReactNode } from 'react';
 import classes from './header.module.css';
 
 export interface HeaderViewProps {
@@ -8,6 +9,7 @@ export interface HeaderViewProps {
   navbarVisible?: boolean;
   isLoading?: boolean;
   onToggleNavbar?: () => void;
+  rightSection?: ReactNode;
 }
 
 export const HeaderView = ({
@@ -16,6 +18,7 @@ export const HeaderView = ({
   navbarVisible,
   isLoading,
   onToggleNavbar,
+  rightSection,
 }: HeaderViewProps) => {
   return (
     <Group justify="space-between" h="100%" px="md">
@@ -28,23 +31,26 @@ export const HeaderView = ({
         </Text>
       </Group>
 
-      <UnstyledButton className={classes.profileButton}>
-        <Group gap="sm">
-          {isLoading ? (
-            <>
-              <Skeleton circle height={28} width={28} />
-              <Skeleton height={14} width={60} radius="xl" visibleFrom="xs" />
-            </>
-          ) : (
-            <>
-              <Avatar src={avatarUrl} radius="xl" size="sm" color="violet" name={login} />
-              <Text size="sm" fw={600} visibleFrom="xs">
-                {login}
-              </Text>
-            </>
-          )}
-        </Group>
-      </UnstyledButton>
+      <Group gap="sm">
+        {rightSection}
+        <UnstyledButton className={classes.profileButton}>
+          <Group gap="sm">
+            {isLoading ? (
+              <>
+                <Skeleton circle height={28} width={28} />
+                <Skeleton height={14} width={60} radius="xl" visibleFrom="xs" />
+              </>
+            ) : (
+              <>
+                <Avatar src={avatarUrl} radius="xl" size="sm" color="violet" name={login} />
+                <Text size="sm" fw={600} visibleFrom="xs">
+                  {login}
+                </Text>
+              </>
+            )}
+          </Group>
+        </UnstyledButton>
+      </Group>
     </Group>
   );
 };

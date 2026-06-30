@@ -3,7 +3,9 @@ import { useMe } from '@/entities/user';
 import { layoutStore } from '@/shared/model';
 import { HeaderView } from './header.view';
 
-export const Header = observer(() => {
+import { ReactNode } from 'react';
+
+export const Header = observer(({ rightSection }: { rightSection?: ReactNode }) => {
   const { data, isLoading } = useMe();
 
   return (
@@ -13,6 +15,7 @@ export const Header = observer(() => {
       navbarVisible={layoutStore.navbarVisible}
       onToggleNavbar={() => layoutStore.toggleNavbar()}
       isLoading={isLoading}
+      rightSection={rightSection}
     />
   );
 });
