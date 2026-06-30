@@ -1,5 +1,5 @@
 import { NotificationDTO } from '@/shared/api/orval/generated/model';
-import { Box, Text, Flex } from '@mantine/core';
+import { Text, Flex, ThemeIcon, Stack, Group, Divider } from '@mantine/core';
 import { BellIcon } from '@phosphor-icons/react/dist/csr/Bell';
 import { ReactNode } from 'react';
 
@@ -25,54 +25,39 @@ const getFormattedDate = (dateStr: string) => {
 
 export const NotificationCard = ({ data, actionSlot }: NotificationCardProps) => {
   return (
-    <Flex
+    <Group
       py="xs"
       px="md"
       gap="sm"
-      pos="relative"
-      align="center"
       style={{
-        borderBottom: '1px solid var(--mantine-color-default-border)',
-        transition: 'background-color 0.15s ease',
         userSelect: 'none',
-        cursor: 'pointer',
-        '&:hover': {
-          backgroundColor: 'var(--mantine-color-default-hover)',
-        },
       }}
     >
-      <Box c="primary" display="flex" style={{ alignItems: 'center' }}>
-        <BellIcon size={16} weight="bold" />
-      </Box>
+      <ThemeIcon variant="transparent">
+        <BellIcon size={16} weight="duotone" />
+      </ThemeIcon>
 
-      <Flex direction="column" gap={2} style={{ flex: 1 }}>
-        <Flex justify="space-between" align="baseline" gap="sm">
-          <Text
-            size="sm"
-            fw={600}
-            lh={1.2}
-          >
+      <Stack gap={4} flex="1">
+        <Group justify="space-between">
+          <Text size="sm" fw={600} lh={1.2}>
             {data.title}
           </Text>
-          <Text
-            fz="xs"
-            c="dimmed"
-            fw={500}
-            style={{ whiteSpace: 'nowrap' }}
-          >
+          <Text fz="xs" c="dimmed" fw={500} style={{ whiteSpace: 'nowrap' }}>
             {getFormattedDate(data.createdAt)}
           </Text>
-        </Flex>
+        </Group>
         <Text size="xs" c="dimmed" lh={1.4}>
           {data.text}
         </Text>
-      </Flex>
+      </Stack>
 
       {actionSlot && (
         <Flex align="center" justify="center" style={{ alignSelf: 'center' }}>
           {actionSlot}
         </Flex>
       )}
-    </Flex>
+
+      <Divider w={'100%'} />
+    </Group>
   );
 };

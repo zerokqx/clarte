@@ -8,7 +8,7 @@ export const NotificationPopover = () => {
 
   return (
     <Popover
-    
+      offset={30}
       opened={opened}
       onChange={setOpened}
       position="bottom-end"
