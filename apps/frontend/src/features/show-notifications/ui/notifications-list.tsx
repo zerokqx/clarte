@@ -21,7 +21,7 @@ export const NotificationsList = () => {
   }
 
   return (
-    <Stack gap={0} w="100%">
+    <Stack gap={0} >
       {notifications.map((notification) => (
         <NotificationCard data={notification} key={notification.id} />
       ))}

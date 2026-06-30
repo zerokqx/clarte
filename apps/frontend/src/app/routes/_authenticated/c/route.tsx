@@ -1,4 +1,5 @@
 import { layoutStore } from '@/shared/model';
+import { BottomNavigation } from '@/widgets/bottom-navigation';
 import { Header } from '@/widgets/header';
 import { Navbar } from '@/widgets/navbar';
 import { Spotlight } from '@/widgets/spotlight';
@@ -22,6 +23,7 @@ function RouteComponent() {
         breakpoint: 'xs',
       }}
     >
+    <Spotlight />
       <AppShell.Header>
         <Header />
       </AppShell.Header>
@@ -40,9 +42,10 @@ function RouteComponent() {
       </AppShell.Navbar>
       <AppShell.Main>
       <ZenModeIndicator/>
-        <Button onClick={() => toggleColorScheme()}>Change theme</Button>
-        <Button onClick={() => layoutStore.toggleZenMode()}>Change zen</Button>
-        <Spotlight />
+        {/* <Button onClick={() => toggleColorScheme()}>Change theme</Button> */}
+        {/* <Button onClick={() => layoutStore.toggleZenMode()}>Change zen</Button> */}
+
+        <BottomNavigation/>
         <Outlet />
       </AppShell.Main>
     </AppShell>
