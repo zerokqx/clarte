@@ -12,7 +12,7 @@ export const Route = createFileRoute('/_authenticated/c')({
 });
 
 function RouteComponent() {
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const { toggleColorScheme } = useMantineColorScheme();
   return (
     <AppShell
       header={{ collapsed: !layoutStore.headerVisible, height: 50 }}
