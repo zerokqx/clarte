@@ -7,7 +7,13 @@ export const NotificationPopover = () => {
   const [opened, setOpened] = useState(false);
 
   return (
-    <Popover opened={opened} onChange={setOpened} position="bottom-end" withArrow shadow="md">
+    <Popover
+      opened={opened}
+      onChange={setOpened}
+      position="bottom-end"
+      withArrow
+      shadow="md"
+    >
       <Popover.Target>
         <ActionIcon
           variant="subtle"

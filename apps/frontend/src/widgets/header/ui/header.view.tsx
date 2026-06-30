@@ -1,6 +1,6 @@
 import { SidebarIcon } from '@phosphor-icons/react/dist/csr/Sidebar';
 import { ActionIcon, Avatar, Group, Skeleton, Text, UnstyledButton } from '@mantine/core';
-import { ReactNode } from 'react';
+import { NotificationPopover } from '@/features/show-notifications';
 import classes from './header.module.css';
 
 export interface HeaderViewProps {
@@ -9,7 +9,6 @@ export interface HeaderViewProps {
   navbarVisible?: boolean;
   isLoading?: boolean;
   onToggleNavbar?: () => void;
-  rightSection?: ReactNode;
 }
 
 export const HeaderView = ({
@@ -18,7 +17,6 @@ export const HeaderView = ({
   navbarVisible,
   isLoading,
   onToggleNavbar,
-  rightSection,
 }: HeaderViewProps) => {
   return (
     <Group justify="space-between" h="100%" px="md">
@@ -32,7 +30,7 @@ export const HeaderView = ({
       </Group>
 
       <Group gap="sm">
-        {rightSection}
+        <NotificationPopover />
         <UnstyledButton className={classes.profileButton}>
           <Group gap="sm">
             {isLoading ? (
