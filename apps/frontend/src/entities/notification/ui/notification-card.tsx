@@ -26,40 +26,38 @@ const getFormattedDate = (dateStr: string) => {
 export const NotificationCard = ({ data, actionSlot }: NotificationCardProps) => {
   return (
     <Flex
-      p="md"
-      gap="md"
+      py="xs"
+      px="md"
+      gap="sm"
       pos="relative"
-      bg={{ base: 'white', dark: 'dark.7' }}
+      align="center"
       style={{
-        borderBottom: '1px solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5))',
+        borderBottom: '1px solid var(--mantine-color-default-border)',
         transition: 'background-color 0.15s ease',
         userSelect: 'none',
         cursor: 'pointer',
         '&:hover': {
-          backgroundColor: 'light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6))',
+          backgroundColor: 'var(--mantine-color-default-hover)',
         },
       }}
     >
-      <Box c="violet" mt={2} display="flex" style={{ alignItems: 'flex-start' }}>
-        <BellIcon size={18} weight="bold" />
+      <Box c="primary" display="flex" style={{ alignItems: 'center' }}>
+        <BellIcon size={16} weight="bold" />
       </Box>
 
-      <Flex direction="column" gap={4} style={{ flex: 1 }}>
+      <Flex direction="column" gap={2} style={{ flex: 1 }}>
         <Flex justify="space-between" align="baseline" gap="sm">
           <Text
             size="sm"
             fw={600}
-            c={{ base: 'gray.9', dark: 'dark.0' }}
-            lh={1.3}
+            lh={1.2}
           >
             {data.title}
           </Text>
           <Text
-            fz="calc(var(--mantine-font-size-xs) * 0.85)"
-            c="placeholder"
+            fz="xs"
+            c="dimmed"
             fw={500}
-            tt="uppercase"
-            lts="0.3px"
             style={{ whiteSpace: 'nowrap' }}
           >
             {getFormattedDate(data.createdAt)}

@@ -1,6 +1,7 @@
 import { layoutStore } from '@/shared/model';
 import { Header } from '@/widgets/header';
 import { Navbar } from '@/widgets/navbar';
+import { NotificationsList } from '@/widgets/notifications';
 import { Spotlight } from '@/widgets/spotlight';
 import { ZenModeIndicator } from '@/widgets/zen-mode-indicator'; import { AppShell, Button, useMantineColorScheme } from '@mantine/core';
 import { LayoutIcon } from '@phosphor-icons/react/dist/icons/Layout';
@@ -41,10 +42,10 @@ function RouteComponent() {
       <AppShell.Main>
       <ZenModeIndicator/>
         <Button onClick={() => toggleColorScheme()}>Change theme</Button>
-
         <Button onClick={() => layoutStore.toggleZenMode()}>Change zen</Button>
         <Spotlight />
         <Outlet />
+        <NotificationsList/>
       </AppShell.Main>
     </AppShell>
   );
