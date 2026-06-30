@@ -8,6 +8,7 @@ interface Task {
   dueDate?: string;
   section: 'Входящие' | 'Сегодня' | 'Предстоящие';
   project?: string;
+  priority?: 'high' | 'medium' | 'low';
   createdAt: string;
   updatedAt: string;
 }
@@ -18,6 +19,7 @@ export const useTaskFilters = (
   selectedProject: string | null,
   searchQuery: string,
   filterStatus: 'all' | 'active' | 'completed',
+  filterPriority: 'all' | 'high' | 'medium' | 'low' = 'all',
 ) => {
   return useMemo(() => {
     let filtered = tasks;
@@ -42,6 +44,10 @@ export const useTaskFilters = (
       filtered = filtered.filter((t) => t.isCompleted);
     }
 
+    if (filterPriority !== 'all') {
+      filtered = filtered.filter((t) => t.priority === filterPriority);
+    }
+
     return filtered;
-  }, [tasks, selectedView, selectedProject, searchQuery, filterStatus]);
+  }, [tasks, selectedView, selectedProject, searchQuery, filterStatus, filterPriority]);
 };

@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { apiClient } from "../api/client";
+import { parseDescription, buildDescription, SerializedAttachment } from "../utils/mediaSerializer";
 
 export interface Task {
   id: string;
   title: string;
   description?: string;
+  cleanDescription?: string;
+  attachments?: SerializedAttachment[];
   isCompleted: boolean;
   dueDate?: string;
   section: "Входящие" | "Сегодня" | "Предстоящие";
@@ -55,10 +58,13 @@ export const useTasks = () => {
             }
           }
 
+          const parsed = parseDescription(t.description || "");
           return {
             id: t.id,
             title: t.title,
             description: t.description || "",
+            cleanDescription: parsed.cleanDescription,
+            attachments: parsed.attachments,
             isCompleted: t.isCompleted,
             dueDate: t.dueDate,
             section: section || "Входящие",
@@ -132,10 +138,13 @@ export const useTasks = () => {
             }
           }
 
+          const parsed = parseDescription(t.description || "");
           return {
             id: t.id,
             title: t.title,
             description: t.description || "",
+            cleanDescription: parsed.cleanDescription,
+            attachments: parsed.attachments,
             isCompleted: t.isCompleted,
             dueDate: t.dueDate,
             section: section || "Входящие",
@@ -172,8 +181,10 @@ export const useTasks = () => {
         dueDateIso = d.toISOString();
       }
 
-      const rawDesc = taskData.description?.trim() || "";
-      const finalDesc = rawDesc.length >= 10 ? rawDesc : "Описание отсутствует";
+      const cleanDesc = taskData.cleanDescription || taskData.description || "";
+      const attachments = taskData.attachments || [];
+      const payloadDesc = buildDescription(cleanDesc, attachments);
+      const finalDesc = payloadDesc.length >= 10 ? payloadDesc : "Описание отсутствует";
 
       const payload = {
         title: taskData.title,
@@ -279,8 +290,8 @@ export const useTasks = () => {
   };
 
   const updateTaskTitle = async (id: string, title: string) => {
-    if (!title.trim() || title.length < 10 || title.length > 50) {
-      setError("Название должно быть от 10 до 50 символов");
+    if (!title.trim() || title.length < 2 || title.length > 100) {
+      setError("Название должно быть от 2 до 100 символов");
       return;
     }
 
@@ -340,6 +351,31 @@ export const useTasks = () => {
     );
   };
 
+  const updateTaskDescription = async (id: string, cleanDesc: string, attachments: SerializedAttachment[]) => {
+    const payloadDesc = buildDescription(cleanDesc, attachments);
+    
+    setTasks((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, description: payloadDesc, cleanDescription: cleanDesc, attachments } : t))
+    );
+
+    const cached = localStorage.getItem("clarte_tasks_cache");
+    if (cached) {
+      const cachedTasks = JSON.parse(cached);
+      const updated = cachedTasks.map((t: any) => t.id === id ? { ...t, description: payloadDesc } : t);
+      localStorage.setItem("clarte_tasks_cache", JSON.stringify(updated));
+    }
+
+    try {
+      await apiClient.patch(`/todos/${id}`, {
+        description: payloadDesc,
+      });
+      await fetchTasks();
+    } catch (err: any) {
+      console.error(err);
+      setError("Описание обновлено локально. Ошибка соединения с сервером.");
+    }
+  };
+
   return {
     tasks,
     isLoading,
@@ -351,6 +387,7 @@ export const useTasks = () => {
     moveTaskToProject,
     updateTaskTitle,
     updateTaskPriority,
+    updateTaskDescription,
     refreshTasks: fetchTasks,
   };
 };

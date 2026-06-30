@@ -20,6 +20,7 @@ import {
   Loader,
   SegmentedControl,
   useMantineColorScheme,
+  Progress,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
@@ -50,6 +51,7 @@ import { useTasks } from "../hooks/useTasks";
 import { useProjects } from "../hooks/useProjects";
 import { useTaskFilters } from "../hooks/useTaskFilters";
 import { useNotes } from "../hooks/useNotes";
+import { useSmartReminders } from "../hooks/useSmartReminders";
 import { TaskItem } from "../components/TaskItem";
 import { CollaborativeEditor } from "../components/CollaborativeEditor";
 import { apiClient } from "../api/client";
@@ -57,12 +59,9 @@ import "./TodoPage.css";
 
 const taskSchema = z.object({
   title: z.string()
-    .min(10, "Название должно быть от 10 до 50 символов")
-    .max(50, "Название должно быть от 10 до 50 символов"),
-  description: z.string().optional().refine(
-    (val) => !val || (val.trim().length >= 10 && val.trim().length <= 1000),
-    "Описание должно быть от 10 до 1000 символов, либо оставлено пустым"
-  ),
+    .min(2, "Название должно быть от 2 до 100 символов")
+    .max(100, "Название должно быть от 2 до 100 символов"),
+  description: z.string().max(1000, "Описание не должно превышать 1000 символов").optional(),
   dueDate: z.string()
     .min(1, "Выберите дату выполнения")
     .refine((val) => {
@@ -111,6 +110,8 @@ export const TodoPage = () => {
     refreshTasks,
   } = useTasks();
 
+  const { permission: pushPermission, requestPermission, stats: reminderStats } = useSmartReminders(tasks);
+
   const { projects, selectedProject, setSelectedProject, addProject, deleteProject } = useProjects();
 
   const {
@@ -132,6 +133,7 @@ export const TodoPage = () => {
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [draggingTaskId, setDraggingTaskId] = useState<string | null>(null);
   const [filterStatus, setFilterStatus] = useState<"all" | "active" | "completed">("all");
+  const [filterPriority, setFilterPriority] = useState<"all" | "high" | "medium" | "low">("all");
   const [isAddingTask, setIsAddingTask] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -255,7 +257,8 @@ export const TodoPage = () => {
     selectedView,
     selectedProject,
     searchQuery,
-    filterStatus
+    filterStatus,
+    filterPriority
   );
 
   const sortedTasks = React.useMemo(() => {
@@ -273,6 +276,22 @@ export const TodoPage = () => {
       return weightB - weightA;
     });
   }, [notes]);
+
+  const currentViewTasks = React.useMemo(() => {
+    return tasks.filter((t) => {
+      if (selectedProject) {
+        return t.project === selectedProject;
+      }
+      return t.section === selectedView;
+    });
+  }, [tasks, selectedView, selectedProject]);
+
+  const stats = React.useMemo(() => {
+    const total = currentViewTasks.length;
+    const completed = currentViewTasks.filter((t) => t.isCompleted).length;
+    const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+    return { total, completed, percent };
+  }, [currentViewTasks]);
 
   const form = useForm<TaskForm>({
     mode: "uncontrolled",
@@ -538,7 +557,6 @@ export const TodoPage = () => {
                       key={n.id}
                       className={`nav-item ${selectedNoteId === n.id ? "active" : ""}`}
                       onClick={() => setSelectedNoteId(n.id)}
-                      style={{ paddingRight: "40px" }}
                     >
                       <IconFileText size={16} stroke={1.5} style={{ color: notePriorityColors[n.priority || "medium"] }} />
                       <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", flex: 1 }}>
@@ -679,6 +697,19 @@ export const TodoPage = () => {
                   size="xs"
                   style={{ width: 140 }}
                 />
+
+                <Select
+                  value={filterPriority}
+                  onChange={(value) => setFilterPriority(value as "all" | "high" | "medium" | "low")}
+                  data={[
+                    { value: "all", label: "Любой приоритет" },
+                    { value: "high", label: "Высокий" },
+                    { value: "medium", label: "Средний" },
+                    { value: "low", label: "Низкий" },
+                  ]}
+                  size="xs"
+                  style={{ width: 150 }}
+                />
                 
                 <Button
                   leftSection={<IconPlus size={18} />}
@@ -699,6 +730,64 @@ export const TodoPage = () => {
               <Alert icon={<IconAlertCircle size={16} />} title="Внимание" color="red" variant="light" mb="md" withCloseButton onClose={() => refreshTasks()}>
                 {tasksError}
               </Alert>
+            )}
+
+            {pushPermission === 'default' && (
+              <Alert
+                icon={<IconBell size={16} />}
+                title="Уведомления на рабочем столе"
+                color="indigo"
+                variant="light"
+                mb="sm"
+              >
+                <Group justify="space-between" align="center" style={{ width: '100%' }}>
+                  <Text size="xs">
+                    Включите уведомления, чтобы получать предупреждения о просроченных задачах и делах на сегодня.
+                  </Text>
+                  <Button size="xs" color="indigo" onClick={requestPermission}>
+                    Включить
+                  </Button>
+                </Group>
+              </Alert>
+            )}
+
+            {reminderStats.overdueCount > 0 && (
+              <Alert
+                icon={<IconAlertCircle size={16} />}
+                title="Просроченные задачи"
+                color="red"
+                variant="light"
+                mb="sm"
+              >
+                У вас есть {reminderStats.overdueCount} просроченных задач! Пожалуйста, проверьте их.
+              </Alert>
+            )}
+
+            {reminderStats.todayCount > 0 && (
+              <Alert
+                icon={<IconCalendar size={16} />}
+                title="Задачи на сегодня"
+                color="yellow"
+                variant="light"
+                mb="sm"
+              >
+                На сегодня запланировано {reminderStats.todayCount} задач. Продуктивного дня!
+              </Alert>
+            )}
+
+            {stats.total > 0 && (
+              <Box mb="md" p="sm" style={{ background: colorScheme === "dark" ? "#1e1e24" : "#f1f3f9", borderRadius: "8px", border: colorScheme === "dark" ? "1px solid #2c2e33" : "1px solid #e5e7eb" }}>
+                <Group justify="space-between" mb="xs">
+                  <Text size="xs" fw={700} style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                    <span>Прогресс:</span>
+                    <Badge size="xs" variant="filled" color="indigo">{selectedProject || selectedView}</Badge>
+                  </Text>
+                  <Text size="xs" fw={700} color="indigo">
+                    Выполнено {stats.completed} из {stats.total} ({stats.percent}%)
+                  </Text>
+                </Group>
+                <Progress value={stats.percent} color="indigo" size="xs" radius="xl" striped animate />
+              </Box>
             )}
 
             <ScrollArea className="tasks-container">
@@ -725,6 +814,7 @@ export const TodoPage = () => {
                     onMoveToProject={moveTaskToProject}
                     onStartEditing={setEditingTaskId}
                     onUpdateTitle={updateTaskTitle}
+                    onUpdateDescription={updateTaskDescription}
                     onUpdatePriority={updateTaskPriority}
                     onDragStart={handleDragStart}
                     onDragEnd={handleDragEnd}
@@ -831,14 +921,14 @@ export const TodoPage = () => {
             <TextInput
               ref={inputRef}
               label="Название"
-              placeholder="Что нужно сделать? (от 10 до 50 символов)"
+              placeholder="Что нужно сделать? (от 2 до 100 символов)"
               required
               {...form.getInputProps("title")}
             />
             
             <TextInput
               label="Описание"
-              placeholder="Подробности... (оставьте пустым или от 10 символов)"
+              placeholder="Подробности... (по желанию)"
               {...form.getInputProps("description")}
             />
             
