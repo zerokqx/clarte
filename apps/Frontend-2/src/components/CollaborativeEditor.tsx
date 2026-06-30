@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Box, Text, Group, Badge, Paper, Tooltip, Button, Select, Avatar, Indicator, Modal, Stack, Alert, TextInput, useMantineColorScheme } from "@mantine/core";
 import { IconCopy, IconCheck, IconUsers, IconCloudCheck, IconEdit, IconTypography } from "@tabler/icons-react";
+import { HocuspocusProvider } from "@hocuspocus/provider";
 import * as Y from "yjs";
-import { WebsocketProvider } from "y-websocket";
 import { SerializedAttachment, fileToBase64, compressImage } from "../utils/mediaSerializer";
 
 interface CollaborativeEditorProps {
@@ -215,7 +215,7 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
 
   const editorRef = useRef<HTMLDivElement | null>(null);
   const ydocRef = useRef<Y.Doc | null>(null);
-  const providerRef = useRef<WebsocketProvider | null>(null);
+  const providerRef = useRef<HocuspocusProvider | null>(null);
   const isLocalChange = useRef(false);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -253,11 +253,20 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
     const wsUrl = `${wsProtocol}//${window.location.host}/yjs`;
     const roomName = `clarte-note-v1-${noteId}`;
     
-    const provider = new WebsocketProvider(
-      wsUrl,
-      roomName,
-      ydoc
-    );
+    const getCookie = (name: string) => {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop()?.split(';').shift();
+      return undefined;
+    };
+    const token = getCookie("jwt_access") || "";
+
+    const provider = new HocuspocusProvider({
+      url: wsUrl,
+      name: roomName,
+      document: ydoc,
+      token: token,
+    });
     providerRef.current = provider;
 
     const ytext = ydoc.getText("content");
@@ -625,7 +634,7 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
               })}
             </Avatar.Group>
             {activeUsers.some((u) => u.isTyping) && (
-              <Text size="xs" color="indigo" italic style={{ animation: "pulse 1.5s infinite", display: "flex", alignItems: "center", gap: "4px" }}>
+              <Text size="xs" color="indigo" fs="italic" style={{ animation: "pulse 1.5s infinite", display: "flex", alignItems: "center", gap: "4px" }}>
                 <IconEdit size={12} /> Кто-то печатает...
               </Text>
             )}

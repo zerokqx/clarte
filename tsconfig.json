@@ -43,9 +43,6 @@
       "path": "./apps/ws-gateway"
     },
     {
-      "path": "./apps/frontend"
-    },
-    {
       "path": "./apps/Frontend-2"
     }
   ]

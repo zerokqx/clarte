@@ -59,8 +59,8 @@ import "./TodoPage.css";
 
 const taskSchema = z.object({
   title: z.string()
-    .min(2, "Название должно быть от 2 до 100 символов")
-    .max(100, "Название должно быть от 2 до 100 символов"),
+    .min(10, "Название должно быть от 10 до 50 символов")
+    .max(50, "Название должно быть от 10 до 50 символов"),
   description: z.string().max(1000, "Описание не должно превышать 1000 символов").optional(),
   dueDate: z.string()
     .min(1, "Выберите дату выполнения")
@@ -107,6 +107,7 @@ export const TodoPage = () => {
     moveTaskToProject,
     updateTaskTitle,
     updateTaskPriority,
+    updateTaskDescription,
     refreshTasks,
   } = useTasks();
 
@@ -633,7 +634,7 @@ export const TodoPage = () => {
                         </Button>
                       )}
                     </div>
-                    <ScrollArea.Autosize maxHeight={300}>
+                    <ScrollArea.Autosize mah={300}>
                       {notifications.length === 0 ? (
                         <div style={{ padding: "24px 16px", textAlign: "center", color: "#9ca3af" }}>
                           <IconBellOff size={32} stroke={1} style={{ margin: "0 auto 8px" }} />
@@ -778,7 +779,7 @@ export const TodoPage = () => {
             {stats.total > 0 && (
               <Box mb="md" p="sm" style={{ background: colorScheme === "dark" ? "#1e1e24" : "#f1f3f9", borderRadius: "8px", border: colorScheme === "dark" ? "1px solid #2c2e33" : "1px solid #e5e7eb" }}>
                 <Group justify="space-between" mb="xs">
-                  <Text size="xs" fw={700} style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                  <Text component="div" size="xs" fw={700} style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                     <span>Прогресс:</span>
                     <Badge size="xs" variant="filled" color="indigo">{selectedProject || selectedView}</Badge>
                   </Text>
@@ -786,7 +787,7 @@ export const TodoPage = () => {
                     Выполнено {stats.completed} из {stats.total} ({stats.percent}%)
                   </Text>
                 </Group>
-                <Progress value={stats.percent} color="indigo" size="xs" radius="xl" striped animate />
+                <Progress value={stats.percent} color="indigo" size="xs" radius="xl" striped animated />
               </Box>
             )}
 
@@ -921,7 +922,7 @@ export const TodoPage = () => {
             <TextInput
               ref={inputRef}
               label="Название"
-              placeholder="Что нужно сделать? (от 2 до 100 символов)"
+              placeholder="Что нужно сделать? (от 10 до 50 символов)"
               required
               {...form.getInputProps("title")}
             />

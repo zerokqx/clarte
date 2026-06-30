@@ -251,14 +251,9 @@ export const useTasks = () => {
 
     setTasks((prev) => prev.filter((t) => t.id !== id));
 
-    // Async attempt to delete from server
-    try {
-      await apiClient.delete(`/todos/${id}`).catch(err => {
-        console.warn("Удаление на сервере отложено: ", err);
-      });
-    } catch (err) {
-      // Ignored since we deleted it locally
-    }
+    // Note: The backend (todo-service & api-gateway) does not implement task deletion.
+    // Task deletion is fully managed locally using the `todo_deleted_ids` filter in `fetchTasks`.
+    // We omit the network delete call to prevent 404 console/network errors.
   };
 
   const toggleComplete = async (id: string) => {
@@ -290,8 +285,8 @@ export const useTasks = () => {
   };
 
   const updateTaskTitle = async (id: string, title: string) => {
-    if (!title.trim() || title.length < 2 || title.length > 100) {
-      setError("Название должно быть от 2 до 100 символов");
+    if (!title.trim() || title.length < 10 || title.length > 50) {
+      setError("Название должно быть от 10 до 50 символов");
       return;
     }
 
