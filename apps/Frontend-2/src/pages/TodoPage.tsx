@@ -162,6 +162,10 @@ export const TodoPage = () => {
         setUserProfile(res.data);
         localStorage.setItem("clarte_user_profile", JSON.stringify(res.data));
       } catch (err: any) {
+        if (err.response?.status === 404) {
+          logout();
+          return;
+        }
         if (err.response?.status !== 503) {
           console.error(err);
         }
@@ -175,7 +179,7 @@ export const TodoPage = () => {
       }
     };
     fetchProfile();
-  }, []);
+  }, [logout]);
 
   const fetchNotifications = async () => {
     try {

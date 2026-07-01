@@ -30,11 +30,11 @@ export const LoginPage = () => {
     validate: {
       login: (value) => {
         const result = loginSchema.shape.login.safeParse(value);
-        return result.success ? null : result.error.errors[0].message;
+        return result.success ? null : result.error.issues[0].message;
       },
       password: (value) => {
         const result = loginSchema.shape.password.safeParse(value);
-        return result.success ? null : result.error.errors[0].message;
+        return result.success ? null : result.error.issues[0].message;
       },
     },
   });

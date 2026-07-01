@@ -7,7 +7,6 @@ import {
   Paper,
   SimpleGrid,
   Image,
-  Tooltip,
   Modal,
   Stack,
   Loader,
@@ -19,8 +18,6 @@ import {
   IconPlus,
   IconTrash,
   IconFileText,
-  IconPlayerPlay,
-  IconPlayerPause,
 } from '@tabler/icons-react';
 import { SerializedAttachment, fileToBase64, compressImage } from '../utils/mediaSerializer';
 
@@ -220,7 +217,7 @@ export const MediaAttachmentList: React.FC<MediaAttachmentListProps> = ({
       )}
 
       {attachments.length > 0 && (
-        <SimpleGrid cols={{ base: 2, sm: 3 }} gap="xs" mt="xs">
+        <SimpleGrid cols={{ base: 2, sm: 3 }} spacing="xs" mt="xs">
           {attachments.map((item) => {
             const isImage = item.type.startsWith('image/');
             const isVideo = item.type.startsWith('video/');

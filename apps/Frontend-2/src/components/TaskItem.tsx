@@ -14,19 +14,7 @@ import {
 } from "@tabler/icons-react";
 import { SerializedAttachment, fileToBase64, compressImage } from "../utils/mediaSerializer";
 import { MediaAttachmentList } from "./MediaAttachmentList";
-
-interface Task {
-  id: string;
-  title: string;
-  description?: string;
-  cleanDescription?: string;
-  attachments?: SerializedAttachment[];
-  isCompleted: boolean;
-  dueDate?: string;
-  section: "Входящие" | "Сегодня" | "Предстоящие";
-  project?: string;
-  priority: "high" | "medium" | "low";
-}
+import { type Task } from "../hooks/useTasks";
 
 interface TaskItemProps {
   task: Task;

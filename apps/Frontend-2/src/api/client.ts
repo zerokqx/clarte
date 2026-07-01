@@ -14,7 +14,7 @@ apiClient.interceptors.request.use((config) => {
   console.log(
     'Запрос:',
     config.method?.toUpperCase(),
-    config.baseURL + config.url,
+    (config.baseURL || '') + (config.url || ''),
   );
   return config;
 });

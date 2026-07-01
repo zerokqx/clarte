@@ -52,11 +52,11 @@ export const RegisterPage = () => {
     validate: {
       login: (value) => {
         const result = registerSchema.shape.login.safeParse(value);
-        return result.success ? null : result.error.errors[0].message;
+        return result.success ? null : result.error.issues[0].message;
       },
       password: (value) => {
         const result = registerSchema.shape.password.safeParse(value);
-        return result.success ? null : result.error.errors[0].message;
+        return result.success ? null : result.error.issues[0].message;
       },
       confirmPassword: (value, values) => {
         if (value !== values.password) {

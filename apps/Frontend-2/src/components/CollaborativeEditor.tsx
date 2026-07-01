@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Box, Text, Group, Badge, Paper, Tooltip, Button, Select, Avatar, Indicator, Modal, Stack, Alert, TextInput, useMantineColorScheme } from "@mantine/core";
-import { IconCopy, IconCheck, IconUsers, IconCloudCheck, IconEdit, IconTypography } from "@tabler/icons-react";
+import { Box, Text, Group, Badge, Paper, Tooltip, Button, Select, Avatar, Indicator, Modal, Stack, Alert, TextInput } from "@mantine/core";
+import { IconCopy, IconCheck, IconCloudCheck, IconEdit, IconTypography } from "@tabler/icons-react";
 import { HocuspocusProvider } from "@hocuspocus/provider";
 import * as Y from "yjs";
 import { SerializedAttachment, fileToBase64, compressImage } from "../utils/mediaSerializer";
@@ -50,8 +50,6 @@ const escapeHTML = (str: string): string => {
 
 // Converts the contenteditable DOM tree into a plain text representation with ![[media-XXXX]] links
 const serializeDOM = (element: HTMLElement): string => {
-  const lines: string[] = [];
-  
   const processNode = (node: Node): string => {
     if (node.nodeType === Node.TEXT_NODE) {
       return node.textContent || "";
@@ -201,7 +199,6 @@ const insertHtmlAtCaret = (html: string) => {
 };
 
 export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId, noteTitle, currentUser }) => {
-  const { colorScheme } = useMantineColorScheme();
   const [activeUsers, setActiveUsers] = useState<{ name: string; color: string; isTyping: boolean }[]>([]);
   const [copied, setCopied] = useState(false);
   const [syncing, setSyncing] = useState(true);
@@ -273,7 +270,7 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
     const yattachments = ydoc.getArray<SerializedAttachment>("attachments");
 
     const initialName = currentUser?.login || "Гость";
-    provider.awareness.setLocalStateField("user", {
+    provider.awareness?.setLocalStateField("user", {
       name: initialName,
       color: getUserColor(initialName),
       isTyping: false,
@@ -314,9 +311,9 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
     setAttachments(yattachments.toArray());
 
     const handleAwarenessChange = () => {
-      const states = provider.awareness.getStates();
+      const states = provider.awareness?.getStates();
       const users: any[] = [];
-      states.forEach((state: any) => {
+      states?.forEach((state: any) => {
         if (state.user) {
           users.push(state.user);
         }
@@ -324,7 +321,7 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
       setActiveUsers(users);
     };
 
-    provider.awareness.on("change", handleAwarenessChange);
+    provider.awareness?.on("change", handleAwarenessChange);
     handleAwarenessChange();
 
     if (editorRef.current) {
@@ -334,7 +331,7 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
     return () => {
       ytext.unobserve(handleYjsUpdate);
       yattachments.unobserve(handleAttachmentsUpdate);
-      provider.awareness.off("change", handleAwarenessChange);
+      provider.awareness?.off("change", handleAwarenessChange);
       if (typingTimeoutRef.current) {
         clearTimeout(typingTimeoutRef.current);
       }
@@ -348,10 +345,10 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
     if (!provider) return;
 
     const currentName = currentUser?.login || "Гость";
-    const localState = provider.awareness.getLocalState();
+    const localState = provider.awareness?.getLocalState();
     
     if (!localState?.user || localState.user.name !== currentName) {
-      provider.awareness.setLocalStateField("user", {
+      provider.awareness?.setLocalStateField("user", {
         name: currentName,
         color: getUserColor(currentName),
         isTyping: false,
@@ -371,9 +368,9 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
 
     if (currentVal === oldVal) return;
 
-    const localState = provider.awareness.getLocalState();
+    const localState = provider.awareness?.getLocalState();
     if (localState?.user && !localState.user.isTyping) {
-      provider.awareness.setLocalStateField("user", {
+      provider.awareness?.setLocalStateField("user", {
         ...localState.user,
         isTyping: true,
       });
@@ -383,9 +380,9 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
       clearTimeout(typingTimeoutRef.current);
     }
     typingTimeoutRef.current = setTimeout(() => {
-      const state = provider.awareness.getLocalState();
+      const state = provider.awareness?.getLocalState();
       if (state?.user && state.user.isTyping) {
-        provider.awareness.setLocalStateField("user", {
+        provider.awareness?.setLocalStateField("user", {
           ...state.user,
           isTyping: false,
         });
@@ -584,13 +581,13 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
             <Tooltip label="Поделиться заметкой с другом">
               <Button
                 size="xs"
-                variant="outline"
-                color="indigo"
-                leftSection={<IconCopy size={14} />}
+                variant={copied ? "filled" : "outline"}
+                color={copied ? "green" : "indigo"}
+                leftSection={copied ? <IconCheck size={14} /> : <IconCopy size={14} />}
                 onClick={handleCopyLink}
                 radius="md"
               >
-                Поделиться
+                {copied ? "Ссылка скопирована!" : "Поделиться"}
               </Button>
             </Tooltip>
           </Group>
@@ -650,7 +647,7 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
           onInput={handleLocalInput}
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
-          placeholder="Начните писать заметку здесь... Вы можете перетаскивать сюда (Drag & Drop) или вставлять из буфера обмена (Ctrl + V) изображения и файлы"
+          data-placeholder="Начните писать заметку здесь... Вы можете перетаскивать сюда (Drag & Drop) или вставлять из буфера обмена (Ctrl + V) изображения и файлы"
           style={{
             flex: 1,
             width: "100%",

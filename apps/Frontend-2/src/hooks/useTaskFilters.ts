@@ -1,17 +1,5 @@
 import { useMemo } from 'react';
-
-interface Task {
-  id: string;
-  title: string;
-  description?: string;
-  isCompleted: boolean;
-  dueDate?: string;
-  section: 'Входящие' | 'Сегодня' | 'Предстоящие';
-  project?: string;
-  priority?: 'high' | 'medium' | 'low';
-  createdAt: string;
-  updatedAt: string;
-}
+import { type Task } from './useTasks';
 
 export const useTaskFilters = (
   tasks: Task[],
