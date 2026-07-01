@@ -27,23 +27,29 @@ export type CSSLength =
 /**
  * Фабрика для создания хелперов цветов с поддержкой оттенков
  */
-export const color = <T extends string>(name: T) => {
-  function getVar(): Var<`mantine-${T}`>;
+export const color = <T extends string, D extends string = ''>(name: T, defaultSuffix?: D) => {
+  function getVar(): Var<D extends '' ? `mantine-${T}` : `mantine-${T}-${D}`>;
   function getVar<S extends number>(shade: S): Var<`mantine-${T}-${S}`>;
   function getVar<S extends number>(shade?: S) {
-    return shade ? createVar(`mantine-${name}-${shade}`) : createVar(`mantine-${name}`);
+    if (shade !== undefined) {
+      return createVar(`mantine-${name}-${shade}`);
+    }
+    return defaultSuffix
+      ? createVar(`mantine-${name}-${defaultSuffix}`)
+      : createVar(`mantine-${name}`);
   }
   return getVar;
 };
 
 // --- ЦВЕТОВЫЕ ХЕЛПЕРЫ ---
-export const primary = color('primary-color');
-export const dark = color('dark');
-export const gray = color('gray');
+export const primary = color('primary-color', 'filled');
+export const dark = color('color-dark');
+export const gray = color('color-gray');
 
 export const white = () => createVar('mantine-color-white');
 export const body = () => createVar('mantine-color-body');
 export const text = () => createVar('mantine-color-text');
+export const dimmed = () => createVar('mantine-color-dimmed'); 
 export const error = () => createVar('mantine-color-error');
 export const placeholder = () => createVar('mantine-color-placeholder');
 export const defaultBg = () => createVar('mantine-color-default'); // Фоновый цвет по умолчанию (карточки, инпуты)
