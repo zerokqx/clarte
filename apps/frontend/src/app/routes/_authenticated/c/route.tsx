@@ -1,7 +1,7 @@
 import { LogoutButton } from '@/features/logout';
 import { M } from '@/shared/lib/mantine';
 import { layoutStore } from '@/shared/model';
-import { BottomNavigationSkeleton } from '@/widgets/bottom-navigation';
+import { BottomNavigationSkeleton } from '@/widgets/bottom-navigation/ui/bottom-navigation-skeleton';
 import { Header } from '@/widgets/header';
 import { Navbar } from '@/widgets/navbar';
 import { Spotlight } from '@/widgets/spotlight';

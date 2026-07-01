@@ -1,6 +1,7 @@
 import { Button, Group, Stack, TextInput, Textarea } from '@mantine/core';
 import { Controller, Resolver, useForm } from 'react-hook-form';
 import { DateTimePicker } from '@mantine/dates';
+import '@mantine/dates/styles.css';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateTodoSchema } from '../model';
 import { CalendarIcon } from '@phosphor-icons/react/dist/csr/Calendar';
