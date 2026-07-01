@@ -93,3 +93,32 @@ input:autofill {
   background-color: var(--mb-input-bg, #161617) !important;
   color: var(--mb-input-color, #ecedee) !important;
 }
+
+/* ==========================================================================
+   СТИЛИ ДЛЯ СТРАНИЦЫ АВТОРИЗАЦИИ (КОНТРАСТ В ТЕМНОЙ/СВЕТЛОЙ ТЕМЕ)
+   ========================================================================== */
+
+/* Карточка авторизации: белая в светлой теме, темно-серая в темной */
+.auth-card-paper {
+  background-color: var(--mantine-color-white) !important;
+}
+
+[data-mantine-color-scheme='dark'] .auth-card-paper {
+  background-color: var(--mantine-color-dark-6) !important;
+}
+
+/* Инвертированная кнопка: черная в светлой теме, белая в темной */
+.auth-primary-btn {
+  background-color: var(--mantine-color-text) !important;
+  color: var(--mantine-color-body) !important;
+  transition: opacity 0.15s ease, transform 0.1s ease !important;
+}
+
+.auth-primary-btn:hover {
+  opacity: 0.9;
+}
+
+.auth-primary-btn:active {
+  transform: scale(0.98);
+}
+
