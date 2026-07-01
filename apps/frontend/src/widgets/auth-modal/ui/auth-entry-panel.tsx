@@ -12,7 +12,7 @@ export const AuthEntryPanel = ({ onOpenLogin, onOpenRegister }: AuthEntryPanelPr
     bg={M.themeGradient({
       dir: 'to bottom',
       light: [M.primary(0), M.dark(0)],
-      dark: [M.dark(2), M.dark(7)],
+      dark: [M.dark(8), M.dark(7)],
     })}
     p="xl"
     justify="center"
