@@ -175,7 +175,7 @@ interface ThemeGradientArgs<
 
 /**
  * Упрощенный адаптивный хелпер для создания градиентов под светлую и темную темы.
- * Генерирует: light-dark(linear-gradient(dir, lightFrom, lightTo), linear-gradient(dir, darkFrom, darkTo))
+ * Генерирует: linear-gradient(dir, light-dark(lightFrom, darkFrom), light-dark(lightTo, darkTo))
  */
 export const themeGradient = <
   D extends GradientDirection,
@@ -187,8 +187,9 @@ export const themeGradient = <
   dir,
   light,
   dark,
-}: ThemeGradientArgs<D, FL, TL, FD, TD>): `light-dark(linear-gradient(${D}, ${FL}, ${TL}), linear-gradient(${D}, ${FD}, ${TD}))` => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return `light-dark(linear-gradient(${dir}, ${light[0]}, ${light[1]}), linear-gradient(${dir}, ${dark[0]}, ${dark[1]}))` as any;
+}: ThemeGradientArgs<D, FL, TL, FD, TD>) => {
+  const fromColor = lightDark(light[0])(dark[0]);
+  const toColor = lightDark(light[1])(dark[1]);
+  return gradient(fromColor)(dir)(toColor);
 };
 
