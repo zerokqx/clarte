@@ -36,6 +36,7 @@ class AuthStore implements IAuthStore {
   async initAuth() {
     if (!this.hasSession) {
       this.status = 'anonymous';
+      console.log(1)
       return;
     }
 

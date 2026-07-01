@@ -18,6 +18,9 @@ import { Route as NotAuthenticatedLoginRouteImport } from './routes/_not-authent
 import { Route as AuthenticatedCRouteRouteImport } from './routes/_authenticated/c/route'
 import { Route as AuthenticatedCIndexRouteImport } from './routes/_authenticated/c/index'
 
+const AuthenticatedCTodosLazyRouteImport = createFileRoute(
+  '/_authenticated/c/todos',
+)()
 const AuthenticatedCNotificationsLazyRouteImport = createFileRoute(
   '/_authenticated/c/notifications',
 )()
@@ -50,6 +53,13 @@ const AuthenticatedCIndexRoute = AuthenticatedCIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedCRouteRoute,
 } as any)
+const AuthenticatedCTodosLazyRoute = AuthenticatedCTodosLazyRouteImport.update({
+  id: '/todos',
+  path: '/todos',
+  getParentRoute: () => AuthenticatedCRouteRoute,
+} as any).lazy(() =>
+  import('./routes/_authenticated/c/todos.lazy').then((d) => d.Route),
+)
 const AuthenticatedCNotificationsLazyRoute =
   AuthenticatedCNotificationsLazyRouteImport.update({
     id: '/notifications',
@@ -64,12 +74,14 @@ export interface FileRoutesByFullPath {
   '/c': typeof AuthenticatedCRouteRouteWithChildren
   '/login': typeof NotAuthenticatedLoginRoute
   '/c/notifications': typeof AuthenticatedCNotificationsLazyRoute
+  '/c/todos': typeof AuthenticatedCTodosLazyRoute
   '/c/': typeof AuthenticatedCIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof NotAuthenticatedLoginRoute
   '/c/notifications': typeof AuthenticatedCNotificationsLazyRoute
+  '/c/todos': typeof AuthenticatedCTodosLazyRoute
   '/c': typeof AuthenticatedCIndexRoute
 }
 export interface FileRoutesById {
@@ -80,13 +92,14 @@ export interface FileRoutesById {
   '/_authenticated/c': typeof AuthenticatedCRouteRouteWithChildren
   '/_not-authenticated/login': typeof NotAuthenticatedLoginRoute
   '/_authenticated/c/notifications': typeof AuthenticatedCNotificationsLazyRoute
+  '/_authenticated/c/todos': typeof AuthenticatedCTodosLazyRoute
   '/_authenticated/c/': typeof AuthenticatedCIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/c' | '/login' | '/c/notifications' | '/c/'
+  fullPaths: '/' | '/c' | '/login' | '/c/notifications' | '/c/todos' | '/c/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/c/notifications' | '/c'
+  to: '/' | '/login' | '/c/notifications' | '/c/todos' | '/c'
   id:
     | '__root__'
     | '/'
@@ -95,6 +108,7 @@ export interface FileRouteTypes {
     | '/_authenticated/c'
     | '/_not-authenticated/login'
     | '/_authenticated/c/notifications'
+    | '/_authenticated/c/todos'
     | '/_authenticated/c/'
   fileRoutesById: FileRoutesById
 }
@@ -148,6 +162,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCIndexRouteImport
       parentRoute: typeof AuthenticatedCRouteRoute
     }
+    '/_authenticated/c/todos': {
+      id: '/_authenticated/c/todos'
+      path: '/todos'
+      fullPath: '/c/todos'
+      preLoaderRoute: typeof AuthenticatedCTodosLazyRouteImport
+      parentRoute: typeof AuthenticatedCRouteRoute
+    }
     '/_authenticated/c/notifications': {
       id: '/_authenticated/c/notifications'
       path: '/notifications'
@@ -160,11 +181,13 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedCRouteRouteChildren {
   AuthenticatedCNotificationsLazyRoute: typeof AuthenticatedCNotificationsLazyRoute
+  AuthenticatedCTodosLazyRoute: typeof AuthenticatedCTodosLazyRoute
   AuthenticatedCIndexRoute: typeof AuthenticatedCIndexRoute
 }
 
 const AuthenticatedCRouteRouteChildren: AuthenticatedCRouteRouteChildren = {
   AuthenticatedCNotificationsLazyRoute: AuthenticatedCNotificationsLazyRoute,
+  AuthenticatedCTodosLazyRoute: AuthenticatedCTodosLazyRoute,
   AuthenticatedCIndexRoute: AuthenticatedCIndexRoute,
 }
 

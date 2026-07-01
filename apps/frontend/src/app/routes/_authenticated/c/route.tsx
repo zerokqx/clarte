@@ -1,12 +1,12 @@
 import { LogoutButton } from '@/features/logout';
+import { M } from '@/shared/lib/mantine';
 import { layoutStore } from '@/shared/model';
 import { BottomNavigationSkeleton } from '@/widgets/bottom-navigation';
 import { Header } from '@/widgets/header';
 import { Navbar } from '@/widgets/navbar';
 import { Spotlight } from '@/widgets/spotlight';
 import { ZenModeIndicator } from '@/widgets/zen-mode-indicator';
-import { Affix, AppShell, Button, Loader, useMantineColorScheme } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
+import { AppShell, Stack } from '@mantine/core';
 import { LayoutIcon } from '@phosphor-icons/react/dist/icons/Layout';
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { observer } from 'mobx-react-lite';
@@ -20,9 +20,10 @@ export const Route = createFileRoute('/_authenticated/c')({
 });
 
 function RouteComponent() {
-  const isMobile = useMediaQuery('(max-width: 48em)');
+  const isMobile = M.useBreakpointMediaQuery('max-width','xs');
   return (
     <AppShell
+      padding="md"
       header={{ collapsed: !layoutStore.headerVisible, height: 50 }}
       navbar={{
         collapsed: { desktop: !layoutStore.navbarVisible, mobile: !layoutStore.navbarVisible },
@@ -50,16 +51,15 @@ function RouteComponent() {
         </Navbar>
       </AppShell.Navbar>
       <AppShell.Main>
-        <ZenModeIndicator />
-        {/* <Button onClick={() => toggleColorScheme()}>Change theme</Button> */}
-        {/* <Button onClick={() => layoutStore.toggleZenMode()}>Change zen</Button> */}
-
-        {isMobile && (
-          <Suspense fallback={<BottomNavigationSkeleton />}>
-            <LazyBottomNavigation />
-          </Suspense>
-        )}
-        <Outlet />
+        <Stack gap="md">
+          <ZenModeIndicator />
+          {isMobile && (
+            <Suspense fallback={<BottomNavigationSkeleton />}>
+              <LazyBottomNavigation />
+            </Suspense>
+          )}
+          <Outlet />
+        </Stack>
       </AppShell.Main>
     </AppShell>
   );

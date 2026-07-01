@@ -12,7 +12,6 @@ export const BottomNavigation = () => {
   const matchRoute = useMatchRoute();
   const navigate = useNavigate();
   const isCRoute = matchRoute({ to: '/c' });
-  console.log(isCRoute);
 
   return (
     <Affix position={{ bottom: 10, left: 10, right: 10 }}>
