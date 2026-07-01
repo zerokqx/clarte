@@ -10,8 +10,7 @@ import {
 type Var<T extends string> = `var(--${T})`;
 const createVar = <T extends string>(str: T): Var<T> => `var(--${str})`;
 
-// Типовые размеры Mantine
-export type MantineSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+
 
 // Тип для CSS длины/размеров
 export type CSSLength =
@@ -117,3 +116,46 @@ export const boxShadow =
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return `${format(x)} ${format(y)} ${format(blur)} ${color}` as any;
   };
+
+// Стили обводки CSS
+export type BorderStyle =
+  | 'none'
+  | 'hidden'
+  | 'dotted'
+  | 'dashed'
+  | 'solid'
+  | 'double'
+  | 'groove'
+  | 'ridge'
+  | 'inset'
+  | 'outset';
+
+/**
+ * Каррированный хелпер для создания кастомных CSS border.
+ * Принимает: толщина -> стиль -> цвет.
+ * Пример: border(1)('solid')(gray(3)) ➡️ "1px solid var(--mantine-gray-3)"
+ */
+export const border =
+  <W extends CSSLength>(width: W) =>
+  <S extends BorderStyle>(style: S) =>
+  <C extends MantineColor | (string & {})>(colorValue: C): `${LengthVal<W>} ${S} ${C}` => {
+    const format = (val: CSSLength) => {
+      if (val === 0) return '0';
+      return typeof val === 'number' ? `${val}px` : val;
+    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return `${format(width)} ${style} ${colorValue}` as any;
+  };
+
+/**
+ * Каррированный хелпер для создания полупрозрачных цветов через color-mix.
+ * Принимает: цвет -> прозрачность (от 0 до 1).
+ * Пример: alpha(primary(6))(0.15) ➡️ "color-mix(in srgb, var(--mantine-primary-color-6) 15%, transparent)"
+ */
+export const alpha =
+  <C extends string>(colorValue: C) =>
+  <A extends number>(opacity: A): `color-mix(in srgb, ${C} ${number}%, transparent)` => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return `color-mix(in srgb, ${colorValue} ${opacity * 100}%, transparent)` as any;
+  };
+
