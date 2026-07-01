@@ -8,6 +8,7 @@ interface AuthEntryPanelProps {
 
 export const AuthEntryPanel = ({ onOpenLogin, onOpenRegister }: AuthEntryPanelProps) => (
   <Stack
+M.lightDark(M.dark(6))(M.dark(6))
     p="xl"
     justify="center"
     align="stretch"

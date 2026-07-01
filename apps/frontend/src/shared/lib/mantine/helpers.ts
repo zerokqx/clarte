@@ -10,8 +10,6 @@ import {
 type Var<T extends string> = `var(--${T})`;
 const createVar = <T extends string>(str: T): Var<T> => `var(--${str})`;
 
-
-
 // Тип для CSS длины/размеров
 export type CSSLength =
   | number
@@ -49,7 +47,7 @@ export const gray = color('color-gray');
 export const white = () => createVar('mantine-color-white');
 export const body = () => createVar('mantine-color-body');
 export const text = () => createVar('mantine-color-text');
-export const dimmed = () => createVar('mantine-color-dimmed'); 
+export const dimmed = () => createVar('mantine-color-dimmed');
 export const error = () => createVar('mantine-color-error');
 export const placeholder = () => createVar('mantine-color-placeholder');
 export const defaultBg = () => createVar('mantine-color-default'); // Фоновый цвет по умолчанию (карточки, инпуты)
@@ -99,11 +97,7 @@ export const lightDark =
   <D extends MantineColor | (string & {})>(darkColor: D): `light-dark(${L}, ${D})` =>
     `light-dark(${lightColor}, ${darkColor})`;
 
-type LengthVal<V extends CSSLength> = V extends number
-  ? V extends 0
-    ? '0'
-    : `${V}px`
-  : V;
+type LengthVal<V extends CSSLength> = V extends number ? (V extends 0 ? '0' : `${V}px`) : V;
 
 /**
  * Каррированный хелпер для создания кастомных CSS box-shadow.
@@ -114,7 +108,9 @@ export const boxShadow =
   <X extends CSSLength>(x: X) =>
   <Y extends CSSLength>(y: Y) =>
   <B extends CSSLength>(blur: B) =>
-  <C extends MantineColor | (string & {})>(color: C): `${LengthVal<X>} ${LengthVal<Y>} ${LengthVal<B>} ${C}` => {
+  <C extends MantineColor | (string & {})>(
+    color: C,
+  ): `${LengthVal<X>} ${LengthVal<Y>} ${LengthVal<B>} ${C}` => {
     const format = (val: CSSLength) => {
       if (val === 0) return '0';
       return typeof val === 'number' ? `${val}px` : val;
@@ -164,4 +160,35 @@ export const alpha =
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return `color-mix(in srgb, ${colorValue} ${opacity * 100}%, transparent)` as any;
   };
+
+interface ThemeGradientArgs<
+  D extends GradientDirection,
+  FL extends string,
+  TL extends string,
+  FD extends string,
+  TD extends string
+> {
+  dir: D;
+  light: [FL, TL];
+  dark: [FD, TD];
+}
+
+/**
+ * Упрощенный адаптивный хелпер для создания градиентов под светлую и темную темы.
+ * Генерирует: light-dark(linear-gradient(dir, lightFrom, lightTo), linear-gradient(dir, darkFrom, darkTo))
+ */
+export const themeGradient = <
+  D extends GradientDirection,
+  FL extends string,
+  TL extends string,
+  FD extends string,
+  TD extends string
+>({
+  dir,
+  light,
+  dark,
+}: ThemeGradientArgs<D, FL, TL, FD, TD>): `light-dark(linear-gradient(${D}, ${FL}, ${TL}), linear-gradient(${D}, ${FD}, ${TD}))` => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return `light-dark(linear-gradient(${dir}, ${light[0]}, ${light[1]}), linear-gradient(${dir}, ${dark[0]}, ${dark[1]}))` as any;
+};
 
