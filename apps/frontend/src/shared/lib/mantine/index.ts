@@ -1,4 +1,10 @@
-import { MantineFontSize, MantineRadius, MantineShadow, MantineSpacing } from '@mantine/core';
+import {
+  MantineColor,
+  MantineFontSize,
+  MantineRadius,
+  MantineShadow,
+  MantineSpacing,
+} from '@mantine/core';
 
 type Var<T extends string> = `var(--${T})`;
 const createVar = <T extends string>(str: T): Var<T> => `var(--${str})`;
@@ -37,13 +43,28 @@ export const fontSize = <T extends MantineFontSize>(size: T) =>
   createVar(`mantine-font-size-${size}`);
 export const shadow = <T extends MantineShadow>(size: T) => createVar(`mantine-shadow-${size}`);
 
+// Типы для направлений CSS градиентов
+export type GradientDirection =
+  | 'to top'
+  | 'to bottom'
+  | 'to left'
+  | 'to right'
+  | 'to top left'
+  | 'to top right'
+  | 'to bottom left'
+  | 'to bottom right'
+  | `${number}deg`
+  | `${number}rad`
+  | `${number}grad`
+  | `${number}turn`;
+
 /**
  * Каррированный хелпер для создания CSS linear-gradient
  * Принимает: цвет -> направление (to) -> цвет
  * Пример: gradient('red')('to right')('blue') ➡️ "linear-gradient(to right, red, blue)"
  */
 export const gradient =
-  <F extends string>(fromColor: F) =>
-  <D extends string>(direction: D) =>
-  <T extends string>(toColor: T): `linear-gradient(${D}, ${F}, ${T})` =>
+  <F extends string | MantineColor>(fromColor: F) =>
+  <D extends GradientDirection>(direction: D) =>
+  <T extends string | MantineColor>(toColor: T): `linear-gradient(${D}, ${F}, ${T})` =>
     `linear-gradient(${direction}, ${fromColor}, ${toColor})`;
