@@ -1,5 +1,6 @@
 import { Button, Stack, Text, Title } from '@mantine/core';
 import { AUTH_WELCOME_TEXTS } from '../config';
+import { M } from '@/shared/lib/mantine';
 
 interface AuthEntryPanelProps {
   onOpenLogin: () => void;
@@ -8,7 +9,11 @@ interface AuthEntryPanelProps {
 
 export const AuthEntryPanel = ({ onOpenLogin, onOpenRegister }: AuthEntryPanelProps) => (
   <Stack
-M.lightDark(M.dark(6))(M.dark(6))
+    bg={M.themeGradient({
+      dir: 'to bottom',
+      light: [M.primary(0), M.dark(0)],
+      dark: [M.dark(2), M.dark(7)],
+    })}
     p="xl"
     justify="center"
     align="stretch"
@@ -20,33 +25,22 @@ M.lightDark(M.dark(6))(M.dark(6))
       <Title order={3} fw={800} lts="-0.5px">
         {AUTH_WELCOME_TEXTS.welcomeTitle}
       </Title>
-      <Text size="sm" c="dimmed" lh={1.5}>
+      <Text size="sm" c={M.dimmed()} lh={1.5}>
         {AUTH_WELCOME_TEXTS.welcomeSubtitle}
       </Text>
     </Stack>
 
-    {/* Экшены (Кнопки) */}
     <Stack gap="md">
-      {/* Главное действие — кнопка залитая основным цветом */}
-      <Button size="md" radius="md" onClick={onOpenLogin} fullWidth className="auth-primary-btn">
+      <Button size="md" radius="md" onClick={onOpenLogin} fullWidth>
         {AUTH_WELCOME_TEXTS.loginBtn}
       </Button>
 
-      {/* Второстепенное действие — делаем прозрачной без рамок, чтобы не перегружать интерфейс */}
-      <Button 
-        size="md" 
-        radius="md" 
-        variant="subtle" 
-        color="gray"
-        onClick={onOpenRegister} 
-        fullWidth
-      >
+      <Button size="md" radius="md" variant="subtle" onClick={onOpenRegister} fullWidth>
         {AUTH_WELCOME_TEXTS.registerBtn}
       </Button>
     </Stack>
 
-    {/* Текст соглашения */}
-    <Text size="xs" c="dimmed" ta="center" px="xs" lh={1.4}>
+    <Text size="xs" c={M.dimmed()} ta="center" px="xs" lh={1.4}>
       {AUTH_WELCOME_TEXTS.tosText}
     </Text>
   </Stack>
