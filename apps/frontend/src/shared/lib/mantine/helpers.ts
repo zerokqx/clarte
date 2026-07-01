@@ -107,7 +107,9 @@ export type GradientDirection =
  */
 export function gradient<F extends MantineColor | (string & {})>(fromColor: F) {
   return function <D extends GradientDirection>(direction: D) {
-    return function <T extends MantineColor | (string & {})>(toColor: T): `linear-gradient(${D}, ${F}, ${T})` {
+    return function <T extends MantineColor | (string & {})>(
+      toColor: T,
+    ): `linear-gradient(${D}, ${F}, ${T})` {
       return `linear-gradient(${direction}, ${fromColor}, ${toColor})`;
     };
   };
@@ -168,7 +170,9 @@ export type BorderStyle =
  */
 export function border<W extends CSSLength>(width: W) {
   return function <S extends BorderStyle>(style: S) {
-    return function <C extends MantineColor | (string & {})>(colorValue: C): `${LengthVal<W>} ${S} ${C}` {
+    return function <C extends MantineColor | (string & {})>(
+      colorValue: C,
+    ): `${LengthVal<W>} ${S} ${C}` {
       function format(val: CSSLength) {
         if (val === 0) return '0';
         return typeof val === 'number' ? `${val}px` : val;
@@ -185,7 +189,9 @@ export function border<W extends CSSLength>(width: W) {
  * Пример: alpha(primary(6))(0.15) ➡️ "color-mix(in srgb, var(--mantine-primary-color-6) 15%, transparent)"
  */
 export function alpha<C extends string>(colorValue: C) {
-  return function <A extends number>(opacity: A): `color-mix(in srgb, ${C} ${number}%, transparent)` {
+  return function <A extends number>(
+    opacity: A,
+  ): `color-mix(in srgb, ${C} ${number}%, transparent)` {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return `color-mix(in srgb, ${colorValue} ${opacity * 100}%, transparent)` as any;
   };
@@ -196,7 +202,7 @@ interface ThemeGradientArgs<
   FL extends string,
   TL extends string,
   FD extends string,
-  TD extends string
+  TD extends string,
 > {
   dir: D;
   light: [FL, TL];
@@ -212,19 +218,14 @@ export function themeGradient<
   FL extends string,
   TL extends string,
   FD extends string,
-  TD extends string
->({
-  dir,
-  light,
-  dark,
-}: ThemeGradientArgs<D, FL, TL, FD, TD>) {
+  TD extends string,
+>({ dir, light, dark }: ThemeGradientArgs<D, FL, TL, FD, TD>) {
   const fromColor = lightDark(light[0])(dark[0]);
   const toColor = lightDark(light[1])(dark[1]);
   return gradient(fromColor)(dir)(toColor);
 }
 
 /**
- * Каррированная версия themeGradient для тестирования.
  * Принимает: направление -> цвета светлой темы [from, to] -> цвета темной темы [from, to].
  * Пример: curriedThemeGradient('to bottom')([M.primary(0), M.dark(0)])([M.dark(8), M.dark(7)])
  */

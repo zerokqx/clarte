@@ -1,5 +1,6 @@
 import { Affix, Group, rem, Skeleton } from '@mantine/core';
 import { affixPropsConstants } from '../constants';
+import { M } from '@/shared/lib/mantine';
 
 export const BottomNavigationSkeleton = () => {
   return (
@@ -7,13 +8,13 @@ export const BottomNavigationSkeleton = () => {
       <Group
         bdrs={'xl'}
         justify="space-around"
-        bg={'var(--mantine-color-body)'}
+        bg={M.body()}
         w={'100%'}
         pl={'md'}
         pr={'md'}
         h={rem(60)}
         style={{
-          boxShadow: '0 10px 20px rgba(0,0,0,0.15)',
+          boxShadow: M.boxShadow(0)(10)(20)('rgba(0,0,0,0.15)'),
         }}
       >
         <Skeleton circle h={rem(36)} w={rem(36)} />
@@ -23,4 +24,3 @@ export const BottomNavigationSkeleton = () => {
     </Affix>
   );
 };
-

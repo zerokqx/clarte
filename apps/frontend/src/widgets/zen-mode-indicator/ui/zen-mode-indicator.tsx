@@ -32,9 +32,9 @@ export const ZenModeIndicator = observer(() => {
             <div className={pulseDotWrapper}>
               <span className={pulseDot} />
             </div>
-            
+
             <Text className={statusText}>Zen Mode</Text>
-            
+
             <ActionIcon
               className={exitButton}
               variant="transparent"
@@ -51,5 +51,3 @@ export const ZenModeIndicator = observer(() => {
     </AnimatePresence>
   );
 });
-
-

@@ -8,6 +8,8 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from '@tanstack/react-router'
+
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as NotAuthenticatedRouteRouteImport } from './routes/_not-authenticated/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
@@ -15,7 +17,10 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as NotAuthenticatedLoginRouteImport } from './routes/_not-authenticated/login'
 import { Route as AuthenticatedCRouteRouteImport } from './routes/_authenticated/c/route'
 import { Route as AuthenticatedCIndexRouteImport } from './routes/_authenticated/c/index'
-import { Route as AuthenticatedCNotificationsRouteImport } from './routes/_authenticated/c/notifications'
+
+const AuthenticatedCNotificationsLazyRouteImport = createFileRoute(
+  '/_authenticated/c/notifications',
+)()
 
 const NotAuthenticatedRouteRoute = NotAuthenticatedRouteRouteImport.update({
   id: '/_not-authenticated',
@@ -45,24 +50,26 @@ const AuthenticatedCIndexRoute = AuthenticatedCIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedCRouteRoute,
 } as any)
-const AuthenticatedCNotificationsRoute =
-  AuthenticatedCNotificationsRouteImport.update({
+const AuthenticatedCNotificationsLazyRoute =
+  AuthenticatedCNotificationsLazyRouteImport.update({
     id: '/notifications',
     path: '/notifications',
     getParentRoute: () => AuthenticatedCRouteRoute,
-  } as any)
+  } as any).lazy(() =>
+    import('./routes/_authenticated/c/notifications.lazy').then((d) => d.Route),
+  )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/c': typeof AuthenticatedCRouteRouteWithChildren
   '/login': typeof NotAuthenticatedLoginRoute
-  '/c/notifications': typeof AuthenticatedCNotificationsRoute
+  '/c/notifications': typeof AuthenticatedCNotificationsLazyRoute
   '/c/': typeof AuthenticatedCIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof NotAuthenticatedLoginRoute
-  '/c/notifications': typeof AuthenticatedCNotificationsRoute
+  '/c/notifications': typeof AuthenticatedCNotificationsLazyRoute
   '/c': typeof AuthenticatedCIndexRoute
 }
 export interface FileRoutesById {
@@ -72,7 +79,7 @@ export interface FileRoutesById {
   '/_not-authenticated': typeof NotAuthenticatedRouteRouteWithChildren
   '/_authenticated/c': typeof AuthenticatedCRouteRouteWithChildren
   '/_not-authenticated/login': typeof NotAuthenticatedLoginRoute
-  '/_authenticated/c/notifications': typeof AuthenticatedCNotificationsRoute
+  '/_authenticated/c/notifications': typeof AuthenticatedCNotificationsLazyRoute
   '/_authenticated/c/': typeof AuthenticatedCIndexRoute
 }
 export interface FileRouteTypes {
@@ -145,19 +152,19 @@ declare module '@tanstack/react-router' {
       id: '/_authenticated/c/notifications'
       path: '/notifications'
       fullPath: '/c/notifications'
-      preLoaderRoute: typeof AuthenticatedCNotificationsRouteImport
+      preLoaderRoute: typeof AuthenticatedCNotificationsLazyRouteImport
       parentRoute: typeof AuthenticatedCRouteRoute
     }
   }
 }
 
 interface AuthenticatedCRouteRouteChildren {
-  AuthenticatedCNotificationsRoute: typeof AuthenticatedCNotificationsRoute
+  AuthenticatedCNotificationsLazyRoute: typeof AuthenticatedCNotificationsLazyRoute
   AuthenticatedCIndexRoute: typeof AuthenticatedCIndexRoute
 }
 
 const AuthenticatedCRouteRouteChildren: AuthenticatedCRouteRouteChildren = {
-  AuthenticatedCNotificationsRoute: AuthenticatedCNotificationsRoute,
+  AuthenticatedCNotificationsLazyRoute: AuthenticatedCNotificationsLazyRoute,
   AuthenticatedCIndexRoute: AuthenticatedCIndexRoute,
 }
 

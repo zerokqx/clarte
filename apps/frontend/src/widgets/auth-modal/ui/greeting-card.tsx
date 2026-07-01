@@ -1,45 +1,50 @@
-import { Box, Group, Stack, Text, Title, ThemeIcon } from '@mantine/core';
+import { Box, Group, Stack, Text, Title, ThemeIcon, rem, darken } from '@mantine/core';
 import { AUTH_FEATURES, AUTH_WELCOME_TEXTS } from '../config';
+import { M } from '@/shared/lib/mantine';
 
 export const GreetingCard = () => (
   <Box
     p="xl"
-    bg="linear-gradient(135deg, var(--mantine-color-violet-9) 0%, var(--mantine-color-violet-7) 100%)"
+    bg={M.gradient(M.primary(7))('to bottom left')(M.primary(6))}
     style={{
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
-      color: '#fff',
+      color: M.white(),
       height: '100%',
     }}
   >
-    <Stack gap="lg" p={{ base: 'xs', md: 'md' }}>
+    <Stack gap="xl" p={{ base: 'xs', md: 'md' }}>
       <Stack gap="xs">
-        <Title order={2} style={{ color: '#fff', fontWeight: 800, fontSize: '1.8rem' }}>
+        <Title order={2} fw={800} lts={rem(-0.5)} style={{ color: 'inherit' }}>
           {AUTH_WELCOME_TEXTS.brand}
         </Title>
-        <Text size="sm" style={{ color: 'rgba(255, 255, 255, 0.85)', lineHeight: 1.6 }}>
+        <Text size="sm" lh={1.6}>
           {AUTH_WELCOME_TEXTS.tagline}
         </Text>
       </Stack>
 
-      <Stack gap="sm" visibleFrom="sm">
+      {/* Перенесли скрытие на уровень Stack, у Mantine для этого есть пропс visibleFrom */}
+      <Stack gap="md" visibleFrom="sm">
         {AUTH_FEATURES.map((feature) => {
           const Icon = feature.icon;
           return (
-            <Group key={feature.label} gap="sm" wrap="nowrap" align="center">
+            <Group key={feature.label} gap="md" wrap="nowrap" align="flex-start">
               <ThemeIcon
-                size="lg"
+                size="xl" // Увеличил до xl, чтобы иконка 24px не смотрелась зажатой
                 radius="md"
-                style={{ backgroundColor: 'rgba(255, 255, 255, 0.15)', color: '#fff' }}
+                // Прозрачный белый фон, который мягко накладывается на любой оттенок primary
+                bg="rgba(255, 255, 255, 0.12)"
+                c={M.white()}
               >
                 <Icon size={24} />
               </ThemeIcon>
-              <Stack gap={0}>
-                <Text size="sm" fw={600} style={{ color: '#fff' }}>
+
+              <Stack gap={2}>
+                <Text size="sm" fw={600} style={{ color: 'inherit' }}>
                   {feature.title}
                 </Text>
-                <Text size="xs" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+                <Text size="xs" c="rgba(255, 255, 255, 0.7)">
                   {feature.description}
                 </Text>
               </Stack>

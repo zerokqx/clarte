@@ -57,6 +57,16 @@ export const getAuthControllerCheckStatusMockHandler = (overrideResponse?: void 
   }, options)
 }
 
+export const getAuthControllerLogoutMockHandler = (overrideResponse?: void | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
+  return http.post('*/api/auth/logout', async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
+
+    return new HttpResponse(null,
+      { status: 200
+      })
+  }, options)
+}
+
 export const getAuthControllerRefreshMockHandler = (overrideResponse?: void | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
   return http.post('*/api/auth/refresh', async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
   if (typeof overrideResponse === 'function') {await overrideResponse(info); }
@@ -70,5 +80,6 @@ export const getAuthMock = () => [
   getAuthControllerLoginMockHandler(),
   getAuthControllerRegisterMockHandler(),
   getAuthControllerCheckStatusMockHandler(),
+  getAuthControllerLogoutMockHandler(),
   getAuthControllerRefreshMockHandler()
 ]

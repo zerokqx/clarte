@@ -1,7 +1,8 @@
 import { SidebarIcon } from '@phosphor-icons/react/dist/csr/Sidebar';
 import { ActionIcon, Avatar, Group, Skeleton, Text, UnstyledButton } from '@mantine/core';
-import { NotificationPopover } from '@/features/show-notifications';
 import classes from './header.module.css';
+import { useMediaQuery } from '@mantine/hooks';
+import { lazy, Suspense } from 'react';
 
 export interface HeaderViewProps {
   login: string;
@@ -11,6 +12,10 @@ export interface HeaderViewProps {
   onToggleNavbar?: () => void;
 }
 
+const LazyNotificationsPopover = lazy(() =>
+  import('@/features/show-notifications').then((m) => ({ default: m.NotificationPopover })),
+);
+
 export const HeaderView = ({
   avatarUrl,
   login,
@@ -18,6 +23,7 @@ export const HeaderView = ({
   isLoading,
   onToggleNavbar,
 }: HeaderViewProps) => {
+  const isMobile = useMediaQuery('(max-width: 48em)');
   return (
     <Group justify="space-between" h="100%" px="md">
       <Group gap="xs">
@@ -30,7 +36,11 @@ export const HeaderView = ({
       </Group>
 
       <Group gap="sm">
-        <NotificationPopover />
+        {!isMobile && (
+          <Suspense fallback={<Skeleton circle width={28} height={28} />}>
+            <LazyNotificationsPopover />
+          </Suspense>
+        )}
         <UnstyledButton className={classes.profileButton}>
           <Group gap="sm">
             {isLoading ? (

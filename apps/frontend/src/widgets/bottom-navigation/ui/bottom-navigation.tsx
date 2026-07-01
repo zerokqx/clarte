@@ -5,6 +5,7 @@ import { BottomNavigationItem } from './bottom-navigation-item';
 import { bottomNavigatioonConfig } from '../config';
 import { useMatchRoute, useNavigate } from '@tanstack/react-router';
 import { useIsAtBottom } from '@/shared/lib/use-is-at-bottom';
+import { M } from '@/shared/lib/mantine';
 
 export const BottomNavigation = () => {
   const isAtBottom = useIsAtBottom(200);
@@ -40,13 +41,13 @@ export const BottomNavigation = () => {
                 <Group
                   bdrs={'xl'}
                   justify="space-between"
-                  bg={'var(--mantine-primary-color-8)'}
+                  bg={M.primary(8)}
                   w={'100%'}
                   pl={'xs'}
                   pr={'xs'}
                   h={rem(60)}
                   style={{
-                    boxShadow: '0 10px 20px rgba(0,0,0,0.30)',
+                    boxShadow: M.boxShadow(0)(10)(20)('rgba(0,0,0,0.30)'),
                   }}
                 >
                   {bottomNavigatioonConfig.map((action, index) => (
