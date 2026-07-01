@@ -1,4 +1,5 @@
 import { NotificationDTO } from '@/shared/api/orval/generated/model';
+import { M } from '@/shared/lib/mantine';
 import { Text, Flex, ThemeIcon, Stack, Group, Divider } from '@mantine/core';
 import { BellIcon } from '@phosphor-icons/react/dist/csr/Bell';
 import { ReactNode } from 'react';
@@ -42,11 +43,11 @@ export const NotificationCard = ({ data, actionSlot }: NotificationCardProps) =>
           <Text size="sm" fw={600} lh={1.2}>
             {data.title}
           </Text>
-          <Text fz="xs" c="dimmed" fw={500} style={{ whiteSpace: 'nowrap' }}>
+          <Text fz="xs" c={M.dimmed()} fw={500} style={{ whiteSpace: 'nowrap' }}>
             {getFormattedDate(data.createdAt)}
           </Text>
         </Group>
-        <Text size="xs" c="dimmed" lh={1.4}>
+        <Text size="xs" c={M.dimmed()} lh={1.4}>
           {data.text}
         </Text>
       </Stack>

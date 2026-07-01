@@ -1,21 +1,29 @@
+import { LogoutButton } from '@/features/logout';
+import { M } from '@/shared/lib/mantine';
 import { layoutStore } from '@/shared/model';
-import { BottomNavigation } from '@/widgets/bottom-navigation';
+import { BottomNavigationSkeleton } from '@/widgets/bottom-navigation';
 import { Header } from '@/widgets/header';
 import { Navbar } from '@/widgets/navbar';
 import { Spotlight } from '@/widgets/spotlight';
-import { ZenModeIndicator } from '@/widgets/zen-mode-indicator'; import { AppShell, Button, useMantineColorScheme } from '@mantine/core';
+import { ZenModeIndicator } from '@/widgets/zen-mode-indicator';
+import { AppShell, Stack } from '@mantine/core';
 import { LayoutIcon } from '@phosphor-icons/react/dist/icons/Layout';
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { observer } from 'mobx-react-lite';
+import { lazy, Suspense } from 'react';
 
+const LazyBottomNavigation = lazy(() =>
+  import('@/widgets/bottom-navigation').then((m) => ({ default: m.BottomNavigation })),
+);
 export const Route = createFileRoute('/_authenticated/c')({
   component: observer(RouteComponent),
 });
 
 function RouteComponent() {
-  const { toggleColorScheme } = useMantineColorScheme();
+  const isMobile = M.useBreakpointMediaQuery('max-width','xs');
   return (
     <AppShell
+      padding="md"
       header={{ collapsed: !layoutStore.headerVisible, height: 50 }}
       navbar={{
         collapsed: { desktop: !layoutStore.navbarVisible, mobile: !layoutStore.navbarVisible },
@@ -23,7 +31,7 @@ function RouteComponent() {
         breakpoint: 'xs',
       }}
     >
-    <Spotlight />
+      <Spotlight />
       <AppShell.Header>
         <Header />
       </AppShell.Header>
@@ -37,16 +45,21 @@ function RouteComponent() {
             <Navbar.Item name="2">Item</Navbar.Item>
             <Navbar.Item name="3">Item</Navbar.Item>
           </Navbar.Body>
-          <Navbar.Down>Down</Navbar.Down>
+          <Navbar.Down>
+            <LogoutButton />
+          </Navbar.Down>
         </Navbar>
       </AppShell.Navbar>
       <AppShell.Main>
-      <ZenModeIndicator/>
-        {/* <Button onClick={() => toggleColorScheme()}>Change theme</Button> */}
-        {/* <Button onClick={() => layoutStore.toggleZenMode()}>Change zen</Button> */}
-
-        <BottomNavigation/>
-        <Outlet />
+        <Stack gap="md">
+          <ZenModeIndicator />
+          {isMobile && (
+            <Suspense fallback={<BottomNavigationSkeleton />}>
+              <LazyBottomNavigation />
+            </Suspense>
+          )}
+          <Outlet />
+        </Stack>
       </AppShell.Main>
     </AppShell>
   );

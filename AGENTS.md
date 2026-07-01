@@ -21462,3 +21462,71 @@ second("will not trigger updates of `$store`");
 
 
 RPC errors in microservices are never thrown; they are thrown as Problems according to the RFC7807 standard. An exception class inheriting from RFC7807 is created in the exceptions directory, for example, in the application layer or domain layer.
+
+## Правила стилизации и использования CSS-модулей vs M.* хелперов
+
+1. **Приоритет CSS-модулей:**
+   - Для полноценных компонентов (таких как карточки, списки, формы, страницы) **всегда** создавайте и используйте файлы CSS-модулей (например, `todo.module.css`).
+   - Избегайте написания громоздких инлайновых стилей (`style={{ ... }}`) с использованием множества JS-хелперов `M.*` в разметке компонента. Это ухудшает читаемость кода и усложняет его поддержку.
+
+2. **Когда использовать хелперы `M.*`:**
+   - Хелперы `M.*` (из `@/shared/lib/mantine`) предназначены для мелких, точечных inline-стилей или динамических параметров, которые нельзя или сложно вынести в CSS (например, передача цвета в пропсы компонентов Mantine, вычисление градиента для одной кнопки, динамический фон, зависящий от пропса, или единичные адаптивные стили).
+
+---
+
+## Документация по функциям библиотеки M (Mantine Helpers)
+
+Пространство имён `M` (экспортируемое как `import { M } from '@/shared/lib/mantine'`) предоставляет набор строго типизированных JS/TS утилит для получения CSS-переменных темы Mantine v7.
+
+### Базовые типы
+- `Var<T>` — тип для CSS-переменной `var(--${T})`.
+- `createVar(name)` — оборачивает строку в функцию CSS-переменной `var(--${name})`.
+- `CSSLength` — тип для CSS длин (число, `px`, `rem`, `em`, `vh`, `vw`, `%`, `'auto'`, `'0'`).
+
+### Цветовые хелперы (`M.color`, `M.primary`, `M.dark`, `M.gray` и др.)
+Все цветовые переменные автоматически генерируются с префиксом `mantine-color-` (кроме `primary`).
+- `M.color(name)(shade?)` — фабрика для получения переменной произвольного цвета с необязательным оттенком (0-9). Возвращает `var(--mantine-color-{name}-{shade})` или `var(--mantine-color-{name})`.
+  - *Пример:* `M.color('blue')(8)` ➡️ `var(--mantine-color-blue-8)`
+- `M.primary(shade?)` — возвращает системный основной цвет темы. Возвращает `var(--mantine-primary-color-{shade})` или по умолчанию `var(--mantine-primary-color-filled)`.
+  - *Пример:* `M.primary(6)` ➡️ `var(--mantine-primary-color-6)`
+- `M.dark(shade?)` — возвращает темный цвет темы `var(--mantine-color-dark-{shade})`.
+- `M.gray(shade?)` — возвращает серый цвет темы `var(--mantine-color-gray-{shade})`.
+- `M.white()` ➡️ `var(--mantine-color-white)`
+- `M.body()` ➡️ `var(--mantine-color-body)` (фон страницы)
+- `M.text()` ➡️ `var(--mantine-color-text)` (основной цвет текста)
+- `M.dimmed()` ➡️ `var(--mantine-color-dimmed)` (приглушенный текст)
+- `M.error()` ➡️ `var(--mantine-color-error)` (цвет ошибки)
+- `M.placeholder()` ➡️ `var(--mantine-color-placeholder)` (цвет плейсхолдера)
+- `M.defaultBg()` ➡️ `var(--mantine-color-default)` (дефолтный фон элементов)
+
+### Функции смешивания цветов и градиентов
+- `M.alpha(colorValue)(opacity)` — возвращает CSS-функцию `color-mix` для создания полупрозрачного цвета.
+  - *Пример:* `M.alpha(M.primary(6))(0.15)` ➡️ `color-mix(in srgb, var(--mantine-primary-color-6) 15%, transparent)`
+- `M.gradient(fromColor)(direction)(toColor)` — создает строку CSS `linear-gradient`.
+  - *Пример:* `M.gradient('red')('to right')('blue')` ➡️ `linear-gradient(to right, red, blue)`
+- `M.lightDark(lightColor)(darkColor)` — возвращает стандартную CSS-функцию `light-dark(lightColor, darkColor)`.
+  - *Пример:* `M.lightDark('white')('black')` ➡️ `light-dark(white, black)`
+- `M.themeGradient({ dir, light: [from, to], dark: [from, to] })` — создает адаптивный градиент, автоматически переключающийся между светлой и темной темой через `light-dark()`.
+- `M.curriedThemeGradient(dir)(lightColors)(darkColors)` — каррированная версия `themeGradient`.
+
+### Размеры темы (`M.spacing`, `M.radius`, `M.fontSize`, `M.shadow`, `M.breakpoint`)
+Возвращают переменные размеров из темы Mantine.
+- `M.spacing(size)` ➡️ `var(--mantine-spacing-{size})` (где size: `xs`, `sm`, `md`, `lg`, `xl`)
+- `M.radius(size)` ➡️ `var(--mantine-radius-{size})`
+- `M.fontSize(size)` ➡️ `var(--mantine-font-size-{size})`
+- `M.shadow(size)` ➡️ `var(--mantine-shadow-{size})`
+- `M.breakpoint(size)` ➡️ `var(--mantine-breakpoint-{size})`
+
+### Утилиты CSS-свойств (`M.boxShadow`, `M.border`)
+- `M.boxShadow(x)(y)(blur)(color)` — возвращает строку для CSS `box-shadow` с автоматическим приведением чисел к пикселям.
+  - *Пример:* `M.boxShadow(0)(10)(20)('rgba(0,0,0,0.1)')` ➡️ `0 10px 20px rgba(0,0,0,0.1)`
+- `M.border(width)(style)(color)` — возвращает строку для CSS `border` с автоматическим приведением чисел к пикселям.
+  - *Пример:* `M.border(1)('solid')(M.gray(3))` ➡️ `1px solid var(--mantine-color-gray-3)`
+
+### Адаптивность и медиа-запросы (`M.media`)
+- `M.media(feature)(value)` — генерирует строковый медиа-запрос для использования в хуках React (например, `useMediaQuery`).
+  - *Пример:* `M.media('max-width')('48em')` ➡️ `(max-width: 48em)`
+
+### React-хуки (`M.useBreakpoint`, `M.useBreakpointMediaQuery`)
+- `M.useBreakpoint(breakpointKey)` — получает строковое значение размера брейкпоинта из текущей темы Mantine во время рендеринга (например, `'36em'`).
+- `M.useBreakpointMediaQuery(feature, breakpointKey)` — хук, который слушает состояние медиа-запроса на основе брейкпоинта темы (например, `M.useBreakpointMediaQuery('max-width', 'xs')`).

@@ -1,4 +1,4 @@
-import { Popover, ActionIcon } from '@mantine/core';
+import { Popover, ActionIcon, rem } from '@mantine/core';
 import { BellIcon } from '@phosphor-icons/react/dist/csr/Bell';
 import { NotificationsList } from './notifications-list';
 import { useState } from 'react';
@@ -17,7 +17,6 @@ export const NotificationPopover = () => {
     >
       <Popover.Target>
         <ActionIcon
-          visibleFrom="md"
           variant="subtle"
           color="gray"
           onClick={() => setOpened((o) => !o)}
@@ -30,8 +29,8 @@ export const NotificationPopover = () => {
       <Popover.Dropdown
         p={0}
         style={{
-          width: 360,
-          maxHeight: 400,
+          width: rem(360),
+          maxHeight: rem(360),
           overflowY: 'auto',
         }}
       >

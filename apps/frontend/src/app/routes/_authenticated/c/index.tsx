@@ -9,5 +9,5 @@ export const Route = createFileRoute('/_authenticated/c/')({
 });
 
 const RouteComponent = observer(() => {
-  return <ClarteEditor documentId='8e4f995f-e396-4a55-aeaa-1ae6693a21c7'/>
+  return <p>HI</p>;
 });
