@@ -506,9 +506,6 @@ importers:
       dayjs:
         specifier: ^1.11.21
         version: 1.11.21
-      highlight.js:
-        specifier: ^11.11.1
-        version: 11.11.1
       lowlight:
         specifier: ^3.3.0
         version: 3.3.0
@@ -527,9 +524,6 @@ importers:
       motion:
         specifier: ^12.42.0
         version: 12.42.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      orval:
-        specifier: ^8.19.0
-        version: 8.19.0(@faker-js/faker@10.5.0)(prettier@3.9.1)(typescript@5.9.3)
       react-hook-form:
         specifier: ^7.80.0
         version: 7.80.0(react@19.2.7)
@@ -539,9 +533,6 @@ importers:
       y-protocols:
         specifier: ^1.0.7
         version: 1.0.7(yjs@13.6.31)
-      y-webrtc:
-        specifier: ^10.3.0
-        version: 10.3.0(yjs@13.6.31)
       y-websocket:
         specifier: ^1.5.4
         version: 1.5.4(yjs@13.6.31)
@@ -564,6 +555,9 @@ importers:
       msw:
         specifier: ^2.14.6
         version: 2.14.6(@types/node@20.19.9)(typescript@5.9.3)
+      orval:
+        specifier: ^8.19.0
+        version: 8.19.0(@faker-js/faker@10.5.0)(prettier@3.9.1)(typescript@5.9.3)
       postcss:
         specifier: 8.4.38
         version: 8.4.38
@@ -5679,9 +5673,6 @@ packages:
   buffer@5.7.1:
     resolution: {integrity: sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==}
 
-  buffer@6.0.3:
-    resolution: {integrity: sha512-FTiCpNxtwiZZHEZbcbTIcZjERVICn9yq/pDFkTl95/AxzD1naBctN7YO68riM/gLSDY7sdrMby8hofADYuuqOA==}
-
   bullmq@5.79.2:
     resolution: {integrity: sha512-FebD+8XCZl/hnS1R4to24L4EAN70XSndKZO0776M36vGRk5MKVhKlNFM8/34zXLXKyYB4QaeIPFhVXSYYGTHpQ==}
     engines: {node: '>=12.22.0'}
@@ -6461,9 +6452,6 @@ packages:
     engines: {node: '>=4'}
     hasBin: true
 
-  err-code@3.0.1:
-    resolution: {integrity: sha512-GiaH0KJUewYok+eeY05IIgjtAe4Yltygk9Wqp1V5yVWLdhf0hYZchRjNIT9bb0mSwRcIusT3cx7PJUf3zEIfUA==}
-
   errno@0.1.8:
     resolution: {integrity: sha512-dJ6oBr5SQ1VSd9qkk7ByRgb/1SH4JZjCHSW/mr63/QcXO9zLVxvJ6Oy13nio03rxpSnVDDjFor75SjVeZWPW/A==}
     hasBin: true
@@ -6986,9 +6974,6 @@ packages:
   gensync@1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
     engines: {node: '>=6.9.0'}
-
-  get-browser-rtc@1.1.0:
-    resolution: {integrity: sha512-MghbMJ61EJrRsDe7w1Bvqt3ZsBuqhce5nrn/XAwgwOXhcsz53/ltdxOse1h/8eKXj5slzxdsz56g5rzOFSGwfQ==}
 
   get-caller-file@2.0.5:
     resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==}
@@ -9499,9 +9484,6 @@ packages:
     resolution: {integrity: sha512-h36JMxKRqrAxVD8201FrCpyeNuUY9Y5zZwujr20fFO77tpUtGa6EZzfKw/3WaiBX95fq7+MpsuMLNdSnORAwSA==}
     engines: {node: '>=14.18.0'}
 
-  randombytes@2.1.0:
-    resolution: {integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==}
-
   range-parser@1.2.1:
     resolution: {integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==}
     engines: {node: '>= 0.6'}
@@ -10107,9 +10089,6 @@ packages:
   signal-exit@4.1.0:
     resolution: {integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==}
     engines: {node: '>=14'}
-
-  simple-peer@9.11.1:
-    resolution: {integrity: sha512-D1SaWpOW8afq1CZGWB8xTfrT3FekjQmPValrqncJMX7QFl8YwhrPTZvMCANLtgBwwdS+7zURyqxDDEmY558tTw==}
 
   sirv@3.0.2:
     resolution: {integrity: sha512-2wcC/oGxHis/BoHkkPwldgiPSYcpZK3JU28WoMVv55yHJgcZ8rlXvuG9iZggz+sU1d4bRgIGASwyWqjxu3FM0g==}
@@ -11313,13 +11292,6 @@ packages:
   y-protocols@1.0.7:
     resolution: {integrity: sha512-YSVsLoXxO67J6eE/nV4AtFtT3QEotZf5sK5BHxFBXso7VDUT3Tx07IfA6hsu5Q5OmBdMkQVmFZ9QOA7fikWvnw==}
     engines: {node: '>=16.0.0', npm: '>=8.0.0'}
-    peerDependencies:
-      yjs: 13.6.31
-
-  y-webrtc@10.3.0:
-    resolution: {integrity: sha512-KalJr7dCgUgyVFxoG3CQYbpS0O2qybegD0vI4bYnYHI0MOwoVbucED3RZ5f2o1a5HZb1qEssUKS0H/Upc6p1lA==}
-    engines: {node: '>=12'}
-    hasBin: true
     peerDependencies:
       yjs: 13.6.31
 
@@ -14526,7 +14498,7 @@ snapshots:
       sass-loader: 16.0.8(@rspack/core@1.6.8(@swc/helpers@0.5.18))(sass-embedded@1.100.0)(sass@1.100.0)(webpack@5.107.2)
       source-map-loader: 5.0.0(webpack@5.107.2)
       style-loader: 3.3.4(webpack@5.107.2)
-      terser-webpack-plugin: 5.6.1(@swc/core@1.15.8(@swc/helpers@0.5.18))(esbuild@0.28.1)(postcss@8.4.38)(webpack@5.107.2(@swc/core@1.15.8(@swc/helpers@0.5.18))(esbuild@0.28.1)(postcss@8.4.38)(webpack-cli@5.1.4(webpack@5.107.2)))
+      terser-webpack-plugin: 5.6.1(@swc/core@1.15.8(@swc/helpers@0.5.18))(esbuild@0.28.1)(postcss@8.4.38)(webpack@5.107.2)
       ts-loader: 9.6.0(loader-utils@2.0.4)(typescript@5.9.3)(webpack@5.107.2)
       tsconfig-paths-webpack-plugin: 4.2.0
       tslib: 2.8.1
@@ -17219,11 +17191,6 @@ snapshots:
       base64-js: 1.5.1
       ieee754: 1.2.1
 
-  buffer@6.0.3:
-    dependencies:
-      base64-js: 1.5.1
-      ieee754: 1.2.1
-
   bullmq@5.79.2:
     dependencies:
       cron-parser: 4.9.0
@@ -17924,8 +17891,6 @@ snapshots:
   env-paths@2.2.1: {}
 
   envinfo@7.21.0: {}
-
-  err-code@3.0.1: {}
 
   errno@0.1.8:
     dependencies:
@@ -18749,8 +18714,6 @@ snapshots:
       loader-utils: 3.3.1
 
   gensync@1.0.0-beta.2: {}
-
-  get-browser-rtc@1.1.0: {}
 
   get-caller-file@2.0.5: {}
 
@@ -21765,10 +21728,6 @@ snapshots:
 
   radash@12.1.1: {}
 
-  randombytes@2.1.0:
-    dependencies:
-      safe-buffer: 5.2.1
-
   range-parser@1.2.1: {}
 
   raw-body@2.5.3:
@@ -22428,18 +22387,6 @@ snapshots:
 
   signal-exit@4.1.0: {}
 
-  simple-peer@9.11.1:
-    dependencies:
-      buffer: 6.0.3
-      debug: 4.4.3
-      err-code: 3.0.1
-      get-browser-rtc: 1.1.0
-      queue-microtask: 1.2.3
-      randombytes: 2.1.0
-      readable-stream: 3.6.2
-    transitivePeerDependencies:
-      - supports-color
-
   sirv@3.0.2:
     dependencies:
       '@polka/url': 1.0.0-next.29
@@ -22826,7 +22773,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  terser-webpack-plugin@5.6.1(@swc/core@1.15.8(@swc/helpers@0.5.18))(esbuild@0.28.1)(postcss@8.4.38)(webpack@5.107.2(@swc/core@1.15.8(@swc/helpers@0.5.18))(esbuild@0.28.1)(postcss@8.4.38)(webpack-cli@5.1.4(webpack@5.107.2))):
+  terser-webpack-plugin@5.6.1(@swc/core@1.15.8(@swc/helpers@0.5.18))(esbuild@0.28.1)(postcss@8.4.38)(webpack@5.107.2):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
       jest-worker: 27.5.1
@@ -23528,7 +23475,7 @@ snapshots:
       neo-async: 2.6.2
       schema-utils: 4.3.3
       tapable: 2.3.3
-      terser-webpack-plugin: 5.6.1(@swc/core@1.15.8(@swc/helpers@0.5.18))(esbuild@0.28.1)(postcss@8.4.38)(webpack@5.107.2(@swc/core@1.15.8(@swc/helpers@0.5.18))(esbuild@0.28.1)(postcss@8.4.38)(webpack-cli@5.1.4(webpack@5.107.2)))
+      terser-webpack-plugin: 5.6.1(@swc/core@1.15.8(@swc/helpers@0.5.18))(esbuild@0.28.1)(postcss@8.4.38)(webpack@5.107.2)
       watchpack: 2.5.1
       webpack-sources: 3.5.0
     optionalDependencies:
@@ -23689,19 +23636,6 @@ snapshots:
     dependencies:
       lib0: 0.2.117
       yjs: 13.6.31
-
-  y-webrtc@10.3.0(yjs@13.6.31):
-    dependencies:
-      lib0: 0.2.117
-      simple-peer: 9.11.1
-      y-protocols: 1.0.7(yjs@13.6.31)
-      yjs: 13.6.31
-    optionalDependencies:
-      ws: 8.21.0
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
 
   y-websocket@1.5.4(yjs@13.6.31):
     dependencies:
