@@ -107,18 +107,28 @@ input:autofill {
   background-color: var(--mantine-color-dark-6) !important;
 }
 
-/* Инвертированная кнопка: черная в светлой теме, белая в темной */
+/* Мягкая монохромная кнопка: темная в светлой теме, глубокая серая в темной */
 .auth-primary-btn {
-  background-color: var(--mantine-color-text) !important;
-  color: var(--mantine-color-body) !important;
-  transition: opacity 0.15s ease, transform 0.1s ease !important;
+  background-color: var(--mantine-color-dark-8) !important;
+  color: var(--mantine-color-white) !important;
+  transition: background-color 0.15s ease, transform 0.1s ease !important;
 }
 
 .auth-primary-btn:hover {
-  opacity: 0.9;
+  background-color: var(--mantine-color-dark-9) !important;
 }
 
 .auth-primary-btn:active {
   transform: scale(0.98);
 }
+
+[data-mantine-color-scheme='dark'] .auth-primary-btn {
+  background-color: var(--mantine-color-dark-4) !important;
+  color: var(--mantine-color-white) !important;
+}
+
+[data-mantine-color-scheme='dark'] .auth-primary-btn:hover {
+  background-color: var(--mantine-color-dark-3) !important;
+}
+
 

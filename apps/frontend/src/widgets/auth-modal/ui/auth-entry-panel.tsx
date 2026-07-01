@@ -7,11 +7,11 @@ interface AuthEntryPanelProps {
 }
 
 export const AuthEntryPanel = ({ onOpenLogin, onOpenRegister }: AuthEntryPanelProps) => (
-  <Stack 
-    p="xl" 
-    justify="center"  
-    align="stretch" 
-    gap="xl" 
+  <Stack
+    p="xl"
+    justify="center"
+    align="stretch"
+    gap="xl"
     h="100%" // Занимает всю высоту родительского контейнера (флекса) вместо хардкода px
   >
     {/* Заголовок и подзаголовок */}
@@ -27,21 +27,16 @@ export const AuthEntryPanel = ({ onOpenLogin, onOpenRegister }: AuthEntryPanelPr
     {/* Экшены (Кнопки) */}
     <Stack gap="md">
       {/* Главное действие — кнопка залитая основным цветом */}
-      <Button 
-        size="md" 
-        radius="md"  
-        onClick={onOpenLogin} 
-        fullWidth
-        className="auth-primary-btn"
-      >
+      <Button size="md" radius="md" onClick={onOpenLogin} fullWidth className="auth-primary-btn">
         {AUTH_WELCOME_TEXTS.loginBtn}
       </Button>
-      
-      {/* Второстепенное действие — делаем прозрачной (light) или контурной (outline) */}
+
+      {/* Второстепенное действие — делаем прозрачной без рамок, чтобы не перегружать интерфейс */}
       <Button 
         size="md" 
         radius="md" 
-        variant="default" // Автоматически адаптируется под тему (белый с бордером / темно-серый с бордером)
+        variant="subtle" 
+        color="gray"
         onClick={onOpenRegister} 
         fullWidth
       >
