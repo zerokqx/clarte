@@ -1,4 +1,5 @@
 import {
+  MantineBreakpoint,
   MantineFontSize,
   MantineRadius,
   MantineShadow,
@@ -41,6 +42,8 @@ export const radius = <T extends MantineRadius>(size: T) => createVar(`mantine-r
 export const fontSize = <T extends MantineFontSize>(size: T) =>
   createVar(`mantine-font-size-${size}`);
 export const shadow = <T extends MantineShadow>(size: T) => createVar(`mantine-shadow-${size}`);
+export const breakpoint = <T extends MantineBreakpoint>(size: T) =>
+  createVar(`mantine-breakpoint-${size}`);
 
 // Типы для направлений CSS градиентов
 export type GradientDirection =
@@ -77,3 +80,5 @@ export const lightDark =
   <L extends string>(lightColor: L) =>
   <D extends string>(darkColor: D): `light-dark(${L}, ${D})` =>
     `light-dark(${lightColor}, ${darkColor})`;
+
+
