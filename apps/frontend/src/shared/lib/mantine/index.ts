@@ -1,3 +1,5 @@
+import { MantineFontSize, MantineRadius, MantineShadow, MantineSpacing } from '@mantine/core';
+
 type Var<T extends string> = `var(--${T})`;
 const createVar = <T extends string>(str: T): Var<T> => `var(--${str})`;
 
@@ -11,9 +13,7 @@ export const color = <T extends string>(name: T) => {
   function getVar(): Var<`mantine-${T}`>;
   function getVar<S extends number>(shade: S): Var<`mantine-${T}-${S}`>;
   function getVar<S extends number>(shade?: S) {
-    return shade
-      ? createVar(`mantine-${name}-${shade}`)
-      : createVar(`mantine-${name}`);
+    return shade ? createVar(`mantine-${name}-${shade}`) : createVar(`mantine-${name}`);
   }
   return getVar;
 };
@@ -31,7 +31,19 @@ export const placeholder = () => createVar('mantine-color-placeholder');
 export const defaultBg = () => createVar('mantine-color-default'); // Фоновый цвет по умолчанию (карточки, инпуты)
 
 // --- ХЕЛПЕРЫ РАЗМЕРОВ И ГРАФИКИ ---
-export const spacing = <T extends MantineSize>(size: T) => createVar(`mantine-spacing-${size}`);
-export const radius = <T extends MantineSize>(size: T) => createVar(`mantine-radius-${size}`);
-export const fontSize = <T extends MantineSize>(size: T) => createVar(`mantine-font-size-${size}`);
-export const shadow = <T extends MantineSize>(size: T) => createVar(`mantine-shadow-${size}`);
+export const spacing = <T extends MantineSpacing>(size: T) => createVar(`mantine-spacing-${size}`);
+export const radius = <T extends MantineRadius>(size: T) => createVar(`mantine-radius-${size}`);
+export const fontSize = <T extends MantineFontSize>(size: T) =>
+  createVar(`mantine-font-size-${size}`);
+export const shadow = <T extends MantineShadow>(size: T) => createVar(`mantine-shadow-${size}`);
+
+/**
+ * Каррированный хелпер для создания CSS linear-gradient
+ * Принимает: цвет -> направление (to) -> цвет
+ * Пример: gradient('red')('to right')('blue') ➡️ "linear-gradient(to right, red, blue)"
+ */
+export const gradient =
+  <F extends string>(fromColor: F) =>
+  <D extends string>(direction: D) =>
+  <T extends string>(toColor: T): `linear-gradient(${D}, ${F}, ${T})` =>
+    `linear-gradient(${direction}, ${fromColor}, ${toColor})`;
