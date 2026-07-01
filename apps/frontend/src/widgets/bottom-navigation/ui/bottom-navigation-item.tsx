@@ -10,7 +10,7 @@ export interface BottomNavigationItemProps {
 export const BottomNavigationItem = ({ children, onClick, variant }: BottomNavigationItemProps) => {
   return (
     <ActionIcon
-      c="var(--mantine-primary-color-8)"
+      c="bright"
       bg={'var(--mantine-color-body)'}
       size={'xl'}
       bdrs={'xl'}

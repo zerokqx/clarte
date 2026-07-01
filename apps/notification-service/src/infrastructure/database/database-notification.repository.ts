@@ -36,7 +36,10 @@ export class DatabaseNotificationRepository implements INotificationRepository {
   }
 
   async getByUserId(userId: string): Promise<Notification[]> {
-    const entities = await this.repository.findBy({ userId });
+    const entities = await this.repository.find({
+      where: { userId },
+      order: { createdAt: 'DESC' },
+    });
     return entities.map((entity) =>
       Notification.restore(
         entity.id,

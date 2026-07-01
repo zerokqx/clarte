@@ -41,7 +41,7 @@ export const theme = createTheme({
       '#000000', // 9: Абсолютный ноль
     ],
   },
-  primaryColor: 'violet',
+  primaryColor: 'dark',
   defaultRadius: 'lg',
   black: '#0A0A0A',
 });
