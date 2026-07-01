@@ -1,5 +1,4 @@
 import {
-  MantineColor,
   MantineFontSize,
   MantineRadius,
   MantineShadow,
@@ -64,7 +63,17 @@ export type GradientDirection =
  * Пример: gradient('red')('to right')('blue') ➡️ "linear-gradient(to right, red, blue)"
  */
 export const gradient =
-  <F extends string | MantineColor>(fromColor: F) =>
+  <F extends string>(fromColor: F) =>
   <D extends GradientDirection>(direction: D) =>
-  <T extends string | MantineColor>(toColor: T): `linear-gradient(${D}, ${F}, ${T})` =>
+  <T extends string>(toColor: T): `linear-gradient(${D}, ${F}, ${T})` =>
     `linear-gradient(${direction}, ${fromColor}, ${toColor})`;
+
+/**
+ * Каррированный хелпер для создания CSS-функции light-dark(lightValue, darkValue).
+ * Принимает: светлое значение -> темное значение.
+ * Пример: lightDark('black')('white') ➡️ "light-dark(black, white)"
+ */
+export const lightDark =
+  <L extends string>(lightColor: L) =>
+  <D extends string>(darkColor: D): `light-dark(${L}, ${D})` =>
+    `light-dark(${lightColor}, ${darkColor})`;
