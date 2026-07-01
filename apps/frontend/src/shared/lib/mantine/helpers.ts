@@ -193,3 +193,17 @@ export const themeGradient = <
   return gradient(fromColor)(dir)(toColor);
 };
 
+/**
+ * Каррированная версия themeGradient для тестирования.
+ * Принимает: направление -> цвета светлой темы [from, to] -> цвета темной темы [from, to].
+ * Пример: curriedThemeGradient('to bottom')([M.primary(0), M.dark(0)])([M.dark(8), M.dark(7)])
+ */
+export const curriedThemeGradient =
+  <D extends GradientDirection>(dir: D) =>
+  <FL extends string, TL extends string>(light: [FL, TL]) =>
+  <FD extends string, TD extends string>(dark: [FD, TD]) => {
+    const fromColor = lightDark(light[0])(dark[0]);
+    const toColor = lightDark(light[1])(dark[1]);
+    return gradient(fromColor)(dir)(toColor);
+  };
+
