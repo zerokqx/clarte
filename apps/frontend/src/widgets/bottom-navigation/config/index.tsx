@@ -1,4 +1,4 @@
-import {ChecksIcon} from "@phosphor-icons/react/dist/csr/Checks"
+import { ChecksIcon } from '@phosphor-icons/react/dist/csr/Checks';
 import { BrowserIcon } from '@phosphor-icons/react/dist/csr/Browser';
 import { ReactNode } from 'react';
 import { BottomNavigationItemProps } from '../ui/bottom-navigation-item';
@@ -23,6 +23,6 @@ export const bottomNavigatioonConfig: BottomNavigationConfig[] = [
 
   {
     icon: <ChecksIcon weight="bold" width={20} />,
-      to:"/c/todos"
+    to: '/c/todos',
   },
 ];

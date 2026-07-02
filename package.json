@@ -2,7 +2,18 @@
   "name": "@clarte/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "**/*.{ts,tsx,js,jsx}": [
+      "pnpm nx run-many -t lint --no-tui",
+      "pnpm nx format:write"
+    ],
+    "**/*.{json,md}": [
+      "prettier --write"
+    ]
+  },
   "nx": {
     "targets": {
       "cqrs:query": {
@@ -64,18 +75,20 @@
     "eslint-plugin-jsx-a11y": "6.10.1",
     "eslint-plugin-react": "7.35.0",
     "eslint-plugin-react-hooks": "5.0.0",
+    "husky": "^9.1.7",
     "jest": "~30.3.0",
     "jest-environment-node": "~30.3.0",
     "jest-util": "~30.3.0",
     "jiti": "2.4.2",
     "jsdom": "~22.1.0",
     "jsonc-eslint-parser": "^2.1.0",
+    "lint-staged": "^17.0.8",
     "nx": "22.7.5",
     "postcss": "8.4.38",
     "prettier": "^3.9.1",
     "tailwindcss": "3.4.3",
     "ts-jest": "^29.4.0",
-    "ts-node": "10.9.1",
+    "ts-node": "10.9.2",
     "ts-proto": "^2.11.9",
     "tslib": "^2.3.0",
     "tsx": "^4.22.4",
@@ -112,6 +125,7 @@
     "cookie-parser": "^1.4.7",
     "effect": "^3.21.4",
     "express": "^5.2.1",
+    "immer": "^11.1.9",
     "ioredis": "^5.11.1",
     "js-cookie": "^3.0.8",
     "openai": "^6.45.0",

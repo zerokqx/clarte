@@ -15,13 +15,15 @@ export const NotificationsList = () => {
   if (!notifications || notifications.length === 0) {
     return (
       <Flex p="md" justify="center" align="center" w="100%">
-        <Text size="xs" c="dimmed">Нет новых уведомлений</Text>
+        <Text size="xs" c="dimmed">
+          Нет новых уведомлений
+        </Text>
       </Flex>
     );
   }
 
   return (
-    <Stack gap={0} >
+    <Stack gap={0}>
       {notifications.map((notification) => (
         <NotificationCard data={notification} key={notification.id} />
       ))}

@@ -6,6 +6,7 @@ import { ListKit } from '@tiptap/extension-list';
 import { TextAlign } from '@tiptap/extension-text-align';
 import { Loader, Stack } from '@mantine/core';
 import { RichTextEditor, Link } from '@mantine/tiptap';
+import '@mantine/tiptap/styles.css';
 import Image from '@tiptap/extension-image';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import { useEditor } from '@tiptap/react';

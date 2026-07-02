@@ -65,7 +65,8 @@
   },
   "nx": {
     "tags": [
-      "type:package"
+      "scope:shared-nest",
+      "type:lib"
     ],
     "sourceRoot": "packages/shared-nest/src",
     "targets": {
@@ -97,7 +98,7 @@
     "@nestjs/config": "^4.0.4",
     "@nestjs/microservices": "^11.1.27",
     "@nestjs/passport": "^11.0.5",
-    "@swc/helpers": "~0.5.23",
+    "@swc/helpers": "0.5.18",
     "effect": "^3.21.4",
     "express": "^5.2.1",
     "nestjs-s3": "^3.0.1",

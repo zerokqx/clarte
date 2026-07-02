@@ -10,9 +10,7 @@ import {
 import { RefreshCommand } from '@/application/commands/refresh';
 
 @Auth.AuthServiceControllerMethods()
-export class AuthController
-  implements Auth.AuthServiceController
-{
+export class AuthController implements Auth.AuthServiceController {
   constructor(
     private readonly queryBus: QueryBus,
     private readonly commandBus: CommandBus,
@@ -24,9 +22,7 @@ export class AuthController
     | Promise<Auth.ValidateUserResponse>
     | Observable<Auth.ValidateUserResponse>
     | Auth.ValidateUserResponse {
-    return this.queryBus.execute(
-      new ValidateUserQuery(request.login, request.password),
-    );
+    return this.queryBus.execute(new ValidateUserQuery(request.login, request.password));
   }
 
   loginPassword(
@@ -40,27 +36,16 @@ export class AuthController
     );
   }
 
-  async registerPassword(
-    request: Auth.RegisterRequest,
-  ): Promise<void> {
-    await this.commandBus.execute(
-      new RegisterPasswordCommand(request.login, request.password),
-    );
-    return {} as any
+  async registerPassword(request: Auth.RegisterRequest): Promise<void> {
+    await this.commandBus.execute(new RegisterPasswordCommand(request.login, request.password));
+    return {} as never;
   }
 
   async getPublicJwtKey(): Promise<Auth.GetPublicJwtKeyResponse> {
     const key = await this.queryBus.execute(new GetPublicJwtKeyQuery());
     return { key };
   }
-  refreshTokens(
-    request: Auth.RefreshTokensRequest,
-  ): Promise<Auth.RefreshTokensResponse> {
-    return this.commandBus.execute(
-      new RefreshCommand(
-        request.userId,
-        request.refreshToken,
-      ),
-    );
+  refreshTokens(request: Auth.RefreshTokensRequest): Promise<Auth.RefreshTokensResponse> {
+    return this.commandBus.execute(new RefreshCommand(request.userId, request.refreshToken));
   }
 }

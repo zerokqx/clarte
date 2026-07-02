@@ -23,7 +23,8 @@
   },
   "nx": {
     "tags": [
-      "type:package"
+      "scope:shared-domain",
+      "type:lib"
     ],
     "sourceRoot": "packages/shared-domain/src",
     "targets": {
@@ -43,6 +44,6 @@
     }
   },
   "dependencies": {
-    "@swc/helpers": "~0.5.23"
+    "@swc/helpers": "0.5.18"
   }
 }

@@ -111,7 +111,9 @@ input:autofill {
 .auth-primary-btn {
   background-color: var(--mantine-color-dark-8) !important;
   color: var(--mantine-color-white) !important;
-  transition: background-color 0.15s ease, transform 0.1s ease !important;
+  transition:
+    background-color 0.15s ease,
+    transform 0.1s ease !important;
 }
 
 .auth-primary-btn:hover {
@@ -130,5 +132,3 @@ input:autofill {
 [data-mantine-color-scheme='dark'] .auth-primary-btn:hover {
   background-color: var(--mantine-color-dark-3) !important;
 }
-
-

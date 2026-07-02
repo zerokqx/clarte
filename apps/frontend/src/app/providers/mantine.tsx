@@ -6,10 +6,7 @@ import { theme } from '../mantine/theme';
 export const MantineProvider: ReactProvider = ({ children }) => {
   return (
     <MantineProviderOriginal theme={theme} defaultColorScheme="dark">
-      <ModalsProvider>
-        {children}
-      </ModalsProvider>
+      <ModalsProvider>{children}</ModalsProvider>
     </MantineProviderOriginal>
   );
 };
-

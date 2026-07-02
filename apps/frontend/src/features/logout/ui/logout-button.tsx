@@ -9,6 +9,8 @@ export const LogoutButton = () => {
       onClick={async () => {
         await mutateAsync();
       }}
-    >Logout</Button>
+    >
+      Logout
+    </Button>
   );
 };

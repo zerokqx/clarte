@@ -1,2 +1,1 @@
-
-export * from "./create-todo.mutation"
+export * from './create-todo.mutation';

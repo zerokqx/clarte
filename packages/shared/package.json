@@ -17,7 +17,8 @@
   },
   "nx": {
     "tags": [
-      "type:package"
+      "scope:shared",
+      "type:lib"
     ],
     "sourceRoot": "packages/shared/src",
     "targets": {
@@ -37,6 +38,7 @@
     }
   },
   "dependencies": {
-    "@swc/helpers": "~0.5.23"
+    "@swc/helpers": "0.5.18",
+    "radash": "^12.1.1"
   }
 }

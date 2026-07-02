@@ -15,10 +15,11 @@ export default defineConfig(({ mode }) => {
   const proxyTarget = `http://${backendHost}:${backendPort}`;
 
   return {
-    css: { modules: { localsConvention: 'camelCase', exportGlobals:true, } },
+    css: { modules: { localsConvention: 'camelCase', exportGlobals: true } },
     root: import.meta.dirname,
     cacheDir: '../node_modules/.vite/frontend',
     resolve: { tsconfigPaths: true },
+
     server: {
       port: port,
       host: host,
@@ -44,9 +45,7 @@ export default defineConfig(({ mode }) => {
         routesDirectory: APP + '/routes',
       }),
       react(),
-      sassDts({
-        allFiles: true,
-      }),
+      sassDts(),
     ],
     // Uncomment this if you are using workers.
     // worker: {
@@ -54,6 +53,7 @@ export default defineConfig(({ mode }) => {
     // },
     build: {
       outDir: './dist',
+      chunkImportMap: true,
       emptyOutDir: true,
       reportCompressedSize: true,
       commonjsOptions: {
