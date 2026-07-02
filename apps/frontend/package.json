@@ -47,6 +47,10 @@
     "zod": "link:@hookform/resolvers/zod"
   },
   "nx": {
+    "tags": [
+      "scope:frontend",
+      "tag:frontend"
+    ],
     "targets": {
       "orval": {
         "executor": "nx:run-commands",

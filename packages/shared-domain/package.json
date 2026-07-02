@@ -23,6 +23,7 @@
   },
   "nx": {
     "tags": [
+      "scope:backend",
       "type:package"
     ],
     "sourceRoot": "packages/shared-domain/src",

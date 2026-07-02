@@ -17,6 +17,7 @@
   },
   "nx": {
     "tags": [
+      "scope:shared",
       "type:package"
     ],
     "sourceRoot": "packages/shared/src",

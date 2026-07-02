@@ -29,6 +29,7 @@
   },
   "nx": {
     "tags": [
+      "scope:backend",
       "type:package"
     ],
     "sourceRoot": "packages/shared-event-types/src",

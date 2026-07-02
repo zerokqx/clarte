@@ -3,6 +3,11 @@
   "version": "0.0.1",
   "private": true,
   "nx": {
+    "tags": [
+      "tag:api-gateway",
+      "tag:backend",
+      "scope:gateway"
+    ],
     "targets": {
       "build": {
         "executor": "nx:run-commands",

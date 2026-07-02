@@ -65,6 +65,7 @@
   },
   "nx": {
     "tags": [
+      "scope:backend",
       "type:package"
     ],
     "sourceRoot": "packages/shared-nest/src",
