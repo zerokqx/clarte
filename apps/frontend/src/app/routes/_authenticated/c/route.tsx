@@ -1,3 +1,4 @@
+import { ChecksIcon } from '@phosphor-icons/react/dist/csr/Checks';
 import { LogoutButton } from '@/features/logout';
 import { M } from '@/shared/lib/mantine';
 import { layoutStore } from '@/shared/model';
@@ -8,9 +9,10 @@ import { Spotlight } from '@/widgets/spotlight';
 import { ZenModeIndicator } from '@/widgets/zen-mode-indicator';
 import { AppShell, Stack } from '@mantine/core';
 import { LayoutIcon } from '@phosphor-icons/react/dist/icons/Layout';
-import { createFileRoute, Outlet } from '@tanstack/react-router';
+import { createFileRoute, Outlet, useNavigate } from '@tanstack/react-router';
 import { observer } from 'mobx-react-lite';
 import { lazy, Suspense } from 'react';
+import { curry } from '@clarte/shared';
 
 const LazyBottomNavigation = lazy(() =>
   import('@/widgets/bottom-navigation').then((m) => ({ default: m.BottomNavigation })),
@@ -20,6 +22,7 @@ export const Route = createFileRoute('/_authenticated/c')({
 });
 
 function RouteComponent() {
+  const navigate = useNavigate();
   const isMobile = M.useBreakpointMediaQuery('max-width', 'xs');
   return (
     <AppShell
@@ -39,11 +42,13 @@ function RouteComponent() {
         <Navbar>
           <Navbar.Top>Top</Navbar.Top>
           <Navbar.Body>
-            <Navbar.Item name="1" leftSection={<LayoutIcon />}>
-              Item
+            <Navbar.Item
+              name="todos"
+              leftSection={<ChecksIcon weight="bold" size={20} />}
+              onClick={() => navigate({ to: '/c/todos' })}
+            >
+              Задачи
             </Navbar.Item>
-            <Navbar.Item name="2">Item</Navbar.Item>
-            <Navbar.Item name="3">Item</Navbar.Item>
           </Navbar.Body>
           <Navbar.Down>
             <LogoutButton />
