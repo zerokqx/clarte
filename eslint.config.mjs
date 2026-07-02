@@ -80,26 +80,31 @@ export default [
           enforceBuildableLibDependency: true,
           allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?[jt]s$'],
           depConstraints: [
-            // 1. Ограничения по техническим слоям
+            // 1. Ограничения по техническим типам (app / lib)
             {
-              // Общие библиотеки не могут импортировать приложения
-              sourceTag: 'type:package',
-              onlyDependOnLibsWithTags: ['type:package'],
+              // Библиотеки (type:lib) не могут импортировать приложения (type:app)
+              sourceTag: 'type:lib',
+              onlyDependOnLibsWithTags: ['type:lib'],
             },
             {
-              // Фронтенд импортирует только общие библиотеки
-              sourceTag: 'tag:frontend',
-              onlyDependOnLibsWithTags: ['type:package'],
-            },
-            {
-              // Бэкенд импортирует только общие библиотеки
-              sourceTag: 'tag:backend',
-              onlyDependOnLibsWithTags: ['type:package'],
+              // Приложения (type:app) могут зависеть от библиотек (type:lib)
+              sourceTag: 'type:app',
+              onlyDependOnLibsWithTags: ['type:lib'],
             },
 
             // 2. Изоляция бизнес-доменов (scopes)
-            // Микросервисы и шлюзы не могут зависеть друг от друга напрямую,
+            // Приложения (микросервисы и шлюзы) не могут зависеть друг от друга напрямую,
             // они могут зависеть только от общих библиотек (shared-*)
+            {
+              sourceTag: 'scope:gateway',
+              onlyDependOnLibsWithTags: [
+                'scope:shared',
+                'scope:shared-nest',
+                'scope:shared-contracts',
+                'scope:shared-domain',
+                'scope:shared-event-types',
+              ],
+            },
             {
               sourceTag: 'scope:auth',
               onlyDependOnLibsWithTags: [
@@ -151,13 +156,12 @@ export default [
               ],
             },
             {
-              sourceTag: 'scope:gateway',
+              // Фронтенд импортирует только разрешенные общие пакеты (без NestJS инфраструктуры)
+              sourceTag: 'scope:frontend',
               onlyDependOnLibsWithTags: [
                 'scope:shared',
-                'scope:shared-nest',
-                'scope:shared-contracts',
                 'scope:shared-domain',
-                'scope:shared-event-types',
+                'scope:shared-contracts',
               ],
             },
 
@@ -176,6 +180,16 @@ export default [
               // События не зависят от NestJS инфраструктуры
               sourceTag: 'scope:shared-event-types',
               onlyDependOnLibsWithTags: ['scope:shared'],
+            },
+            {
+              // NestJS инфраструктура может зависеть от других shared-библиотек
+              sourceTag: 'scope:shared-nest',
+              onlyDependOnLibsWithTags: [
+                'scope:shared',
+                'scope:shared-domain',
+                'scope:shared-contracts',
+                'scope:shared-event-types',
+              ],
             },
             {
               // Fallback правило для всех остальных тегов, чтобы не блокировать их зависимости

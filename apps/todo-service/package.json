@@ -4,8 +4,8 @@
   "private": true,
   "nx": {
     "tags": [
-      "scope:backend",
-      "tag:todo-service"
+      "scope:todo",
+      "type:app"
     ],
     "targets": {
       "build": {

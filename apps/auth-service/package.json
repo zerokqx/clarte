@@ -4,9 +4,8 @@
   "private": true,
   "nx": {
     "tags": [
-      "scope:auth-service",
-      "scope:backend",
-      "tag:backend"
+      "scope:auth",
+      "type:app"
     ],
     "targets": {
       "build": {

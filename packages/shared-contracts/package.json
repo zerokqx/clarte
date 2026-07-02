@@ -35,8 +35,8 @@
   },
   "nx": {
     "tags": [
-      "scope:backend",
-      "type:package"
+      "scope:shared-contracts",
+      "type:lib"
     ],
     "sourceRoot": "packages/shared-contracts/src",
     "targets": {

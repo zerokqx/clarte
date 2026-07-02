@@ -4,8 +4,8 @@
   "private": true,
   "nx": {
     "tags": [
-      "scope:backend",
-      "tag:notification-service"
+      "scope:notification",
+      "type:app"
     ],
     "targets": {
       "build": {

@@ -5,8 +5,7 @@
   "nx": {
     "tags": [
       "scope:gateway",
-      "scope:backend",
-      "tag:ws-gateway"
+      "type:app"
     ],
     "targets": {
       "build": {

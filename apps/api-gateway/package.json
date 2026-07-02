@@ -4,9 +4,8 @@
   "private": true,
   "nx": {
     "tags": [
-      "tag:api-gateway",
-      "tag:backend",
-      "scope:gateway"
+      "scope:gateway",
+      "type:app"
     ],
     "targets": {
       "build": {
