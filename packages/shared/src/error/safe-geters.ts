@@ -21,9 +21,9 @@ export function safeGeter<DT = string>(key: string, expectedType?: TypeofValue) 
   };
 }
 
-export const errorMessage = safeGeter('message');
-export const errorStatusCode = safeGeter('statusCode');
-export const errorCode = safeGeter<number>('code');
+export const errorMessage = safeGeter('message', 'string');
+export const errorStatusCode = safeGeter('statusCode', 'number');
+export const errorCode = safeGeter<number>('code', 'number');
 
 interface GrpcMetadataLike {
   get?: (key: string) => unknown;

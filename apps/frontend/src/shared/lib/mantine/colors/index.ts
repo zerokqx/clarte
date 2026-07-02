@@ -4,7 +4,10 @@ import { Var, createVar } from '../types';
 /**
  * Фабрика для создания хелперов цветов с поддержкой оттенков
  */
-export const color = <T extends MantineColor, D extends string = ''>(name: T, defaultSuffix?: D) => {
+export const color = <T extends MantineColor, D extends string = ''>(
+  name: T,
+  defaultSuffix?: D,
+) => {
   const prefix = name.startsWith('primary') ? 'mantine' : 'mantine-color';
 
   function getVar(): Var<D extends '' ? `${string}` : `${string}`>;

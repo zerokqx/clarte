@@ -1,10 +1,5 @@
 export type MediaFeature =
-  | 'width'
-  | 'height'
-  | 'min-width'
-  | 'max-width'
-  | 'min-height'
-  | 'max-height';
+  'width' | 'height' | 'min-width' | 'max-width' | 'min-height' | 'max-height';
 
 /**
  * Каррированный хелпер для создания строк медиа-запросов (например, для useMediaQuery).

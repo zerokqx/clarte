@@ -8,98 +8,91 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router';
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as NotAuthenticatedRouteRouteImport } from './routes/_not-authenticated/route'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as NotAuthenticatedLoginRouteImport } from './routes/_not-authenticated/login'
-import { Route as AuthenticatedCRouteRouteImport } from './routes/_authenticated/c/route'
-import { Route as AuthenticatedCIndexRouteImport } from './routes/_authenticated/c/index'
+import { Route as rootRouteImport } from './routes/__root';
+import { Route as NotAuthenticatedRouteRouteImport } from './routes/_not-authenticated/route';
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route';
+import { Route as IndexRouteImport } from './routes/index';
+import { Route as NotAuthenticatedLoginRouteImport } from './routes/_not-authenticated/login';
+import { Route as AuthenticatedCRouteRouteImport } from './routes/_authenticated/c/route';
+import { Route as AuthenticatedCIndexRouteImport } from './routes/_authenticated/c/index';
 
-const AuthenticatedCTodosLazyRouteImport = createFileRoute(
-  '/_authenticated/c/todos',
-)()
+const AuthenticatedCTodosLazyRouteImport = createFileRoute('/_authenticated/c/todos')();
 const AuthenticatedCNotificationsLazyRouteImport = createFileRoute(
   '/_authenticated/c/notifications',
-)()
+)();
 
 const NotAuthenticatedRouteRoute = NotAuthenticatedRouteRouteImport.update({
   id: '/_not-authenticated',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const NotAuthenticatedLoginRoute = NotAuthenticatedLoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => NotAuthenticatedRouteRoute,
-} as any)
+} as any);
 const AuthenticatedCRouteRoute = AuthenticatedCRouteRouteImport.update({
   id: '/c',
   path: '/c',
   getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
+} as any);
 const AuthenticatedCIndexRoute = AuthenticatedCIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AuthenticatedCRouteRoute,
-} as any)
+} as any);
 const AuthenticatedCTodosLazyRoute = AuthenticatedCTodosLazyRouteImport.update({
   id: '/todos',
   path: '/todos',
   getParentRoute: () => AuthenticatedCRouteRoute,
-} as any).lazy(() =>
-  import('./routes/_authenticated/c/todos.lazy').then((d) => d.Route),
-)
-const AuthenticatedCNotificationsLazyRoute =
-  AuthenticatedCNotificationsLazyRouteImport.update({
-    id: '/notifications',
-    path: '/notifications',
-    getParentRoute: () => AuthenticatedCRouteRoute,
-  } as any).lazy(() =>
-    import('./routes/_authenticated/c/notifications.lazy').then((d) => d.Route),
-  )
+} as any).lazy(() => import('./routes/_authenticated/c/todos.lazy').then((d) => d.Route));
+const AuthenticatedCNotificationsLazyRoute = AuthenticatedCNotificationsLazyRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AuthenticatedCRouteRoute,
+} as any).lazy(() => import('./routes/_authenticated/c/notifications.lazy').then((d) => d.Route));
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/c': typeof AuthenticatedCRouteRouteWithChildren
-  '/login': typeof NotAuthenticatedLoginRoute
-  '/c/notifications': typeof AuthenticatedCNotificationsLazyRoute
-  '/c/todos': typeof AuthenticatedCTodosLazyRoute
-  '/c/': typeof AuthenticatedCIndexRoute
+  '/': typeof IndexRoute;
+  '/c': typeof AuthenticatedCRouteRouteWithChildren;
+  '/login': typeof NotAuthenticatedLoginRoute;
+  '/c/notifications': typeof AuthenticatedCNotificationsLazyRoute;
+  '/c/todos': typeof AuthenticatedCTodosLazyRoute;
+  '/c/': typeof AuthenticatedCIndexRoute;
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/login': typeof NotAuthenticatedLoginRoute
-  '/c/notifications': typeof AuthenticatedCNotificationsLazyRoute
-  '/c/todos': typeof AuthenticatedCTodosLazyRoute
-  '/c': typeof AuthenticatedCIndexRoute
+  '/': typeof IndexRoute;
+  '/login': typeof NotAuthenticatedLoginRoute;
+  '/c/notifications': typeof AuthenticatedCNotificationsLazyRoute;
+  '/c/todos': typeof AuthenticatedCTodosLazyRoute;
+  '/c': typeof AuthenticatedCIndexRoute;
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/_not-authenticated': typeof NotAuthenticatedRouteRouteWithChildren
-  '/_authenticated/c': typeof AuthenticatedCRouteRouteWithChildren
-  '/_not-authenticated/login': typeof NotAuthenticatedLoginRoute
-  '/_authenticated/c/notifications': typeof AuthenticatedCNotificationsLazyRoute
-  '/_authenticated/c/todos': typeof AuthenticatedCTodosLazyRoute
-  '/_authenticated/c/': typeof AuthenticatedCIndexRoute
+  __root__: typeof rootRouteImport;
+  '/': typeof IndexRoute;
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren;
+  '/_not-authenticated': typeof NotAuthenticatedRouteRouteWithChildren;
+  '/_authenticated/c': typeof AuthenticatedCRouteRouteWithChildren;
+  '/_not-authenticated/login': typeof NotAuthenticatedLoginRoute;
+  '/_authenticated/c/notifications': typeof AuthenticatedCNotificationsLazyRoute;
+  '/_authenticated/c/todos': typeof AuthenticatedCTodosLazyRoute;
+  '/_authenticated/c/': typeof AuthenticatedCIndexRoute;
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/c' | '/login' | '/c/notifications' | '/c/todos' | '/c/'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/c/notifications' | '/c/todos' | '/c'
+  fileRoutesByFullPath: FileRoutesByFullPath;
+  fullPaths: '/' | '/c' | '/login' | '/c/notifications' | '/c/todos' | '/c/';
+  fileRoutesByTo: FileRoutesByTo;
+  to: '/' | '/login' | '/c/notifications' | '/c/todos' | '/c';
   id:
     | '__root__'
     | '/'
@@ -109,120 +102,121 @@ export interface FileRouteTypes {
     | '/_not-authenticated/login'
     | '/_authenticated/c/notifications'
     | '/_authenticated/c/todos'
-    | '/_authenticated/c/'
-  fileRoutesById: FileRoutesById
+    | '/_authenticated/c/';
+  fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
-  NotAuthenticatedRouteRoute: typeof NotAuthenticatedRouteRouteWithChildren
+  IndexRoute: typeof IndexRoute;
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren;
+  NotAuthenticatedRouteRoute: typeof NotAuthenticatedRouteRouteWithChildren;
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/_not-authenticated': {
-      id: '/_not-authenticated'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof NotAuthenticatedRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/_not-authenticated';
+      path: '';
+      fullPath: '/';
+      preLoaderRoute: typeof NotAuthenticatedRouteRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/_authenticated': {
-      id: '/_authenticated'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/_authenticated';
+      path: '';
+      fullPath: '/';
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/';
+      path: '/';
+      fullPath: '/';
+      preLoaderRoute: typeof IndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/_not-authenticated/login': {
-      id: '/_not-authenticated/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof NotAuthenticatedLoginRouteImport
-      parentRoute: typeof NotAuthenticatedRouteRoute
-    }
+      id: '/_not-authenticated/login';
+      path: '/login';
+      fullPath: '/login';
+      preLoaderRoute: typeof NotAuthenticatedLoginRouteImport;
+      parentRoute: typeof NotAuthenticatedRouteRoute;
+    };
     '/_authenticated/c': {
-      id: '/_authenticated/c'
-      path: '/c'
-      fullPath: '/c'
-      preLoaderRoute: typeof AuthenticatedCRouteRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
+      id: '/_authenticated/c';
+      path: '/c';
+      fullPath: '/c';
+      preLoaderRoute: typeof AuthenticatedCRouteRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
     '/_authenticated/c/': {
-      id: '/_authenticated/c/'
-      path: '/'
-      fullPath: '/c/'
-      preLoaderRoute: typeof AuthenticatedCIndexRouteImport
-      parentRoute: typeof AuthenticatedCRouteRoute
-    }
+      id: '/_authenticated/c/';
+      path: '/';
+      fullPath: '/c/';
+      preLoaderRoute: typeof AuthenticatedCIndexRouteImport;
+      parentRoute: typeof AuthenticatedCRouteRoute;
+    };
     '/_authenticated/c/todos': {
-      id: '/_authenticated/c/todos'
-      path: '/todos'
-      fullPath: '/c/todos'
-      preLoaderRoute: typeof AuthenticatedCTodosLazyRouteImport
-      parentRoute: typeof AuthenticatedCRouteRoute
-    }
+      id: '/_authenticated/c/todos';
+      path: '/todos';
+      fullPath: '/c/todos';
+      preLoaderRoute: typeof AuthenticatedCTodosLazyRouteImport;
+      parentRoute: typeof AuthenticatedCRouteRoute;
+    };
     '/_authenticated/c/notifications': {
-      id: '/_authenticated/c/notifications'
-      path: '/notifications'
-      fullPath: '/c/notifications'
-      preLoaderRoute: typeof AuthenticatedCNotificationsLazyRouteImport
-      parentRoute: typeof AuthenticatedCRouteRoute
-    }
+      id: '/_authenticated/c/notifications';
+      path: '/notifications';
+      fullPath: '/c/notifications';
+      preLoaderRoute: typeof AuthenticatedCNotificationsLazyRouteImport;
+      parentRoute: typeof AuthenticatedCRouteRoute;
+    };
   }
 }
 
 interface AuthenticatedCRouteRouteChildren {
-  AuthenticatedCNotificationsLazyRoute: typeof AuthenticatedCNotificationsLazyRoute
-  AuthenticatedCTodosLazyRoute: typeof AuthenticatedCTodosLazyRoute
-  AuthenticatedCIndexRoute: typeof AuthenticatedCIndexRoute
+  AuthenticatedCNotificationsLazyRoute: typeof AuthenticatedCNotificationsLazyRoute;
+  AuthenticatedCTodosLazyRoute: typeof AuthenticatedCTodosLazyRoute;
+  AuthenticatedCIndexRoute: typeof AuthenticatedCIndexRoute;
 }
 
 const AuthenticatedCRouteRouteChildren: AuthenticatedCRouteRouteChildren = {
   AuthenticatedCNotificationsLazyRoute: AuthenticatedCNotificationsLazyRoute,
   AuthenticatedCTodosLazyRoute: AuthenticatedCTodosLazyRoute,
   AuthenticatedCIndexRoute: AuthenticatedCIndexRoute,
-}
+};
 
-const AuthenticatedCRouteRouteWithChildren =
-  AuthenticatedCRouteRoute._addFileChildren(AuthenticatedCRouteRouteChildren)
+const AuthenticatedCRouteRouteWithChildren = AuthenticatedCRouteRoute._addFileChildren(
+  AuthenticatedCRouteRouteChildren,
+);
 
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedCRouteRoute: typeof AuthenticatedCRouteRouteWithChildren
+  AuthenticatedCRouteRoute: typeof AuthenticatedCRouteRouteWithChildren;
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCRouteRoute: AuthenticatedCRouteRouteWithChildren,
-}
+};
 
-const AuthenticatedRouteRouteWithChildren =
-  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+const AuthenticatedRouteRouteWithChildren = AuthenticatedRouteRoute._addFileChildren(
+  AuthenticatedRouteRouteChildren,
+);
 
 interface NotAuthenticatedRouteRouteChildren {
-  NotAuthenticatedLoginRoute: typeof NotAuthenticatedLoginRoute
+  NotAuthenticatedLoginRoute: typeof NotAuthenticatedLoginRoute;
 }
 
 const NotAuthenticatedRouteRouteChildren: NotAuthenticatedRouteRouteChildren = {
   NotAuthenticatedLoginRoute: NotAuthenticatedLoginRoute,
-}
+};
 
-const NotAuthenticatedRouteRouteWithChildren =
-  NotAuthenticatedRouteRoute._addFileChildren(
-    NotAuthenticatedRouteRouteChildren,
-  )
+const NotAuthenticatedRouteRouteWithChildren = NotAuthenticatedRouteRoute._addFileChildren(
+  NotAuthenticatedRouteRouteChildren,
+);
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   NotAuthenticatedRouteRoute: NotAuthenticatedRouteRouteWithChildren,
-}
+};
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();

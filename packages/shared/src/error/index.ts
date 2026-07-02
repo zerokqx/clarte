@@ -1,1 +1,1 @@
-export * from "./safe-geters"
+export * from './safe-geters';

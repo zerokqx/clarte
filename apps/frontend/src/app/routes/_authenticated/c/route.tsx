@@ -20,7 +20,7 @@ export const Route = createFileRoute('/_authenticated/c')({
 });
 
 function RouteComponent() {
-  const isMobile = M.useBreakpointMediaQuery('max-width','xs');
+  const isMobile = M.useBreakpointMediaQuery('max-width', 'xs');
   return (
     <AppShell
       padding="md"

@@ -54,13 +54,17 @@ export class GrpcProblemDetailsExceptionFilter implements ExceptionFilter {
     const response = host.switchToHttp().getResponse<Response>();
     const problemDetails = extractProblemDetails(exception);
 
-    const exceptionObj = (exception && typeof exception === 'object' ? exception : {}) as ExceptionWithStatusAndDetails;
+    const exceptionObj = (
+      exception && typeof exception === 'object' ? exception : {}
+    ) as ExceptionWithStatusAndDetails;
 
     const status =
       problemDetails?.status ||
       exceptionObj.statusCode ||
       exceptionObj.status ||
-      (exceptionObj.code !== undefined ? Enums.GrpcToHttpStatusMap[exceptionObj.code] : undefined) ||
+      (exceptionObj.code !== undefined
+        ? Enums.GrpcToHttpStatusMap[exceptionObj.code]
+        : undefined) ||
       HttpStatus.INTERNAL_SERVER_ERROR;
 
     response.status(status).json(

@@ -1,9 +1,4 @@
-import {
-  Injectable,
-  NestInterceptor,
-  ExecutionContext,
-  CallHandler,
-} from '@nestjs/common';
+import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Effect, pipe } from 'effect';
@@ -60,10 +55,7 @@ class RestoredProblemDetailsException extends ProblemDetailsException {
 const parseGrpcError = (error: unknown) =>
   pipe(
     Effect.succeed(error),
-    Effect.filterOrFail(
-      isGrpcErrorLike,
-      () => error,
-    ),
+    Effect.filterOrFail(isGrpcErrorLike, () => error),
     Effect.filterOrFail(
       (e) => {
         const typeHeader = e.metadata.get('type');
@@ -95,10 +87,7 @@ const parseGrpcError = (error: unknown) =>
 
 @Injectable()
 export class GrpcErrorPropagationInterceptor implements NestInterceptor {
-  intercept(
-    _context: ExecutionContext,
-    next: CallHandler,
-  ): Observable<unknown> {
+  intercept(_context: ExecutionContext, next: CallHandler): Observable<unknown> {
     return next.handle().pipe(
       catchError((error) => {
         const resultException = Effect.runSync(

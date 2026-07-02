@@ -19,9 +19,7 @@ export class RegisterPasswordHandler implements ICommandHandler<RegisterPassword
   ) {}
 
   async execute(command: RegisterPasswordCommand): Promise<void> {
-    E;
     const exit = await pipe(
-      // 1. Проверяем, существует ли уже пользователь
       Effect.tryPromise({
         try: () => this.userClient.findUserByLogin(command.login),
         catch: (error) => error,

@@ -33,8 +33,8 @@ export class LoginPasswordHandler implements ICommandHandler<LoginPasswordComman
     const exit = await pipe(
       Effect.tryPromise({
         try: () => this.userClient.getCredentialsByLogin(command.login),
-        catch: (error: any) => {
-          if (error && error.code === 5) {
+        catch: (error) => {
+          if (error && E.errorCode(error)(2) === 5) {
             return new UserCredentialsNotFound(`Credentials for ${command.login} not found`);
           }
           return new UserServiceUnavailableException(`User service is currently unavailable`);
