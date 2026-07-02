@@ -1,22 +1,19 @@
-import {
-  ArgumentsHost,
-  Catch,
-  ExceptionFilter,
-  HttpStatus,
-} from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from '@nestjs/common';
 import { type Response } from 'express';
 import * as Enums from './enums/status-map.enum';
+import { E } from '@clarte/shared';
 
-export function extractProblemDetails(
-  exception: any,
-): Record<string, any> | null {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function extractProblemDetails(exception: unknown): Record<string, any> | null {
   try {
-    const meta = exception?.metadata;
-    const raw =
-      meta?.get?.('problem-details') ||
-      meta?.internalRepr?.get?.('problem-details') ||
-      meta?.get?.('problem-details-bin') ||
-      meta?.internalRepr?.get?.('problem-details-bin');
+    if (!exception || typeof exception !== 'object') {
+      return null;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const metadata = (exception as any).metadata;
+    const getMeta = E.safeMetadataGrpcGetter(metadata);
+    const raw = getMeta('problem-details') || getMeta('problem-details-bin');
 
     const bufferOrString = Array.isArray(raw) ? raw[0] : raw;
 
@@ -34,6 +31,7 @@ export function extractProblemDetails(
 
 @Catch()
 export class GrpcProblemDetailsExceptionFilter implements ExceptionFilter {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   catch(exception: any, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse<Response>();
     const problemDetails = extractProblemDetails(exception);

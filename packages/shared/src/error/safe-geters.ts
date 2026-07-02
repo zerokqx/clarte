@@ -24,3 +24,36 @@ export function safeGeter<DT = string>(key: string, expectedType?: TypeofValue) 
 export const errorMessage = safeGeter('message');
 export const errorStatusCode = safeGeter('statusCode');
 export const errorCode = safeGeter<number>('code');
+
+export function safeMetadataGrpcGetter(metadata: unknown) {
+  return <F = undefined>(field: string, fallback?: F): (string | Buffer)[] | F => {
+    if (!metadata || typeof metadata !== 'object') {
+      return fallback as F;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const meta = metadata as any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let value: any;
+
+    if (typeof meta.get === 'function') {
+      value = meta.get(field);
+    } else if (
+      meta.internalRepr &&
+      typeof meta.internalRepr === 'object' &&
+      typeof meta.internalRepr.get === 'function'
+    ) {
+      value = meta.internalRepr.get(field);
+    }
+
+    if (Array.isArray(value)) {
+      return (value.length > 0 ? value : fallback) as (string | Buffer)[] | F;
+    }
+
+    if (value !== undefined && value !== null) {
+      return [value] as (string | Buffer)[] | F;
+    }
+
+    return fallback as F;
+  };
+}

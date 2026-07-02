@@ -8,6 +8,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Effect, pipe } from 'effect';
 import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
+import { E } from '@clarte/shared';
 
 /**
  * Специальный класс для восстановления ошибки из gRPC-метаданных.
@@ -44,16 +45,15 @@ const parseGrpcError = (error: any) =>
       () => error,
     ),
     Effect.flatMap((e) => {
-      const detailsBinHeader = e.metadata.get('problem-details-bin');
-      if (detailsBinHeader?.length) {
-        const val = detailsBinHeader[0];
+      const getMeta = E.safeMetadataGrpcGetter(e.metadata);
+      const raw = getMeta('problem-details-bin') || getMeta('problem-details');
+
+      if (raw && raw.length > 0) {
+        const val = raw[0];
         const str = Buffer.isBuffer(val) ? val.toString('utf-8') : String(val);
         return Effect.succeed(str);
       }
-      const detailsHeader = e.metadata.get('problem-details');
-      return detailsHeader?.length
-        ? Effect.succeed(detailsHeader[0].toString())
-        : Effect.fail(error);
+      return Effect.fail(error);
     }),
     // 4. Безопасно парсим JSON
     Effect.flatMap((jsonStr) =>
