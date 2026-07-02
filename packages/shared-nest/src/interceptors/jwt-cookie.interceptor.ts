@@ -18,7 +18,7 @@ export class JwtCookieInterceptor implements NestInterceptor {
     private readonly uuid: string,
   ) {}
 
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     const httpContext = context.switchToHttp();
     const response = httpContext.getResponse<Response>();
     return next.handle().pipe(
@@ -54,7 +54,6 @@ export class JwtCookieInterceptor implements NestInterceptor {
               maxAge: 30 * 24 * 60 * 60 * 1000, // совпадает с refresh
             });
           }
-
 
           return { success: true };
         }

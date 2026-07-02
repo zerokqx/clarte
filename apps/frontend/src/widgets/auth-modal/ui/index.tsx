@@ -37,7 +37,14 @@ export const AuthModal = () => {
         viewport={{ once: true }}
       >
         <Container size="md" w="100%">
-          <Paper p={0} radius="xl" withBorder shadow="xl" style={{ overflow: 'hidden' }}>
+          <Paper
+            p={0}
+            radius="xl"
+            withBorder
+            shadow="xl"
+            className="auth-card-paper"
+            style={{ overflow: 'hidden' }}
+          >
             <SimpleGrid cols={{ base: 1, sm: 2 }} spacing={0}>
               <GreetingCard />
               <AuthEntryPanel

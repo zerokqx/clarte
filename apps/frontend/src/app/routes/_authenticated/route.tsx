@@ -1,4 +1,3 @@
-import { Header } from '@/widgets/header';
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_authenticated')({

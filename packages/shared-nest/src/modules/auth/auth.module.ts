@@ -1,4 +1,12 @@
-import { DynamicModule, Global, Module, Provider, Type } from '@nestjs/common';
+import {
+  DynamicModule,
+  Global,
+  Module,
+  Provider,
+  Type,
+  ModuleMetadata,
+  InjectionToken,
+} from '@nestjs/common';
 import { AccesStrategy, RefreshStrategy } from './strategies';
 import { JWT_KEY_PROVIDER } from '@clarte/shared-contracts/di-tokens';
 import { type IJwtKeyProvider } from '@clarte/shared-contracts/interfaces';
@@ -12,14 +20,12 @@ import { COOKIE_INTERCEPTOR_UUID } from '../../ports/di-tokens';
 /**
  * Опции синхронной регистрации {@link JwtModule}.
  *
- * @property provider - Класс или значение, реализующее {@link IJwtKeyProvider}.
+ * @property provider - Класс, реализующий {@link IJwtKeyProvider}.
  * @property imports  - Дополнительные модули, необходимые провайдеру.
  */
-export interface JwtModuleOptions {
+export interface JwtModuleOptions extends Pick<ModuleMetadata, 'imports'> {
   /** Класс, реализующий {@link IJwtKeyProvider} */
   provider: Type<IJwtKeyProvider>;
-  /** Модули, экспортирующие зависимости провайдера (например AuthGrpcClientModule) */
-  imports?: any[];
 }
 
 // ---------------------------------------------------------------------------
@@ -34,14 +40,10 @@ export interface JwtModuleOptions {
  * @property inject     - Токены, которые будут переданы в фабрику.
  * @property imports    - Модули, экспортирующие зависимости провайдера.
  */
-export interface JwtModuleAsyncOptions {
-  useFactory: (
-    ...args: any[]
-  ) =>
-    | Promise<IJwtKeyProvider>
-    | IJwtKeyProvider;
-  inject?: any[];
-  imports?: any[];
+export interface JwtModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  useFactory: (...args: any[]) => Promise<IJwtKeyProvider> | IJwtKeyProvider;
+  inject?: InjectionToken[];
 }
 
 // ---------------------------------------------------------------------------
@@ -110,7 +112,7 @@ export class JwtModule {
   // ---------------------------------------------------------------------------
 
   private static buildModule(
-    imports: any[],
+    imports: ModuleMetadata['imports'] = [],
     extraProviders: Provider[],
   ): DynamicModule {
     return {
@@ -125,11 +127,7 @@ export class JwtModule {
           useValue: randomUUID(),
         },
       ],
-      exports: [
-        AccesStrategy,
-        RefreshStrategy,
-        COOKIE_INTERCEPTOR_UUID,
-      ],
+      exports: [AccesStrategy, RefreshStrategy, COOKIE_INTERCEPTOR_UUID],
     };
   }
 }

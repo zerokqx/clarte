@@ -36,6 +36,7 @@ class AuthStore implements IAuthStore {
   async initAuth() {
     if (!this.hasSession) {
       this.status = 'anonymous';
+      console.log(1);
       return;
     }
 
@@ -96,5 +97,3 @@ class AuthStore implements IAuthStore {
  * Глобальный экземпляр хранилища авторизации (Singleton).
  */
 export const authStore = new AuthStore();
-
-

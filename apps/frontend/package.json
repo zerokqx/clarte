@@ -33,23 +33,24 @@
     "@tiptap/react": "^3.27.1",
     "@tiptap/starter-kit": "^3.27.1",
     "dayjs": "^1.11.21",
-    "highlight.js": "^11.11.1",
     "lowlight": "^3.3.0",
     "mobx": "^6.16.1",
     "mobx-logger": "^0.7.1",
     "mobx-persist-store": "^1.1.8",
     "mobx-react-lite": "^4.1.1",
     "motion": "^12.42.0",
-    "orval": "^8.19.0",
     "react-hook-form": "^7.80.0",
     "react-yjs": "^2.0.1",
     "y-protocols": "^1.0.7",
-    "y-webrtc": "^10.3.0",
     "y-websocket": "^1.5.4",
     "yjs": "13.6.31",
-    "zod": "link:@hookform/resolvers/zod"
+    "zod": "^4.4.3"
   },
   "nx": {
+    "tags": [
+      "scope:frontend",
+      "type:app"
+    ],
     "targets": {
       "orval": {
         "executor": "nx:run-commands",
@@ -80,6 +81,7 @@
     "@faker-js/faker": "^10.5.0",
     "@tanstack/router-plugin": "^1.168.18",
     "eslint": "^9.39.4",
+    "orval": "^8.19.0",
     "msw": "^2.14.6",
     "postcss": "8.4.38",
     "postcss-preset-mantine": "^1.18.0",

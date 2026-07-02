@@ -35,7 +35,8 @@
   },
   "nx": {
     "tags": [
-      "type:package"
+      "scope:shared-contracts",
+      "type:lib"
     ],
     "sourceRoot": "packages/shared-contracts/src",
     "targets": {
@@ -75,7 +76,7 @@
   },
   "dependencies": {
     "@nestjs/microservices": "^11.1.27",
-    "@swc/helpers": "~0.5.23",
+    "@swc/helpers": "0.5.18",
     "rxjs": "^7.8.2"
   }
 }

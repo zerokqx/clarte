@@ -8,5 +8,5 @@ export const Route = createFileRoute('/_authenticated/c/')({
 });
 
 const RouteComponent = observer(() => {
-  return <Button onClick={() => authStore.setAnonymous()}>dawdaw</Button>;
+  return <p>HI</p>;
 });

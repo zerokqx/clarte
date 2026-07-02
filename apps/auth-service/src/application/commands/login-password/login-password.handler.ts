@@ -2,7 +2,11 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { LoginPasswordCommand } from '@/application/commands/login-password/login-password.command';
 import { Auth } from '@clarte/shared-contracts/proto';
 import { Cause, Effect, Exit, pipe } from 'effect';
-import { InjectPasswordHasher, InjectUserClient, InjectAuthRmqClient } from '@/application/decorators';
+import {
+  InjectPasswordHasher,
+  InjectUserClient,
+  InjectAuthRmqClient,
+} from '@/application/decorators';
 import { type IJwtService, type IUserClient } from '@/application/ports';
 import { ClientProxy } from '@nestjs/microservices';
 import { UserEventPattern, type UserEventPayloadMap } from '@clarte/shared-event-types/user';
@@ -12,17 +16,12 @@ import {
   UserServiceUnavailableException,
   PasswordVerificationFailedException,
 } from '@/application/exceptions';
-import {
-  AuthUser,
-  type IPasswordHasher,
-  PasswordInvalidError,
-} from '@/domain';
+import { AuthUser, type IPasswordHasher, PasswordInvalidError } from '@/domain';
 import { InjectJwtService } from '@/application/commands/login-password/jwt-service.inject';
+import { E } from '@clarte/shared';
 
 @CommandHandler(LoginPasswordCommand)
-export class LoginPasswordHandler
-  implements ICommandHandler<LoginPasswordCommand>
-{
+export class LoginPasswordHandler implements ICommandHandler<LoginPasswordCommand> {
   constructor(
     @InjectUserClient() private readonly userClient: IUserClient,
     @InjectPasswordHasher() private readonly passwordHasher: IPasswordHasher,
@@ -30,46 +29,33 @@ export class LoginPasswordHandler
     @InjectAuthRmqClient() private readonly rmqClient: ClientProxy,
   ) {}
 
-  async execute(
-    command: LoginPasswordCommand,
-  ): Promise<Auth.LoginPasswordResponse> {
+  async execute(command: LoginPasswordCommand): Promise<Auth.LoginPasswordResponse> {
     const exit = await pipe(
       Effect.tryPromise({
         try: () => this.userClient.getCredentialsByLogin(command.login),
-        catch: (error: any) => {
-          if (error && error.code === 5) {
-            return new UserCredentialsNotFound(
-              `Credentials for ${command.login} not found`,
-            );
+        catch: (error) => {
+          if (error && E.errorCode(error)(2) === 5) {
+            return new UserCredentialsNotFound(`Credentials for ${command.login} not found`);
           }
-          return new UserServiceUnavailableException(
-            `User service is currently unavailable`,
-          );
+          return new UserServiceUnavailableException(`User service is currently unavailable`);
         },
       }),
       Effect.timeout('3 seconds'),
       Effect.catchTag('TimeoutException', () =>
-        Effect.fail(
-          new UserServiceUnavailableException(
-            'Request to user-service timed out',
-          ),
-        ),
+        Effect.fail(new UserServiceUnavailableException('Request to user-service timed out')),
       ),
       Effect.retry({
         times: 2,
         while: (error) => error instanceof UserServiceUnavailableException,
       }),
-      Effect.map((cred) =>
-        AuthUser.restore(cred.id, cred.login, cred.passwordHash),
-      ),
+      Effect.map((cred) => AuthUser.restore(cred.id, cred.login, cred.passwordHash)),
       Effect.flatMap((user) =>
         pipe(
           Effect.tryPromise({
-            try: () =>
-              user.comparePassword(command.password, this.passwordHasher),
-            catch: (error: any) =>
+            try: () => user.comparePassword(command.password, this.passwordHasher),
+            catch: (error) =>
               new PasswordVerificationFailedException(
-                `Password verification failed: ${error.message}`,
+                `Password verification failed: ${E.errorMessage(error)('Unknown Error')}`,
               ),
           }),
           Effect.filterOrFail(
@@ -97,8 +83,8 @@ export class LoginPasswordHandler
               userId: user.id,
             };
           },
-          catch: (error: any) =>
-            new Error(`Token generation failed: ${error.message}`),
+          catch: (error) =>
+            new Error(`Token generation failed: ${E.errorMessage(error)('Unknown Error')}`),
         }),
       ),
       Effect.runPromiseExit,
@@ -112,7 +98,6 @@ export class LoginPasswordHandler
     });
 
     if (result.success && result.userId) {
-      // Emit user.entered event to RMQ asynchronously
       firstValueFrom(
         this.rmqClient.emit(UserEventPattern.UserEntered, {
           userId: result.userId,

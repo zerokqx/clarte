@@ -1,13 +1,36 @@
-import {
-  Injectable,
-  NestInterceptor,
-  ExecutionContext,
-  CallHandler,
-} from '@nestjs/common';
+import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Effect, pipe } from 'effect';
 import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
+import { E } from '@clarte/shared';
+
+interface ParsedDetails {
+  type?: string;
+  title?: string;
+  status?: number;
+  detail?: string;
+  [key: string]: unknown;
+}
+
+interface GrpcErrorLike {
+  metadata: {
+    get(key: string): unknown;
+  };
+}
+
+function isGrpcErrorLike(error: unknown): error is GrpcErrorLike {
+  if (!error || typeof error !== 'object') return false;
+  if (!('metadata' in error)) return false;
+
+  const metadata = (error as Record<string, unknown>).metadata;
+  return (
+    !!metadata &&
+    typeof metadata === 'object' &&
+    'get' in metadata &&
+    typeof (metadata as Record<string, unknown>).get === 'function'
+  );
+}
 
 /**
  * Специальный класс для восстановления ошибки из gRPC-метаданных.
@@ -18,7 +41,7 @@ class RestoredProblemDetailsException extends ProblemDetailsException {
   public readonly title: string;
   public readonly status: number;
 
-  constructor(parsedDetails: any) {
+  constructor(parsedDetails: ParsedDetails) {
     const { type, title, status, detail, ...extensions } = parsedDetails;
 
     super(detail || 'Произошла неизвестная ошибка', extensions);
@@ -29,36 +52,33 @@ class RestoredProblemDetailsException extends ProblemDetailsException {
   }
 }
 
-const parseGrpcError = (error: any) =>
+const parseGrpcError = (error: unknown) =>
   pipe(
     Effect.succeed(error),
-    Effect.filterOrFail(
-      (e) => !!e?.metadata && typeof e.metadata.get === 'function',
-      () => error,
-    ),
+    Effect.filterOrFail(isGrpcErrorLike, () => error),
     Effect.filterOrFail(
       (e) => {
         const typeHeader = e.metadata.get('type');
-        return !!typeHeader?.length && typeHeader[0].toString() === 'grpc';
+        const raw = Array.isArray(typeHeader) ? typeHeader[0] : typeHeader;
+        return !!raw && raw.toString() === 'grpc';
       },
       () => error,
     ),
     Effect.flatMap((e) => {
-      const detailsBinHeader = e.metadata.get('problem-details-bin');
-      if (detailsBinHeader?.length) {
-        const val = detailsBinHeader[0];
+      const getMeta = E.safeMetadataGrpcGetter(e.metadata);
+      const raw = getMeta('problem-details-bin') || getMeta('problem-details');
+
+      if (raw && raw.length > 0) {
+        const val = raw[0];
         const str = Buffer.isBuffer(val) ? val.toString('utf-8') : String(val);
         return Effect.succeed(str);
       }
-      const detailsHeader = e.metadata.get('problem-details');
-      return detailsHeader?.length
-        ? Effect.succeed(detailsHeader[0].toString())
-        : Effect.fail(error);
+      return Effect.fail(error);
     }),
     // 4. Безопасно парсим JSON
     Effect.flatMap((jsonStr) =>
       Effect.try({
-        try: () => JSON.parse(jsonStr),
+        try: () => JSON.parse(jsonStr) as ParsedDetails,
         catch: () => error,
       }),
     ),
@@ -67,10 +87,7 @@ const parseGrpcError = (error: any) =>
 
 @Injectable()
 export class GrpcErrorPropagationInterceptor implements NestInterceptor {
-  intercept(
-    _context: ExecutionContext,
-    next: CallHandler,
-  ): Observable<unknown> {
+  intercept(_context: ExecutionContext, next: CallHandler): Observable<unknown> {
     return next.handle().pipe(
       catchError((error) => {
         const resultException = Effect.runSync(

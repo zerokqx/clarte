@@ -1,4 +1,4 @@
-import { Marks } from '@clarte/shared';
+import { Marks, COOKIE_NAME } from '@clarte/shared';
 import {
   Body,
   Controller,
@@ -7,6 +7,7 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Res,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
@@ -17,6 +18,7 @@ import { AccessAuthGuard, AccessGuard, RefreshGuard } from '@clarte/shared-nest/
 import { JwtCookieInterceptor } from '@clarte/shared-nest/interceptors';
 import { User, InjectCookieInterceptorUuid } from '@clarte/shared-nest/decorators';
 import { type IAuthenticatedUser } from '@clarte/shared-contracts/interfaces';
+import { type Response } from 'express';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -60,6 +62,17 @@ export class AuthController extends Marks.Controller.Mixed {
   @Get('check')
   checkStatus() {
     return;
+  }
+
+  @Post('logout')
+  @ApiOperation({ summary: 'Выйти из системы (очистить файлы куки)' })
+  @ApiOkResponse({ description: 'Токены успешно удалены из куки' })
+  @HttpCode(HttpStatus.OK)
+  logout(@Res({ passthrough: true }) response: Response) {
+    response.clearCookie(COOKIE_NAME.JWT_ACCESS, { path: '/' });
+    response.clearCookie(COOKIE_NAME.JWT_REFRESH, { path: '/' });
+    response.clearCookie(COOKIE_NAME.HAS_SESSION, { path: '/' });
+    return { success: true };
   }
 
   @Post('refresh')
