@@ -66,7 +66,6 @@ export default [
       ],
     },
   },
-
   // 3. Слой INFRASTRUCTURE (Внешний слой. Может импортировать Domain и Application)
   // Здесь no-restricted-imports не нужен, так как импорты идут внутрь.
 
@@ -81,9 +80,102 @@ export default [
           enforceBuildableLibDependency: true,
           allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?[jt]s$'],
           depConstraints: [
+            // 1. Ограничения по техническим слоям
             {
-              sourceTag: '*',
-              onlyDependOnLibsWithTags: ['*'],
+              // Общие библиотеки не могут импортировать приложения
+              sourceTag: 'type:package',
+              onlyDependOnLibsWithTags: ['type:package'],
+            },
+            {
+              // Фронтенд импортирует только общие библиотеки
+              sourceTag: 'tag:frontend',
+              onlyDependOnLibsWithTags: ['type:package'],
+            },
+            {
+              // Бэкенд импортирует только общие библиотеки
+              sourceTag: 'tag:backend',
+              onlyDependOnLibsWithTags: ['type:package'],
+            },
+
+            // 2. Изоляция бизнес-доменов (scopes)
+            // Микросервисы и шлюзы не могут зависеть друг от друга напрямую,
+            // они могут зависеть только от общих библиотек (shared-*)
+            {
+              sourceTag: 'scope:auth',
+              onlyDependOnLibsWithTags: [
+                'scope:shared',
+                'scope:shared-nest',
+                'scope:shared-contracts',
+                'scope:shared-domain',
+                'scope:shared-event-types',
+              ],
+            },
+            {
+              sourceTag: 'scope:user',
+              onlyDependOnLibsWithTags: [
+                'scope:shared',
+                'scope:shared-nest',
+                'scope:shared-contracts',
+                'scope:shared-domain',
+                'scope:shared-event-types',
+              ],
+            },
+            {
+              sourceTag: 'scope:note',
+              onlyDependOnLibsWithTags: [
+                'scope:shared',
+                'scope:shared-nest',
+                'scope:shared-contracts',
+                'scope:shared-domain',
+                'scope:shared-event-types',
+              ],
+            },
+            {
+              sourceTag: 'scope:todo',
+              onlyDependOnLibsWithTags: [
+                'scope:shared',
+                'scope:shared-nest',
+                'scope:shared-contracts',
+                'scope:shared-domain',
+                'scope:shared-event-types',
+              ],
+            },
+            {
+              sourceTag: 'scope:notification',
+              onlyDependOnLibsWithTags: [
+                'scope:shared',
+                'scope:shared-nest',
+                'scope:shared-contracts',
+                'scope:shared-domain',
+                'scope:shared-event-types',
+              ],
+            },
+            {
+              sourceTag: 'scope:gateway',
+              onlyDependOnLibsWithTags: [
+                'scope:shared',
+                'scope:shared-nest',
+                'scope:shared-contracts',
+                'scope:shared-domain',
+                'scope:shared-event-types',
+              ],
+            },
+
+            // 3. Чистота слоев внутри shared пакетов
+            {
+              // Доменный слой не зависит от NestJS инфраструктуры
+              sourceTag: 'scope:shared-domain',
+              onlyDependOnLibsWithTags: ['scope:shared'],
+            },
+            {
+              // Контракты не зависят от NestJS инфраструктуры
+              sourceTag: 'scope:shared-contracts',
+              onlyDependOnLibsWithTags: ['scope:shared', 'scope:shared-domain'],
+            },
+            {
+              // События не зависят от NestJS инфраструктуры
+              sourceTag: 'scope:shared-event-types',
+              onlyDependOnLibsWithTags: ['scope:shared'],
             },
           ],
         },
