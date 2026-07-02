@@ -25,16 +25,21 @@ export const errorMessage = safeGeter('message');
 export const errorStatusCode = safeGeter('statusCode');
 export const errorCode = safeGeter<number>('code');
 
+interface GrpcMetadataLike {
+  get?: (key: string) => unknown;
+  internalRepr?: {
+    get?: (key: string) => unknown;
+  };
+}
+
 export function safeMetadataGrpcGetter(metadata: unknown) {
   return <F = undefined>(field: string, fallback?: F): (string | Buffer)[] | F => {
     if (!metadata || typeof metadata !== 'object') {
       return fallback as F;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const meta = metadata as any;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let value: any;
+    const meta = metadata as GrpcMetadataLike;
+    let value: unknown;
 
     if (typeof meta.get === 'function') {
       value = meta.get(field);
