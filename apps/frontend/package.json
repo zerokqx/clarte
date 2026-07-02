@@ -44,7 +44,7 @@
     "y-protocols": "^1.0.7",
     "y-websocket": "^1.5.4",
     "yjs": "13.6.31",
-    "zod": "link:@hookform/resolvers/zod"
+    "zod": "^4.4.3"
   },
   "nx": {
     "tags": [
