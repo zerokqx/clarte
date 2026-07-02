@@ -638,7 +638,7 @@ export const TodoPage = () => {
                         </Button>
                       )}
                     </div>
-                    <ScrollArea.Autosize mah={300}>
+                    <div style={{ maxHeight: "300px", overflowY: "auto" }}>
                       {notifications.length === 0 ? (
                         <div style={{ padding: "24px 16px", textAlign: "center", color: "#9ca3af" }}>
                           <IconBellOff size={32} stroke={1} style={{ margin: "0 auto 8px" }} />
@@ -687,7 +687,7 @@ export const TodoPage = () => {
                           );
                         })
                       )}
-                    </ScrollArea.Autosize>
+                    </div>
                   </Popover.Dropdown>
                 </Popover>
 
