@@ -4,7 +4,7 @@
 //   protoc               v7.34.1
 // source: google/protobuf/timestamp.proto
 
-/* eslint-disable */
+ 
 
 export const protobufPackage = "google.protobuf";
 

@@ -10,6 +10,7 @@ import {
   PasswordVerificationFailedException,
 } from '@/application/exceptions';
 import { AuthUser, type IPasswordHasher, PasswordInvalidError } from '@/domain';
+import { E } from '@clarte/shared';
 
 @QueryHandler(ValidateUserQuery)
 export class ValidateUserHandler implements IQueryHandler<ValidateUserQuery> {
@@ -18,46 +19,33 @@ export class ValidateUserHandler implements IQueryHandler<ValidateUserQuery> {
     @InjectPasswordHasher() private readonly passwordHasher: IPasswordHasher,
   ) {}
 
-  async execute({
-    login,
-    password,
-  }: ValidateUserQuery): Promise<Auth.ValidateUserResponse> {
+  async execute({ login, password }: ValidateUserQuery): Promise<Auth.ValidateUserResponse> {
     const exit = await pipe(
       Effect.tryPromise({
         try: () => this.userClient.getCredentialsByLogin(login),
-        catch: (error: any) => {
-          if (error && error.code === 5) {
-            return new UserCredentialsNotFound(
-              `Credentials for ${login} not found`,
-            );
+        catch: (error) => {
+          if (error && E.errorCode(error)(2) === 5) {
+            return new UserCredentialsNotFound(`Credentials for ${login} not found`);
           }
-          return new UserServiceUnavailableException(
-            `User service is currently unavailable`,
-          );
+          return new UserServiceUnavailableException(`User service is currently unavailable`);
         },
       }),
       Effect.timeout('3 seconds'),
       Effect.catchTag('TimeoutException', () =>
-        Effect.fail(
-          new UserServiceUnavailableException(
-            'Request to user-service timed out',
-          ),
-        ),
+        Effect.fail(new UserServiceUnavailableException('Request to user-service timed out')),
       ),
       Effect.retry({
         times: 2,
         while: (error) => error instanceof UserServiceUnavailableException,
       }),
-      Effect.map((user) =>
-        AuthUser.restore(user.id, user.login, user.passwordHash),
-      ),
+      Effect.map((user) => AuthUser.restore(user.id, user.login, user.passwordHash)),
       Effect.flatMap((authUser) =>
         pipe(
           Effect.tryPromise({
             try: () => authUser.comparePassword(password, this.passwordHasher),
-            catch: (error: any) =>
+            catch: (error) =>
               new PasswordVerificationFailedException(
-                `Password verification failed: ${error.message}`,
+                `Password verification failed: ${E.errorMessage(error)('Unknown error')}`,
               ),
           }),
           Effect.flatMap((isValid) =>
