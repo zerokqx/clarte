@@ -177,6 +177,11 @@ export default [
               sourceTag: 'scope:shared-event-types',
               onlyDependOnLibsWithTags: ['scope:shared'],
             },
+            {
+              // Fallback правило для всех остальных тегов, чтобы не блокировать их зависимости
+              sourceTag: '*',
+              onlyDependOnLibsWithTags: ['*'],
+            },
           ],
         },
       ],
