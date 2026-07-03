@@ -1,13 +1,11 @@
 .navbar-item {
   cursor: pointer;
   height: rem(36);
-  border-radius: spacing(sm);
   padding: 0 rem(16);
   position: relative;
-  color: var(--mantine-color-text);
+  color: c(primary.2) 
 }
 
 .navbar-item[data-selected='true'] {
-  background-color: alpha(var(--mantine-color-dark-1), 0.3);
-  color: var(--mantine-color-violet-filled);
+
 }

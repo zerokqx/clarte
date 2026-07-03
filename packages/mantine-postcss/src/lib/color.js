@@ -20,7 +20,14 @@ const postcssColorPlugin = () => {
 
           if (cleanContent.includes('.')) {
             const [color, number] = cleanContent.split('.');
-            return `var(--mantine-color-${color.trim()}-${number.trim()})`;
+            const cleanColor = color.trim();
+            const cleanNumber = number.trim();
+
+            if (cleanColor === 'primary') {
+              return `var(--mantine-primary-color-${cleanNumber})`;
+            }
+
+            return `var(--mantine-color-${cleanColor}-${cleanNumber})`;
           }
 
           return `var(--mantine-color-${cleanContent})`;
