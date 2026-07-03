@@ -9,6 +9,9 @@
   border-radius: radius(md);
   transition: all 0.2s ease;
   user-select: none;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
 }
 
 /* Hover state for non-selected items */
@@ -19,8 +22,8 @@
 
 /* Selected state */
 .navbar-item[data-selected='true'] {
-  background-color: light-dark(alpha(c(violet.1), 0.35), alpha(c(violet.9), 0.25));
-  color: light-dark(c(violet.7), c(violet.2));
+  background-color: light-dark(alpha(c(primary.1), 0.35), alpha(c(primary.9), 0.25));
+  color: light-dark(c(primary.7), c(primary.2));
   font-weight: fw(medium);
 }
 
@@ -32,11 +35,13 @@
   top: rem(8);
   bottom: rem(8);
   width: rem(3);
-  background-color: light-dark(c(violet.6), c(violet.4));
+  background-color: light-dark(c(primary.6), c(primary.4));
   border-radius: radius(xs);
   opacity: 0;
   transform: scaleY(0.3);
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .navbar-item[data-selected='true']::before {
