@@ -14,7 +14,7 @@ export const BottomNavigation = () => {
   const isCRoute = matchRoute({ to: '/c' });
 
   return (
-    <Affix position={{ bottom: 10, left: 10, right: 10 }}>
+    <Affix position={{ bottom: 10, left: 10, right: 10 }} zIndex={99}>
       <AnimatePresence initial={false} mode="wait">
         {!isAtBottom && (
           <motion.div
