@@ -13,6 +13,7 @@ import { createFileRoute, Outlet, useNavigate } from '@tanstack/react-router';
 import { observer } from 'mobx-react-lite';
 import { lazy, Suspense } from 'react';
 import { curry } from '@clarte/shared';
+import { ThemeToggle } from '@/features/theme-toggle';
 
 const LazyBottomNavigation = lazy(() =>
   import('@/widgets/bottom-navigation').then((m) => ({ default: m.BottomNavigation })),
@@ -58,6 +59,7 @@ function RouteComponent() {
       <AppShell.Main>
         <Stack gap="md">
           <ZenModeIndicator />
+          <ThemeToggle />
           {isMobile && (
             <Suspense fallback={<BottomNavigationSkeleton />}>
               <LazyBottomNavigation />

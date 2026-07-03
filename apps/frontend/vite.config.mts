@@ -18,7 +18,12 @@ export default defineConfig(({ mode }) => {
     css: { modules: { localsConvention: 'camelCase', exportGlobals: true } },
     root: import.meta.dirname,
     cacheDir: '../node_modules/.vite/frontend',
-    resolve: { tsconfigPaths: true },
+    resolve: {
+      alias: {
+        '@': `${import.meta.dirname}/src`,
+      },
+      tsconfigPaths: true,
+    },
 
     server: {
       port: port,
