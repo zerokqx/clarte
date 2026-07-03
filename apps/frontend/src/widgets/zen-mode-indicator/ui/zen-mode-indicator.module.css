@@ -2,23 +2,20 @@
   display: flex;
   align-items: center;
   gap: spacing(xs);
-  padding: calc(spacing(xs) / 1.5) spacing(sm);
-  border-radius: radius(md);
+  padding: calc(spacing(xs) / 2) spacing(sm);
+  border-radius: radius(xl); /* Fully rounded capsule */
   
-  /* Glassmorphism background */
-  background-color: light-dark(alpha(c(white), 0.75), alpha(c(dark.6), 0.75));
-  backdrop-filter: blur(8px);
-  border: 1px solid light-dark(alpha(c(gray.3), 0.5), alpha(c(dark.4), 0.5));
-  box-shadow: shadow(xs);
+  background-color: light-dark(c(white), c(dark.6));
+  border: 1px solid light-dark(c(gray.2), c(dark.4));
+  box-shadow: none;
   
   transition: all 0.2s ease;
   user-select: none;
 }
 
 .indicator-capsule:hover {
-  border-color: light-dark(alpha(c(gray.4), 0.8), alpha(c(dark.3), 0.8));
-  background-color: light-dark(alpha(c(white), 0.9), alpha(c(dark.6), 0.9));
-  box-shadow: shadow(sm);
+  border-color: light-dark(c(gray.3), c(dark.3));
+  background-color: light-dark(c(gray.0), c(dark.5));
 }
 
 .pulse-dot-wrapper {
@@ -29,42 +26,43 @@
 }
 
 .pulse-dot {
-  width: rem(8);
-  height: rem(8);
+  width: rem(6);
+  height: rem(6);
   border-radius: radius(xl);
   background-color: light-dark(c(green.6), c(green.4));
-  animation: pulse 2s infinite;
+  animation: pulse 2.5s infinite;
 }
 
 .status-text {
   font-size: fz(xs);
-  font-weight: fw(bold);
-  letter-spacing: 0.5px;
+  font-weight: fw(medium);
+  letter-spacing: 0.2px;
   text-transform: uppercase;
-  color: light-dark(c(gray.7), c(dark.0));
+  color: light-dark(c(gray.7), c(dark.1));
   line-height: 1;
 }
 
 .exit-button {
   transition: all 0.15s ease;
-  color: light-dark(c(gray.6), c(dark.2));
+  color: light-dark(c(gray.5), c(dark.3));
   opacity: 0.6;
+  border-radius: radius(xl);
 }
 
 .exit-button:hover {
   opacity: 1;
   color: c(red.6);
-  background-color: transparent;
+  background-color: light-dark(c(gray.1), c(dark.5));
 }
 
 @keyframes pulse {
   0% {
     transform: scale(0.9);
-    box-shadow: 0 0 0 0 light-dark(alpha(c(green.5), 0.7), alpha(c(green.4), 0.7));
+    box-shadow: 0 0 0 0 light-dark(alpha(c(green.5), 0.4), alpha(c(green.4), 0.4));
   }
   70% {
     transform: scale(1);
-    box-shadow: 0 0 0 6px light-dark(alpha(c(green.5), 0), alpha(c(green.4), 0));
+    box-shadow: 0 0 0 5px light-dark(alpha(c(green.5), 0), alpha(c(green.4), 0));
   }
   100% {
     transform: scale(0.9);
