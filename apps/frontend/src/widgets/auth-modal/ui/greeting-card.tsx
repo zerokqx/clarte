@@ -1,6 +1,6 @@
 import { Box, Group, Stack, Text, Title, ThemeIcon, rem, darken } from '@mantine/core';
 import { AUTH_FEATURES, AUTH_WELCOME_TEXTS } from '../config';
-import { M } from '@/shared/lib/mantine';
+import { M } from '@clarte/mantine-helpers';
 
 export const GreetingCard = () => (
   <Box

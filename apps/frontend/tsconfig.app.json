@@ -42,6 +42,9 @@
   "references": [
     {
       "path": "../../packages/shared/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/mantine-helpers/tsconfig.lib.json"
     }
   ]
 }

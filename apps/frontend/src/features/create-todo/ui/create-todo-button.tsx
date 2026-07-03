@@ -1,6 +1,6 @@
 import { ActionIcon, Button } from '@mantine/core';
 import { openCreateTodoModal } from './open-create-todo-modal';
-import { M } from '@/shared/lib/mantine';
+import { M } from '@clarte/mantine-helpers';
 import { useCreateTodo } from '../api';
 import { PlusIcon } from '@phosphor-icons/react/dist/icons/Plus';
 

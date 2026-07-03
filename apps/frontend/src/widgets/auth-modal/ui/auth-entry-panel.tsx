@@ -1,6 +1,6 @@
 import { Button, Stack, Text, Title } from '@mantine/core';
 import { AUTH_WELCOME_TEXTS } from '../config';
-import { M } from '@/shared/lib/mantine';
+import { M } from '@clarte/mantine-helpers';
 
 interface AuthEntryPanelProps {
   onOpenLogin: () => void;

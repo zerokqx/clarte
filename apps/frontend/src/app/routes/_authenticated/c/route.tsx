@@ -1,6 +1,6 @@
 import { ChecksIcon } from '@phosphor-icons/react/dist/csr/Checks';
 import { LogoutButton } from '@/features/logout';
-import { M } from '@/shared/lib/mantine';
+import { M } from '@clarte/mantine-helpers';
 import { layoutStore } from '@/shared/model';
 import { BottomNavigationSkeleton } from '@/widgets/bottom-navigation/ui/bottom-navigation-skeleton';
 import { Header } from '@/widgets/header';

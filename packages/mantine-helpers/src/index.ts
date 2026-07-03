@@ -1,1 +1,1 @@
-export * from './lib/mantine-helpers.js';
+export * as M from './helpers';

@@ -1,4 +1,4 @@
-import { M } from '@/shared/lib/mantine';
+import { M } from '@clarte/mantine-helpers';
 import { ActionIcon, rem } from '@mantine/core';
 import { ReactNode } from 'react';
 

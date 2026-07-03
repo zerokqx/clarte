@@ -1,6 +1,6 @@
 import { Affix, Group, rem, Skeleton } from '@mantine/core';
 import { affixPropsConstants } from '../constants';
-import { M } from '@/shared/lib/mantine';
+import { M } from '@clarte/mantine-helpers';
 
 export const BottomNavigationSkeleton = () => {
   return (

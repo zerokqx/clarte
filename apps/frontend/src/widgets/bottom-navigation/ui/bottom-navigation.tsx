@@ -5,7 +5,7 @@ import { BottomNavigationItem } from './bottom-navigation-item';
 import { bottomNavigatioonConfig } from '../config';
 import { useMatchRoute, useNavigate } from '@tanstack/react-router';
 import { useIsAtBottom } from '@/shared/lib/use-is-at-bottom';
-import { M } from '@/shared/lib/mantine';
+import { M } from '@clarte/mantine-helpers';
 
 export const BottomNavigation = () => {
   const isAtBottom = useIsAtBottom(200);

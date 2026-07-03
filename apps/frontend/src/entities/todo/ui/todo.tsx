@@ -4,7 +4,7 @@ import { PencilSimpleIcon } from '@phosphor-icons/react/dist/csr/PencilSimple';
 import { TrashIcon } from '@phosphor-icons/react/dist/csr/Trash';
 import { ClockIcon } from '@phosphor-icons/react/dist/csr/Clock';
 import classes from './todo.module.css';
-import { M } from '@/shared/lib/mantine';
+import { M } from '@clarte/mantine-helpers';
 
 export interface TodoDataProp {
   id: string;
