@@ -1,28 +1,29 @@
-import { ChecksIcon } from '@phosphor-icons/react/dist/csr/Checks';
-import { BrowserIcon } from '@phosphor-icons/react/dist/csr/Browser';
+import { LinkProps } from '@tanstack/react-router';
 import { ReactNode } from 'react';
-import { BottomNavigationItemProps } from '../ui/bottom-navigation-item';
-import { spotlight } from '@mantine/spotlight';
 import { BellIcon } from '@phosphor-icons/react/dist/icons/Bell';
+import { ChecksIcon } from '@phosphor-icons/react/dist/csr/Checks';
+import { HouseIcon } from '@phosphor-icons/react/dist/icons/House';
 
-interface BottomNavigationConfig extends Pick<BottomNavigationItemProps, 'variant'> {
+export interface BottomNavigationConfig {
   icon: ReactNode;
-  to?: string;
-  onClick?: () => void;
+  to: Exclude<LinkProps['to'], undefined>;
+  activeOptions?: LinkProps['activeOptions'];
 }
-export const bottomNavigatioonConfig: BottomNavigationConfig[] = [
+
+export const bottomNavigationConfig: BottomNavigationConfig[] = [
   {
-    icon: <BellIcon weight="bold" width={20} />,
+    icon: <BellIcon weight="fill" size={24} />,
     to: '/c/notifications',
   },
+
   {
-    variant: 'accent',
-    icon: <BrowserIcon weight="bold" width={20} />,
-    onClick: spotlight.open,
+    icon: <HouseIcon weight="fill" size={24} />,
+    to: '/c',
+    activeOptions: { exact: true },
   },
 
   {
-    icon: <ChecksIcon weight="bold" width={20} />,
+    icon: <ChecksIcon weight="fill" size={24} />,
     to: '/c/todos',
   },
 ];

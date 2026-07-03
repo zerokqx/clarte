@@ -27,7 +27,11 @@ export const HeaderView = ({
   return (
     <Group justify="space-between" h="100%" px="md">
       <Group gap="xs">
-        <ActionIcon variant={navbarVisible ? 'filled' : 'transparent'} onClick={onToggleNavbar}>
+        <ActionIcon
+          visibleFrom="xs"
+          variant={navbarVisible ? 'filled' : 'transparent'}
+          onClick={onToggleNavbar}
+        >
           <SidebarIcon weight="duotone" />
         </ActionIcon>
         <Text size="lg" fw={800} style={{ letterSpacing: '-0.5px' }}>
