@@ -30,7 +30,7 @@ const DownSection = ({ children }: { children: ReactNode }) => (
 );
 
 const Body = ({ children }: { children: ReactNode }) => (
-  <Stack h={'100%'} p={'xs'} style={{ flexGrow: 1 }}>
+  <Stack h={'100%'} pl={'xs'} style={{ flexGrow: 1 }}>
     {children}
   </Stack>
 );

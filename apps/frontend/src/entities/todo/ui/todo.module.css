@@ -1,21 +1,20 @@
 .card {
   display: flex;
   align-items: flex-start;
-  gap: rem(12);
-  padding: rem(12) 0;
+  gap: spacing(xs);
+  padding: spacing(xs);
   transition: all 0.15s ease;
   background-color: transparent;
   border: none;
-  border-bottom: rem(1) solid light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-7));
+  border-bottom: rem(1) solid light-dark(c(gray.1), c(dark.7));
 }
 
 .card:hover {
   background-color: light-dark(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0.02));
-  padding-left: rem(8);
-  padding-right: rem(8);
+  padding-left: spacing(lg);
+  padding-right: spacing(lg);
   margin-left: rem(-8);
   margin-right: rem(-8);
-  border-radius: var(--mantine-radius-lg);
 }
 
 .checkbox {
@@ -37,27 +36,27 @@
 }
 
 .title {
-  font-size: var(--mantine-font-size-md);
+  font-size: fz(md);
   font-weight: 400;
   line-height: 1.4;
-  color: light-dark(var(--mantine-color-dark-9), var(--mantine-color-white));
+  color: light-dark(c(dark.9), c(white));
 }
 
 .title[data-completed='true'] {
   text-decoration: line-through;
-  color: var(--mantine-color-dimmed);
+  color: c(dimmed);
 }
 
 .description {
-  font-size: var(--mantine-font-size-xs);
-  color: light-dark(var(--mantine-color-gray-6), var(--mantine-color-dark-3));
+  font-size: fz(xs);
+  color: light-dark(c(gray.6), c(dark.3));
   line-height: 1.4;
   white-space: pre-line;
 }
 
 .description[data-completed='true'] {
   text-decoration: line-through;
-  color: var(--mantine-color-dimmed);
+  color: c(dimmed);
 }
 
 .metaGroup {
@@ -75,17 +74,17 @@
 }
 
 .dateText {
-  font-size: var(--mantine-font-size-xs);
-  font-weight: 400;
-  color: var(--mantine-color-dimmed);
+  font-size: fz(xs);
+  font-weight: fw(regular);
+  color: c(dimmed);
 }
 
 .dateText[data-completed='true'] {
-  color: var(--mantine-color-dimmed);
+  color: c(dimmed);
 }
 
 .dateText[data-overdue='true']:not([data-completed='true']) {
-  color: var(--mantine-color-red-6);
+  color: c(red.6);
 }
 
 .actions {

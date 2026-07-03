@@ -16,6 +16,7 @@ export const NavbarItem = ({ leftSection, children, name, onClick }: NavbarItemP
     <Group
       data-selected={whatSelected === name}
       className={navbarItem}
+      gap="xs"
       onClick={() => {
         setWhatSelected(name);
         onClick?.(name);

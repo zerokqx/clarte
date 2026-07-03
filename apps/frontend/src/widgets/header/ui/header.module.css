@@ -1,8 +1,8 @@
 .profileButton {
   padding: 6px 12px;
-  border-radius: var(--mantine-radius-md);
+  border-radius: radius(md);
   transition: background-color 0.2s ease;
-  color: var(--mantine-color-text);
+  color: color(text);
 }
 
 .profileButton:hover {
