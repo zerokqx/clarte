@@ -4,11 +4,11 @@
   gap: spacing(xs);
   padding: calc(spacing(xs) / 2) spacing(sm);
   border-radius: radius(xl); /* Fully rounded capsule */
-  
-  background-color: light-dark(c(white), c(dark.6));
+
+  background-color: light-dark(c(white), c(dark.8));
   border: 1px solid light-dark(c(gray.2), c(dark.4));
   box-shadow: none;
-  
+
   transition: all 0.2s ease;
   user-select: none;
 }
@@ -45,7 +45,6 @@
 .exit-button {
   transition: all 0.15s ease;
   color: light-dark(c(gray.5), c(dark.3));
-  opacity: 0.6;
   border-radius: radius(xl);
 }
 

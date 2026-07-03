@@ -6,12 +6,12 @@ import { BottomNavigationSkeleton } from '@/widgets/bottom-navigation/ui/bottom-
 import { Header } from '@/widgets/header';
 import { Navbar } from '@/widgets/navbar';
 import { Spotlight } from '@/widgets/spotlight';
-import { ZenModeIndicator } from '@/widgets/zen-mode-indicator';
 import { AppShell, Stack } from '@mantine/core';
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { observer } from 'mobx-react-lite';
 import { lazy, Suspense } from 'react';
 import { ThemeToggle } from '@/features/theme-toggle';
+import { ZenModeIndicator } from '@/widgets/zen-mode-indicator';
 
 const LazyBottomNavigation = lazy(() =>
   import('@/widgets/bottom-navigation').then((m) => ({ default: m.BottomNavigation })),
