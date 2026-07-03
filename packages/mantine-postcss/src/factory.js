@@ -10,7 +10,7 @@
  */
 const factory = (pluginName, keyWord, variableCallback) => {
   const escapedKeyWord = keyWord.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
-  const regex = new RegExp(`${escapedKeyWord}\\(([^)]+)\\)`, 'g');
+  const regex = new RegExp(`\\b${escapedKeyWord}\\(([^)]+)\\)`, 'g');
 
   return {
     postcssPlugin: pluginName,

@@ -3,7 +3,7 @@
  * @typedef {import('postcss').Declaration} Declaration
  */
 
-const COLOR_REGEX = /c\(([^)]+)\)/g;
+const COLOR_REGEX = /\bc\(([^)]+)\)/g;
 
 /**
  * PostCSS плагин для трансформации функции c(color.number) в переменные Mantine
