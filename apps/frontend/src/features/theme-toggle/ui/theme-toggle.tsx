@@ -16,27 +16,20 @@ export const ThemeToggle = () => {
   const checked = computedColorScheme === 'dark';
 
   const sunIcon = (
-    <SunIcon
-      style={{ width: rem(12), height: rem(12) }}
-      color={theme.colors.yellow[4]}
-      weight="bold"
-    />
+    <SunIcon height={rem(12)} width={rem(12)} color={theme.colors.yellow[4]} weight="bold" />
   );
 
   const moonIcon = (
-    <MoonIcon
-      style={{ width: rem(12), height: rem(12) }}
-      color={theme.colors.blue[6]}
-      weight="bold"
-    />
+    <MoonIcon height={rem(12)} width={rem(12)} color={theme.colors.blue[6]} weight="bold" />
   );
 
   return (
     <Switch
       checked={checked}
       onChange={() => setColorScheme(checked ? 'light' : 'dark')}
+      label="Тема"
+      description="Переключите что бы сменить тему"
       size="md"
-      color="dark"
       thumbIcon={checked ? moonIcon : sunIcon}
     />
   );

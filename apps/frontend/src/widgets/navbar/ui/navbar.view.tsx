@@ -30,7 +30,9 @@ const DownSection = ({ children }: { children: ReactNode }) => (
 );
 
 const Body = ({ children }: { children: ReactNode }) => (
-  <Stack h={'100%'} style={{ flexGrow: 1 }}>{children}</Stack>
+  <Stack h={'100%'} p={'xs'} style={{ flexGrow: 1 }}>
+    {children}
+  </Stack>
 );
 
 export const Navbar = Object.assign(NavbarRoot, {

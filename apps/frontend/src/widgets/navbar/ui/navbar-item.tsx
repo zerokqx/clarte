@@ -14,7 +14,6 @@ export const NavbarItem = ({ leftSection, children, name, onClick }: NavbarItemP
   const { whatSelected, setWhatSelected } = useNavbar();
   return (
     <Group
-      pl={'sm'}
       data-selected={whatSelected === name}
       className={navbarItem}
       onClick={() => {

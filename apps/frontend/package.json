@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@clarte/mantine-helpers": "workspace:*",
+    "@clarte/mantine-postcss": "workspace:*",
     "@clarte/shared": "workspace:*",
     "@hocuspocus/provider": "^4.3.0",
     "@hookform/resolvers": "^5.4.0",

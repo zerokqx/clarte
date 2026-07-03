@@ -1,7 +1,11 @@
+const { color, spacing } = require('@clarte/mantine-postcss');
+
 module.exports = {
-  plugins: {
-    'postcss-preset-mantine': {},
-    'postcss-simple-vars': {
+  plugins: [
+    color(),
+    spacing(),
+    require('postcss-preset-mantine')({}),
+    require('postcss-simple-vars')({
       variables: {
         'mantine-breakpoint-xs': '36em',
         'mantine-breakpoint-sm': '48em',
@@ -9,6 +13,6 @@ module.exports = {
         'mantine-breakpoint-lg': '75em',
         'mantine-breakpoint-xl': '88em',
       },
-    },
-  },
+    }),
+  ],
 };
