@@ -3,9 +3,8 @@
   height: rem(36);
   padding: 0 rem(16);
   position: relative;
-  color: c(primary.2) 
+  color: c(primary.2);
 }
 
 .navbar-item[data-selected='true'] {
-
 }

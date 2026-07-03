@@ -1,4 +1,15 @@
-const { color, spacing, primary, radius } = require('@clarte/mantine-postcss');
+const {
+  color,
+  spacing,
+  primary,
+  radius,
+  shadow,
+  fz,
+  fw,
+  lh,
+  breakpoint,
+  z,
+} = require('@clarte/mantine-postcss');
 
 module.exports = {
   plugins: [
@@ -6,6 +17,12 @@ module.exports = {
     spacing(),
     primary(),
     radius(),
+    shadow(),
+    fz(),
+    fw(),
+    lh(),
+    breakpoint(),
+    z(),
     require('postcss-preset-mantine')({}),
     require('postcss-simple-vars')({
       variables: {
