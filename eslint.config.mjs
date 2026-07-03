@@ -162,6 +162,7 @@ export default [
                 'scope:shared',
                 'scope:shared-domain',
                 'scope:shared-contracts',
+                'scope:frontend',
               ],
             },
 
