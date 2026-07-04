@@ -1,4 +1,4 @@
-import { navbarItem } from './navbar-item.module.css';
+import { navbarItem } from './navbar-item.module.scss';
 import { Group } from '@mantine/core';
 import { ReactNode } from 'react';
 import { useNavbar } from '../model';

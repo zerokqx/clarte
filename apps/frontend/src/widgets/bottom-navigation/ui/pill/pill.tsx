@@ -1,8 +1,8 @@
 import { useLocation } from '@tanstack/react-router';
 import { motion } from 'motion/react';
 import { useEffect, useMemo, useState } from 'react';
-import { bottomNavigationConfig } from '../config';
-import { useBottomNavigation } from '../model';
+import { bottomNavigationConfig } from '../../config';
+import { useBottomNavigation } from '../../model';
 import classes from './pill.module.css';
 
 export const Pill = () => {

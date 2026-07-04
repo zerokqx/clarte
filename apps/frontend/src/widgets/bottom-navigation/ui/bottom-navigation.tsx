@@ -1,19 +1,19 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { Affix, Group, rem } from '@mantine/core';
+import { Affix, Group } from '@mantine/core';
 import { BottomNavigationItem } from './bottom-navigation-item';
 import { bottomNavigationConfig } from '../config';
-import { useIsAtBottom } from '@/shared/lib/use-is-at-bottom';
-import { M } from '@clarte/mantine-helpers';
 import { BottomNavigationProvider } from '../model';
 import { Pill } from './pill';
+import { useScrollDirection } from '@mantine/hooks';
+import classes from './bottom-navigation.module.css';
 
 export const BottomNavigation = () => {
-  const isAtBottom = useIsAtBottom(200);
+  const scrollDirection = useScrollDirection();
 
   return (
     <Affix position={{ bottom: 0, left: 0, right: 0 }} zIndex={99}>
       <AnimatePresence initial={false} mode="wait">
-        {!isAtBottom && (
+        {scrollDirection !== 'down' && (
           <motion.div
             key="bottom-navigation"
             initial={{ y: 100, opacity: 0 }}
@@ -23,14 +23,7 @@ export const BottomNavigation = () => {
           >
             <Group
               id="bottom-navigation-bar"
-              justify="space-around"
-              style={{
-                borderTop: `1px solid ${M.lightDark(M.color('gray')(3))(M.color('gray')(8))}`,
-              }}
-              bg={M.body()}
-              w="100%"
-              px="xs"
-              h={rem(56)}
+              className={classes.container}
             >
               <BottomNavigationProvider>
                 <Pill />

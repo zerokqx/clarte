@@ -1,5 +1,5 @@
 import { Link, LinkProps } from '@tanstack/react-router';
-import { ReactNode } from 'react';
+import { ReactNode, useCallback } from 'react';
 import classes from './bottom-navigation.module.css';
 import { useBottomNavigation } from '../model';
 
@@ -16,7 +16,19 @@ export const BottomNavigationItem = ({
   to,
   activeOptions,
 }: BottomNavigationItemProps) => {
+  console.log(classes)
   const bottomNavigation = useBottomNavigation();
+
+  const handleRef = useCallback(
+    (node: HTMLSpanElement | null) => {
+      if (node) {
+        bottomNavigation.registerRef(to, node);
+      } else {
+        bottomNavigation.unregisterRef(to);
+      }
+    },
+    [to, bottomNavigation],
+  );
 
   return (
     <Link
@@ -27,13 +39,7 @@ export const BottomNavigationItem = ({
     >
       <span
         className={classes.icon}
-        ref={(node) => {
-          if (node) {
-            bottomNavigation.registerRef(to, node);
-          } else {
-            bottomNavigation.unregisterRef(to);
-          }
-        }}
+        ref={handleRef}
       >
         {children}
       </span>

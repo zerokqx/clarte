@@ -26,7 +26,6 @@
   color: light-dark(c(primary.8), c(primary.4));
 }
 
-/* Лейбл под иконкой */
 .label {
   font-size: rem(10);
   font-weight: fw(600);
@@ -42,4 +41,16 @@
 .item[data-active] .label {
   opacity: 1;
   transform: translateY(0);
+}
+
+.container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: rem(1) solid light-dark(c(gray.3), c(dark.3));
+  background-color: c(body);
+  width: 100%;
+  padding-left: spacing(xs);
+  padding-right: spacing(xs);
+  height: rem(56);
 }

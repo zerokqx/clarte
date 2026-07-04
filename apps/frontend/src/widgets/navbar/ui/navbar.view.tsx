@@ -1,3 +1,4 @@
+import classes from './navbar-item.module.scss';
 import { Divider, Stack } from '@mantine/core';
 import { ReactNode } from 'react';
 import { NavbarItem } from './navbar-item';
@@ -7,10 +8,11 @@ export interface NavbarProps {
   children: ReactNode;
 }
 
+
 const NavbarRoot = ({ children }: NavbarProps) => {
   return (
     <NavbarProvider>
-      <Stack h={'100%'}>{children}</Stack>
+      <Stack className={classes.navbar} h={'100%'}>{children}</Stack>
     </NavbarProvider>
   );
 };
