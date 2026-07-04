@@ -12,23 +12,17 @@ export const BottomNavigationProvider = ({ children }: BottomNavigationProviderP
     (name) => refsMap.current.get(name),
     [],
   );
-  const registerRef = useCallback<BottomNavigationContext['registerRef']>(
-    (name, ref) => {
-      if (refsMap.current.get(name) === ref) return;
-      refsMap.current.set(name, ref);
-      setTick((t) => t + 1);
-    },
-    [],
-  );
+  const registerRef = useCallback<BottomNavigationContext['registerRef']>((name, ref) => {
+    if (refsMap.current.get(name) === ref) return;
+    refsMap.current.set(name, ref);
+    setTick((t) => t + 1);
+  }, []);
 
-  const unregisterRef = useCallback<BottomNavigationContext['unregisterRef']>(
-    (name) => {
-      if (!refsMap.current.has(name)) return;
-      refsMap.current.delete(name);
-      setTick((t) => t + 1);
-    },
-    [],
-  );
+  const unregisterRef = useCallback<BottomNavigationContext['unregisterRef']>((name) => {
+    if (!refsMap.current.has(name)) return;
+    refsMap.current.delete(name);
+    setTick((t) => t + 1);
+  }, []);
 
   const value = useMemo<BottomNavigationContext>(
     () => ({ unregisterRef, registerRef, getRef }),

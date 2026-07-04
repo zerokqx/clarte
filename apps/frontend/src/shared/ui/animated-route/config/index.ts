@@ -1,1 +1,1 @@
-export * from "./route-variants"
+export * from './route-variants';

@@ -8,11 +8,12 @@ export interface NavbarProps {
   children: ReactNode;
 }
 
-
 const NavbarRoot = ({ children }: NavbarProps) => {
   return (
     <NavbarProvider>
-      <Stack className={classes.navbar} h={'100%'}>{children}</Stack>
+      <Stack className={classes.navbar} h={'100%'}>
+        {children}
+      </Stack>
     </NavbarProvider>
   );
 };
