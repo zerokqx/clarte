@@ -1,4 +1,4 @@
-import { main } from './index.module.css';
+import { main } from './index.module.scss';
 import { Group, ThemeIcon, Text } from '@mantine/core';
 import { WarningIcon } from '@phosphor-icons/react/dist/ssr/Warning';
 

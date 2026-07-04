@@ -1,0 +1,14 @@
+@use "@/shared/styles/mantine" as *;
+
+.main {
+  background-color: light-dark(c('red.2'), c('red.7'));
+  border-color: light-dark(c('red.4'), c('red.6'));
+  border-radius: rem(8);
+  border-style: solid;
+  padding: rem(8);
+  border-width: rem(1.6);
+
+  & * {
+    color: light-dark(c('red.4'), c('red.6'));
+  }
+}

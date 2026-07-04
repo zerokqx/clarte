@@ -15,11 +15,7 @@ interface RegisterFormProps {
   rootError?: string | null;
 }
 
-export const RegisterFormView = ({
-  onSubmit,
-  isSubmitting,
-  rootError,
-}: RegisterFormProps) => {
+export const RegisterFormView = ({ onSubmit, isSubmitting, rootError }: RegisterFormProps) => {
   const {
     register,
     handleSubmit,

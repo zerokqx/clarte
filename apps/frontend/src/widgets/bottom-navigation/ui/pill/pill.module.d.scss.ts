@@ -1,4 +1,4 @@
 declare const classNames: {
-  readonly pill: 'pill';
+  readonly bottomNavPill: 'bottomNavPill';
 };
 export = classNames;

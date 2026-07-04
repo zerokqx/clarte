@@ -1,0 +1,112 @@
+@use "@/shared/styles/mantine" as *;
+
+
+.todo {
+  display: flex;
+  align-items: flex-start;
+  gap: spacing(xs);
+  padding: spacing(xs);
+  transition: all 0.15s ease;
+  background-color: transparent;
+  border: none;
+  border-bottom: rem(1) solid light-dark(c('gray.1'), c('dark.7'));
+
+  &:hover {
+    border-radius: radius(lg);
+    background-color: light-dark(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0.02));
+    padding-left: spacing(lg);
+    padding-right: spacing(lg);
+    margin-left: rem(-8);
+    margin-right: rem(-8);
+  }
+
+  &__checkbox {
+    margin-top: rem(2);
+    cursor: pointer;
+  }
+
+  &__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: rem(4);
+  }
+
+  &__text-group {
+    display: flex;
+    flex-direction: column;
+    gap: rem(2);
+  }
+
+  &__title {
+    font-size: fz(md);
+    font-weight: 400;
+    line-height: 1.4;
+    color: light-dark(c('dark.9'), c(white));
+
+    &[data-completed='true'] {
+      text-decoration: line-through;
+      color: c(dimmed);
+    }
+  }
+
+  &__description {
+    font-size: fz(xs);
+    color: light-dark(c('gray.6'), c('dark.3'));
+    line-height: 1.4;
+    white-space: pre-line;
+
+    &[data-completed='true'] {
+      text-decoration: line-through;
+      color: c(dimmed);
+    }
+  }
+
+  &__meta-group {
+    display: flex;
+    align-items: center;
+    gap: rem(12);
+    flex-wrap: wrap;
+    margin-top: rem(2);
+  }
+
+  &__due-date {
+    display: flex;
+    align-items: center;
+    gap: rem(4);
+  }
+
+  &__date-text {
+    font-size: fz(xs);
+    font-weight: fw(regular);
+    color: c(dimmed);
+
+    &[data-completed='true'] {
+      color: c(dimmed);
+    }
+
+    &[data-overdue='true']:not([data-completed='true']) {
+      color: c('red.6');
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: rem(4);
+    align-self: center;
+  }
+
+  &__action-button {
+    opacity: 0;
+    transition: opacity 0.15s ease;
+
+    &:hover {
+      opacity: 1 !important;
+    }
+  }
+
+  &:hover &__action-button {
+    opacity: 0.6;
+  }
+}

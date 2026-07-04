@@ -1,9 +1,0 @@
-.pill {
-  position: absolute;
-  left: 0;
-  height: rem(32);
-  background-color: light-dark(alpha(c(primary.5), 0.12), alpha(c(primary.4), 0.15));
-  border-radius: radius(xl);
-  z-index: 0;
-  pointer-events: none;
-}

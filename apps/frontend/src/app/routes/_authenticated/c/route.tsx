@@ -15,7 +15,7 @@ const LazyBottomNavigation = lazy(() =>
 );
 
 const LazyNavbarContent = lazy(() =>
-  import('./navbar-content').then((m) => ({ default: m.NavbarContent })),
+  import('./-navbar-content').then((m) => ({ default: m.NavbarContent })),
 );
 
 export const Route = createFileRoute('/_authenticated/c')({
@@ -25,41 +25,41 @@ export const Route = createFileRoute('/_authenticated/c')({
 function RouteComponent() {
   const isMobile = M.useBreakpointMediaQuery('max-width', 'xs');
   return (
-      <AppShell
-        padding="md"
-        header={{ collapsed: !layoutStore.headerVisible, height: 50 }}
-        navbar={{
-          collapsed: {
-            desktop: isMobile || !layoutStore.navbarVisible,
-            mobile: true,
-          },
-          width: 300,
-          breakpoint: 'xs',
-        }}
-      >
-        <Spotlight />
-        <AppShell.Header>
-          <Header />
-        </AppShell.Header>
-        {!isMobile && (
-          <AppShell.Navbar>
-            <Suspense fallback={<Skeleton height="100%" />}>
-              <LazyNavbarContent />
+    <AppShell
+      padding="md"
+      header={{ collapsed: !layoutStore.headerVisible, height: 50 }}
+      navbar={{
+        collapsed: {
+          desktop: isMobile || !layoutStore.navbarVisible,
+          mobile: true,
+        },
+        width: 300,
+        breakpoint: 'xs',
+      }}
+    >
+      <Spotlight />
+      <AppShell.Header>
+        <Header />
+      </AppShell.Header>
+      {!isMobile && (
+        <AppShell.Navbar>
+          <Suspense fallback={<Skeleton height="100%" />}>
+            <LazyNavbarContent />
+          </Suspense>
+        </AppShell.Navbar>
+      )}
+      <AppShell.Main>
+        <Stack gap="md">
+          <ZenModeIndicator />
+          <ThemeToggle />
+          {isMobile && (
+            <Suspense fallback={<BottomNavigationSkeleton />}>
+              <LazyBottomNavigation />
             </Suspense>
-          </AppShell.Navbar>
-        )}
-        <AppShell.Main>
-          <Stack gap="md">
-            <ZenModeIndicator />
-            <ThemeToggle />
-            {isMobile && (
-              <Suspense fallback={<BottomNavigationSkeleton />}>
-                <LazyBottomNavigation />
-              </Suspense>
-            )}
-            <Outlet />
-          </Stack>
-        </AppShell.Main>
-      </AppShell>
+          )}
+          <Outlet />
+        </Stack>
+      </AppShell.Main>
+    </AppShell>
   );
 }

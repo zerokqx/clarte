@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { useEffect, useMemo, useState } from 'react';
 import { bottomNavigationConfig } from '../../config';
 import { useBottomNavigation } from '../../model';
-import classes from './pill.module.css';
+import classes from './pill.module.scss';
 
 export const Pill = () => {
   const [dimensions, setDimensions] = useState({ x: 0, width: 0, top: 0 });
@@ -45,7 +45,7 @@ export const Pill = () => {
 
   return (
     <motion.div
-      className={classes.pill}
+      className={classes.bottomNavPill}
       animate={{
         x: dimensions.x,
         width: dimensions.width,

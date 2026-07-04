@@ -5,7 +5,7 @@ import { bottomNavigationConfig } from '../config';
 import { BottomNavigationProvider } from '../model';
 import { Pill } from './pill';
 import { useScrollDirection } from '@mantine/hooks';
-import classes from './bottom-navigation.module.css';
+import classes from './bottom-navigation.module.scss';
 
 export const BottomNavigation = () => {
   const scrollDirection = useScrollDirection();
@@ -21,10 +21,7 @@ export const BottomNavigation = () => {
             exit={{ y: 100, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 400, damping: 35 }}
           >
-            <Group
-              id="bottom-navigation-bar"
-              className={classes.container}
-            >
+            <Group id="bottom-navigation-bar" className={classes.bottomNavContainer}>
               <BottomNavigationProvider>
                 <Pill />
                 {bottomNavigationConfig.map((item, index) => (

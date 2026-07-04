@@ -3,7 +3,7 @@ import { CalendarIcon } from '@phosphor-icons/react/dist/csr/Calendar';
 import { PencilSimpleIcon } from '@phosphor-icons/react/dist/csr/PencilSimple';
 import { TrashIcon } from '@phosphor-icons/react/dist/csr/Trash';
 import { ClockIcon } from '@phosphor-icons/react/dist/csr/Clock';
-import classes from './todo.module.css';
+import classes from './todo.module.scss';
 import { M } from '@clarte/mantine-helpers';
 
 export interface TodoDataProp {
@@ -34,36 +34,36 @@ export const Todo = ({ data, onToggleComplete, onEdit, onDelete }: TodoProps) =>
   });
 
   return (
-    <div className={classes.card}>
+    <div className={classes.todo}>
       <Checkbox
         size="md"
         checked={data.isCompleted}
         onChange={onToggleComplete}
         color="teal"
         radius="xl"
-        className={classes.checkbox}
+        className={classes.todoCheckbox}
       />
 
-      <div className={classes.content}>
-        <div className={classes.textGroup}>
-          <Text className={classes.title} data-completed={data.isCompleted}>
+      <div className={classes.todoContent}>
+        <div className={classes.todoTextGroup}>
+          <Text className={classes.todoTitle} data-completed={data.isCompleted}>
             {data.title}
           </Text>
           {data.description && (
-            <Text className={classes.description} data-completed={data.isCompleted}>
+            <Text className={classes.todoDescription} data-completed={data.isCompleted}>
               {data.description}
             </Text>
           )}
         </div>
 
-        <div className={classes.metaGroup}>
-          <div className={classes.dueDate}>
+        <div className={classes.todoMetaGroup}>
+          <div className={classes.todoDueDate}>
             <CalendarIcon
               size={14}
               color={data.isCompleted ? M.dimmed() : isOverdue ? M.color('red')(6) : M.primary(6)}
             />
             <Text
-              className={classes.dateText}
+              className={classes.todoDateText}
               data-completed={data.isCompleted}
               data-overdue={isOverdue}
             >
@@ -93,7 +93,7 @@ export const Todo = ({ data, onToggleComplete, onEdit, onDelete }: TodoProps) =>
         </div>
       </div>
 
-      <div className={classes.actions}>
+      <div className={classes.todoActions}>
         <Tooltip label="Редактировать" position="top" withArrow>
           <ActionIcon
             variant="subtle"
@@ -101,7 +101,7 @@ export const Todo = ({ data, onToggleComplete, onEdit, onDelete }: TodoProps) =>
             onClick={onEdit}
             radius="md"
             size="md"
-            className={classes.actionButton}
+            className={classes.todoActionButton}
           >
             <PencilSimpleIcon size={18} />
           </ActionIcon>
@@ -114,7 +114,7 @@ export const Todo = ({ data, onToggleComplete, onEdit, onDelete }: TodoProps) =>
             onClick={onDelete}
             radius="md"
             size="md"
-            className={classes.actionButton}
+            className={classes.todoActionButton}
           >
             <TrashIcon size={18} />
           </ActionIcon>
@@ -126,16 +126,16 @@ export const Todo = ({ data, onToggleComplete, onEdit, onDelete }: TodoProps) =>
 
 export const TodoSkeleton = () => {
   return (
-    <div className={classes.card} style={{ pointerEvents: 'none' }}>
-      <Skeleton height={20} width={20} radius="xl" className={classes.checkbox} />
+    <div className={classes.todo} style={{ pointerEvents: 'none' }}>
+      <Skeleton height={20} width={20} radius="xl" className={classes.todoCheckbox} />
 
-      <div className={classes.content}>
-        <div className={classes.textGroup}>
+      <div className={classes.todoContent}>
+        <div className={classes.todoTextGroup}>
           <Skeleton height={14} width="40%" radius="sm" style={{ marginBottom: 6 }} />
           <Skeleton height={12} width="70%" radius="sm" />
         </div>
 
-        <div className={classes.metaGroup} style={{ marginTop: 6 }}>
+        <div className={classes.todoMetaGroup} style={{ marginTop: 6 }}>
           <Skeleton height={14} width={90} radius="sm" />
           <Skeleton height={14} width={65} radius="sm" />
         </div>

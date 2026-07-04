@@ -1,27 +1,4 @@
-@use "sass:string";
-
-@function rem($val) {
-  @return string.unquote("rem(#{$val})");
-}
-@function alpha($color, $val) {
-  @return string.unquote("alpha(#{$color}, #{$val})");
-}
-@function c($val) {
-  $unquoted: string.unquote($val);
-  @return string.unquote("c(#{$unquoted})");
-}
-@function spacing($val) {
-  @return string.unquote("spacing(#{$val})");
-}
-@function fz($val) {
-  @return string.unquote("fz(#{$val})");
-}
-@function fw($val) {
-  @return string.unquote("fw(#{$val})");
-}
-@function radius($val) {
-  @return string.unquote("radius(#{$val})");
-}
+@use "@/shared/styles/mantine" as *;
 
 .navbar {
   padding-left: spacing(xs);

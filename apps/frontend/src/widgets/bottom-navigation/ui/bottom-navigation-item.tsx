@@ -1,6 +1,6 @@
 import { Link, LinkProps } from '@tanstack/react-router';
 import { ReactNode, useCallback } from 'react';
-import classes from './bottom-navigation.module.css';
+import classes from './bottom-navigation.module.scss';
 import { useBottomNavigation } from '../model';
 
 export interface BottomNavigationItemProps {
@@ -16,7 +16,6 @@ export const BottomNavigationItem = ({
   to,
   activeOptions,
 }: BottomNavigationItemProps) => {
-  console.log(classes)
   const bottomNavigation = useBottomNavigation();
 
   const handleRef = useCallback(
@@ -34,16 +33,13 @@ export const BottomNavigationItem = ({
     <Link
       to={to}
       activeOptions={activeOptions}
-      className={classes.item}
+      className={classes.bottomNavItem}
       activeProps={{ 'data-active': '' }}
     >
-      <span
-        className={classes.icon}
-        ref={handleRef}
-      >
+      <span className={classes.bottomNavIcon} ref={handleRef}>
         {children}
       </span>
-      {label && <span className={classes.label}>{label}</span>}
+      {label && <span className={classes.bottomNavLabel}>{label}</span>}
     </Link>
   );
 };

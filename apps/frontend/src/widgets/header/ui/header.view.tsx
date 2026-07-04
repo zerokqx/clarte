@@ -1,6 +1,6 @@
 import { SidebarIcon } from '@phosphor-icons/react/dist/csr/Sidebar';
 import { ActionIcon, Avatar, Group, Skeleton, Text, UnstyledButton } from '@mantine/core';
-import classes from './header.module.css';
+import classes from './header.module.scss';
 import { useMediaQuery } from '@mantine/hooks';
 import { lazy, Suspense } from 'react';
 
