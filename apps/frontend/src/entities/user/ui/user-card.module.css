@@ -1,0 +1,78 @@
+.userCard {
+  background-color: light-dark(c(white), c(dark.6));
+  border: 1px solid light-dark(c(gray.2), c(dark.4));
+  border-radius: radius(md);
+  overflow: hidden;
+  box-shadow: shadow(sm);
+  max-width: 420px;
+  width: 100%;
+}
+
+.header {
+  position: relative;
+  background: linear-gradient(135deg, alpha(c(violet.5), 0.15), alpha(c(violet.7), 0.25));
+  padding: spacing(xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: spacing(md);
+  border-bottom: 1px solid light-dark(c(gray.1), c(dark.5));
+}
+
+.avatar {
+  border: 4px solid light-dark(c(white), c(dark.6));
+  box-shadow: shadow(md);
+}
+
+.name {
+  font-size: fz(lg);
+  font-weight: fw(bold);
+  color: light-dark(c(dark.8), c(white));
+  line-height: lh(md);
+}
+
+.status {
+  font-size: fz(xs);
+  color: c(violet.4);
+  font-weight: fw(medium);
+}
+
+.infoSection {
+  padding: spacing(md) spacing(lg);
+}
+
+.infoRow {
+  display: flex;
+  align-items: flex-start;
+  gap: spacing(md);
+  padding: spacing(sm) 0;
+  
+  &:not(:last-child) {
+    border-bottom: 1px solid light-dark(c(gray.1), c(dark.5));
+  }
+}
+
+.iconWrapper {
+  color: c(violet.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 2px;
+}
+
+.infoContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.value {
+  font-size: fz(sm);
+  color: light-dark(c(dark.7), c(white));
+  font-weight: fw(medium);
+}
+
+.label {
+  font-size: fz(xs);
+  color: light-dark(c(gray.5), c(dark.2));
+}

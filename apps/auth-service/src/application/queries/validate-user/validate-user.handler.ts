@@ -24,7 +24,7 @@ export class ValidateUserHandler implements IQueryHandler<ValidateUserQuery> {
       Effect.tryPromise({
         try: () => this.userClient.getCredentialsByLogin(login),
         catch: (error) => {
-          if (error && E.errorCode(error)(2) === 5) {
+          if (error && E.errorCode()(error) === 5) {
             return new UserCredentialsNotFound(`Credentials for ${login} not found`);
           }
           return new UserServiceUnavailableException(`User service is currently unavailable`);

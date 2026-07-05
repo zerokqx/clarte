@@ -12,36 +12,20 @@ export class UserClient implements IUserClient, OnModuleInit {
   private editService!: User.UserEditServiceClient;
   private storageService!: User.UserStorageServiceClient;
 
-  constructor(
-    @InjectUserGrpcClient() private readonly userGrpcClient: ClientGrpc,
-  ) {}
+  constructor(@InjectUserGrpcClient() private readonly userGrpcClient: ClientGrpc) {}
   onModuleInit() {
-    this.findService = this.userGrpcClient.getService(
-      User.USER_FIND_SERVICE_NAME,
-    );
-    this.createService = this.userGrpcClient.getService(
-      User.USER_CREATE_SERVICE_NAME,
-    );
-    this.credentialsService = this.userGrpcClient.getService(
-      User.USER_CREDENTIALS_SERVICE_NAME,
-    );
-    this.editService = this.userGrpcClient.getService(
-      User.USER_EDIT_SERVICE_NAME,
-    );
-    this.storageService = this.userGrpcClient.getService(
-      User.USER_STORAGE_SERVICE_NAME,
-    );
+    this.findService = this.userGrpcClient.getService(User.USER_FIND_SERVICE_NAME);
+    this.createService = this.userGrpcClient.getService(User.USER_CREATE_SERVICE_NAME);
+    this.credentialsService = this.userGrpcClient.getService(User.USER_CREDENTIALS_SERVICE_NAME);
+    this.editService = this.userGrpcClient.getService(User.USER_EDIT_SERVICE_NAME);
+    this.storageService = this.userGrpcClient.getService(User.USER_STORAGE_SERVICE_NAME);
   }
 
-  findUserById(
-    id: string,
-  ): Observable<User.UserFindByIdResponse> {
+  findUserById(id: string): Observable<User.UserFindByIdResponse> {
     return this.findService.findById({ id });
   }
 
-  findUserByLogin(
-    login: string,
-  ): Observable<User.UserFindByLoginResponse> {
+  findUserByLogin(login: string): Observable<User.UserFindByLoginResponse> {
     return this.findService.findByLogin({ login });
   }
 
@@ -49,16 +33,16 @@ export class UserClient implements IUserClient, OnModuleInit {
     return this.createService.userCreate(data).pipe(map(() => void 0));
   }
 
-  getCredentialsByLogin(
-    login: string,
-  ): Observable<User.UserGetCredentialsByLoginResponse> {
+  getCredentialsByLogin(login: string): Observable<User.UserGetCredentialsByLoginResponse> {
     return this.credentialsService.getCredentialsByLogin({ login });
   }
 
-  userChangeAvatar(
-    data: User.UserEditChangeAvatarRequest,
-  ): Observable<void> {
+  userChangeAvatar(data: User.UserEditChangeAvatarRequest): Observable<void> {
     return this.editService.userChangeAvatar(data).pipe(map(() => void 0));
+  }
+
+  userChangeLogin(data: User.UserEditChangeLoginRequest): Observable<void> {
+    return this.editService.userChangeLogin(data).pipe(map(() => void 0));
   }
 
   uploadPresignedUrl(

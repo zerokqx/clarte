@@ -30,6 +30,7 @@ import {
 import { RmqModule } from '@clarte/shared-nest/modules';
 import { PresignedUploadHandler } from './application/queries/presigned-upload';
 import { UserStorageController } from './presentation/user-storage.rpc.controller';
+import { ChangeLoginHandler } from './application/commands/change-login';
 
 @Module({
   imports: [
@@ -61,6 +62,7 @@ import { UserStorageController } from './presentation/user-storage.rpc.controlle
     UserCreateHandler,
     ChangeAvatarHandler,
     PresignedUploadHandler,
+    ChangeLoginHandler,
     {
       provide: USER_READ_REPOSITORY,
       useClass: UserReadRepository,

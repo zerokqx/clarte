@@ -25,7 +25,7 @@ export class RegisterPasswordHandler implements ICommandHandler<RegisterPassword
         catch: (error) => error,
       }),
       Effect.catchAll((error) => {
-        if (error && E.errorCode(error)(2) === 5) {
+        if (error && E.errorCode()(error) === 5) {
           return Effect.succeed(null);
         }
         return Effect.fail(

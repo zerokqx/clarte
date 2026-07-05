@@ -34,7 +34,7 @@ export class LoginPasswordHandler implements ICommandHandler<LoginPasswordComman
       Effect.tryPromise({
         try: () => this.userClient.getCredentialsByLogin(command.login),
         catch: (error) => {
-          if (error && E.errorCode(error)(2) === 5) {
+          if (error && E.errorCode()(error) === 5) {
             return new UserCredentialsNotFound(`Credentials for ${command.login} not found`);
           }
           return new UserServiceUnavailableException(`User service is currently unavailable`);

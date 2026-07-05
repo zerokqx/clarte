@@ -5,93 +5,190 @@
  * Gateway for microservices
  * OpenAPI spec version: 1.0
  */
-import {
-  useMutation
-} from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import type {
   MutationFunction,
   QueryClient,
   UseMutationOptions,
-  UseMutationResult
+  UseMutationResult,
 } from '@tanstack/react-query';
 
-import type {
-  UserChangeAvatarDTO
-} from '../../model';
+import type { UserChangeAvatarDTO, UserChangeLoginDTO } from '../../model';
 
 import { customInstance } from '../../../axios-custom-instance';
-import type { ErrorType , BodyType } from '../../../axios-custom-instance';
+import type { ErrorType, BodyType } from '../../../axios-custom-instance';
 
 type AwaitedInput<T> = PromiseLike<T> | T;
 
-      type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
-
+type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
-
-
 
 /**
  * @summary Изменить аватар пользователя
  */
 export const userEditControllerChangeAvatar = (
-    userChangeAvatarDTO: BodyType<UserChangeAvatarDTO>,
- options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+  userChangeAvatarDTO: BodyType<UserChangeAvatarDTO>,
+  options?: SecondParameter<typeof customInstance>,
+  signal?: AbortSignal,
 ) => {
-
-
-      return customInstance<void>(
-      {url: `/api/users/change-avatar`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: userChangeAvatarDTO, signal
+  return customInstance<void>(
+    {
+      url: `/api/users/change-avatar`,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      data: userChangeAvatarDTO,
+      signal,
     },
-      options);
-    }
+    options,
+  );
+};
 
+export const getUserEditControllerChangeAvatarMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof userEditControllerChangeAvatar>>,
+    TError,
+    { data: BodyType<UserChangeAvatarDTO> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customInstance>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof userEditControllerChangeAvatar>>,
+  TError,
+  { data: BodyType<UserChangeAvatarDTO> },
+  TContext
+> => {
+  const mutationKey = ['userEditControllerChangeAvatar'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof userEditControllerChangeAvatar>>,
+    { data: BodyType<UserChangeAvatarDTO> }
+  > = (props) => {
+    const { data } = props ?? {};
 
+    return userEditControllerChangeAvatar(data, requestOptions);
+  };
 
-export const getUserEditControllerChangeAvatarMutationOptions = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userEditControllerChangeAvatar>>, TError,{data: BodyType<UserChangeAvatarDTO>}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof userEditControllerChangeAvatar>>, TError,{data: BodyType<UserChangeAvatarDTO>}, TContext> => {
+  return { mutationFn, ...mutationOptions };
+};
 
-const mutationKey = ['userEditControllerChangeAvatar'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+export type UserEditControllerChangeAvatarMutationResult = NonNullable<
+  Awaited<ReturnType<typeof userEditControllerChangeAvatar>>
+>;
+export type UserEditControllerChangeAvatarMutationBody = BodyType<UserChangeAvatarDTO>;
+export type UserEditControllerChangeAvatarMutationError = ErrorType<unknown>;
 
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof userEditControllerChangeAvatar>>, {data: BodyType<UserChangeAvatarDTO>}> = (props) => {
-          const {data} = props ?? {};
-
-          return  userEditControllerChangeAvatar(data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type UserEditControllerChangeAvatarMutationResult = NonNullable<Awaited<ReturnType<typeof userEditControllerChangeAvatar>>>
-    export type UserEditControllerChangeAvatarMutationBody = BodyType<UserChangeAvatarDTO>
-    export type UserEditControllerChangeAvatarMutationError = ErrorType<unknown>
-
-    /**
+/**
  * @summary Изменить аватар пользователя
  */
-export const useUserEditControllerChangeAvatar = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userEditControllerChangeAvatar>>, TError,{data: BodyType<UserChangeAvatarDTO>}, TContext>, request?: SecondParameter<typeof customInstance>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof userEditControllerChangeAvatar>>,
-        TError,
-        {data: BodyType<UserChangeAvatarDTO>},
-        TContext
-      > => {
-      return useMutation(getUserEditControllerChangeAvatarMutationOptions(options), queryClient);
-    }
+export const useUserEditControllerChangeAvatar = <TError = ErrorType<unknown>, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof userEditControllerChangeAvatar>>,
+      TError,
+      { data: BodyType<UserChangeAvatarDTO> },
+      TContext
+    >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof userEditControllerChangeAvatar>>,
+  TError,
+  { data: BodyType<UserChangeAvatarDTO> },
+  TContext
+> => {
+  return useMutation(getUserEditControllerChangeAvatarMutationOptions(options), queryClient);
+};
+/**
+ * @summary Изменить логин пользователя
+ */
+export const userEditControllerChangeLogin = (
+  userChangeLoginDTO: BodyType<UserChangeLoginDTO>,
+  options?: SecondParameter<typeof customInstance>,
+  signal?: AbortSignal,
+) => {
+  return customInstance<void>(
+    {
+      url: `/api/users/change-login`,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      data: userChangeLoginDTO,
+      signal,
+    },
+    options,
+  );
+};
+
+export const getUserEditControllerChangeLoginMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof userEditControllerChangeLogin>>,
+    TError,
+    { data: BodyType<UserChangeLoginDTO> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customInstance>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof userEditControllerChangeLogin>>,
+  TError,
+  { data: BodyType<UserChangeLoginDTO> },
+  TContext
+> => {
+  const mutationKey = ['userEditControllerChangeLogin'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof userEditControllerChangeLogin>>,
+    { data: BodyType<UserChangeLoginDTO> }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return userEditControllerChangeLogin(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type UserEditControllerChangeLoginMutationResult = NonNullable<
+  Awaited<ReturnType<typeof userEditControllerChangeLogin>>
+>;
+export type UserEditControllerChangeLoginMutationBody = BodyType<UserChangeLoginDTO>;
+export type UserEditControllerChangeLoginMutationError = ErrorType<unknown>;
+
+/**
+ * @summary Изменить логин пользователя
+ */
+export const useUserEditControllerChangeLogin = <TError = ErrorType<unknown>, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof userEditControllerChangeLogin>>,
+      TError,
+      { data: BodyType<UserChangeLoginDTO> },
+      TContext
+    >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof userEditControllerChangeLogin>>,
+  TError,
+  { data: BodyType<UserChangeLoginDTO> },
+  TContext
+> => {
+  return useMutation(getUserEditControllerChangeLoginMutationOptions(options), queryClient);
+};

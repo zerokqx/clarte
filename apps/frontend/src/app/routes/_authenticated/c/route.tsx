@@ -8,6 +8,7 @@ import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { observer } from 'mobx-react-lite';
 import { lazy, Suspense } from 'react';
 import { ZenModeIndicator } from '@/widgets/zen-mode-indicator';
+import { ChangeLogin } from '@/features/change-login';
 
 const LazyBottomNavigation = lazy(() =>
   import('@/widgets/bottom-navigation').then((m) => ({ default: m.BottomNavigation })),
@@ -55,6 +56,7 @@ function RouteComponent() {
               <LazyBottomNavigation />
             </Suspense>
           )}
+          <ChangeLogin />
           <Outlet />
         </Stack>
       </AppShell.Main>

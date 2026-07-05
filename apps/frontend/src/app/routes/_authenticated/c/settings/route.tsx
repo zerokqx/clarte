@@ -1,3 +1,4 @@
+import { UserIcon } from '@phosphor-icons/react/dist/csr/User';
 import { PaletteIcon } from '@phosphor-icons/react/dist/csr/Palette';
 import { Box, Tabs } from '@mantine/core';
 import {
@@ -24,11 +25,16 @@ function RouteComponent() {
     navigate({ to: `/c/settings/${value}` });
   };
   const currentTab = location.pathname.split('/').pop() as string;
+
   return (
     <Tabs value={currentTab} onChange={handleOnChange} orientation="vertical">
       <Tabs.List>
         <Tabs.Tab leftSection={<PaletteIcon weight="bold" size={16} />} value="theme">
           Тема
+        </Tabs.Tab>
+
+        <Tabs.Tab leftSection={<UserIcon weight="bold" size={16} />} value="account">
+          Аккаунт
         </Tabs.Tab>
       </Tabs.List>
 
