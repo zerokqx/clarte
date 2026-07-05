@@ -46,7 +46,7 @@
   align-items: flex-start;
   gap: spacing(md);
   padding: spacing(sm) 0;
-  
+
   &:not(:last-child) {
     border-bottom: 1px solid light-dark(c(gray.1), c(dark.5));
   }

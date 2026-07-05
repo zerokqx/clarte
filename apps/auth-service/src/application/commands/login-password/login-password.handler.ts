@@ -55,7 +55,7 @@ export class LoginPasswordHandler implements ICommandHandler<LoginPasswordComman
             try: () => user.comparePassword(command.password, this.passwordHasher),
             catch: (error) =>
               new PasswordVerificationFailedException(
-                `Password verification failed: ${E.errorMessage(error)('Unknown Error')}`,
+                `Password verification failed: ${E.errorMessage('Unknown Error')(error)}`,
               ),
           }),
           Effect.filterOrFail(
@@ -84,7 +84,7 @@ export class LoginPasswordHandler implements ICommandHandler<LoginPasswordComman
             };
           },
           catch: (error) =>
-            new Error(`Token generation failed: ${E.errorMessage(error)('Unknown Error')}`),
+            new Error(`Token generation failed: ${E.errorMessage('Unknown Error')(error)}`),
         }),
       ),
       Effect.runPromiseExit,

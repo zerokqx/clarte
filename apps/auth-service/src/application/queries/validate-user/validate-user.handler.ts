@@ -45,7 +45,7 @@ export class ValidateUserHandler implements IQueryHandler<ValidateUserQuery> {
             try: () => authUser.comparePassword(password, this.passwordHasher),
             catch: (error) =>
               new PasswordVerificationFailedException(
-                `Password verification failed: ${E.errorMessage(error)('Unknown error')}`,
+                `Password verification failed: ${E.errorMessage('Unknown error')(error)}`,
               ),
           }),
           Effect.flatMap((isValid) =>

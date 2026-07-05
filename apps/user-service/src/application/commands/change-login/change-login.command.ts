@@ -9,6 +9,6 @@ export class ChangeLoginCommand extends Command<void> {
   readonly login!: string;
   constructor(props: ChangeLoginCommandProps) {
     super();
-    Object.assign(props);
+    Object.assign(this, props);
   }
 }

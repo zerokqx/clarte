@@ -12,6 +12,7 @@ export class UserEditController implements User.UserEditServiceController {
   }
 
   async userChangeLogin(request: User.UserEditChangeLoginRequest): Promise<void> {
+    console.log(request);
     await this.commandBus.execute(
       new ChangeLoginCommand({ login: request.login, userId: request.userId }),
     );

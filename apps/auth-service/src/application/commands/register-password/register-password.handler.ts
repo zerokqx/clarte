@@ -49,7 +49,7 @@ export class RegisterPasswordHandler implements ICommandHandler<RegisterPassword
           },
           catch: (error) =>
             new UserServiceUnavailableException(
-              `Failed to create user: ${E.errorMessage(error)('Unknown error')}`,
+              `Failed to create user: ${E.errorMessage('Unknown error')(error)}`,
             ),
         }),
       ),
