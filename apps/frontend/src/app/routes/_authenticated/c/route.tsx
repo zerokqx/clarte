@@ -56,7 +56,6 @@ function RouteComponent() {
               <LazyBottomNavigation />
             </Suspense>
           )}
-          <ChangeLogin />
           <Outlet />
         </Stack>
       </AppShell.Main>

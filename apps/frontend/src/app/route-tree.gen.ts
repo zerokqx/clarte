@@ -19,6 +19,7 @@ import { Route as AuthenticatedCRouteRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedCIndexRouteImport } from './routes/_authenticated/c/index'
 import { Route as AuthenticatedCSettingsRouteRouteImport } from './routes/_authenticated/c/settings/route'
 import { Route as AuthenticatedCSettingsThemeRouteImport } from './routes/_authenticated/c/settings/theme'
+import { Route as AuthenticatedCSettingsAccountRouteImport } from './routes/_authenticated/c/settings/account'
 
 const AuthenticatedCTodosLazyRouteImport = createFileRoute(
   '/_authenticated/c/todos',
@@ -82,6 +83,12 @@ const AuthenticatedCSettingsThemeRoute =
     path: '/theme',
     getParentRoute: () => AuthenticatedCSettingsRouteRoute,
   } as any)
+const AuthenticatedCSettingsAccountRoute =
+  AuthenticatedCSettingsAccountRouteImport.update({
+    id: '/account',
+    path: '/account',
+    getParentRoute: () => AuthenticatedCSettingsRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -91,6 +98,7 @@ export interface FileRoutesByFullPath {
   '/c/notifications': typeof AuthenticatedCNotificationsLazyRoute
   '/c/todos': typeof AuthenticatedCTodosLazyRoute
   '/c/': typeof AuthenticatedCIndexRoute
+  '/c/settings/account': typeof AuthenticatedCSettingsAccountRoute
   '/c/settings/theme': typeof AuthenticatedCSettingsThemeRoute
 }
 export interface FileRoutesByTo {
@@ -100,6 +108,7 @@ export interface FileRoutesByTo {
   '/c/notifications': typeof AuthenticatedCNotificationsLazyRoute
   '/c/todos': typeof AuthenticatedCTodosLazyRoute
   '/c': typeof AuthenticatedCIndexRoute
+  '/c/settings/account': typeof AuthenticatedCSettingsAccountRoute
   '/c/settings/theme': typeof AuthenticatedCSettingsThemeRoute
 }
 export interface FileRoutesById {
@@ -113,6 +122,7 @@ export interface FileRoutesById {
   '/_authenticated/c/notifications': typeof AuthenticatedCNotificationsLazyRoute
   '/_authenticated/c/todos': typeof AuthenticatedCTodosLazyRoute
   '/_authenticated/c/': typeof AuthenticatedCIndexRoute
+  '/_authenticated/c/settings/account': typeof AuthenticatedCSettingsAccountRoute
   '/_authenticated/c/settings/theme': typeof AuthenticatedCSettingsThemeRoute
 }
 export interface FileRouteTypes {
@@ -125,6 +135,7 @@ export interface FileRouteTypes {
     | '/c/notifications'
     | '/c/todos'
     | '/c/'
+    | '/c/settings/account'
     | '/c/settings/theme'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -134,6 +145,7 @@ export interface FileRouteTypes {
     | '/c/notifications'
     | '/c/todos'
     | '/c'
+    | '/c/settings/account'
     | '/c/settings/theme'
   id:
     | '__root__'
@@ -146,6 +158,7 @@ export interface FileRouteTypes {
     | '/_authenticated/c/notifications'
     | '/_authenticated/c/todos'
     | '/_authenticated/c/'
+    | '/_authenticated/c/settings/account'
     | '/_authenticated/c/settings/theme'
   fileRoutesById: FileRoutesById
 }
@@ -227,15 +240,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCSettingsThemeRouteImport
       parentRoute: typeof AuthenticatedCSettingsRouteRoute
     }
+    '/_authenticated/c/settings/account': {
+      id: '/_authenticated/c/settings/account'
+      path: '/account'
+      fullPath: '/c/settings/account'
+      preLoaderRoute: typeof AuthenticatedCSettingsAccountRouteImport
+      parentRoute: typeof AuthenticatedCSettingsRouteRoute
+    }
   }
 }
 
 interface AuthenticatedCSettingsRouteRouteChildren {
+  AuthenticatedCSettingsAccountRoute: typeof AuthenticatedCSettingsAccountRoute
   AuthenticatedCSettingsThemeRoute: typeof AuthenticatedCSettingsThemeRoute
 }
 
 const AuthenticatedCSettingsRouteRouteChildren: AuthenticatedCSettingsRouteRouteChildren =
   {
+    AuthenticatedCSettingsAccountRoute: AuthenticatedCSettingsAccountRoute,
     AuthenticatedCSettingsThemeRoute: AuthenticatedCSettingsThemeRoute,
   }
 

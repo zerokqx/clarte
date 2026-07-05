@@ -1,35 +1,52 @@
+import { Effect as E, pipe } from 'effect';
 import { TextInput, Loader } from '@mantine/core';
 import { useDebouncedCallback } from '@mantine/hooks';
 import { useChangeLogin } from '../api/change-login.mutation';
-import { useMe } from '@/entities/user';
-import { useEffect, useState } from 'react';
+import { UserLoginSchema } from '@/entities/user';
+import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { getUserControllerMeQueryKey } from '@/shared/api/orval';
+import { ZodError } from 'zod';
 
-export const ChangeLogin = () => {
-  const { data: user, isLoading: isUserLoading } = useMe();
+type ChangeLoginProps = Pick<TextInput.Props, 'defaultValue'>;
+export const ChangeLogin = ({ defaultValue }: ChangeLoginProps) => {
   const { mutateAsync, isPending } = useChangeLogin();
   const queryClient = useQueryClient();
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(defaultValue);
+  const [error, setError] = useState('');
 
-  useEffect(() => {
-    if (user?.login) {
-      setValue(user.login);
-    }
-  }, [user?.login]);
-
-  const debouncedMutate = useDebouncedCallback(async (val: string) => {
-    const trimmed = val.trim();
-    if (!trimmed || trimmed === user?.login) return;
-
-    await mutateAsync(
-      { data: { login: trimmed } },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: getUserControllerMeQueryKey() });
+  const debouncedMutate = useDebouncedCallback((val: string) => {
+    const program = pipe(
+      E.tryPromise({
+        try: async () => {
+          const res = await UserLoginSchema.parseAsync(val);
+          setError('');
+          return res;
         },
-      },
+        catch: (e) => {
+          if (e instanceof ZodError) {
+            setError(e.issues[0].message);
+          }
+          return e;
+        },
+      }),
+      E.flatMap((validLogin) =>
+        E.tryPromise({
+          try: () =>
+            mutateAsync(
+              { data: { login: validLogin } },
+              {
+                onSuccess: () => {
+                  queryClient.invalidateQueries({ queryKey: getUserControllerMeQueryKey() });
+                },
+              },
+            ),
+          catch: (err) => err,
+        }),
+      ),
     );
+
+    E.runPromiseExit(program);
   }, 600);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,13 +57,12 @@ export const ChangeLogin = () => {
 
   return (
     <TextInput
-      loading={isPending}
       label="Логин"
       placeholder="Введите новый логин"
       value={value}
       onChange={handleChange}
-      disabled={isUserLoading}
-      rightSection={isPending ? <Loader size="xs" /> : null}
+      error={error}
+      loading={isPending}
     />
   );
 };

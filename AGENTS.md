@@ -164,6 +164,11 @@ z-index: z(max); /* → var(--mantine-z-index-max) */
 
 Before a big task from the user, it is always necessary to commit the current changes and only after that start working.
 
+## Aliases
+
+- `rhf` — `react-hook-form`
+- `tr` — `tanstack-router`
+
 # Rich text editor
 
 Package: @mantine/tiptap
