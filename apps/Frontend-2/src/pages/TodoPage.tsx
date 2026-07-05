@@ -678,7 +678,7 @@ export const TodoPage = () => {
                                 )}
                               </Group>
                               <Text size="xs" mt={2} style={{ color: colorScheme === "dark" ? "#c1c2c5" : "#4b5563" }}>
-                                {n.text || n.message}
+                                {n.text}
                               </Text>
                               <Text size="10px" color="dimmed" mt={4}>
                                 {new Date(n.createdAt).toLocaleDateString("ru-RU")} {new Date(n.createdAt).toLocaleTimeString("ru-RU", { hour: '2-digit', minute: '2-digit' })}
@@ -889,6 +889,7 @@ export const TodoPage = () => {
 
                 <div style={{ flex: 1 }}>
                   <CollaborativeEditor
+                    key={selectedNote.id}
                     noteId={selectedNote.id}
                     noteTitle={selectedNote.title}
                     currentUser={userProfile}
