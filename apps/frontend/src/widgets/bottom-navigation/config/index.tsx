@@ -1,3 +1,4 @@
+import { GearSixIcon } from '@phosphor-icons/react/dist/csr/GearSix';
 import { LinkProps } from '@tanstack/react-router';
 import { ReactNode } from 'react';
 import { BellIcon } from '@phosphor-icons/react/dist/icons/Bell';
@@ -16,6 +17,10 @@ export const bottomNavigationConfig: BottomNavigationConfig[] = [
     to: '/c/notifications',
   },
 
+  {
+    icon: <GearSixIcon weight="fill" size={24} />,
+    to: '/c/settings',
+  },
   {
     icon: <HouseIcon weight="fill" size={24} />,
     to: '/c',

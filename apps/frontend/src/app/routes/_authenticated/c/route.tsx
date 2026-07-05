@@ -3,11 +3,10 @@ import { layoutStore } from '@/shared/model';
 import { BottomNavigationSkeleton } from '@/widgets/bottom-navigation/ui/bottom-navigation-skeleton';
 import { Header } from '@/widgets/header';
 import { Spotlight } from '@/widgets/spotlight';
-import { AppShell, Skeleton, Stack } from '@mantine/core';
+import { AppShell, ColorSwatch, Skeleton, Stack } from '@mantine/core';
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { observer } from 'mobx-react-lite';
 import { lazy, Suspense } from 'react';
-import { ThemeToggle } from '@/features/theme-toggle';
 import { ZenModeIndicator } from '@/widgets/zen-mode-indicator';
 
 const LazyBottomNavigation = lazy(() =>
@@ -26,7 +25,7 @@ function RouteComponent() {
   const isMobile = M.useBreakpointMediaQuery('max-width', 'xs');
   return (
     <AppShell
-      padding="md"
+      padding="xs"
       header={{ collapsed: !layoutStore.headerVisible, height: 50 }}
       navbar={{
         collapsed: {
@@ -51,7 +50,6 @@ function RouteComponent() {
       <AppShell.Main>
         <Stack gap="md">
           <ZenModeIndicator />
-          <ThemeToggle />
           {isMobile && (
             <Suspense fallback={<BottomNavigationSkeleton />}>
               <LazyBottomNavigation />

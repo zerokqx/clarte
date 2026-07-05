@@ -17,6 +17,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as NotAuthenticatedLoginRouteImport } from './routes/_not-authenticated/login'
 import { Route as AuthenticatedCRouteRouteImport } from './routes/_authenticated/c/route'
 import { Route as AuthenticatedCIndexRouteImport } from './routes/_authenticated/c/index'
+import { Route as AuthenticatedCSettingsRouteRouteImport } from './routes/_authenticated/c/settings/route'
+import { Route as AuthenticatedCSettingsThemeRouteImport } from './routes/_authenticated/c/settings/theme'
 
 const AuthenticatedCTodosLazyRouteImport = createFileRoute(
   '/_authenticated/c/todos',
@@ -68,21 +70,37 @@ const AuthenticatedCNotificationsLazyRoute =
   } as any).lazy(() =>
     import('./routes/_authenticated/c/notifications.lazy').then((d) => d.Route),
   )
+const AuthenticatedCSettingsRouteRoute =
+  AuthenticatedCSettingsRouteRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedCRouteRoute,
+  } as any)
+const AuthenticatedCSettingsThemeRoute =
+  AuthenticatedCSettingsThemeRouteImport.update({
+    id: '/theme',
+    path: '/theme',
+    getParentRoute: () => AuthenticatedCSettingsRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/c': typeof AuthenticatedCRouteRouteWithChildren
   '/login': typeof NotAuthenticatedLoginRoute
+  '/c/settings': typeof AuthenticatedCSettingsRouteRouteWithChildren
   '/c/notifications': typeof AuthenticatedCNotificationsLazyRoute
   '/c/todos': typeof AuthenticatedCTodosLazyRoute
   '/c/': typeof AuthenticatedCIndexRoute
+  '/c/settings/theme': typeof AuthenticatedCSettingsThemeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof NotAuthenticatedLoginRoute
+  '/c/settings': typeof AuthenticatedCSettingsRouteRouteWithChildren
   '/c/notifications': typeof AuthenticatedCNotificationsLazyRoute
   '/c/todos': typeof AuthenticatedCTodosLazyRoute
   '/c': typeof AuthenticatedCIndexRoute
+  '/c/settings/theme': typeof AuthenticatedCSettingsThemeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -91,15 +109,32 @@ export interface FileRoutesById {
   '/_not-authenticated': typeof NotAuthenticatedRouteRouteWithChildren
   '/_authenticated/c': typeof AuthenticatedCRouteRouteWithChildren
   '/_not-authenticated/login': typeof NotAuthenticatedLoginRoute
+  '/_authenticated/c/settings': typeof AuthenticatedCSettingsRouteRouteWithChildren
   '/_authenticated/c/notifications': typeof AuthenticatedCNotificationsLazyRoute
   '/_authenticated/c/todos': typeof AuthenticatedCTodosLazyRoute
   '/_authenticated/c/': typeof AuthenticatedCIndexRoute
+  '/_authenticated/c/settings/theme': typeof AuthenticatedCSettingsThemeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/c' | '/login' | '/c/notifications' | '/c/todos' | '/c/'
+  fullPaths:
+    | '/'
+    | '/c'
+    | '/login'
+    | '/c/settings'
+    | '/c/notifications'
+    | '/c/todos'
+    | '/c/'
+    | '/c/settings/theme'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/c/notifications' | '/c/todos' | '/c'
+  to:
+    | '/'
+    | '/login'
+    | '/c/settings'
+    | '/c/notifications'
+    | '/c/todos'
+    | '/c'
+    | '/c/settings/theme'
   id:
     | '__root__'
     | '/'
@@ -107,9 +142,11 @@ export interface FileRouteTypes {
     | '/_not-authenticated'
     | '/_authenticated/c'
     | '/_not-authenticated/login'
+    | '/_authenticated/c/settings'
     | '/_authenticated/c/notifications'
     | '/_authenticated/c/todos'
     | '/_authenticated/c/'
+    | '/_authenticated/c/settings/theme'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -176,16 +213,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCNotificationsLazyRouteImport
       parentRoute: typeof AuthenticatedCRouteRoute
     }
+    '/_authenticated/c/settings': {
+      id: '/_authenticated/c/settings'
+      path: '/settings'
+      fullPath: '/c/settings'
+      preLoaderRoute: typeof AuthenticatedCSettingsRouteRouteImport
+      parentRoute: typeof AuthenticatedCRouteRoute
+    }
+    '/_authenticated/c/settings/theme': {
+      id: '/_authenticated/c/settings/theme'
+      path: '/theme'
+      fullPath: '/c/settings/theme'
+      preLoaderRoute: typeof AuthenticatedCSettingsThemeRouteImport
+      parentRoute: typeof AuthenticatedCSettingsRouteRoute
+    }
   }
 }
 
+interface AuthenticatedCSettingsRouteRouteChildren {
+  AuthenticatedCSettingsThemeRoute: typeof AuthenticatedCSettingsThemeRoute
+}
+
+const AuthenticatedCSettingsRouteRouteChildren: AuthenticatedCSettingsRouteRouteChildren =
+  {
+    AuthenticatedCSettingsThemeRoute: AuthenticatedCSettingsThemeRoute,
+  }
+
+const AuthenticatedCSettingsRouteRouteWithChildren =
+  AuthenticatedCSettingsRouteRoute._addFileChildren(
+    AuthenticatedCSettingsRouteRouteChildren,
+  )
+
 interface AuthenticatedCRouteRouteChildren {
+  AuthenticatedCSettingsRouteRoute: typeof AuthenticatedCSettingsRouteRouteWithChildren
   AuthenticatedCNotificationsLazyRoute: typeof AuthenticatedCNotificationsLazyRoute
   AuthenticatedCTodosLazyRoute: typeof AuthenticatedCTodosLazyRoute
   AuthenticatedCIndexRoute: typeof AuthenticatedCIndexRoute
 }
 
 const AuthenticatedCRouteRouteChildren: AuthenticatedCRouteRouteChildren = {
+  AuthenticatedCSettingsRouteRoute:
+    AuthenticatedCSettingsRouteRouteWithChildren,
   AuthenticatedCNotificationsLazyRoute: AuthenticatedCNotificationsLazyRoute,
   AuthenticatedCTodosLazyRoute: AuthenticatedCTodosLazyRoute,
   AuthenticatedCIndexRoute: AuthenticatedCIndexRoute,

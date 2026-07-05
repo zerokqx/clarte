@@ -2,15 +2,17 @@ import { MantineProvider as MantineProviderOriginal } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
 import { ReactProvider } from '@/shared/types';
 import { theme } from '../mantine/theme';
-import { uiStore } from '@/shared/model';
+import { themeStore } from '@/entities/theme';
+import { useLocation } from '@tanstack/react-router';
+import { observer } from 'mobx-react-lite';
 
-export const MantineProvider: ReactProvider = ({ children }) => {
+export const MantineProvider: ReactProvider = observer(({ children }) => {
   return (
     <MantineProviderOriginal
-      theme={{ ...theme, primaryColor: uiStore.primaryColor }}
+      theme={{ ...theme, primaryColor: themeStore.primaryColor }}
       defaultColorScheme="dark"
     >
       <ModalsProvider>{children}</ModalsProvider>
     </MantineProviderOriginal>
   );
-};
+});

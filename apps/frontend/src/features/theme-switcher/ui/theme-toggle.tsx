@@ -21,7 +21,6 @@ export const ThemeToggle = () => {
       checked={checked}
       onChange={() => setColorScheme(checked ? 'light' : 'dark')}
       label="Тема"
-      description="Переключите что бы сменить тему"
       size="md"
       thumbIcon={checked ? moonIcon : sunIcon}
     />
