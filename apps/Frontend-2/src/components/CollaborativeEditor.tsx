@@ -48,6 +48,20 @@ const escapeHTML = (str: string): string => {
     .replace(/'/g, "&#039;");
 };
 
+const uint8ArrayToHex = (arr: Uint8Array): string => {
+  return Array.from(arr)
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+};
+
+const hexToUint8Array = (hex: string): Uint8Array => {
+  const arr = new Uint8Array(hex.length / 2);
+  for (let i = 0; i < arr.length; i++) {
+    arr[i] = parseInt(hex.substring(i * 2, i * 2 + 2), 16);
+  }
+  return arr;
+};
+
 // Converts the contenteditable DOM tree into a plain text representation with ![[media-XXXX]] links
 const serializeDOM = (element: HTMLElement): string => {
   const processNode = (node: Node): string => {
@@ -246,6 +260,17 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
     const ydoc = new Y.Doc();
     ydocRef.current = ydoc;
 
+    // Load initial content from cache if available
+    const cachedHex = localStorage.getItem(`clarte_note_yjs_${noteId}`);
+    if (cachedHex) {
+      try {
+        const bytes = hexToUint8Array(cachedHex);
+        Y.applyUpdate(ydoc, bytes);
+      } catch (err) {
+        console.error("Failed to restore cached YJS update:", err);
+      }
+    }
+
     const wsProtocol = window.location.protocol === "https:" ? "wss:" : "ws:";
     const wsUrl = `${wsProtocol}//${window.location.host}/yjs`;
     const roomName = `clarte-note-v1-${noteId}`;
@@ -256,7 +281,7 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
       if (parts.length === 2) return parts.pop()?.split(';').shift();
       return undefined;
     };
-    const token = getCookie("jwt_access") || "";
+    const token = getCookie("clarte_access") || "";
 
     const provider = new HocuspocusProvider({
       url: wsUrl,
@@ -268,6 +293,19 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
 
     const ytext = ydoc.getText("content");
     const yattachments = ydoc.getArray<SerializedAttachment>("attachments");
+
+    setAttachments(yattachments.toArray());
+
+    const handleYdocUpdate = () => {
+      try {
+        const bytes = Y.encodeStateAsUpdate(ydoc);
+        const hex = uint8ArrayToHex(bytes);
+        localStorage.setItem(`clarte_note_yjs_${noteId}`, hex);
+      } catch (err) {
+        console.error("Failed to cache YJS update:", err);
+      }
+    };
+    ydoc.on("update", handleYdocUpdate);
 
     const initialName = currentUser?.login || "Гость";
     provider.awareness?.setLocalStateField("user", {
@@ -308,7 +346,6 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
       }
     };
     yattachments.observe(handleAttachmentsUpdate);
-    setAttachments(yattachments.toArray());
 
     const handleAwarenessChange = () => {
       const states = provider.awareness?.getStates();
@@ -329,6 +366,7 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
     }
 
     return () => {
+      ydoc.off("update", handleYdocUpdate);
       ytext.unobserve(handleYjsUpdate);
       yattachments.unobserve(handleAttachmentsUpdate);
       provider.awareness?.off("change", handleAwarenessChange);
