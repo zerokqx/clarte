@@ -1,6 +1,6 @@
 import { UserIcon } from '@phosphor-icons/react/dist/csr/User';
 import { PaletteIcon } from '@phosphor-icons/react/dist/csr/Palette';
-import { Box, Tabs } from '@mantine/core';
+import { Box, Center, Loader, Tabs } from '@mantine/core';
 import {
   createFileRoute,
   Outlet,
@@ -14,6 +14,7 @@ export const Route = createFileRoute('/_authenticated/c/settings')({
     if (location.pathname === '/c/settings' || location.pathname === '/c/settings/')
       throw redirect({ to: '/c/settings/theme' });
   },
+
   component: RouteComponent,
 });
 

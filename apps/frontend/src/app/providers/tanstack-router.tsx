@@ -3,6 +3,7 @@ import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { routeTree } from '@/app/route-tree.gen';
 import { authStore, TAuthState } from '@/entities/session';
 import { useEffect } from 'react';
+import { Center, Loader } from '@mantine/core';
 
 export interface MyRouterContext {
   authState: TAuthState;
@@ -11,6 +12,12 @@ export interface MyRouterContext {
 
 const router = createRouter({
   routeTree,
+  defaultPendingComponent: () => (
+    <Center>
+      <Loader size="xs" />
+    </Center>
+  ),
+
   context: {
     authState: undefined!,
     notAuthenticated: undefined!,
@@ -44,4 +51,3 @@ export const TanstackRouterProvider = observer(() => {
     />
   );
 });
-

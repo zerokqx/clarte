@@ -3,7 +3,7 @@ import { layoutStore } from '@/shared/model';
 import { BottomNavigationSkeleton } from '@/widgets/bottom-navigation/ui/bottom-navigation-skeleton';
 import { Header } from '@/widgets/header';
 import { Spotlight } from '@/widgets/spotlight';
-import { AppShell, ColorSwatch, Skeleton, Stack } from '@mantine/core';
+import { AppShell, Center, ColorSwatch, Loader, Skeleton, Stack } from '@mantine/core';
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { observer } from 'mobx-react-lite';
 import { lazy, Suspense } from 'react';

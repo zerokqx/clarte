@@ -1,5 +1,5 @@
 import { Avatar, FileButton } from '@mantine/core';
-import { useChangeAvatar, usePresignedUrl } from '../api';
+import { useChangeAvatar } from '../api';
 import axios from 'axios';
 import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';

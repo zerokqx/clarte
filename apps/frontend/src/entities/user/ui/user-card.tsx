@@ -1,6 +1,8 @@
 import { useMe } from '../api/me.query';
 import { Avatar, Box, Card, Group, Stack, Text, Skeleton } from '@mantine/core';
-import { At, Info, IdentificationCard } from '@phosphor-icons/react';
+import { AtIcon } from '@phosphor-icons/react/dist/csr/At';
+import { InfoIcon } from '@phosphor-icons/react/dist/csr/Info';
+import { IdentificationCardIcon } from '@phosphor-icons/react/dist/csr/IdentificationCard';
 import classes from './user-card.module.css';
 
 export const UserCard = () => {
@@ -60,7 +62,7 @@ export const UserCard = () => {
         {/* Имя пользователя / юзернейм */}
         <Box className={classes.infoRow}>
           <Box className={classes.iconWrapper}>
-            <At size={20} weight="regular" />
+            <AtIcon size={20} weight="regular" />
           </Box>
           <Box className={classes.infoContent}>
             <Text className={classes.value}>@{user.login}</Text>
@@ -71,7 +73,7 @@ export const UserCard = () => {
         {/* ID пользователя */}
         <Box className={classes.infoRow}>
           <Box className={classes.iconWrapper}>
-            <IdentificationCard size={20} weight="regular" />
+            <IdentificationCardIcon size={20} weight="regular" />
           </Box>
           <Box className={classes.infoContent}>
             <Text className={classes.value}>{user.id}</Text>
@@ -82,7 +84,7 @@ export const UserCard = () => {
         {/* О себе (Опциональное поле) */}
         <Box className={classes.infoRow}>
           <Box className={classes.iconWrapper}>
-            <Info size={20} weight="regular" />
+            <InfoIcon size={20} weight="regular" />
           </Box>
           <Box className={classes.infoContent}>
             <Text className={classes.value}>Пользователь Clarte</Text>

@@ -3,6 +3,7 @@ import { ActionIcon, Avatar, Group, Skeleton, Text, UnstyledButton } from '@mant
 import classes from './header.module.scss';
 import { useMediaQuery } from '@mantine/hooks';
 import { lazy, Suspense } from 'react';
+import { M } from '@clarte/mantine-helpers';
 
 export interface HeaderViewProps {
   login: string;
@@ -34,7 +35,7 @@ export const HeaderView = ({
         >
           <SidebarIcon weight="duotone" />
         </ActionIcon>
-        <Text size="lg" fw={800} style={{ letterSpacing: '-0.5px' }}>
+        <Text c={M.primary()} size="lg" fw={800} style={{ letterSpacing: '-0.5px' }}>
           Clarte
         </Text>
       </Group>

@@ -1,10 +1,16 @@
 import { useMe } from '@/entities/user';
 import { ChangeAvatar } from '@/features/change-avatar';
 import { ChangeLogin } from '@/features/change-login';
-import { Center, Stack } from '@mantine/core';
+import { Center, Loader, Stack } from '@mantine/core';
 
 export const SettingsUserSection = () => {
-  const { data: user } = useMe();
+  const { data: user, isLoading } = useMe();
+  if (isLoading)
+    return (
+      <Center>
+        <Loader size="md" />{' '}
+      </Center>
+    );
   return (
     <Stack justify="center">
       <Center>
