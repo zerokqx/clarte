@@ -7,7 +7,7 @@ export const TodosPage = () => {
     <Center>
       <Stack w={'min(100%,480px)'}>
         <TodoList />
-        <Group justify="end">
+        <Group justify="center">
           <CreateTodoButton />
         </Group>
       </Stack>

@@ -1,8 +1,9 @@
 import { SidebarIcon } from '@phosphor-icons/react/dist/csr/Sidebar';
 import { ActionIcon, Avatar, Group, Skeleton, Text, UnstyledButton } from '@mantine/core';
-import classes from './header.module.css';
+import classes from './header.module.scss';
 import { useMediaQuery } from '@mantine/hooks';
 import { lazy, Suspense } from 'react';
+import { M } from '@clarte/mantine-helpers';
 
 export interface HeaderViewProps {
   login: string;
@@ -27,10 +28,14 @@ export const HeaderView = ({
   return (
     <Group justify="space-between" h="100%" px="md">
       <Group gap="xs">
-        <ActionIcon variant={navbarVisible ? 'filled' : 'transparent'} onClick={onToggleNavbar}>
+        <ActionIcon
+          visibleFrom="xs"
+          variant={navbarVisible ? 'filled' : 'transparent'}
+          onClick={onToggleNavbar}
+        >
           <SidebarIcon weight="duotone" />
         </ActionIcon>
-        <Text size="lg" fw={800} style={{ letterSpacing: '-0.5px' }}>
+        <Text c={M.primary()} size="lg" fw={800} style={{ letterSpacing: '-0.5px' }}>
           Clarte
         </Text>
       </Group>

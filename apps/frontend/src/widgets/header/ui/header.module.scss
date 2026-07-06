@@ -1,0 +1,12 @@
+@use '@/shared/styles/mantine' as *;
+
+.profile-button {
+  padding: rem(6) rem(12);
+  border-radius: radius(md);
+  transition: background-color 0.2s ease;
+  color: color('text');
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+  }
+}

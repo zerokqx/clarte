@@ -1,1 +1,2 @@
+pnpm exec nx run-many -t test --no-tui
 pnpm exec lint-staged

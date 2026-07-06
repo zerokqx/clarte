@@ -15,6 +15,7 @@ export * from './todo-controller-create-todo200';
 export * from './todo-dt-o';
 export * from './update-todo-dt-o';
 export * from './user-change-avatar-dt-o';
+export * from './user-change-login-dt-o';
 export * from './user-find-dt-o';
 export * from './user-me-dt-o';
 export * from './user-s3-storage-dt-o';

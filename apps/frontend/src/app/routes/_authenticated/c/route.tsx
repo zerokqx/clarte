@@ -1,35 +1,38 @@
-import { ChecksIcon } from '@phosphor-icons/react/dist/csr/Checks';
-import { LogoutButton } from '@/features/logout';
-import { M } from '@/shared/lib/mantine';
+import { M } from '@clarte/mantine-helpers';
 import { layoutStore } from '@/shared/model';
 import { BottomNavigationSkeleton } from '@/widgets/bottom-navigation/ui/bottom-navigation-skeleton';
 import { Header } from '@/widgets/header';
-import { Navbar } from '@/widgets/navbar';
 import { Spotlight } from '@/widgets/spotlight';
-import { ZenModeIndicator } from '@/widgets/zen-mode-indicator';
-import { AppShell, Stack } from '@mantine/core';
-import { LayoutIcon } from '@phosphor-icons/react/dist/icons/Layout';
-import { createFileRoute, Outlet, useNavigate } from '@tanstack/react-router';
+import { AppShell, Center, ColorSwatch, Loader, Skeleton, Stack } from '@mantine/core';
+import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { observer } from 'mobx-react-lite';
 import { lazy, Suspense } from 'react';
-import { curry } from '@clarte/shared';
+import { ZenModeIndicator } from '@/widgets/zen-mode-indicator';
+import { ChangeLogin } from '@/features/change-login';
 
 const LazyBottomNavigation = lazy(() =>
   import('@/widgets/bottom-navigation').then((m) => ({ default: m.BottomNavigation })),
 );
+
+const LazyNavbarContent = lazy(() =>
+  import('./-navbar-content').then((m) => ({ default: m.NavbarContent })),
+);
+
 export const Route = createFileRoute('/_authenticated/c')({
   component: observer(RouteComponent),
 });
 
 function RouteComponent() {
-  const navigate = useNavigate();
   const isMobile = M.useBreakpointMediaQuery('max-width', 'xs');
   return (
     <AppShell
-      padding="md"
+      padding="xs"
       header={{ collapsed: !layoutStore.headerVisible, height: 50 }}
       navbar={{
-        collapsed: { desktop: !layoutStore.navbarVisible, mobile: !layoutStore.navbarVisible },
+        collapsed: {
+          desktop: isMobile || !layoutStore.navbarVisible,
+          mobile: true,
+        },
         width: 300,
         breakpoint: 'xs',
       }}
@@ -38,23 +41,13 @@ function RouteComponent() {
       <AppShell.Header>
         <Header />
       </AppShell.Header>
-      <AppShell.Navbar>
-        <Navbar>
-          <Navbar.Top>Top</Navbar.Top>
-          <Navbar.Body>
-            <Navbar.Item
-              name="todos"
-              leftSection={<ChecksIcon weight="bold" size={20} />}
-              onClick={() => navigate({ to: '/c/todos' })}
-            >
-              Задачи
-            </Navbar.Item>
-          </Navbar.Body>
-          <Navbar.Down>
-            <LogoutButton />
-          </Navbar.Down>
-        </Navbar>
-      </AppShell.Navbar>
+      {!isMobile && (
+        <AppShell.Navbar>
+          <Suspense fallback={<Skeleton height="100%" />}>
+            <LazyNavbarContent />
+          </Suspense>
+        </AppShell.Navbar>
+      )}
       <AppShell.Main>
         <Stack gap="md">
           <ZenModeIndicator />

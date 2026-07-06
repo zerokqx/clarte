@@ -85,8 +85,89 @@ A "solo microservice" is a microservice that encapsulates exactly one distinct e
 
 6. **Правила стилизации компонентов (Mantine)**:
    - При стилизации UI-компонентов всегда отдавайте приоритет встроенным возможностям Mantine (Props, Style Props, Styles API). Создавать файлы CSS-модулей допускается только в том случае, если стандартных возможностей Mantine недостаточно для реализации интерфейса.
+   - **В CSS-модулях (`*.module.css`) ВСЕГДА использовать функции из `@clarte/mantine-postcss` вместо хардкода значений.** Прямое использование `var(--mantine-...)` или числовых значений без PostCSS-функций — запрещено.
+
+## CSS-функции @clarte/mantine-postcss
+
+В проекте подключены PostCSS-плагины (`apps/frontend/postcss.config.js`), которые трансформируют кастомные функции в CSS-переменные Mantine. Используй их во всех `.module.css` файлах:
+
+### Цвета (`c`)
+
+```css
+color: c(blue.4); /* → var(--mantine-color-blue-4) */
+color: c(text); /* → var(--mantine-color-text) */
+color: c(primary.3); /* → var(--mantine-primary-color-3) */
+background: alpha(c(violet.5), 0.12); /* rgba с прозрачностью */
+background: light-dark(c(white), c(dark.6)); /* авто светлая/тёмная тема */
+```
+
+### Акцентные цвета (`primary`)
+
+```css
+background: primary(filled); /* → var(--mantine-primary-color-filled) */
+color: primary(contrast); /* → var(--mantine-primary-color-contrast) */
+```
+
+### Отступы (`spacing`)
+
+```css
+padding: spacing(md); /* → var(--mantine-spacing-md) */
+gap: spacing(xs); /* → var(--mantine-spacing-xs) */
+```
+
+### Скругления (`radius`)
+
+```css
+border-radius: radius(md); /* → var(--mantine-radius-md) */
+border-radius: radius(xl); /* → var(--mantine-radius-xl) */
+```
+
+### Тени (`shadow`)
+
+```css
+box-shadow: shadow(md); /* → var(--mantine-shadow-md) */
+box-shadow: shadow(xl); /* → var(--mantine-shadow-xl) */
+```
+
+### Размер шрифта (`fz`)
+
+```css
+font-size: fz(sm); /* → var(--mantine-font-size-sm) */
+font-size: fz(lg); /* → var(--mantine-font-size-lg) */
+```
+
+### Вес шрифта (`fw`)
+
+```css
+font-weight: fw(bold); /* → var(--mantine-font-weight-bold) */
+font-weight: fw(medium); /* → var(--mantine-font-weight-medium) */
+```
+
+### Высота строки (`lh`)
+
+```css
+line-height: lh(md); /* → var(--mantine-line-height-md) */
+```
+
+### Брейкпоинты (`breakpoint`)
+
+```css
+@media (min-width: breakpoint(md)) { ... }   /* → var(--mantine-breakpoint-md) */
+```
+
+### Z-индексы (`z`)
+
+```css
+z-index: z(modal); /* → var(--mantine-z-index-modal) */
+z-index: z(max); /* → var(--mantine-z-index-max) */
+```
 
 Before a big task from the user, it is always necessary to commit the current changes and only after that start working.
+
+## Aliases
+
+- `rhf` — `react-hook-form`
+- `tr` — `tanstack-router`
 
 # Rich text editor
 

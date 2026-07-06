@@ -34,7 +34,7 @@ export class LoginPasswordHandler implements ICommandHandler<LoginPasswordComman
       Effect.tryPromise({
         try: () => this.userClient.getCredentialsByLogin(command.login),
         catch: (error) => {
-          if (error && E.errorCode(error)(2) === 5) {
+          if (error && E.errorCode()(error) === 5) {
             return new UserCredentialsNotFound(`Credentials for ${command.login} not found`);
           }
           return new UserServiceUnavailableException(`User service is currently unavailable`);
@@ -55,7 +55,7 @@ export class LoginPasswordHandler implements ICommandHandler<LoginPasswordComman
             try: () => user.comparePassword(command.password, this.passwordHasher),
             catch: (error) =>
               new PasswordVerificationFailedException(
-                `Password verification failed: ${E.errorMessage(error)('Unknown Error')}`,
+                `Password verification failed: ${E.errorMessage('Unknown Error')(error)}`,
               ),
           }),
           Effect.filterOrFail(
@@ -84,7 +84,7 @@ export class LoginPasswordHandler implements ICommandHandler<LoginPasswordComman
             };
           },
           catch: (error) =>
-            new Error(`Token generation failed: ${E.errorMessage(error)('Unknown Error')}`),
+            new Error(`Token generation failed: ${E.errorMessage('Unknown Error')(error)}`),
         }),
       ),
       Effect.runPromiseExit,

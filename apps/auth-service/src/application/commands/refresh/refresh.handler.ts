@@ -32,7 +32,7 @@ export class RefreshHandler implements ICommandHandler<RefreshCommand> {
           };
         },
         catch: (error) =>
-          new Error(`Token refresh failed: ${E.errorMessage(error)('Unknown Error')}`),
+          new Error(`Token refresh failed: ${E.errorMessage('Unknown Error')(error)}`),
       }),
       Effect.runPromiseExit,
     );

@@ -7,6 +7,8 @@ package user;
 service UserEditService {
   rpc UserChangeAvatar(UserEditChangeAvatarRequest)
       returns (google.protobuf.Empty);
+  rpc UserChangeLogin(UserEditChangeLoginRequest)
+      returns (google.protobuf.Empty);
 }
 
 service UserStorageService {
@@ -66,6 +68,11 @@ message UserGetCredentialsByLoginResponse {
 message UserEditChangeAvatarRequest {
   string userId = 1;
   string avatarUrl = 2;
+}
+
+message UserEditChangeLoginRequest {
+  string userId = 1;
+  string login = 2;
 }
 
 message UploadPresignedUrlResponse {

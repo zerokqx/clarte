@@ -9,7 +9,7 @@ import { FileTextIcon } from '@phosphor-icons/react/dist/csr/FileText';
 import { TextAlignLeftIcon } from '@phosphor-icons/react/dist/csr/TextAlignLeft';
 import { PlusIcon } from '@phosphor-icons/react/dist/csr/Plus';
 import { XIcon } from '@phosphor-icons/react/dist/csr/X';
-import { M } from '@/shared/lib/mantine';
+import { M } from '@clarte/mantine-helpers';
 
 export interface CreateTodoFormState {
   title: string;

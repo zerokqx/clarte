@@ -1,0 +1,60 @@
+@use '@/shared/styles/mantine' as *;
+
+.bottom-nav {
+  &__container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: rem(1) solid light-dark(c('gray.3'), c('dark.3'));
+    background-color: c('body');
+    width: 100%;
+    padding-left: spacing(xs);
+    padding-right: spacing(xs);
+    height: rem(56);
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    height: 100%;
+    padding: spacing(xs) 0;
+    gap: rem(3);
+    position: relative;
+    text-decoration: none;
+    color: light-dark(c('gray.5'), c('dark.2'));
+    transition: color 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+
+    &[data-active] {
+      color: light-dark(c('primary.8'), c('primary.4'));
+
+      .bottom-nav__label {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: rem(44);
+    height: rem(32);
+  }
+
+  &__label {
+    font-size: rem(10);
+    font-weight: fw(600);
+    line-height: 1;
+    letter-spacing: 0.1px;
+    opacity: 0;
+    transform: translateY(4px);
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+  }
+}

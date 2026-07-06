@@ -1,29 +1,33 @@
-import { navbarItem } from './navbar-item.module.css';
+import { navbarItem } from './navbar-item.module.scss';
 import { Group } from '@mantine/core';
 import { ReactNode } from 'react';
 import { useNavbar } from '../model';
+import { Link } from '@tanstack/react-router';
 
 export interface NavbarItemProps {
   leftSection?: ReactNode;
+  to: string;
   name: string;
   children: string;
-  onClick?: (name: NavbarItemProps['name']) => void;
+  onClick?: (name: string) => void;
 }
 
-export const NavbarItem = ({ leftSection, children, name, onClick }: NavbarItemProps) => {
-  const { whatSelected, setWhatSelected } = useNavbar();
+export const NavbarItem = ({ leftSection, children, to, name, onClick }: NavbarItemProps) => {
+  const { setWhatSelected } = useNavbar();
   return (
-    <Group
-      pl={'sm'}
-      data-selected={whatSelected === name}
+    <Link
+      to={to}
       className={navbarItem}
+      activeProps={{ 'data-selected': 'true' }}
       onClick={() => {
         setWhatSelected(name);
         onClick?.(name);
       }}
     >
-      {leftSection}
-      {children}
-    </Group>
+      <Group gap="xs">
+        {leftSection}
+        {children}
+      </Group>
+    </Link>
   );
 };

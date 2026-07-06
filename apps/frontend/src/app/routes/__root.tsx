@@ -6,7 +6,6 @@ import { Loader } from '@mantine/core';
 const RouterComponent = () => {
   const context = useRouteContext({ from: '__root__' });
   if (context.authState === 'initial') return <Loader size={'lg'} />;
-
   return <Outlet />;
 };
 

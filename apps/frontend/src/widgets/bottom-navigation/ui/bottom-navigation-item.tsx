@@ -1,32 +1,45 @@
-import { M } from '@/shared/lib/mantine';
-import { ActionIcon, rem } from '@mantine/core';
-import { ReactNode } from 'react';
+import { Link, LinkProps } from '@tanstack/react-router';
+import { ReactNode, useCallback } from 'react';
+import classes from './bottom-navigation.module.scss';
+import { useBottomNavigation } from '../model';
 
 export interface BottomNavigationItemProps {
   children: ReactNode;
-  variant?: 'accent' | ActionIcon.Props['variant'];
-  onClick?: () => void;
+  label?: string;
+  to: NonNullable<LinkProps['to']>;
+  activeOptions?: LinkProps['activeOptions'];
 }
 
-export const BottomNavigationItem = ({ children, onClick, variant }: BottomNavigationItemProps) => {
+export const BottomNavigationItem = ({
+  children,
+  label,
+  to,
+  activeOptions,
+}: BottomNavigationItemProps) => {
+  const bottomNavigation = useBottomNavigation();
+
+  const handleRef = useCallback(
+    (node: HTMLSpanElement | null) => {
+      if (node) {
+        bottomNavigation.registerRef(to, node);
+      } else {
+        bottomNavigation.unregisterRef(to);
+      }
+    },
+    [to, bottomNavigation],
+  );
+
   return (
-    <ActionIcon
-      c="bright"
-      bg={M.body()}
-      size={'xl'}
-      bdrs={'xl'}
-      style={{
-        boxShadow: M.boxShadow(0)(10)(20)('rgba(0,0,0,0.15)'),
-      }}
-      onClick={onClick}
-      {...(variant === 'accent' && {
-        size: 'input-xl',
-        pos: 'relative',
-        top: rem(-20),
-        bd: M.border(4)('solid')(M.primary(8)),
-      })}
+    <Link
+      to={to}
+      activeOptions={activeOptions}
+      className={classes.bottomNavItem}
+      activeProps={{ 'data-active': '' }}
     >
-      {children}
-    </ActionIcon>
+      <span className={classes.bottomNavIcon} ref={handleRef}>
+        {children}
+      </span>
+      {label && <span className={classes.bottomNavLabel}>{label}</span>}
+    </Link>
   );
 };

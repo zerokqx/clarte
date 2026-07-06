@@ -1,5 +1,5 @@
 import { NotificationDTO } from '@/shared/api/orval/generated/model';
-import { M } from '@/shared/lib/mantine';
+import { M } from '@clarte/mantine-helpers';
 import { Text, Flex, ThemeIcon, Stack, Group, Divider } from '@mantine/core';
 import { BellIcon } from '@phosphor-icons/react/dist/csr/Bell';
 import { ReactNode } from 'react';

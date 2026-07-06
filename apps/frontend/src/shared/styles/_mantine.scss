@@ -1,0 +1,71 @@
+@use 'sass:string';
+
+// 1. Хелпер для цветов: c('blue.4') -> var(--mantine-color-blue-4)
+@function c($color) {
+  $color-str: string.quote(#{$color});
+  $dot-index: string.index($color-str, '.');
+
+  @if $dot-index {
+    $name: string.slice($color-str, 1, $dot-index - 1);
+    $val: string.slice($color-str, $dot-index + 1);
+
+    @if $name == 'primary' {
+      @return var(--mantine-primary-color-#{$val});
+    }
+
+    @return var(--mantine-color-#{$name}-#{$val});
+  }
+
+  @return var(--mantine-color-#{$color-str});
+}
+
+// Алиас для функции c()
+@function color($val) {
+  @return c($val);
+}
+
+// 2. Хелперы для токенов Mantine
+@function spacing($val) {
+  @return var(--mantine-spacing-#{$val});
+}
+
+@function radius($val) {
+  @return var(--mantine-radius-#{$val});
+}
+
+@function shadow($val) {
+  @return var(--mantine-shadow-#{$val});
+}
+
+@function fz($val) {
+  @return var(--mantine-font-size-#{$val});
+}
+
+@function fw($val) {
+  @return var(--mantine-font-weight-#{$val});
+}
+
+@function lh($val) {
+  @return var(--mantine-line-height-#{$val});
+}
+
+@function breakpoint($val) {
+  @return var(--mantine-breakpoint-#{$val});
+}
+
+@function z($val) {
+  @return var(--mantine-z-index-#{$val});
+}
+
+@function primary($val) {
+  @return var(--mantine-primary-color-#{$val});
+}
+
+// 3. Прокси-функции для PostCSS-плагинов Mantine (чтобы избежать конфликтов с SASS)
+@function rem($val) {
+  @return string.unquote('rem(#{$val})');
+}
+
+@function alpha($color, $val) {
+  @return string.unquote('alpha(#{$color}, #{$val})');
+}
