@@ -1,48 +1,42 @@
-import { AnimatePresence, motion } from 'motion/react';
-import { Affix, Group, Stack } from '@mantine/core';
-import { BottomNavigationItem } from './bottom-navigation-item';
+import { Group, Stack } from '@mantine/core';
+import { useHeadroom } from '@mantine/hooks';
 import { bottomNavigationConfig } from '../config';
 import { BottomNavigationProvider } from '../model';
+import { BottomNavigationItem } from './bottom-navigation-item';
 import { Pill } from './pill';
-import { useScrollDirection } from '@mantine/hooks';
-import classes from './bottom-navigation.module.scss';
 import { SubActions } from './sub-actions';
+import classes from './bottom-navigation.module.scss';
 
 export const BottomNavigationRoot = () => {
-  const scrollDirection = useScrollDirection();
+  const { pinned } = useHeadroom({ fixedAt: 200 });
 
+  console.log(pinned);
   return (
-    <Affix position={{ bottom: 0, left: 0, right: 0 }} zIndex={99}>
-      <AnimatePresence initial={false} mode="wait">
-        {scrollDirection !== 'down' && (
-          <motion.div
-            key="bottom-navigation"
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 100, opacity: 0 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 35 }}
-          >
-            <Stack>
-              <Group id="bottom-nav-sub-actions" />
-              <Group id="bottom-navigation-bar" className={classes.bottomNavContainer}>
-                <BottomNavigationProvider>
-                  <Pill />
-                  {bottomNavigationConfig.map((item, index) => (
-                    <BottomNavigationItem
-                      key={index}
-                      to={item.to}
-                      activeOptions={item.activeOptions}
-                    >
-                      {item.icon}
-                    </BottomNavigationItem>
-                  ))}
-                </BottomNavigationProvider>
-              </Group>
-            </Stack>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </Affix>
+    <div
+      style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+        transform: pinned ? 'translateY(0)' : 'translateY(100%)',
+        transition: 'transform 0.25s ease-in-out',
+      }}
+    >
+      <Stack gap="xs">
+        <Group id="bottom-nav-sub-actions" p="xs" className={classes.bottomNavSubActions} />
+        <Group id="bottom-navigation-bar" className={classes.bottomNavContainer}>
+          <BottomNavigationProvider>
+            <Pill />
+            {bottomNavigationConfig.map((item, index) => (
+              <BottomNavigationItem key={index} to={item.to} activeOptions={item.activeOptions}>
+                {item.icon}
+              </BottomNavigationItem>
+            ))}
+          </BottomNavigationProvider>
+        </Group>
+      </Stack>
+    </div>
   );
 };
 

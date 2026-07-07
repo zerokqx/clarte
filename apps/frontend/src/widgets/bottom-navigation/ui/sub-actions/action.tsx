@@ -1,5 +1,7 @@
-import { Button } from '@mantine/core';
+import { ActionIcon } from '@mantine/core';
 
-export const SubAction = () => {
-  return <Button>Mock</Button>;
+export type SubActionProps = Pick<ActionIcon.Props, 'children'>;
+
+export const SubAction = ({ children }: SubActionProps) => {
+  return <ActionIcon color="gray">{children}</ActionIcon>;
 };
