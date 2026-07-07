@@ -9,6 +9,9 @@ import { observer } from 'mobx-react-lite';
 import { lazy, Suspense } from 'react';
 import { ZenModeIndicator } from '@/widgets/zen-mode-indicator';
 import { ChangeLogin } from '@/features/change-login';
+import { BottomNavigation } from '@/widgets/bottom-navigation';
+import { BrowserIcon } from '@phosphor-icons/react/dist/icons/Browser';
+import { spotlight } from '@mantine/spotlight';
 
 const LazyBottomNavigation = lazy(() =>
   import('@/widgets/bottom-navigation').then((m) => ({ default: m.BottomNavigation })),
@@ -54,6 +57,12 @@ function RouteComponent() {
           {isMobile && (
             <Suspense fallback={<BottomNavigationSkeleton />}>
               <LazyBottomNavigation />
+
+              <BottomNavigation.SubActions>
+                <BottomNavigation.SubActions.Action>
+                  <BrowserIcon onClick={spotlight.open} />
+                </BottomNavigation.SubActions.Action>
+              </BottomNavigation.SubActions>
             </Suspense>
           )}
           <Outlet />
