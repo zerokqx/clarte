@@ -6,8 +6,9 @@ import { BottomNavigationProvider } from '../model';
 import { Pill } from './pill';
 import { useScrollDirection } from '@mantine/hooks';
 import classes from './bottom-navigation.module.scss';
+import { SubActions } from './sub-actions';
 
-export const BottomNavigation = () => {
+export const BottomNavigationRoot = () => {
   const scrollDirection = useScrollDirection();
 
   return (
@@ -44,3 +45,5 @@ export const BottomNavigation = () => {
     </Affix>
   );
 };
+
+export const BottomNavigation = Object.assign(BottomNavigationRoot, { SubActions });
