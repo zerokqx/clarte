@@ -1,5 +1,5 @@
 import classes from './navbar-item.module.scss';
-import { Divider, Stack } from '@mantine/core';
+import { Divider, Group, Stack } from '@mantine/core';
 import { ReactNode } from 'react';
 import { NavbarItem } from './navbar-item';
 import { NavbarProvider } from '../model';
@@ -19,21 +19,25 @@ const NavbarRoot = ({ children }: NavbarProps) => {
 };
 
 const TopSection = ({ children }: { children: ReactNode }) => (
-  <Stack w="100%">
-    {children}
+  <Stack gap={0} mt={'auto'} w={'100%'}>
+    <Group w="100%" align="center" p={'xs'} justify="start">
+      {children}
+    </Group>
     <Divider />
   </Stack>
 );
 
 const DownSection = ({ children }: { children: ReactNode }) => (
-  <Stack w="100%">
+  <Stack gap={0} mt={'auto'} w={'100%'}>
     <Divider />
-    {children}
+    <Group w="100%" align="center" p={'xs'} justify="start">
+      {children}
+    </Group>
   </Stack>
 );
 
 const Body = ({ children }: { children: ReactNode }) => (
-  <Stack h={'100%'} style={{ flexGrow: 1 }}>
+  <Stack gap={0} h={'100%'} style={{ flexGrow: 1 }}>
     {children}
   </Stack>
 );

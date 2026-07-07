@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { Affix, Group } from '@mantine/core';
+import { Affix, Group, Stack } from '@mantine/core';
 import { BottomNavigationItem } from './bottom-navigation-item';
 import { bottomNavigationConfig } from '../config';
 import { BottomNavigationProvider } from '../model';
@@ -21,16 +21,23 @@ export const BottomNavigation = () => {
             exit={{ y: 100, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 400, damping: 35 }}
           >
-            <Group id="bottom-navigation-bar" className={classes.bottomNavContainer}>
-              <BottomNavigationProvider>
-                <Pill />
-                {bottomNavigationConfig.map((item, index) => (
-                  <BottomNavigationItem key={index} to={item.to} activeOptions={item.activeOptions}>
-                    {item.icon}
-                  </BottomNavigationItem>
-                ))}
-              </BottomNavigationProvider>
-            </Group>
+            <Stack>
+              <Group id="bottom-nav-sub-actions" />
+              <Group id="bottom-navigation-bar" className={classes.bottomNavContainer}>
+                <BottomNavigationProvider>
+                  <Pill />
+                  {bottomNavigationConfig.map((item, index) => (
+                    <BottomNavigationItem
+                      key={index}
+                      to={item.to}
+                      activeOptions={item.activeOptions}
+                    >
+                      {item.icon}
+                    </BottomNavigationItem>
+                  ))}
+                </BottomNavigationProvider>
+              </Group>
+            </Stack>
           </motion.div>
         )}
       </AnimatePresence>
