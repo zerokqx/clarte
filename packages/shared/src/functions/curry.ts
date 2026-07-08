@@ -16,7 +16,7 @@ export function curry<Args extends unknown[], Return>(
 ): Curry<Args, Return> {
   return function curried(this: any, ...args: any[]): any {
     if (args.length >= fn.length) {
-      return fn.apply(this, args);
+      return fn.apply(this, args as any);
     }
     return function (this: any, ...nextArgs: any[]) {
       return curried.apply(this, args.concat(nextArgs));

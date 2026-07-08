@@ -5,11 +5,11 @@
 // source: todo.proto
 
 /* eslint-disable */
-import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
-import { Observable } from "rxjs";
-import { Empty } from "./google/protobuf/empty";
+import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
+import { Empty } from './google/protobuf/empty';
 
-export const protobufPackage = "todo";
+export const protobufPackage = 'todo';
 
 export interface TodoResponse {
   id: string;
@@ -42,6 +42,16 @@ export interface UpdateTodoRequest {
   isCompleted?: boolean | undefined;
 }
 
+export interface CompleteTodoRequest {
+  id: string;
+  userId: string;
+}
+
+export interface UncompleteTodoRequest {
+  id: string;
+  userId: string;
+}
+
 export interface GetUserTodosRequest {
   id: string;
   userId: string;
@@ -51,7 +61,7 @@ export interface GetUserTodsResponse {
   todos: TodoResponse[];
 }
 
-export const TODO_PACKAGE_NAME = "todo";
+export const TODO_PACKAGE_NAME = 'todo';
 
 export interface TodoServiceClient {
   createTodo(request: CreateTodoRequest): Observable<CreateTodoResponse>;
@@ -59,6 +69,10 @@ export interface TodoServiceClient {
   updateTodo(request: UpdateTodoRequest): Observable<Empty>;
 
   getUserTodos(request: GetUserTodosRequest): Observable<GetUserTodsResponse>;
+
+  completeTodo(request: CompleteTodoRequest): Observable<Empty>;
+
+  uncompleteTodo(request: UncompleteTodoRequest): Observable<Empty>;
 }
 
 export interface TodoServiceController {
@@ -71,21 +85,31 @@ export interface TodoServiceController {
   getUserTodos(
     request: GetUserTodosRequest,
   ): Promise<GetUserTodsResponse> | Observable<GetUserTodsResponse> | GetUserTodsResponse;
+
+  completeTodo(request: CompleteTodoRequest): void | Promise<void>;
+
+  uncompleteTodo(request: UncompleteTodoRequest): void | Promise<void>;
 }
 
 export function TodoServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["createTodo", "updateTodo", "getUserTodos"];
+    const grpcMethods: string[] = [
+      'createTodo',
+      'updateTodo',
+      'getUserTodos',
+      'completeTodo',
+      'uncompleteTodo',
+    ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod("TodoService", method)(constructor.prototype[method], method, descriptor);
+      GrpcMethod('TodoService', method)(constructor.prototype[method], method, descriptor);
     }
     const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod("TodoService", method)(constructor.prototype[method], method, descriptor);
+      GrpcStreamMethod('TodoService', method)(constructor.prototype[method], method, descriptor);
     }
   };
 }
 
-export const TODO_SERVICE_NAME = "TodoService";
+export const TODO_SERVICE_NAME = 'TodoService';

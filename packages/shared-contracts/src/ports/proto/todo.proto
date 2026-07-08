@@ -8,6 +8,8 @@ service TodoService {
   rpc CreateTodo(CreateTodoRequest) returns (CreateTodoResponse);
   rpc UpdateTodo(UpdateTodoRequest) returns (google.protobuf.Empty);
   rpc GetUserTodos(GetUserTodosRequest) returns (GetUserTodsResponse);
+  rpc CompleteTodo(CompleteTodoRequest) returns (google.protobuf.Empty);
+  rpc UncompleteTodo(UncompleteTodoRequest) returns (google.protobuf.Empty);
 }
 
 message TodoResponse {
@@ -39,6 +41,16 @@ message UpdateTodoRequest {
   optional string description = 4;
   optional string due_date = 5;
   optional bool is_completed = 6;
+}
+
+message CompleteTodoRequest {
+  string id = 1;
+  string user_id = 2;
+}
+
+message UncompleteTodoRequest {
+  string id = 1;
+  string user_id = 2;
 }
 
 message GetUserTodosRequest {

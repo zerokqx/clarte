@@ -116,7 +116,7 @@ export class Todo extends Entity {
   }
 
   uncompleted() {
-    this._isCompleted = true;
+    this._isCompleted = false;
     this.renewUpdateAt();
   }
   changeDescription(rawDescription: string) {

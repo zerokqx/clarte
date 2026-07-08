@@ -14,7 +14,7 @@ import { ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from '@
 import { InjectAuthClient, type IAuthClient } from '@/app/auth/aplication';
 import { LoginDTO, LoginResponseDTO, RegisterDTO } from '@/app/auth/presentation/dtos';
 import { map } from 'rxjs';
-import { AccessAuthGuard, AccessGuard, RefreshGuard } from '@clarte/shared-nest/guards';
+import { AccessGuard, RefreshGuard } from '@clarte/shared-nest/guards';
 import { JwtCookieInterceptor } from '@clarte/shared-nest/interceptors';
 import { User, InjectCookieInterceptorUuid } from '@clarte/shared-nest/decorators';
 import { type IAuthenticatedUser } from '@clarte/shared-contracts/interfaces';

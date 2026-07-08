@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectTodoRepo, InjectTodoRmqClient } from '@/application/decorators';
-import { ITodoReadRepository } from '@/application/ports';
+import type { ITodoReadRepository } from '@/application/ports';
 import { ClientProxy } from '@nestjs/microservices';
 import { TodoEventPattern, type TodoEventPayloadMap } from '@clarte/shared-event-types/todo';
 import { firstValueFrom } from 'rxjs';

@@ -37,7 +37,11 @@ export class UpdateTodoHandler implements ICommandHandler<UpdateTodoCommand> {
     }
 
     if (data.isCompleted !== undefined && data.isCompleted !== null) {
-      todo.changeIsCompleted(data.isCompleted);
+      if (data.isCompleted) {
+        todo.completed();
+      } else {
+        todo.uncompleted();
+      }
     }
 
     await this.repoWrite.save(todo);
