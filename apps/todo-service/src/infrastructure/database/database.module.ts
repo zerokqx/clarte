@@ -11,6 +11,7 @@ import {
 import { TODO_REPO_READ, TODO_REPO_WRITE } from '@/application';
 import { TodoRepositoryRead } from './database-read.repository';
 import { TodoWriteRepository } from './database-write.repository';
+import { TodoMapper } from '../mappers';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { TodoWriteRepository } from './database-write.repository';
     TypeOrmModule.forFeature([TodoOrmEntity]),
   ],
   providers: [
+    TodoMapper,
     {
       provide: TODO_REPO_READ,
       useClass: TodoRepositoryRead,

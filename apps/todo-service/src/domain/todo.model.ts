@@ -7,7 +7,7 @@ interface TodoPlain {
   userId: string;
   isCompleted: boolean; // Добавлено в интерфейс, так как оно есть в сущности
   title: string;
-  description: string;
+  description?: string;
   dueDate: string;
   createdAt: string;
   updatedAt: string;
@@ -105,14 +105,18 @@ export class Todo extends Entity {
     this._updatedAt = new Date();
   }
 
-  changeIsCompleted(status: boolean) {
-    if (typeof status === 'boolean') this._isCompleted = status;
-    this.renewUpdateAt();
-  }
-
   changeTitle(rawTitle: string) {
     const title = TitleVo.create(rawTitle);
     this._title = title;
+    this.renewUpdateAt();
+  }
+  completed() {
+    this._isCompleted = true;
+    this.renewUpdateAt();
+  }
+
+  uncompleted() {
+    this._isCompleted = true;
     this.renewUpdateAt();
   }
   changeDescription(rawDescription: string) {
