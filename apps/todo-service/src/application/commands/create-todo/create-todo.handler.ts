@@ -1,38 +1,26 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateTodoCommand } from './create-todo.command';
 import { Todo as TodoProto } from '@clarte/shared-contracts/proto';
-import {
-  TodoEventPattern,
-  TodoEventPayloadMap,
-} from '@clarte/shared-event-types/todo';
+import { TodoEventPattern, TodoEventPayloadMap } from '@clarte/shared-event-types/todo';
 import { Todo } from '@/domain';
-import {
-  InjectTodoQueue,
-  InjectTodoRepo,
-  InjectTodoRmqClient,
-} from '@/application/decorators';
-import {
-  TodoBullMQMapper,
-  TodoBullMQPatterns,
-  type ITodoWriteRepository,
-} from '@/application/ports';
+import { InjectTodoQueue, InjectTodoRepo, InjectTodoRmqClient } from '@/application/decorators';
+import { ITodoRepository, TodoBullMQMapper, TodoBullMQPatterns } from '@/application/ports';
 import { randomUUID } from 'crypto';
 import { ClientProxy } from '@nestjs/microservices';
 import { Queue } from 'bullmq';
 import { firstValueFrom } from 'rxjs';
+import { CqrsRepoType } from '@clarte/shared-nest/types';
 
 @CommandHandler(CreateTodoCommand)
 export class CreateTodoHandler implements ICommandHandler<CreateTodoCommand> {
   constructor(
     @InjectTodoRepo('w')
-    private readonly repoWrite: ITodoWriteRepository,
+    private readonly repoWrite: ITodoRepository[CqrsRepoType.w],
     @InjectTodoRmqClient() private readonly rmqClient: ClientProxy,
     @InjectTodoQueue() private readonly timersQueue: Queue,
   ) {}
 
-  async execute(
-    command: CreateTodoCommand,
-  ): Promise<TodoProto.CreateTodoResponse> {
+  async execute(command: CreateTodoCommand): Promise<TodoProto.CreateTodoResponse> {
     const { userId, data } = command;
     const todoId = randomUUID();
 

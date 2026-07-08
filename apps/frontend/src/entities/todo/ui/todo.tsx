@@ -17,12 +17,13 @@ export interface TodoDataProp {
 
 interface TodoProps {
   data: TodoDataProp;
-  onToggleComplete?: () => void;
+  onComplete?: () => void;
+  onUnComplete?: () => void;
   onEdit?: () => void;
   onDelete?: () => void;
 }
 
-export const Todo = ({ data, onToggleComplete, onEdit, onDelete }: TodoProps) => {
+export const Todo = ({ data, onComplete, onUnComplete, onEdit, onDelete }: TodoProps) => {
   const isOverdue = !data.isCompleted && new Date(data.dueDate).getTime() < Date.now();
 
   const formattedDate = new Date(data.dueDate).toLocaleString('ru-RU', {
@@ -33,12 +34,20 @@ export const Todo = ({ data, onToggleComplete, onEdit, onDelete }: TodoProps) =>
     minute: '2-digit',
   });
 
+  const handleCheckboxChange = () => {
+    if (data.isCompleted) {
+      onUnComplete?.();
+    } else {
+      onComplete?.();
+    }
+  };
+
   return (
     <div className={classes.todo}>
       <Checkbox
         size="md"
         checked={data.isCompleted}
-        onChange={onToggleComplete}
+        onChange={handleCheckboxChange}
         color="teal"
         radius="xl"
         className={classes.todoCheckbox}

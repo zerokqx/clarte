@@ -5,6 +5,8 @@ import {
   CreateTodoCommand,
   UpdateTodoCommand,
   GetUserTodosQuery,
+  CompleteTodoCommand,
+  UncompleteTodoCommand,
 } from '@/application';
 
 @Todo.TodoServiceControllerMethods()
@@ -15,12 +17,8 @@ export class TodoRpcController implements Todo.TodoServiceController {
     private readonly queryBus: QueryBus,
   ) {}
 
-  async createTodo(
-    request: Todo.CreateTodoRequest,
-  ): Promise<Todo.CreateTodoResponse> {
-    return this.commandBus.execute(
-      new CreateTodoCommand(request.userId, request),
-    );
+  async createTodo(request: Todo.CreateTodoRequest): Promise<Todo.CreateTodoResponse> {
+    return this.commandBus.execute(new CreateTodoCommand(request.userId, request));
   }
 
   async updateTodo(request: Todo.UpdateTodoRequest): Promise<void> {
@@ -28,12 +26,28 @@ export class TodoRpcController implements Todo.TodoServiceController {
     return {} as unknown as void;
   }
 
-  async getUserTodos(
-    request: Todo.GetUserTodosRequest,
-  ): Promise<Todo.GetUserTodsResponse> {
-    const todos = await this.queryBus.execute(
-      new GetUserTodosQuery(request.userId),
+  async completeTodo(request: Todo.CompleteTodoRequest): Promise<void> {
+    await this.commandBus.execute(
+      new CompleteTodoCommand({
+        todoId: request.id,
+        userId: request.userId,
+      }),
     );
+    return {} as unknown as void;
+  }
+
+  async uncompleteTodo(request: Todo.UncompleteTodoRequest): Promise<void> {
+    await this.commandBus.execute(
+      new UncompleteTodoCommand({
+        todoId: request.id,
+        userId: request.userId,
+      }),
+    );
+    return {} as unknown as void;
+  }
+
+  async getUserTodos(request: Todo.GetUserTodosRequest): Promise<Todo.GetUserTodsResponse> {
+    const todos = await this.queryBus.execute(new GetUserTodosQuery(request.userId));
 
     return {
       todos: todos.map((t) => ({

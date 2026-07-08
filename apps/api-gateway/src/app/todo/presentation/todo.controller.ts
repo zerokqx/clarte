@@ -20,19 +20,19 @@ export class TodoController extends Marks.Controller.Private {
   @Post()
   @AccessGuard()
   @ApiOperation({ summary: 'Создать новую задачу' })
-  @ApiOkResponse({ description: 'Успешно создано', schema: { properties: { id: { type: 'string' } } } })
-  createTodo(
-    @User() user: IJwtPayload,
-    @Body() body: CreateTodoDTO,
-  ): Observable<{ id: string }> {
-    return this.todoClient.createTodo({
-      title: body.title,
-      description: body.description,
-      dueDate: body.dueDate,
-      userId: user.sub,
-    }).pipe(
-      map((res) => ({ id: res.id })),
-    );
+  @ApiOkResponse({
+    description: 'Успешно создано',
+    schema: { properties: { id: { type: 'string' } } },
+  })
+  createTodo(@User() user: IJwtPayload, @Body() body: CreateTodoDTO): Observable<{ id: string }> {
+    return this.todoClient
+      .createTodo({
+        title: body.title,
+        description: body.description,
+        dueDate: body.dueDate,
+        userId: user.sub,
+      })
+      .pipe(map((res) => ({ id: res.id })));
   }
 
   @Patch(':id')
@@ -51,6 +51,34 @@ export class TodoController extends Marks.Controller.Private {
       description: body.description,
       dueDate: body.due_date,
       isCompleted: body.is_completed,
+    });
+  }
+
+  @Patch(':id/complete')
+  @AccessGuard()
+  @ApiOperation({ summary: 'Пометить задачу как выполненную' })
+  @ApiOkResponse({ description: 'Успешно выполнено' })
+  completeTodo(
+    @Param('id', ParseUUIDPipe) id: string,
+    @User() user: IJwtPayload,
+  ): Observable<void> {
+    return this.todoClient.completeTodo({
+      id,
+      userId: user.sub,
+    });
+  }
+
+  @Patch(':id/uncomplete')
+  @AccessGuard()
+  @ApiOperation({ summary: 'Пометить задачу как невыполненную' })
+  @ApiOkResponse({ description: 'Успешно отменено выполнение' })
+  uncompleteTodo(
+    @Param('id', ParseUUIDPipe) id: string,
+    @User() user: IJwtPayload,
+  ): Observable<void> {
+    return this.todoClient.uncompleteTodo({
+      id,
+      userId: user.sub,
     });
   }
 

@@ -20,8 +20,8 @@ export class TodoOrmEntity {
   @Column({ type: 'varchar', length: 255 })
   title!: string;
 
-  @Column({ type: 'text', nullable: true })
-  description?: string;
+  @Column({ type: 'text', default: '' })
+  description!: string;
 
   @Column({ type: 'timestamp', name: 'due_date' })
   dueDate!: Date;

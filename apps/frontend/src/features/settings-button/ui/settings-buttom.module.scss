@@ -1,0 +1,6 @@
+@use '@/shared/styles/mantine' as *;
+.button {
+  &--active {
+    background-color: var(--mantine-primary-color-filled);
+  }
+}

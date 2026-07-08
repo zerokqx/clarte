@@ -1,7 +1,7 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { GetUserTodosQuery } from './get-user-todos.query';
 import { InjectTodoRepo } from '@/application/decorators';
-import { ITodoReadRepository } from '@/application/ports';
+import type { ITodoReadRepository } from '@/application/ports';
 import { TodoReadModel } from '../../models';
 
 @QueryHandler(GetUserTodosQuery)

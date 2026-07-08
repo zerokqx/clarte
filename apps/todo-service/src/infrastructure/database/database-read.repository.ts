@@ -75,9 +75,9 @@ export class TodoRepositoryRead implements ITodoReadRepository {
           row.isCompleted,
           row.title,
           row.description,
-          row.dueDate,
-          row.createdAt,
-          row.updatedAt,
+          row.dueDate.toISOString(),
+          row.createdAt.toISOString(),
+          row.updatedAt.toISOString(),
         ),
     );
   }

@@ -2,6 +2,7 @@
 
 .bottom-nav {
   &__container {
+    position: relative;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -11,6 +12,15 @@
     padding-left: spacing(xs);
     padding-right: spacing(xs);
     height: rem(56);
+  }
+
+  &__sub-actions {
+    width: 100%;
+    pointer-events: none;
+
+    & > * {
+      pointer-events: auto;
+    }
   }
 
   &__item {
