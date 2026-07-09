@@ -18,7 +18,9 @@ export class TodoRpcController implements Todo.TodoServiceController {
   ) {}
 
   async createTodo(request: Todo.CreateTodoRequest): Promise<Todo.CreateTodoResponse> {
-    return this.commandBus.execute(new CreateTodoCommand(request.userId, request));
+    return this.commandBus.execute(
+      new CreateTodoCommand({ userId: request.userId, data: request }),
+    );
   }
 
   async updateTodo(request: Todo.UpdateTodoRequest): Promise<void> {

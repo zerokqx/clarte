@@ -10,6 +10,7 @@ service TodoService {
   rpc GetUserTodos(GetUserTodosRequest) returns (GetUserTodsResponse);
   rpc CompleteTodo(CompleteTodoRequest) returns (google.protobuf.Empty);
   rpc UncompleteTodo(UncompleteTodoRequest) returns (google.protobuf.Empty);
+  rpc DeleteTodo(DeleteTodoRequest) returns (google.protobuf.Empty);
 }
 
 message TodoResponse {
@@ -49,6 +50,11 @@ message CompleteTodoRequest {
 }
 
 message UncompleteTodoRequest {
+  string id = 1;
+  string user_id = 2;
+}
+
+message DeleteTodoRequest {
   string id = 1;
   string user_id = 2;
 }

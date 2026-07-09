@@ -1,3 +1,4 @@
+import { freezeWith } from '@clarte/shared';
 import { Command } from '@nestjs/cqrs';
 
 interface UncompleteTodoCommandProps {
@@ -9,7 +10,6 @@ export class UncompleteTodoCommand extends Command<void> {
   readonly userId!: string;
   constructor(props: UncompleteTodoCommandProps) {
     super();
-    Object.assign(this, props);
-    Object.freeze(this);
+    freezeWith(this, props);
   }
 }

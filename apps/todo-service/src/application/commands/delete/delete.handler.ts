@@ -8,6 +8,9 @@ import { CqrsRepoType } from '@clarte/shared-nest/types';
 export class DeleteHandler implements ICommandHandler<DeleteCommand> {
   constructor(@InjectTodoRepo('w') private readonly writeRepo: ITodoRepository[CqrsRepoType.w]) {}
   async execute(command: DeleteCommand): Promise<void> {
-    const entity = this.writeRepo.getTodoByIdAndUserId(command.todoId, command.userId);
+    const entity = await this.writeRepo.getTodoByIdAndUserId(command.todoId, command.userId);
+    if (!entity) return;
+    entity.delete();
+    await this.writeRepo.save(entity);
   }
 }

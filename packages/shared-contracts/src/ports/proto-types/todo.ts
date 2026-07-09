@@ -52,6 +52,11 @@ export interface UncompleteTodoRequest {
   userId: string;
 }
 
+export interface DeleteTodoRequest {
+  id: string;
+  userId: string;
+}
+
 export interface GetUserTodosRequest {
   id: string;
   userId: string;
@@ -73,6 +78,8 @@ export interface TodoServiceClient {
   completeTodo(request: CompleteTodoRequest): Observable<Empty>;
 
   uncompleteTodo(request: UncompleteTodoRequest): Observable<Empty>;
+
+  deleteTodo(request: DeleteTodoRequest): Observable<Empty>;
 }
 
 export interface TodoServiceController {
@@ -89,6 +96,8 @@ export interface TodoServiceController {
   completeTodo(request: CompleteTodoRequest): void | Promise<void>;
 
   uncompleteTodo(request: UncompleteTodoRequest): void | Promise<void>;
+
+  deleteTodo(request: DeleteTodoRequest): void | Promise<void>;
 }
 
 export function TodoServiceControllerMethods() {
@@ -99,6 +108,7 @@ export function TodoServiceControllerMethods() {
       'getUserTodos',
       'completeTodo',
       'uncompleteTodo',
+      'deleteTodo',
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);

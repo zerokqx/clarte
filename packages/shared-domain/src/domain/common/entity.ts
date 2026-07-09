@@ -1,5 +1,7 @@
-interface EntityBaseProps {
-  id: string;
+import { ValueObject } from './vo';
+
+export interface EntityBaseProps {
+  id: string | ValueObject<string>;
 }
 export abstract class Entity<Props extends EntityBaseProps = EntityBaseProps> {
   protected readonly _props: Props;
@@ -9,7 +11,8 @@ export abstract class Entity<Props extends EntityBaseProps = EntityBaseProps> {
   }
 
   get id(): string {
-    return this._props.id;
+    const id = this._props.id;
+    return id instanceof ValueObject ? String(id.value) : String(id);
   }
 
   public equals(other?: Entity): boolean {

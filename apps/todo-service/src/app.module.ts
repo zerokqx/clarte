@@ -19,6 +19,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TodoRpcController } from './presentation';
 import { CreateTodoHandler, UpdateTodoHandler, GetUserTodosHandler } from './application';
 import { BullModule } from '@nestjs/bullmq';
+import { DeleteHandler } from './application/commands/delete';
 
 @Module({
   imports: [
@@ -57,6 +58,7 @@ import { BullModule } from '@nestjs/bullmq';
     ReminderProcessor,
     CompleteTodoHandler,
     UncompleteTodoHandler,
+    DeleteHandler,
   ],
 })
 export class AppModule {}

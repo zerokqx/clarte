@@ -1,3 +1,4 @@
+import { freezeWith } from '@clarte/shared';
 import { Command } from '@nestjs/cqrs';
 
 interface CompleteTodoProps {
@@ -9,6 +10,6 @@ export class CompleteTodoCommand extends Command<void> implements CompleteTodoPr
   readonly userId!: string;
   constructor(props: CompleteTodoProps) {
     super();
-    Object.assign(this, props);
+    freezeWith(this, props);
   }
 }

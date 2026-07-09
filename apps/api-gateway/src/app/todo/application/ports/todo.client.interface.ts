@@ -7,4 +7,5 @@ export interface ITodoClient {
   getUserTodos(userId: string): Observable<Todo.GetUserTodsResponse>;
   completeTodo(data: Todo.CompleteTodoRequest): Observable<void>;
   uncompleteTodo(data: Todo.UncompleteTodoRequest): Observable<void>;
+  deleteTodo(data: Todo.DeleteTodoRequest): Observable<void>;
 }

@@ -125,6 +125,11 @@ export class Todo extends Entity<TodoProps> {
     this.renewUpdateAt();
   }
 
+  public delete(): void {
+    this._props.isDeleted = true;
+    this.renewUpdateAt();
+  }
+
   public changeDescription(rawDescription: string): void {
     this._props.description = DescriptionVo.create(rawDescription);
     this.renewUpdateAt();
