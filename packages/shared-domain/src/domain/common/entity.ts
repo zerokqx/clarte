@@ -1,18 +1,13 @@
-export abstract class Entity<Props = any> {
+import { ValueObject } from './vo';
+
+export abstract class Entity<Props extends { id: any } = any> {
   protected readonly _id: string;
   protected readonly _props: Props;
 
   constructor(props: Props) {
     this._props = props;
-    if (typeof props === 'object' && props !== null) {
-      const anyProps = props as any;
-      this._id =
-        typeof anyProps.id === 'object' && anyProps.id && 'value' in anyProps.id
-          ? String(anyProps.id.value)
-          : String(anyProps.id ?? '');
-    } else {
-      this._id = String(props ?? '');
-    }
+    const id = props.id;
+    this._id = id instanceof ValueObject ? String(id.value) : String(id);
   }
 
   get id(): string {
