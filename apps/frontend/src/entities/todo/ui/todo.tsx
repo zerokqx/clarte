@@ -1,10 +1,10 @@
-import { ActionIcon, Badge, Checkbox, Skeleton, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Checkbox, Skeleton, Text, Tooltip } from '@mantine/core';
 import { CalendarIcon } from '@phosphor-icons/react/dist/csr/Calendar';
 import { PencilSimpleIcon } from '@phosphor-icons/react/dist/csr/PencilSimple';
 import { TrashIcon } from '@phosphor-icons/react/dist/csr/Trash';
-import { ClockIcon } from '@phosphor-icons/react/dist/csr/Clock';
 import classes from './todo.module.scss';
 import { M } from '@clarte/mantine-helpers';
+import { useTodoControllerDeleteTodo } from '@clarte/shared-api/endpoints';
 
 export interface TodoDataProp {
   id: string;
@@ -25,6 +25,7 @@ interface TodoProps {
 
 export const Todo = ({ data, onComplete, onUnComplete, onEdit, onDelete }: TodoProps) => {
   const isOverdue = !data.isCompleted && new Date(data.dueDate).getTime() < Date.now();
+  const { mutate } = useTodoControllerDeleteTodo();
 
   const formattedDate = new Date(data.dueDate).toLocaleString('ru-RU', {
     day: 'numeric',
@@ -97,7 +98,9 @@ export const Todo = ({ data, onComplete, onUnComplete, onEdit, onDelete }: TodoP
           <ActionIcon
             variant="subtle"
             color="red"
-            onClick={onDelete}
+            onClick={() => {
+              mutate({ id: data.id });
+            }}
             radius="md"
             size="md"
             className={classes.todoActionButton}

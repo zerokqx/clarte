@@ -95,6 +95,24 @@ export const getTodoControllerUpdateTodoMockHandler = (
   );
 };
 
+export const getTodoControllerDeleteTodoMockHandler = (
+  overrideResponse?:
+    void | ((info: Parameters<Parameters<typeof http.delete>[1]>[0]) => Promise<void> | void),
+  options?: RequestHandlerOptions,
+) => {
+  return http.delete(
+    '*/api/todos/:id',
+    async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
+      if (typeof overrideResponse === 'function') {
+        await overrideResponse(info);
+      }
+
+      return new HttpResponse(null, { status: 200 });
+    },
+    options,
+  );
+};
+
 export const getTodoControllerCompleteTodoMockHandler = (
   overrideResponse?:
     void | ((info: Parameters<Parameters<typeof http.patch>[1]>[0]) => Promise<void> | void),
@@ -134,6 +152,7 @@ export const getTodoMock = () => [
   getTodoControllerCreateTodoMockHandler(),
   getTodoControllerGetUserTodosMockHandler(),
   getTodoControllerUpdateTodoMockHandler(),
+  getTodoControllerDeleteTodoMockHandler(),
   getTodoControllerCompleteTodoMockHandler(),
   getTodoControllerUncompleteTodoMockHandler(),
 ];

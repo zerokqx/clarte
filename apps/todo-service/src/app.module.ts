@@ -17,9 +17,13 @@ import { DatabaseModule, ReminderProcessor } from './infrastructure';
 import { CqrsModule } from '@nestjs/cqrs';
 import { ConfigModule } from '@nestjs/config';
 import { TodoRpcController } from './presentation';
-import { CreateTodoHandler, UpdateTodoHandler, GetUserTodosHandler } from './application';
+import {
+  CreateTodoHandler,
+  UpdateTodoHandler,
+  GetUserTodosHandler,
+  DeleteHandler,
+} from './application';
 import { BullModule } from '@nestjs/bullmq';
-import { DeleteHandler } from './application/commands/delete';
 
 @Module({
   imports: [

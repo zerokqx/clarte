@@ -7,7 +7,9 @@ import {
   GetUserTodosQuery,
   CompleteTodoCommand,
   UncompleteTodoCommand,
+  DeleteCommand,
 } from '@/application';
+import { voidObject } from '@clarte/shared';
 
 @Todo.TodoServiceControllerMethods()
 @Controller()
@@ -63,5 +65,11 @@ export class TodoRpcController implements Todo.TodoServiceController {
         updatedAt: t.updatedAt ? new Date(t.updatedAt).toISOString() : '',
       })),
     };
+  }
+  async deleteTodo(request: Todo.DeleteTodoRequest): Promise<void> {
+    await this.commandBus.execute(
+      new DeleteCommand({ userId: request.userId, todoId: request.id }),
+    );
+    return voidObject();
   }
 }
