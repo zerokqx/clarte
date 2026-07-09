@@ -13,15 +13,15 @@ export class NoteWriteRepository implements INoteRepositoryWrite {
   async findById(id: string): Promise<Note | null> {
     const doc = await this.noteModel.findById(id).exec();
     if (!doc) return null;
-    return Note.restore(
-      doc._id,
-      doc.text,
-      doc.tags,
-      doc.bytes ? new Uint8Array(doc.bytes) : null,
-      doc.authorId,
-      doc.createdAt,
-      doc.updatedAt,
-    );
+    return Note.restore({
+      id: doc._id,
+      text: doc.text,
+      tags: doc.tags,
+      bytes: doc.bytes ? new Uint8Array(doc.bytes) : null,
+      authorId: doc.authorId,
+      createdAt: doc.createdAt,
+      updatedAt: doc.updatedAt,
+    });
   }
 
   async save(note: Note): Promise<void> {

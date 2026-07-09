@@ -3,12 +3,12 @@ import { UserOrmEntity } from '@/infrastructure/database/user.entity';
 
 export class UserMapper {
   static toDomain(entity: UserOrmEntity): User {
-    return User.restore(
-      entity.id,
-      entity.login,
-      entity.passwordHash,
-      entity.avatarUrl,
-    );
+    return User.restore({
+      id: entity.id,
+      login: entity.login,
+      passwordHash: entity.passwordHash,
+      avatarUrl: entity.avatarUrl,
+    });
   }
 
   static fromDomainToOrm(entity: User): UserOrmEntity {

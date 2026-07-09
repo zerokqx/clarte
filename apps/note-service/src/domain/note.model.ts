@@ -1,8 +1,6 @@
 import { Entity } from '@clarte/shared-domain/domain';
 import { TextVo } from './value-objects';
 
-type NoteProps = Pick<Note, never>;
-
 interface NotePlain {
   id: string;
   text: string;
@@ -12,80 +10,103 @@ interface NotePlain {
   createdAt: Date;
   updatedAt: Date;
 }
-export class Note extends Entity {
-  private constructor(
-    id: string,
-    private _text: TextVo,
-    private _tags: string[],
-    private _bytes: Uint8Array | null,
-    private _authorId: string,
-    private readonly _createdAt: Date,
-    private _updatedAt: Date,
-  ) {
-    super(id);
+
+interface NoteProps {
+  id: string;
+  text: TextVo;
+  tags: string[];
+  bytes: Uint8Array | null;
+  authorId: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface CreateNoteDto {
+  id: string;
+  text: string;
+  tags?: string[];
+  bytes?: Uint8Array | null;
+  authorId: string;
+}
+
+interface RestoreNoteDto {
+  id: string;
+  text: string;
+  tags: string[];
+  bytes: Uint8Array | null;
+  authorId: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export class Note extends Entity<NoteProps> {
+  private constructor(props: NoteProps) {
+    super(props);
   }
 
-  public static create(
-    id: string,
-    text: string,
-    tags: string[] = [],
-    bytes: Uint8Array | null = null,
-    authorId: string,
-  ) {
+  public static create(dto: CreateNoteDto): Note {
     const now = new Date();
-    return new Note(id, TextVo.create(text), tags, bytes, authorId, now, now);
+    return new Note({
+      id: dto.id,
+      text: TextVo.create(dto.text),
+      tags: dto.tags ?? [],
+      bytes: dto.bytes ?? null,
+      authorId: dto.authorId,
+      createdAt: now,
+      updatedAt: now,
+    });
   }
 
-  public static restore(
-    id: string,
-    text: string,
-    tags: string[],
-    bytes: Uint8Array | null,
-    authorId: string,
-    createdAt: Date,
-    updatedAt: Date,
-  ): Note {
-    return new Note(id, TextVo.restore(text), tags, bytes, authorId, createdAt, updatedAt);
+  public static restore(dto: RestoreNoteDto): Note {
+    return new Note({
+      id: dto.id,
+      text: TextVo.restore(dto.text),
+      tags: dto.tags,
+      bytes: dto.bytes,
+      authorId: dto.authorId,
+      createdAt: dto.createdAt,
+      updatedAt: dto.updatedAt,
+    });
   }
 
   changeText(rawNewText: string) {
     const newText = TextVo.create(rawNewText);
-    const now = new Date();
-    this._text = newText;
-    this._updatedAt = now;
+    this._props.text = newText;
+    this._props.updatedAt = new Date();
   }
 
   changeTags(tags: string[]) {
-    this._tags = tags;
-    this._updatedAt = new Date();
+    this._props.tags = tags;
+    this._props.updatedAt = new Date();
   }
 
   changeBytes(bytes: Uint8Array | null) {
-    this._bytes = bytes;
-    this._updatedAt = new Date();
+    this._props.bytes = bytes;
+    this._props.updatedAt = new Date();
   }
 
   get text(): string {
-    return this._text.value;
+    return this._props.text.value;
   }
 
   get tags(): string[] {
-    return this._tags;
+    return this._props.tags;
   }
 
   get bytes(): Uint8Array | null {
-    return this._bytes;
+    return this._props.bytes;
   }
 
   get authorId(): string {
-    return this._authorId;
+    return this._props.authorId;
   }
 
   get createdAt(): Date {
-    return this._createdAt;
+    return this._props.createdAt;
   }
+
   get updatedAt(): Date {
-    return this._updatedAt;
+    return this._props.updatedAt;
   }
 
   override toPlain(): NotePlain {
