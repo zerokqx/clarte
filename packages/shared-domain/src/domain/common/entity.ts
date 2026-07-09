@@ -1,23 +1,21 @@
-import { ValueObject } from './vo';
-
-export abstract class Entity<Props extends { id: any } = any> {
-  protected readonly _id: string;
+interface EntityBaseProps {
+  id: string;
+}
+export abstract class Entity<Props extends EntityBaseProps = EntityBaseProps> {
   protected readonly _props: Props;
 
   constructor(props: Props) {
     this._props = props;
-    const id = props.id;
-    this._id = id instanceof ValueObject ? String(id.value) : String(id);
   }
 
   get id(): string {
-    return this._id;
+    return this._props.id;
   }
 
-  public equals(other?: Entity<any>): boolean {
+  public equals(other?: Entity): boolean {
     if (other === null || other === undefined) return false;
     if (this === other) return true;
-    return this._id === other.id;
+    return this.id === other.id;
   }
 
   abstract toPlain(): object;
