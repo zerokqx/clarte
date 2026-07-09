@@ -7,8 +7,13 @@
  */
 import { useQuery } from '@tanstack/react-query';
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  QueryClient,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
@@ -64,7 +69,9 @@ export const getUserControllerFindUserByIdQueryOptions = <
 >(
   id: string,
   options?: {
-    query?: UseQueryOptions<Awaited<ReturnType<typeof userControllerFindUserById>>, TError, TData>;
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof userControllerFindUserById>>, TError, TData>
+    >;
     request?: SecondParameter<typeof customInstance>;
   },
 ) => {
@@ -82,7 +89,7 @@ export const getUserControllerFindUserByIdQueryOptions = <
     enabled: id !== null && id !== undefined,
     ...queryOptions,
   } as UseQueryOptions<Awaited<ReturnType<typeof userControllerFindUserById>>, TError, TData> & {
-    queryKey: QueryKey;
+    queryKey: DataTag<QueryKey, TData, TError>;
   };
 };
 
@@ -91,6 +98,61 @@ export type UserControllerFindUserByIdQueryResult = NonNullable<
 >;
 export type UserControllerFindUserByIdQueryError = ErrorType<unknown>;
 
+export function useUserControllerFindUserById<
+  TData = Awaited<ReturnType<typeof userControllerFindUserById>>,
+  TError = ErrorType<unknown>,
+>(
+  id: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof userControllerFindUserById>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof userControllerFindUserById>>,
+          TError,
+          Awaited<ReturnType<typeof userControllerFindUserById>>
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useUserControllerFindUserById<
+  TData = Awaited<ReturnType<typeof userControllerFindUserById>>,
+  TError = ErrorType<unknown>,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof userControllerFindUserById>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof userControllerFindUserById>>,
+          TError,
+          Awaited<ReturnType<typeof userControllerFindUserById>>
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useUserControllerFindUserById<
+  TData = Awaited<ReturnType<typeof userControllerFindUserById>>,
+  TError = ErrorType<unknown>,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof userControllerFindUserById>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 /**
  * @summary Получить пользователя по ID
  */
@@ -101,13 +163,18 @@ export function useUserControllerFindUserById<
 >(
   id: string,
   options?: {
-    query?: UseQueryOptions<Awaited<ReturnType<typeof userControllerFindUserById>>, TError, TData>;
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof userControllerFindUserById>>, TError, TData>
+    >;
     request?: SecondParameter<typeof customInstance>;
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
   const queryOptions = getUserControllerFindUserByIdQueryOptions(id, options);
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
   return withQueryKey(query, queryOptions.queryKey);
 }
@@ -136,10 +203,8 @@ export const getUserControllerFindUserByLoginQueryOptions = <
 >(
   login: string,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof userControllerFindUserByLogin>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof userControllerFindUserByLogin>>, TError, TData>
     >;
     request?: SecondParameter<typeof customInstance>;
   },
@@ -158,7 +223,7 @@ export const getUserControllerFindUserByLoginQueryOptions = <
     enabled: login !== null && login !== undefined,
     ...queryOptions,
   } as UseQueryOptions<Awaited<ReturnType<typeof userControllerFindUserByLogin>>, TError, TData> & {
-    queryKey: QueryKey;
+    queryKey: DataTag<QueryKey, TData, TError>;
   };
 };
 
@@ -167,6 +232,61 @@ export type UserControllerFindUserByLoginQueryResult = NonNullable<
 >;
 export type UserControllerFindUserByLoginQueryError = ErrorType<unknown>;
 
+export function useUserControllerFindUserByLogin<
+  TData = Awaited<ReturnType<typeof userControllerFindUserByLogin>>,
+  TError = ErrorType<unknown>,
+>(
+  login: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof userControllerFindUserByLogin>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof userControllerFindUserByLogin>>,
+          TError,
+          Awaited<ReturnType<typeof userControllerFindUserByLogin>>
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useUserControllerFindUserByLogin<
+  TData = Awaited<ReturnType<typeof userControllerFindUserByLogin>>,
+  TError = ErrorType<unknown>,
+>(
+  login: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof userControllerFindUserByLogin>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof userControllerFindUserByLogin>>,
+          TError,
+          Awaited<ReturnType<typeof userControllerFindUserByLogin>>
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useUserControllerFindUserByLogin<
+  TData = Awaited<ReturnType<typeof userControllerFindUserByLogin>>,
+  TError = ErrorType<unknown>,
+>(
+  login: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof userControllerFindUserByLogin>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 /**
  * @summary Получить пользователя по логину
  */
@@ -177,17 +297,18 @@ export function useUserControllerFindUserByLogin<
 >(
   login: string,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof userControllerFindUserByLogin>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof userControllerFindUserByLogin>>, TError, TData>
     >;
     request?: SecondParameter<typeof customInstance>;
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
   const queryOptions = getUserControllerFindUserByLoginQueryOptions(login, options);
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
   return withQueryKey(query, queryOptions.queryKey);
 }
@@ -210,7 +331,7 @@ export const getUserControllerMeQueryOptions = <
   TData = Awaited<ReturnType<typeof userControllerMe>>,
   TError = ErrorType<unknown>,
 >(options?: {
-  query?: UseQueryOptions<Awaited<ReturnType<typeof userControllerMe>>, TError, TData>;
+  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerMe>>, TError, TData>>;
   request?: SecondParameter<typeof customInstance>;
 }) => {
   const { query: queryOptions, request: requestOptions } = options ?? {};
@@ -224,12 +345,58 @@ export const getUserControllerMeQueryOptions = <
     Awaited<ReturnType<typeof userControllerMe>>,
     TError,
     TData
-  > & { queryKey: QueryKey };
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
 export type UserControllerMeQueryResult = NonNullable<Awaited<ReturnType<typeof userControllerMe>>>;
 export type UserControllerMeQueryError = ErrorType<unknown>;
 
+export function useUserControllerMe<
+  TData = Awaited<ReturnType<typeof userControllerMe>>,
+  TError = ErrorType<unknown>,
+>(
+  options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerMe>>, TError, TData>> &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof userControllerMe>>,
+          TError,
+          Awaited<ReturnType<typeof userControllerMe>>
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useUserControllerMe<
+  TData = Awaited<ReturnType<typeof userControllerMe>>,
+  TError = ErrorType<unknown>,
+>(
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerMe>>, TError, TData>> &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof userControllerMe>>,
+          TError,
+          Awaited<ReturnType<typeof userControllerMe>>
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useUserControllerMe<
+  TData = Awaited<ReturnType<typeof userControllerMe>>,
+  TError = ErrorType<unknown>,
+>(
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerMe>>, TError, TData>>;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 /**
  * @summary Получить профиль текущего пользователя
  */
@@ -237,13 +404,18 @@ export type UserControllerMeQueryError = ErrorType<unknown>;
 export function useUserControllerMe<
   TData = Awaited<ReturnType<typeof userControllerMe>>,
   TError = ErrorType<unknown>,
->(options?: {
-  query?: UseQueryOptions<Awaited<ReturnType<typeof userControllerMe>>, TError, TData>;
-  request?: SecondParameter<typeof customInstance>;
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+>(
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerMe>>, TError, TData>>;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
   const queryOptions = getUserControllerMeQueryOptions(options);
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
   return withQueryKey(query, queryOptions.queryKey);
 }

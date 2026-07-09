@@ -8,6 +8,7 @@
 import { useMutation } from '@tanstack/react-query';
 import type {
   MutationFunction,
+  QueryClient,
   UseMutationOptions,
   UseMutationResult,
 } from '@tanstack/react-query';
@@ -88,24 +89,24 @@ export type UserEditControllerChangeAvatarMutationError = ErrorType<unknown>;
 /**
  * @summary Изменить аватар пользователя
  */
-export const useUserEditControllerChangeAvatar = <
-  TError = ErrorType<unknown>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof userEditControllerChangeAvatar>>,
-    TError,
-    { data: BodyType<UserChangeAvatarDTO> },
-    TContext
-  >;
-  request?: SecondParameter<typeof customInstance>;
-}): UseMutationResult<
+export const useUserEditControllerChangeAvatar = <TError = ErrorType<unknown>, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof userEditControllerChangeAvatar>>,
+      TError,
+      { data: BodyType<UserChangeAvatarDTO> },
+      TContext
+    >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof userEditControllerChangeAvatar>>,
   TError,
   { data: BodyType<UserChangeAvatarDTO> },
   TContext
 > => {
-  return useMutation(getUserEditControllerChangeAvatarMutationOptions(options));
+  return useMutation(getUserEditControllerChangeAvatarMutationOptions(options), queryClient);
 };
 /**
  * @summary Изменить логин пользователя
@@ -172,22 +173,22 @@ export type UserEditControllerChangeLoginMutationError = ErrorType<unknown>;
 /**
  * @summary Изменить логин пользователя
  */
-export const useUserEditControllerChangeLogin = <
-  TError = ErrorType<unknown>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof userEditControllerChangeLogin>>,
-    TError,
-    { data: BodyType<UserChangeLoginDTO> },
-    TContext
-  >;
-  request?: SecondParameter<typeof customInstance>;
-}): UseMutationResult<
+export const useUserEditControllerChangeLogin = <TError = ErrorType<unknown>, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof userEditControllerChangeLogin>>,
+      TError,
+      { data: BodyType<UserChangeLoginDTO> },
+      TContext
+    >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof userEditControllerChangeLogin>>,
   TError,
   { data: BodyType<UserChangeLoginDTO> },
   TContext
 > => {
-  return useMutation(getUserEditControllerChangeLoginMutationOptions(options));
+  return useMutation(getUserEditControllerChangeLoginMutationOptions(options), queryClient);
 };

@@ -48,7 +48,7 @@ export const Todo = ({ data, onComplete, onUnComplete, onEdit, onDelete }: TodoP
         size="md"
         checked={data.isCompleted}
         onChange={handleCheckboxChange}
-        color="teal"
+        color="green"
         radius="xl"
         className={classes.todoCheckbox}
       />
@@ -67,10 +67,7 @@ export const Todo = ({ data, onComplete, onUnComplete, onEdit, onDelete }: TodoP
 
         <div className={classes.todoMetaGroup}>
           <div className={classes.todoDueDate}>
-            <CalendarIcon
-              size={14}
-              color={data.isCompleted ? M.dimmed() : isOverdue ? M.color('red')(6) : M.primary(6)}
-            />
+            <CalendarIcon size={14} color={M.primary()} />
             <Text
               className={classes.todoDateText}
               data-completed={data.isCompleted}
@@ -81,7 +78,7 @@ export const Todo = ({ data, onComplete, onUnComplete, onEdit, onDelete }: TodoP
           </div>
 
           {data.isCompleted ? (
-            <Badge color="teal" variant="light" size="xs" radius="sm">
+            <Badge color="green" variant="light" size="xs" radius="sm">
               Выполнено
             </Badge>
           ) : isOverdue ? (
