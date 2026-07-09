@@ -21,16 +21,19 @@ export class Todo extends Entity {
     private _title: TitleVo,
     private _description: DescriptionVo,
     private _dueDate: DueDateVo,
-    private readonly _createdAt: Date, // Исправлен синтаксис (убрали лишний _)
+    private readonly _createdAt: Date,
     private _updatedAt: Date,
+    private _isDeleted: boolean,
   ) {
     super(id.value);
   }
 
-  // --- ГЕТТЕРЫ ---
-
   public get userId(): string {
     return this._userId.value;
+  }
+
+  public get isDeleted(): boolean {
+    return this._isDeleted;
   }
 
   public get isCompleted(): boolean {
@@ -76,6 +79,7 @@ export class Todo extends Entity {
       DueDateVo.create(dueDate),
       new Date(),
       new Date(),
+      false,
     );
   }
 

@@ -76,26 +76,6 @@ export const Todo = ({ data, onComplete, onUnComplete, onEdit, onDelete }: TodoP
               {formattedDate}
             </Text>
           </div>
-
-          {data.isCompleted ? (
-            <Badge color="green" variant="light" size="xs" radius="sm">
-              Выполнено
-            </Badge>
-          ) : isOverdue ? (
-            <Badge
-              color="red"
-              variant="light"
-              size="xs"
-              radius="sm"
-              leftSection={<ClockIcon size={10} />}
-            >
-              Просрочено
-            </Badge>
-          ) : (
-            <Badge color="blue" variant="light" size="xs" radius="sm">
-              В процессе
-            </Badge>
-          )}
         </div>
       </div>
 
@@ -104,9 +84,9 @@ export const Todo = ({ data, onComplete, onUnComplete, onEdit, onDelete }: TodoP
           <ActionIcon
             variant="subtle"
             color="gray"
-            onClick={onEdit}
             radius="md"
             size="md"
+            onClick={onEdit}
             className={classes.todoActionButton}
           >
             <PencilSimpleIcon size={18} />

@@ -26,6 +26,9 @@ export class TodoOrmEntity {
   @Column({ type: 'timestamp', name: 'due_date' })
   dueDate!: Date;
 
+  @Column({ type: 'boolean', default: false, nullable: false })
+  isDeleted!: boolean;
+
   @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
   createdAt!: Date;
 

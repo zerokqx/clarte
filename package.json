@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "frontend:dev:run": "nx serve frontend --no-tui",
+    "backend:dev:run": "nx run-many -t serve --exclude=@clarte/frontend --no-tui",
     "prepare": "husky"
   },
   "lint-staged": {
