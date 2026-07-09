@@ -33,6 +33,7 @@ export const useCompleteTodo = () => {
 
         return { previousTodos };
       },
+
       onError: (_err, _variables, context) => {
         if (context?.previousTodos) {
           queryClient.setQueryData<TodoDTO[]>(

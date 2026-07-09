@@ -4,7 +4,6 @@ import { PencilSimpleIcon } from '@phosphor-icons/react/dist/csr/PencilSimple';
 import { TrashIcon } from '@phosphor-icons/react/dist/csr/Trash';
 import classes from './todo.module.scss';
 import { M } from '@clarte/mantine-helpers';
-import { useTodoControllerDeleteTodo } from '@clarte/shared-api/endpoints';
 
 export interface TodoDataProp {
   id: string;
@@ -15,17 +14,16 @@ export interface TodoDataProp {
   createdAt: string;
 }
 
-interface TodoProps {
+export interface TodoProps {
   data: TodoDataProp;
   onComplete?: () => void;
   onUnComplete?: () => void;
   onEdit?: () => void;
-  onDelete?: () => void;
+  onDelete?: () => Promise<void>;
 }
 
 export const Todo = ({ data, onComplete, onUnComplete, onEdit, onDelete }: TodoProps) => {
   const isOverdue = !data.isCompleted && new Date(data.dueDate).getTime() < Date.now();
-  const { mutate } = useTodoControllerDeleteTodo();
 
   const formattedDate = new Date(data.dueDate).toLocaleString('ru-RU', {
     day: 'numeric',
@@ -98,9 +96,7 @@ export const Todo = ({ data, onComplete, onUnComplete, onEdit, onDelete }: TodoP
           <ActionIcon
             variant="subtle"
             color="red"
-            onClick={() => {
-              mutate({ id: data.id });
-            }}
+            onClick={onDelete}
             radius="md"
             size="md"
             className={classes.todoActionButton}
