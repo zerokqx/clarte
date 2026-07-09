@@ -24,14 +24,14 @@ export class CreateTodoHandler implements ICommandHandler<CreateTodoCommand> {
     const { userId, data } = command;
     const todoId = randomUUID();
 
-    const todo = Todo.create(
-      todoId,
+    const todo = Todo.create({
+      id: todoId,
       userId,
-      false,
-      data.title,
-      data.description,
-      new Date(data.dueDate),
-    );
+      isCompleted: false,
+      title: data.title,
+      description: data.description,
+      dueDate: new Date(data.dueDate),
+    });
     const delay = todo.dueDate.getTime() - Date.now();
 
     const finalDelay = delay > 0 ? delay : 0;

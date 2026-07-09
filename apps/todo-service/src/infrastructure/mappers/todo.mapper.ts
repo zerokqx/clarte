@@ -4,16 +4,17 @@ import { Todo } from '@/domain';
 
 export class TodoMapper implements IMapper<TodoOrmEntity, TodoOrmEntity, Todo> {
   toDomain(raw: TodoOrmEntity): Todo {
-    return Todo.restore(
-      raw.id,
-      raw.userId,
-      raw.isCompleted,
-      raw.title,
-      raw.description,
-      raw.dueDate,
-      raw.createdAt,
-      raw.updatedAt,
-    );
+    return Todo.restore({
+      id: raw.id,
+      userId: raw.userId,
+      isCompleted: raw.isCompleted,
+      title: raw.title,
+      description: raw.description,
+      dueDate: raw.dueDate,
+      createdAt: raw.createdAt,
+      updatedAt: raw.updatedAt,
+      isDeleted: raw.isDeleted,
+    });
   }
 
   toPersistence(domain: Todo): TodoOrmEntity {
@@ -26,6 +27,7 @@ export class TodoMapper implements IMapper<TodoOrmEntity, TodoOrmEntity, Todo> {
       updatedAt: domain.updatedAt,
       userId: domain.userId,
       id: domain.id,
+      isDeleted: domain.isDeleted,
     };
   }
 }
