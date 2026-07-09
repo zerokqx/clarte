@@ -48,7 +48,13 @@ export class LoginPasswordHandler implements ICommandHandler<LoginPasswordComman
         times: 2,
         while: (error) => error instanceof UserServiceUnavailableException,
       }),
-      Effect.map((cred) => AuthUser.restore(cred.id, cred.login, cred.passwordHash)),
+      Effect.map((cred) =>
+        AuthUser.restore({
+          id: cred.id,
+          login: cred.login,
+          passwordHash: cred.passwordHash,
+        }),
+      ),
       Effect.flatMap((user) =>
         pipe(
           Effect.tryPromise({

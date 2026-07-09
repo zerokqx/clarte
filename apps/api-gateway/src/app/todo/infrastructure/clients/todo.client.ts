@@ -29,6 +29,10 @@ export class TodoClient implements ITodoClient, OnModuleInit {
     return this.todoService.uncompleteTodo(data).pipe(map(() => void 0));
   }
 
+  deleteTodo(data: Todo.DeleteTodoRequest): Observable<void> {
+    return this.todoService.deleteTodo(data).pipe(map(() => void 0));
+  }
+
   getUserTodos(userId: string): Observable<Todo.GetUserTodsResponse> {
     return this.todoService.getUserTodos({ id: '', userId });
   }

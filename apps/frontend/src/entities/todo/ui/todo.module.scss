@@ -52,6 +52,8 @@
   &__description {
     font-size: fz(xs);
     color: light-dark(c('gray.6'), c('dark.3'));
+    word-break: break-word;
+    overflow-wrap: break-word;
     line-height: 1.4;
     white-space: pre-line;
 

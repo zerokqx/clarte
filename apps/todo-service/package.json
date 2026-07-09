@@ -85,6 +85,7 @@
     }
   },
   "dependencies": {
+    "@clarte/shared": "workspace:*",
     "@clarte/shared-contracts": "workspace:*",
     "@clarte/shared-domain": "workspace:*",
     "@clarte/shared-event-types": "workspace:*",

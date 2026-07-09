@@ -25,14 +25,14 @@ export class DatabaseNotificationRepository implements INotificationRepository {
   async getById(id: string): Promise<Notification | null> {
     const entity = await this.repository.findOneBy({ id });
     if (!entity) return null;
-    return Notification.restore(
-      entity.id,
-      entity.userId,
-      entity.title,
-      entity.text,
-      entity.isRead,
-      entity.createdAt,
-    );
+    return Notification.restore({
+      id: entity.id,
+      userId: entity.userId,
+      title: entity.title,
+      text: entity.text,
+      isRead: entity.isRead,
+      createdAt: entity.createdAt,
+    });
   }
 
   async getByUserId(userId: string): Promise<Notification[]> {
@@ -41,14 +41,14 @@ export class DatabaseNotificationRepository implements INotificationRepository {
       order: { createdAt: 'DESC' },
     });
     return entities.map((entity) =>
-      Notification.restore(
-        entity.id,
-        entity.userId,
-        entity.title,
-        entity.text,
-        entity.isRead,
-        entity.createdAt,
-      ),
+      Notification.restore({
+        id: entity.id,
+        userId: entity.userId,
+        title: entity.title,
+        text: entity.text,
+        isRead: entity.isRead,
+        createdAt: entity.createdAt,
+      }),
     );
   }
 }

@@ -8,13 +8,21 @@ interface AuthUserPlain {
   passwordHash: string;
 }
 
-export class AuthUser extends AggregateRoot {
-  private constructor(
-    id: string,
-    private readonly _login: LoginVo,
-    private readonly _passwordHash: PasswordHashVo,
-  ) {
-    super(id);
+interface AuthUserProps {
+  id: string;
+  login: LoginVo;
+  passwordHash: PasswordHashVo;
+}
+
+interface RestoreAuthUserDto {
+  id: string;
+  login: string;
+  passwordHash: string;
+}
+
+export class AuthUser extends AggregateRoot<AuthUserProps> {
+  private constructor(props: AuthUserProps) {
+    super(props);
   }
 
   public static async create(
@@ -28,25 +36,18 @@ export class AuthUser extends AggregateRoot {
     const hashString = await hasher.hash(rawPassword);
     const passwordHash = PasswordHashVo.create(hashString);
 
-    return new AuthUser(id, login, passwordHash);
+    return new AuthUser({ id, login, passwordHash });
   }
 
-  public static restore(
-    id: string,
-    rawLogin: string,
-    hashFromDb: string,
-  ): AuthUser {
-    return new AuthUser(
-      id,
-      LoginVo.restore(rawLogin),
-      PasswordHashVo.create(hashFromDb),
-    );
+  public static restore(dto: RestoreAuthUserDto): AuthUser {
+    return new AuthUser({
+      id: dto.id,
+      login: LoginVo.restore(dto.login),
+      passwordHash: PasswordHashVo.create(dto.passwordHash),
+    });
   }
 
-  public async comparePassword(
-    rawPassword: string,
-    hasher: IPasswordHasher,
-  ): Promise<boolean> {
+  public async comparePassword(rawPassword: string, hasher: IPasswordHasher): Promise<boolean> {
     return await hasher.compare(rawPassword, this.passwordHash);
   }
 
@@ -57,11 +58,13 @@ export class AuthUser extends AggregateRoot {
       passwordHash: this.passwordHash,
     };
   }
+
   get login(): string {
-    return this._login.value;
+    return this._props.login.value;
   }
+
   get passwordHash(): string {
-    return this._passwordHash.value;
+    return this._props.passwordHash.value;
   }
 
   override toPlain(): AuthUserPlain {

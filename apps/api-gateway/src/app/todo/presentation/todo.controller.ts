@@ -1,5 +1,5 @@
 import { Marks } from '@clarte/shared';
-import { Body, Controller, Get, Param, Patch, Post, ParseUUIDPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Delete, ParseUUIDPipe } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { map, Observable } from 'rxjs';
 import { InjectTodoClient, type ITodoClient } from '@/app/todo/application';
@@ -77,6 +77,17 @@ export class TodoController extends Marks.Controller.Private {
     @User() user: IJwtPayload,
   ): Observable<void> {
     return this.todoClient.uncompleteTodo({
+      id,
+      userId: user.sub,
+    });
+  }
+
+  @Delete(':id')
+  @AccessGuard()
+  @ApiOperation({ summary: 'Удалить задачу' })
+  @ApiOkResponse({ description: 'Успешно удалено' })
+  deleteTodo(@Param('id', ParseUUIDPipe) id: string, @User() user: IJwtPayload): Observable<void> {
+    return this.todoClient.deleteTodo({
       id,
       userId: user.sub,
     });

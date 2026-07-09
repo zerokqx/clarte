@@ -10,74 +10,76 @@ interface NotificationPlain {
   createdAt: string;
 }
 
-export class Notification extends Entity {
-  private constructor(
-    id: IdVo,
-    private readonly _userId: IdVo,
-    private _title: TitleVo,
-    private _text: TextVo,
-    private _isRead: boolean,
-    private readonly _createdAt: Date,
-  ) {
-    super(id.value);
+interface NotificationProps {
+  id: IdVo;
+  userId: IdVo;
+  title: TitleVo;
+  text: TextVo;
+  isRead: boolean;
+  createdAt: Date;
+}
+
+interface CreateNotificationDto {
+  id: string;
+  userId: string;
+  title: string;
+  text: string;
+}
+
+interface RestoreNotificationDto extends CreateNotificationDto {
+  isRead: boolean;
+  createdAt: Date;
+}
+
+export class Notification extends Entity<NotificationProps> {
+  private constructor(props: NotificationProps) {
+    super(props);
   }
 
   public get userId(): string {
-    return this._userId.value;
+    return this._props.userId.value;
   }
 
   public get title(): string {
-    return this._title.value;
+    return this._props.title.value;
   }
 
   public get text(): string {
-    return this._text.value;
+    return this._props.text.value;
   }
 
   public get isRead(): boolean {
-    return this._isRead;
+    return this._props.isRead;
   }
 
   public get createdAt(): Date {
-    return this._createdAt;
+    return this._props.createdAt;
   }
 
-  public static create(
-    id: string,
-    userId: string,
-    title: string,
-    text: string,
-  ): Notification {
-    return new Notification(
-      IdVo.create(id),
-      IdVo.create(userId),
-      TitleVo.create(title),
-      TextVo.create(text),
-      false,
-      new Date(),
-    );
+  public static create(dto: CreateNotificationDto): Notification {
+    return new Notification({
+      id: IdVo.create(dto.id),
+      userId: IdVo.create(dto.userId),
+      title: TitleVo.create(dto.title),
+      text: TextVo.create(dto.text),
+      isRead: false,
+      createdAt: new Date(),
+    });
   }
 
-  public static restore(
-    id: string,
-    userId: string,
-    title: string,
-    text: string,
-    isRead: boolean,
-    createdAt: Date,
-  ): Notification {
-    return new Notification(
-      IdVo.restore(id),
-      IdVo.restore(userId),
-      TitleVo.restore(title),
-      TextVo.restore(text),
-      isRead,
-      createdAt,
-    );
+  public static restore(dto: RestoreNotificationDto): Notification {
+    return new Notification({
+      id: IdVo.restore(dto.id),
+      userId: IdVo.restore(dto.userId),
+      title: TitleVo.restore(dto.title),
+      text: TextVo.restore(dto.text),
+      isRead: dto.isRead,
+      createdAt: dto.createdAt,
+    });
   }
 
   public markAsRead(): void {
-    this._isRead = true;
+    this._props.isRead = true;
   }
 
   override toPlain(): NotificationPlain {

@@ -38,7 +38,13 @@ export class ValidateUserHandler implements IQueryHandler<ValidateUserQuery> {
         times: 2,
         while: (error) => error instanceof UserServiceUnavailableException,
       }),
-      Effect.map((user) => AuthUser.restore(user.id, user.login, user.passwordHash)),
+      Effect.map((user) =>
+        AuthUser.restore({
+          id: user.id,
+          login: user.login,
+          passwordHash: user.passwordHash,
+        }),
+      ),
       Effect.flatMap((authUser) =>
         pipe(
           Effect.tryPromise({

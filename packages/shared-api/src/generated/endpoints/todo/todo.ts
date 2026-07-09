@@ -342,6 +342,81 @@ export const useTodoControllerUpdateTodo = <TError = ErrorType<unknown>, TContex
   return useMutation(getTodoControllerUpdateTodoMutationOptions(options), queryClient);
 };
 /**
+ * @summary Удалить задачу
+ */
+export const todoControllerDeleteTodo = (
+  id: string,
+  options?: SecondParameter<typeof customInstance>,
+  signal?: AbortSignal,
+) => {
+  return customInstance<void>({ url: `/api/todos/${id}`, method: 'DELETE', signal }, options);
+};
+
+export const getTodoControllerDeleteTodoMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof todoControllerDeleteTodo>>,
+    TError,
+    { id: string },
+    TContext
+  >;
+  request?: SecondParameter<typeof customInstance>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof todoControllerDeleteTodo>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  const mutationKey = ['todoControllerDeleteTodo'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof todoControllerDeleteTodo>>,
+    { id: string }
+  > = (props) => {
+    const { id } = props ?? {};
+
+    return todoControllerDeleteTodo(id, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type TodoControllerDeleteTodoMutationResult = NonNullable<
+  Awaited<ReturnType<typeof todoControllerDeleteTodo>>
+>;
+
+export type TodoControllerDeleteTodoMutationError = ErrorType<unknown>;
+
+/**
+ * @summary Удалить задачу
+ */
+export const useTodoControllerDeleteTodo = <TError = ErrorType<unknown>, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof todoControllerDeleteTodo>>,
+      TError,
+      { id: string },
+      TContext
+    >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof todoControllerDeleteTodo>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  return useMutation(getTodoControllerDeleteTodoMutationOptions(options), queryClient);
+};
+/**
  * @summary Пометить задачу как выполненную
  */
 export const todoControllerCompleteTodo = (

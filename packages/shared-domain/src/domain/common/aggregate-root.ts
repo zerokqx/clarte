@@ -1,10 +1,10 @@
 import { Entity } from './entity'; // Импорт твоего класса Entity
 
-export abstract class AggregateRoot extends Entity {
+export abstract class AggregateRoot<Props = any> extends Entity<Props> {
   private _domainEvents: any[] = [];
 
-  constructor(id: string) {
-    super(id);
+  constructor(props: Props) {
+    super(props);
   }
 
   get domainEvents(): any[] {

@@ -12,13 +12,13 @@ export class CreateNoteHandler implements ICommandHandler<CreateNoteCommand> {
   constructor(@InjectNoteRepo('w') private readonly noteWriteRepo: INoteRepositoryWrite) {}
 
   async execute(command: CreateNoteCommand): Promise<string> {
-    const note = Note.create(
-      randomUUID(),
-      command.text,
-      command.tags,
-      command.bytes,
-      command.authorId,
-    );
+    const note = Note.create({
+      id: randomUUID(),
+      text: command.text,
+      tags: command.tags,
+      bytes: command.bytes,
+      authorId: command.authorId,
+    });
     const program = pipe(
       Effect.tryPromise({
         try: () => this.noteWriteRepo.save(note),

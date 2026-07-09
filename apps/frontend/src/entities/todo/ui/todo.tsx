@@ -1,8 +1,7 @@
-import { ActionIcon, Badge, Checkbox, Skeleton, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Checkbox, Skeleton, Text, Tooltip } from '@mantine/core';
 import { CalendarIcon } from '@phosphor-icons/react/dist/csr/Calendar';
 import { PencilSimpleIcon } from '@phosphor-icons/react/dist/csr/PencilSimple';
 import { TrashIcon } from '@phosphor-icons/react/dist/csr/Trash';
-import { ClockIcon } from '@phosphor-icons/react/dist/csr/Clock';
 import classes from './todo.module.scss';
 import { M } from '@clarte/mantine-helpers';
 
@@ -15,12 +14,12 @@ export interface TodoDataProp {
   createdAt: string;
 }
 
-interface TodoProps {
+export interface TodoProps {
   data: TodoDataProp;
   onComplete?: () => void;
   onUnComplete?: () => void;
   onEdit?: () => void;
-  onDelete?: () => void;
+  onDelete?: () => Promise<void>;
 }
 
 export const Todo = ({ data, onComplete, onUnComplete, onEdit, onDelete }: TodoProps) => {
@@ -76,26 +75,6 @@ export const Todo = ({ data, onComplete, onUnComplete, onEdit, onDelete }: TodoP
               {formattedDate}
             </Text>
           </div>
-
-          {data.isCompleted ? (
-            <Badge color="green" variant="light" size="xs" radius="sm">
-              Выполнено
-            </Badge>
-          ) : isOverdue ? (
-            <Badge
-              color="red"
-              variant="light"
-              size="xs"
-              radius="sm"
-              leftSection={<ClockIcon size={10} />}
-            >
-              Просрочено
-            </Badge>
-          ) : (
-            <Badge color="blue" variant="light" size="xs" radius="sm">
-              В процессе
-            </Badge>
-          )}
         </div>
       </div>
 
@@ -104,9 +83,9 @@ export const Todo = ({ data, onComplete, onUnComplete, onEdit, onDelete }: TodoP
           <ActionIcon
             variant="subtle"
             color="gray"
-            onClick={onEdit}
             radius="md"
             size="md"
+            onClick={onEdit}
             className={classes.todoActionButton}
           >
             <PencilSimpleIcon size={18} />
