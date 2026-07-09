@@ -32,7 +32,7 @@ import CollaborationCursor from '@tiptap/extension-collaboration-caret';
 
 import { HocuspocusProvider } from '@hocuspocus/provider';
 import { Suspense, useCallback, useMemo } from 'react';
-import { useUserControllerMe } from '../../../shared/api/orval';
+import { useUserControllerMe } from '@clarte/shared-api/endpoints';
 import { useLogger } from '@mantine/hooks';
 
 const lowlight = createLowlight(all);

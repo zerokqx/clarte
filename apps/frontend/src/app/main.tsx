@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom/client';
 import { AppProviders } from './providers';
 import { enableLogging } from 'mobx-logger';
 import { authStore } from '@/entities/session';
-import { setupAxiosInterceptors } from '@/shared/api';
+import { setupAxiosInterceptors } from '@clarte/shared-api';
 
 setupAxiosInterceptors(() => authStore.refreshTokens());
 if (import.meta.env.DEV) {

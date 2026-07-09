@@ -3,7 +3,7 @@ import { useChangeAvatar } from '../api';
 import axios from 'axios';
 import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { getUserStorageControllerGetPresignedUrlQueryOptions } from '@/shared/api/orval';
+import { getUserStorageControllerGetPresignedUrlQueryOptions } from '@clarte/shared-api/endpoints';
 
 interface ChangeAvatarProps {
   defaultValue?: string;

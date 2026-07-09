@@ -6,6 +6,7 @@
     "@clarte/mantine-helpers": "workspace:*",
     "@clarte/mantine-postcss": "workspace:*",
     "@clarte/shared": "workspace:*",
+    "@clarte/shared-api": "workspace:*",
     "@hocuspocus/provider": "^4.3.0",
     "@hookform/resolvers": "^5.4.0",
     "@mantine/core": "^9.4.1",
@@ -54,38 +55,12 @@
       "scope:frontend",
       "type:app"
     ],
-    "targets": {
-      "orval": {
-        "executor": "nx:run-commands",
-        "cache": true,
-        "inputs": [
-          "{projectRoot}/orval.config.ts",
-          {
-            "env": "VITE_BACKEND_PORT"
-          },
-          {
-            "env": "VITE_BACKEND_HOST"
-          }
-        ],
-        "outputs": [
-          "{projectRoot}/src/shared/api/orval/generated"
-        ],
-        "options": {
-          "command": "orval",
-          "args": [
-            "--config=./orval.config.ts"
-          ],
-          "cwd": "apps/frontend"
-        }
-      }
-    }
+    "targets": {}
   },
   "devDependencies": {
-    "@faker-js/faker": "^10.5.0",
     "@tanstack/router-plugin": "^1.168.18",
     "eslint": "^9.39.4",
     "msw": "^2.14.6",
-    "orval": "^8.19.0",
     "postcss": "8.4.38",
     "postcss-preset-mantine": "^1.18.0",
     "postcss-simple-vars": "^7.0.1",

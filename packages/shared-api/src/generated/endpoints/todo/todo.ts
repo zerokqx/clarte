@@ -7,14 +7,9 @@
  */
 import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
-  DataTag,
-  DefinedInitialDataOptions,
-  DefinedUseQueryResult,
   MutationFunction,
-  QueryClient,
   QueryFunction,
   QueryKey,
-  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -28,8 +23,8 @@ import type {
   UpdateTodoDTO,
 } from '../../model';
 
-import { customInstance } from '../../../axios-custom-instance';
-import type { ErrorType, BodyType } from '../../../axios-custom-instance';
+import { customInstance } from '../../../custom-instance';
+import type { ErrorType, BodyType } from '../../../custom-instance';
 
 type AwaitedInput<T> = PromiseLike<T> | T;
 
@@ -117,24 +112,24 @@ export type TodoControllerCreateTodoMutationError = ErrorType<unknown>;
 /**
  * @summary Создать новую задачу
  */
-export const useTodoControllerCreateTodo = <TError = ErrorType<unknown>, TContext = unknown>(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof todoControllerCreateTodo>>,
-      TError,
-      { data: BodyType<CreateTodoDTO> },
-      TContext
-    >;
-    request?: SecondParameter<typeof customInstance>;
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
+export const useTodoControllerCreateTodo = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof todoControllerCreateTodo>>,
+    TError,
+    { data: BodyType<CreateTodoDTO> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customInstance>;
+}): UseMutationResult<
   Awaited<ReturnType<typeof todoControllerCreateTodo>>,
   TError,
   { data: BodyType<CreateTodoDTO> },
   TContext
 > => {
-  return useMutation(getTodoControllerCreateTodoMutationOptions(options), queryClient);
+  return useMutation(getTodoControllerCreateTodoMutationOptions(options));
 };
 /**
  * @summary Получить список задач текущего пользователя
@@ -154,9 +149,7 @@ export const getTodoControllerGetUserTodosQueryOptions = <
   TData = Awaited<ReturnType<typeof todoControllerGetUserTodos>>,
   TError = ErrorType<unknown>,
 >(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof todoControllerGetUserTodos>>, TError, TData>
-  >;
+  query?: UseQueryOptions<Awaited<ReturnType<typeof todoControllerGetUserTodos>>, TError, TData>;
   request?: SecondParameter<typeof customInstance>;
 }) => {
   const { query: queryOptions, request: requestOptions } = options ?? {};
@@ -171,7 +164,7 @@ export const getTodoControllerGetUserTodosQueryOptions = <
     Awaited<ReturnType<typeof todoControllerGetUserTodos>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> };
+  > & { queryKey: QueryKey };
 };
 
 export type TodoControllerGetUserTodosQueryResult = NonNullable<
@@ -179,58 +172,6 @@ export type TodoControllerGetUserTodosQueryResult = NonNullable<
 >;
 export type TodoControllerGetUserTodosQueryError = ErrorType<unknown>;
 
-export function useTodoControllerGetUserTodos<
-  TData = Awaited<ReturnType<typeof todoControllerGetUserTodos>>,
-  TError = ErrorType<unknown>,
->(
-  options: {
-    query: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof todoControllerGetUserTodos>>, TError, TData>
-    > &
-      Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof todoControllerGetUserTodos>>,
-          TError,
-          Awaited<ReturnType<typeof todoControllerGetUserTodos>>
-        >,
-        'initialData'
-      >;
-    request?: SecondParameter<typeof customInstance>;
-  },
-  queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useTodoControllerGetUserTodos<
-  TData = Awaited<ReturnType<typeof todoControllerGetUserTodos>>,
-  TError = ErrorType<unknown>,
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof todoControllerGetUserTodos>>, TError, TData>
-    > &
-      Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof todoControllerGetUserTodos>>,
-          TError,
-          Awaited<ReturnType<typeof todoControllerGetUserTodos>>
-        >,
-        'initialData'
-      >;
-    request?: SecondParameter<typeof customInstance>;
-  },
-  queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useTodoControllerGetUserTodos<
-  TData = Awaited<ReturnType<typeof todoControllerGetUserTodos>>,
-  TError = ErrorType<unknown>,
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof todoControllerGetUserTodos>>, TError, TData>
-    >;
-    request?: SecondParameter<typeof customInstance>;
-  },
-  queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 /**
  * @summary Получить список задач текущего пользователя
  */
@@ -238,20 +179,13 @@ export function useTodoControllerGetUserTodos<
 export function useTodoControllerGetUserTodos<
   TData = Awaited<ReturnType<typeof todoControllerGetUserTodos>>,
   TError = ErrorType<unknown>,
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof todoControllerGetUserTodos>>, TError, TData>
-    >;
-    request?: SecondParameter<typeof customInstance>;
-  },
-  queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+>(options?: {
+  query?: UseQueryOptions<Awaited<ReturnType<typeof todoControllerGetUserTodos>>, TError, TData>;
+  request?: SecondParameter<typeof customInstance>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getTodoControllerGetUserTodosQueryOptions(options);
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>;
-  };
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
   return withQueryKey(query, queryOptions.queryKey);
 }
@@ -322,24 +256,24 @@ export type TodoControllerUpdateTodoMutationError = ErrorType<unknown>;
 /**
  * @summary Обновить существующую задачу
  */
-export const useTodoControllerUpdateTodo = <TError = ErrorType<unknown>, TContext = unknown>(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof todoControllerUpdateTodo>>,
-      TError,
-      { id: string; data: BodyType<UpdateTodoDTO> },
-      TContext
-    >;
-    request?: SecondParameter<typeof customInstance>;
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
+export const useTodoControllerUpdateTodo = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof todoControllerUpdateTodo>>,
+    TError,
+    { id: string; data: BodyType<UpdateTodoDTO> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customInstance>;
+}): UseMutationResult<
   Awaited<ReturnType<typeof todoControllerUpdateTodo>>,
   TError,
   { id: string; data: BodyType<UpdateTodoDTO> },
   TContext
 > => {
-  return useMutation(getTodoControllerUpdateTodoMutationOptions(options), queryClient);
+  return useMutation(getTodoControllerUpdateTodoMutationOptions(options));
 };
 /**
  * @summary Пометить задачу как выполненную
@@ -400,24 +334,24 @@ export type TodoControllerCompleteTodoMutationError = ErrorType<unknown>;
 /**
  * @summary Пометить задачу как выполненную
  */
-export const useTodoControllerCompleteTodo = <TError = ErrorType<unknown>, TContext = unknown>(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof todoControllerCompleteTodo>>,
-      TError,
-      { id: string },
-      TContext
-    >;
-    request?: SecondParameter<typeof customInstance>;
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
+export const useTodoControllerCompleteTodo = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof todoControllerCompleteTodo>>,
+    TError,
+    { id: string },
+    TContext
+  >;
+  request?: SecondParameter<typeof customInstance>;
+}): UseMutationResult<
   Awaited<ReturnType<typeof todoControllerCompleteTodo>>,
   TError,
   { id: string },
   TContext
 > => {
-  return useMutation(getTodoControllerCompleteTodoMutationOptions(options), queryClient);
+  return useMutation(getTodoControllerCompleteTodoMutationOptions(options));
 };
 /**
  * @summary Пометить задачу как невыполненную
@@ -478,22 +412,22 @@ export type TodoControllerUncompleteTodoMutationError = ErrorType<unknown>;
 /**
  * @summary Пометить задачу как невыполненную
  */
-export const useTodoControllerUncompleteTodo = <TError = ErrorType<unknown>, TContext = unknown>(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof todoControllerUncompleteTodo>>,
-      TError,
-      { id: string },
-      TContext
-    >;
-    request?: SecondParameter<typeof customInstance>;
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
+export const useTodoControllerUncompleteTodo = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof todoControllerUncompleteTodo>>,
+    TError,
+    { id: string },
+    TContext
+  >;
+  request?: SecondParameter<typeof customInstance>;
+}): UseMutationResult<
   Awaited<ReturnType<typeof todoControllerUncompleteTodo>>,
   TError,
   { id: string },
   TContext
 > => {
-  return useMutation(getTodoControllerUncompleteTodoMutationOptions(options), queryClient);
+  return useMutation(getTodoControllerUncompleteTodoMutationOptions(options));
 };

@@ -1,3 +1,3 @@
-import { useTodoControllerCreateTodo } from '@/shared/api/orval';
+import { useTodoControllerCreateTodo } from '@clarte/shared-api/endpoints';
 
 export const useCreateTodo = () => useTodoControllerCreateTodo();

@@ -1,0 +1,91 @@
+{
+  "name": "@clarte/shared-api",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@clarte/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./endpoints": {
+      "@clarte/source": "./src/generated/endpoints/index.ts",
+      "types": "./dist/generated/endpoints/index.d.ts",
+      "import": "./dist/generated/endpoints/index.js",
+      "default": "./dist/generated/endpoints/index.js"
+    },
+    "./model": {
+      "@clarte/source": "./src/generated/model/index.ts",
+      "types": "./dist/generated/model/index.d.ts",
+      "import": "./dist/generated/model/index.js",
+      "default": "./dist/generated/model/index.js"
+    },
+    "./endpoints/*": {
+      "@clarte/source": "./src/generated/endpoints/*",
+      "types": "./dist/generated/endpoints/*.d.ts",
+      "import": "./dist/generated/endpoints/*.js",
+      "default": "./dist/generated/endpoints/*.js"
+    }
+  },
+  "nx": {
+    "sourceRoot": "packages/shared-api/src",
+    "targets": {
+      "build": {
+        "executor": "@nx/js:swc",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "dependsOn": [
+          "orval"
+        ],
+        "options": {
+          "outputPath": "packages/shared-api/dist",
+          "main": "packages/shared-api/src/index.ts",
+          "tsConfig": "packages/shared-api/tsconfig.lib.json",
+          "skipTypeCheck": true,
+          "stripLeadingPaths": true
+        }
+      },
+      "orval": {
+        "executor": "nx:run-commands",
+        "cache": true,
+        "inputs": [
+          "{projectRoot}/orval.config.ts",
+          {
+            "env": "OPENAPI_URL"
+          }
+        ],
+        "outputs": [
+          "{projectRoot}/src/shared/api/orval/generated"
+        ],
+        "options": {
+          "command": "orval",
+          "args": [
+            "--config=./orval.config.ts"
+          ],
+          "cwd": "packages/shared-api"
+        }
+      }
+    },
+    "tags": [
+      "type:lib",
+      "scope:shared"
+    ]
+  },
+  "dependencies": {
+    "@swc/helpers": "~0.5.18",
+    "@tanstack/react-query": "^5.101.2",
+    "axios": "^1.18.1"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^10.5.0",
+    "msw": "^2.14.6",
+    "orval": "^8.19.0"
+  }
+}

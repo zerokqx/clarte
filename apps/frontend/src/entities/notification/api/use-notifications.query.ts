@@ -1,4 +1,4 @@
-import { useNotificationControllerGetUserNotifications } from '@/shared/api/orval';
+import { useNotificationControllerGetUserNotifications } from '@clarte/shared-api/endpoints';
 
 export const useNotifications = () => {
   return useNotificationControllerGetUserNotifications();

@@ -3,8 +3,8 @@ import {
   useTodoControllerCompleteTodo,
   useTodoControllerUncompleteTodo,
   getTodoControllerGetUserTodosQueryKey,
-} from '@/shared/api/orval';
-import type { TodoDTO } from '@/shared/api/orval';
+} from '@clarte/shared-api/endpoints';
+import type { TodoDTO } from '@clarte/shared-api/model';
 import { produce } from 'immer';
 
 export const useCompleteTodo = () => {
