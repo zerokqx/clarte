@@ -55,7 +55,14 @@ export const HeaderView = ({
               </>
             ) : (
               <>
-                <Avatar src={avatarUrl} radius="xl" size="sm" color="violet" name={login} />
+                <Avatar
+                  src={avatarUrl}
+                  radius="xl"
+                  size="sm"
+                  color="violet"
+                  name={login}
+                  imageProps={{ fetchPriority: 'high' }}
+                />
                 <Text size="sm" fw={600} visibleFrom="xs">
                   {login}
                 </Text>
