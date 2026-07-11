@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { AxiosError } from 'axios';
 import { useForm } from '@mantine/form';
 import {
   TextInput,
@@ -19,10 +20,7 @@ const registerSchema = z
       .string()
       .min(3, 'Логин должен быть минимум 3 символа')
       .max(20, 'Логин не должен превышать 20 символов')
-      .regex(
-        /^[a-zA-Z0-9_]+$/,
-        'Логин должен содержать только латинские буквы, цифры и _',
-      ),
+      .regex(/^[a-zA-Z0-9_]+$/, 'Логин должен содержать только латинские буквы, цифры и _'),
     password: z
       .string()
       .min(8, 'Пароль должен быть минимум 8 символов')
@@ -78,15 +76,13 @@ export const RegisterPage = () => {
       setTimeout(() => {
         window.location.href = '/login';
       }, 2000);
-    } catch (err: any) {
+    } catch (err) {
+      const axiosErr = err as AxiosError<{ message?: string; details?: string }>;
       console.error('Ошибка регистрации:', err);
 
-      
-      const status = err.response?.status;
+      const status = axiosErr.response?.status;
       const message =
-        err.response?.data?.message ||
-        err.response?.data?.details ||
-        err.message;
+        axiosErr.response?.data?.message || axiosErr.response?.data?.details || axiosErr.message;
 
       if (
         status === 409 ||
@@ -105,9 +101,7 @@ export const RegisterPage = () => {
       } else if (message) {
         setError(message);
       } else {
-        setError(
-          'Ошибка регистрации. Проверьте введённые данные и попробуйте снова.',
-        );
+        setError('Ошибка регистрации. Проверьте введённые данные и попробуйте снова.');
       }
     } finally {
       setIsLoading(false);

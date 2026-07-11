@@ -1,9 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Box, Text, Group, Badge, Paper, Tooltip, Button, Select, Avatar, Indicator, Modal, Stack, Alert, TextInput } from "@mantine/core";
-import { IconCopy, IconCheck, IconCloudCheck, IconEdit, IconTypography } from "@tabler/icons-react";
-import { HocuspocusProvider } from "@hocuspocus/provider";
-import * as Y from "yjs";
-import { SerializedAttachment, fileToBase64, compressImage } from "../utils/mediaSerializer";
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  Box,
+  Text,
+  Group,
+  Badge,
+  Paper,
+  Tooltip,
+  Button,
+  Select,
+  Avatar,
+  Indicator,
+  Modal,
+  Stack,
+  Alert,
+  TextInput,
+} from '@mantine/core';
+import { IconCopy, IconCheck, IconCloudCheck, IconEdit, IconTypography } from '@tabler/icons-react';
+import { HocuspocusProvider } from '@hocuspocus/provider';
+import * as Y from 'yjs';
+import { SerializedAttachment, fileToBase64, compressImage } from '../utils/mediaSerializer';
 
 interface CollaborativeEditorProps {
   noteId: string;
@@ -11,15 +26,7 @@ interface CollaborativeEditorProps {
   currentUser: { login: string; avatarUrl?: string } | null;
 }
 
-const colors = [
-  "#3b82f6",
-  "#8b5cf6",
-  "#ec4899",
-  "#f43f5e",
-  "#10b981",
-  "#f59e0b",
-  "#06b6d4",
-];
+const colors = ['#3b82f6', '#8b5cf6', '#ec4899', '#f43f5e', '#10b981', '#f59e0b', '#06b6d4'];
 
 const getUserColor = (name: string): string => {
   let hash = 0;
@@ -41,17 +48,17 @@ const findDiffStart = (a: string, b: string): number => {
 
 const escapeHTML = (str: string): string => {
   return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 };
 
 const uint8ArrayToHex = (arr: Uint8Array): string => {
   return Array.from(arr)
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
 };
 
 const hexToUint8Array = (hex: string): Uint8Array => {
@@ -66,61 +73,63 @@ const hexToUint8Array = (hex: string): Uint8Array => {
 const serializeDOM = (element: HTMLElement): string => {
   const processNode = (node: Node): string => {
     if (node.nodeType === Node.TEXT_NODE) {
-      return node.textContent || "";
+      return node.textContent || '';
     }
-    
+
     if (node.nodeType === Node.ELEMENT_NODE) {
       const el = node as HTMLElement;
-      
-      if (el.classList.contains("inline-media-container")) {
-        const img = el.querySelector("img");
-        const mediaId = img?.getAttribute("data-media-id");
+
+      if (el.classList.contains('inline-media-container')) {
+        const img = el.querySelector('img');
+        const mediaId = img?.getAttribute('data-media-id');
         if (mediaId) {
           return `\n![[${mediaId}]]\n`;
         }
       }
-      
-      if (el.nodeName === "BR") {
-        return "\n";
+
+      if (el.nodeName === 'BR') {
+        return '\n';
       }
-      
-      const isBlock = ["DIV", "P", "H1", "H2", "H3", "LI"].includes(el.nodeName);
-      let content = "";
+
+      const isBlock = ['DIV', 'P', 'H1', 'H2', 'H3', 'LI'].includes(el.nodeName);
+      let content = '';
       for (let i = 0; i < el.childNodes.length; i++) {
         content += processNode(el.childNodes[i]);
       }
-      
+
       if (isBlock) {
-        return (content.startsWith("\n") ? "" : "\n") + content + (content.endsWith("\n") ? "" : "\n");
+        return (
+          (content.startsWith('\n') ? '' : '\n') + content + (content.endsWith('\n') ? '' : '\n')
+        );
       }
-      
+
       return content;
     }
-    
-    return "";
+
+    return '';
   };
 
-  let result = "";
+  let result = '';
   for (let i = 0; i < element.childNodes.length; i++) {
     result += processNode(element.childNodes[i]);
   }
-  
+
   // Normalize consecutive newlines and trim whitespace
-  return result.replace(/\n{3,}/g, "\n\n").trim();
+  return result.replace(/\n{3,}/g, '\n\n').trim();
 };
 
 // Converts the plain text document with ![[media-XXXX]] links into contenteditable HTML containing inline media containers
 const deserializeToHTML = (text: string, attachmentsList: SerializedAttachment[]): string => {
-  if (!text) return "<div><br></div>";
-  
-  const lines = text.split("\n");
-  let html = "";
-  
+  if (!text) return '<div><br></div>';
+
+  const lines = text.split('\n');
+  let html = '';
+
   for (const line of lines) {
     const match = line.match(/^!\[\[(media-.*?)\]\]$/);
     if (match) {
       const mediaId = match[1];
-      const attachment = attachmentsList.find(a => a.id === mediaId);
+      const attachment = attachmentsList.find((a) => a.id === mediaId);
       if (attachment) {
         html += `<div class="inline-media-container" contenteditable="false" style="max-width: 550px; margin: 14px 0; padding: 12px; border: 1px solid #e5e7eb; border-radius: 8px; background: #f8f9fa; user-select: none; display: block;">
           <img src="${attachment.data}" data-media-id="${mediaId}" style="max-width: 100%; max-height: 380px; border-radius: 6px; display: block; object-fit: contain;" />
@@ -129,9 +138,9 @@ const deserializeToHTML = (text: string, attachmentsList: SerializedAttachment[]
         continue;
       }
     }
-    html += `<div>${line ? escapeHTML(line) : "<br>"}</div>`;
+    html += `<div>${line ? escapeHTML(line) : '<br>'}</div>`;
   }
-  
+
   return html;
 };
 
@@ -157,11 +166,11 @@ const setCaretPosition = (element: HTMLElement, offset: number) => {
   const range = document.createRange();
   range.setStart(element, 0);
   range.collapse(true);
-  
+
   const nodeStack: Node[] = [element];
   let node: Node | undefined;
   let found = false;
-  
+
   while ((node = nodeStack.pop()) && !found) {
     if (node.nodeType === Node.TEXT_NODE) {
       const nextCharIndex = charIndex + (node.textContent?.length || 0);
@@ -178,7 +187,7 @@ const setCaretPosition = (element: HTMLElement, offset: number) => {
       }
     }
   }
-  
+
   const sel = window.getSelection();
   if (sel) {
     sel.removeAllRanges();
@@ -192,8 +201,8 @@ const insertHtmlAtCaret = (html: string) => {
   if (sel && sel.rangeCount > 0) {
     const range = sel.getRangeAt(0);
     range.deleteContents();
-    
-    const el = document.createElement("div");
+
+    const el = document.createElement('div');
     el.innerHTML = html;
     const frag = document.createDocumentFragment();
     let node: Node | null;
@@ -202,7 +211,7 @@ const insertHtmlAtCaret = (html: string) => {
       lastNode = frag.appendChild(node);
     }
     range.insertNode(frag);
-    
+
     if (lastNode) {
       range.setStartAfter(lastNode);
       range.setEndAfter(lastNode);
@@ -212,8 +221,14 @@ const insertHtmlAtCaret = (html: string) => {
   }
 };
 
-export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId, noteTitle, currentUser }) => {
-  const [activeUsers, setActiveUsers] = useState<{ name: string; color: string; isTyping: boolean }[]>([]);
+export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({
+  noteId,
+  noteTitle,
+  currentUser,
+}) => {
+  const [activeUsers, setActiveUsers] = useState<
+    { name: string; color: string; isTyping: boolean }[]
+  >([]);
   const [copied, setCopied] = useState(false);
   const [syncing, setSyncing] = useState(true);
   const [shareModalOpened, setShareModalOpened] = useState(false);
@@ -221,7 +236,7 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
   const [copiedId, setCopiedId] = useState(false);
   const [attachments, setAttachments] = useState<SerializedAttachment[]>([]);
   const [fontFamily, setFontFamily] = useState<string>(() => {
-    return localStorage.getItem("clarte_editor_font") || "Inter";
+    return localStorage.getItem('clarte_editor_font') || 'Inter';
   });
 
   const editorRef = useRef<HTMLDivElement | null>(null);
@@ -245,7 +260,7 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
   const handleAttachmentsChange = (newAttachments: SerializedAttachment[]) => {
     const ydoc = ydocRef.current;
     if (!ydoc) return;
-    const yattachments = ydoc.getArray<SerializedAttachment>("attachments");
+    const yattachments = ydoc.getArray<SerializedAttachment>('attachments');
     ydoc.transact(() => {
       yattachments.delete(0, yattachments.length);
       if (newAttachments.length > 0) {
@@ -267,21 +282,21 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
         const bytes = hexToUint8Array(cachedHex);
         Y.applyUpdate(ydoc, bytes);
       } catch (err) {
-        console.error("Failed to restore cached YJS update:", err);
+        console.error('Failed to restore cached YJS update:', err);
       }
     }
 
-    const wsProtocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     const wsUrl = `${wsProtocol}//${window.location.host}/yjs`;
     const roomName = `clarte-note-v1-${noteId}`;
-    
+
     const getCookie = (name: string) => {
       const value = `; ${document.cookie}`;
       const parts = value.split(`; ${name}=`);
       if (parts.length === 2) return parts.pop()?.split(';').shift();
       return undefined;
     };
-    const token = getCookie("clarte_access") || "";
+    const token = getCookie('clarte_access') || '';
 
     const provider = new HocuspocusProvider({
       url: wsUrl,
@@ -291,8 +306,8 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
     });
     providerRef.current = provider;
 
-    const ytext = ydoc.getText("content");
-    const yattachments = ydoc.getArray<SerializedAttachment>("attachments");
+    const ytext = ydoc.getText('content');
+    const yattachments = ydoc.getArray<SerializedAttachment>('attachments');
 
     setAttachments(yattachments.toArray());
 
@@ -302,13 +317,13 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
         const hex = uint8ArrayToHex(bytes);
         localStorage.setItem(`clarte_note_yjs_${noteId}`, hex);
       } catch (err) {
-        console.error("Failed to cache YJS update:", err);
+        console.error('Failed to cache YJS update:', err);
       }
     };
-    ydoc.on("update", handleYdocUpdate);
+    ydoc.on('update', handleYdocUpdate);
 
-    const initialName = currentUser?.login || "Гость";
-    provider.awareness?.setLocalStateField("user", {
+    const initialName = currentUser?.login || 'Гость';
+    provider.awareness?.setLocalStateField('user', {
       name: initialName,
       color: getUserColor(initialName),
       isTyping: false,
@@ -336,7 +351,7 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
     const handleAttachmentsUpdate = () => {
       const currentList = yattachments.toArray();
       setAttachments(currentList);
-      
+
       // Update DOM to render newly arrived/deleted media
       const element = editorRef.current;
       if (element && !isLocalChange.current) {
@@ -349,16 +364,16 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
 
     const handleAwarenessChange = () => {
       const states = provider.awareness?.getStates();
-      const users: any[] = [];
-      states?.forEach((state: any) => {
+      const users: { name: string; color: string; isTyping: boolean }[] = [];
+      states?.forEach((state: Record<string, unknown>) => {
         if (state.user) {
-          users.push(state.user);
+          users.push(state.user as { name: string; color: string; isTyping: boolean });
         }
       });
       setActiveUsers(users);
     };
 
-    provider.awareness?.on("change", handleAwarenessChange);
+    provider.awareness?.on('change', handleAwarenessChange);
     handleAwarenessChange();
 
     if (editorRef.current) {
@@ -366,27 +381,27 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
     }
 
     return () => {
-      ydoc.off("update", handleYdocUpdate);
+      ydoc.off('update', handleYdocUpdate);
       ytext.unobserve(handleYjsUpdate);
       yattachments.unobserve(handleAttachmentsUpdate);
-      provider.awareness?.off("change", handleAwarenessChange);
+      provider.awareness?.off('change', handleAwarenessChange);
       if (typingTimeoutRef.current) {
         clearTimeout(typingTimeoutRef.current);
       }
       provider.destroy();
       ydoc.destroy();
     };
-  }, [noteId]);
+  }, [noteId, currentUser?.login]);
 
   useEffect(() => {
     const provider = providerRef.current;
     if (!provider) return;
 
-    const currentName = currentUser?.login || "Гость";
+    const currentName = currentUser?.login || 'Гость';
     const localState = provider.awareness?.getLocalState();
-    
+
     if (!localState?.user || localState.user.name !== currentName) {
-      provider.awareness?.setLocalStateField("user", {
+      provider.awareness?.setLocalStateField('user', {
         name: currentName,
         color: getUserColor(currentName),
         isTyping: false,
@@ -400,7 +415,7 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
     const element = editorRef.current;
     if (!ydoc || !provider || !element) return;
 
-    const ytext = ydoc.getText("content");
+    const ytext = ydoc.getText('content');
     const currentVal = serializeDOM(element);
     const oldVal = ytext.toString();
 
@@ -408,7 +423,7 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
 
     const localState = provider.awareness?.getLocalState();
     if (localState?.user && !localState.user.isTyping) {
-      provider.awareness?.setLocalStateField("user", {
+      provider.awareness?.setLocalStateField('user', {
         ...localState.user,
         isTyping: true,
       });
@@ -420,7 +435,7 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
     typingTimeoutRef.current = setTimeout(() => {
       const state = provider.awareness?.getLocalState();
       if (state?.user && state.user.isTyping) {
-        provider.awareness?.setLocalStateField("user", {
+        provider.awareness?.setLocalStateField('user', {
           ...state.user,
           isTyping: false,
         });
@@ -460,16 +475,18 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
 
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
-      if (item.type.startsWith("image/")) {
+      if (item.type.startsWith('image/')) {
         const file = item.getAsFile();
         if (file) {
           e.preventDefault();
           try {
             const compressedBlob = await compressImage(file);
-            const compressedFile = new File([compressedBlob], `Вставка-${Date.now()}.jpg`, { type: "image/jpeg" });
-            
+            const compressedFile = new File([compressedBlob], `Вставка-${Date.now()}.jpg`, {
+              type: 'image/jpeg',
+            });
+
             if (compressedFile.size > 1.5 * 1024 * 1024) {
-              alert("Размер вставляемого изображения превышает лимит 1.5 МБ.");
+              alert('Размер вставляемого изображения превышает лимит 1.5 МБ.');
               return;
             }
 
@@ -490,11 +507,11 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
               <img src="${newAttachment.data}" data-media-id="${newAttachment.id}" style="max-width: 100%; max-height: 350px; border-radius: 6px; display: block; object-fit: contain;" />
               <div style="font-size: 10px; color: #868e96; margin-top: 6px; font-weight: 500; font-family: sans-serif;">${newAttachment.name}</div>
             </div>`;
-            
+
             insertHtmlAtCaret(imgHtml);
             handleLocalInput();
           } catch (err) {
-            console.error("Failed to process pasted image:", err);
+            console.error('Failed to process pasted image:', err);
           }
         }
       }
@@ -505,14 +522,18 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
     const files = e.dataTransfer.files;
     if (files && files.length > 0) {
       const file = files[0];
-      if (file.type.startsWith("image/") || file.type.startsWith("video/") || file.type.startsWith("audio/")) {
+      if (
+        file.type.startsWith('image/') ||
+        file.type.startsWith('video/') ||
+        file.type.startsWith('audio/')
+      ) {
         e.preventDefault();
-        
+
         // Relocate cursor caret to the drop location coords
         const range = document.caretRangeFromPoint
           ? document.caretRangeFromPoint(e.clientX, e.clientY)
           : null;
-        
+
         if (range) {
           const sel = window.getSelection();
           if (sel) {
@@ -523,13 +544,13 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
 
         try {
           let fileToProcess = file;
-          if (file.type.startsWith("image/")) {
+          if (file.type.startsWith('image/')) {
             const compressedBlob = await compressImage(file);
             fileToProcess = new File([compressedBlob], file.name, { type: file.type });
           }
 
           if (fileToProcess.size > 1.5 * 1024 * 1024) {
-            alert("Файл слишком большой! Максимальный размер — 1.5 МБ.");
+            alert('Файл слишком большой! Максимальный размер — 1.5 МБ.');
             return;
           }
 
@@ -546,12 +567,12 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
           handleAttachmentsChange(updatedAttachments);
 
           // Render proper interactive player tag
-          let mediaTag = "";
-          if (fileToProcess.type.startsWith("image/")) {
+          let mediaTag = '';
+          if (fileToProcess.type.startsWith('image/')) {
             mediaTag = `<img src="${newAttachment.data}" data-media-id="${newAttachment.id}" style="max-width: 100%; max-height: 350px; border-radius: 6px; display: block; object-fit: contain;" />`;
-          } else if (fileToProcess.type.startsWith("video/")) {
+          } else if (fileToProcess.type.startsWith('video/')) {
             mediaTag = `<video src="${newAttachment.data}" controls style="width: 100%; max-height: 350px; border-radius: 6px; display: block;" />`;
-          } else if (fileToProcess.type.startsWith("audio/")) {
+          } else if (fileToProcess.type.startsWith('audio/')) {
             mediaTag = `<audio src="${newAttachment.data}" controls style="width: 100%; display: block;" />`;
           }
 
@@ -559,11 +580,11 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
             ${mediaTag}
             <div style="font-size: 10px; color: #868e96; margin-top: 6px; font-weight: 500; font-family: sans-serif;">${newAttachment.name}</div>
           </div>`;
-          
+
           insertHtmlAtCaret(imgHtml);
           handleLocalInput();
         } catch (err) {
-          console.error("Drop processing failed:", err);
+          console.error('Drop processing failed:', err);
         }
       }
     }
@@ -572,20 +593,20 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
   return (
     <Box
       className="collaborative-editor-container"
-      style={{ display: "flex", flexDirection: "column", height: "100%" }}
+      style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
       onPaste={handlePaste}
     >
-      <Paper p="sm" withBorder mb="md" radius="md" style={{ background: "#ffffff" }}>
+      <Paper p="sm" withBorder mb="md" radius="md" style={{ background: '#ffffff' }}>
         <Group justify="space-between">
           <Box>
-            <Text size="sm" fw={700} style={{ color: "#1a1a2e" }}>
+            <Text size="sm" fw={700} style={{ color: '#1a1a2e' }}>
               {noteTitle}
             </Text>
             <Text size="xs" color="dimmed">
               ID комнаты: {noteId}
             </Text>
           </Box>
-          
+
           <Group gap="xs">
             <Select
               size="xs"
@@ -593,15 +614,15 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
               onChange={(val) => {
                 if (val) {
                   setFontFamily(val);
-                  localStorage.setItem("clarte_editor_font", val);
+                  localStorage.setItem('clarte_editor_font', val);
                 }
               }}
               data={[
-                { value: "Inter", label: "Inter (Без засечек)" },
-                { value: "Montserrat", label: "Montserrat" },
-                { value: "Merriweather", label: "Merriweather (Книжный)" },
-                { value: "Playfair Display", label: "Playfair Display" },
-                { value: "Fira Code", label: "Fira Code (Моноширинный)" },
+                { value: 'Inter', label: 'Inter (Без засечек)' },
+                { value: 'Montserrat', label: 'Montserrat' },
+                { value: 'Merriweather', label: 'Merriweather (Книжный)' },
+                { value: 'Playfair Display', label: 'Playfair Display' },
+                { value: 'Fira Code', label: 'Fira Code (Моноширинный)' },
               ]}
               leftSection={<IconTypography size={14} />}
               style={{ width: 150 }}
@@ -610,36 +631,44 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
 
             <Badge
               variant="light"
-              color={syncing ? "orange" : "green"}
+              color={syncing ? 'orange' : 'green'}
               leftSection={syncing ? null : <IconCloudCheck size={12} />}
             >
-              {syncing ? "Синхронизация..." : "Синхронизировано"}
+              {syncing ? 'Синхронизация...' : 'Синхронизировано'}
             </Badge>
 
             <Tooltip label="Поделиться заметкой с другом">
               <Button
                 size="xs"
-                variant={copied ? "filled" : "outline"}
-                color={copied ? "green" : "indigo"}
+                variant={copied ? 'filled' : 'outline'}
+                color={copied ? 'green' : 'indigo'}
                 leftSection={copied ? <IconCheck size={14} /> : <IconCopy size={14} />}
                 onClick={handleCopyLink}
                 radius="md"
               >
-                {copied ? "Ссылка скопирована!" : "Поделиться"}
+                {copied ? 'Ссылка скопирована!' : 'Поделиться'}
               </Button>
             </Tooltip>
           </Group>
         </Group>
 
         {activeUsers.length > 0 && (
-          <Group gap="xs" mt="sm" justify="flex-start" align="center" style={{ borderTop: "1px solid #f1f3f5", paddingTop: "8px" }}>
-            <Text size="xs" color="dimmed" fw={500}>Соавторы в сети:</Text>
+          <Group
+            gap="xs"
+            mt="sm"
+            justify="flex-start"
+            align="center"
+            style={{ borderTop: '1px solid #f1f3f5', paddingTop: '8px' }}
+          >
+            <Text size="xs" color="dimmed" fw={500}>
+              Соавторы в сети:
+            </Text>
             <Avatar.Group>
               {activeUsers.map((user, idx) => {
                 const initials = user.name.substring(0, 2).toUpperCase();
                 return (
                   <Tooltip key={idx} label={user.name}>
-                    <Box style={{ cursor: "pointer" }}>
+                    <Box style={{ cursor: 'pointer' }}>
                       <Indicator
                         color="violet"
                         disabled={!user.isTyping}
@@ -656,8 +685,8 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
                               backgroundColor: `${user.color}15`,
                               fontWeight: 700,
                               fontSize: '10px',
-                              border: `2px solid ${user.color}`
-                            }
+                              border: `2px solid ${user.color}`,
+                            },
                           }}
                         >
                           {initials}
@@ -669,7 +698,17 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
               })}
             </Avatar.Group>
             {activeUsers.some((u) => u.isTyping) && (
-              <Text size="xs" color="indigo" fs="italic" style={{ animation: "pulse 1.5s infinite", display: "flex", alignItems: "center", gap: "4px" }}>
+              <Text
+                size="xs"
+                color="indigo"
+                fs="italic"
+                style={{
+                  animation: 'pulse 1.5s infinite',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                }}
+              >
                 <IconEdit size={12} /> Кто-то печатает...
               </Text>
             )}
@@ -678,7 +717,15 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
       </Paper>
 
       {/* Obsidian-Style contenteditable Editor Container */}
-      <Box style={{ flex: 1, position: "relative", minHeight: "400px", display: "flex", flexDirection: "column" }}>
+      <Box
+        style={{
+          flex: 1,
+          position: 'relative',
+          minHeight: '400px',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
         <div
           ref={editorRef}
           contentEditable
@@ -688,21 +735,21 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
           data-placeholder="Начните писать заметку здесь... Вы можете перетаскивать сюда (Drag & Drop) или вставлять из буфера обмена (Ctrl + V) изображения и файлы"
           style={{
             flex: 1,
-            width: "100%",
-            height: "100%",
-            minHeight: "400px",
-            border: "1px solid #e5e7eb",
-            borderRadius: "8px",
-            padding: "20px",
-            fontSize: "15px",
+            width: '100%',
+            height: '100%',
+            minHeight: '400px',
+            border: '1px solid #e5e7eb',
+            borderRadius: '8px',
+            padding: '20px',
+            fontSize: '15px',
             fontFamily: fontFamily,
-            outline: "none",
-            lineHeight: "1.6",
-            background: "#ffffff",
-            color: "#1a1a2e",
-            overflowY: "auto",
-            boxShadow: "inset 0 1px 2px rgba(0,0,0,0.02)",
-            whiteSpace: "pre-wrap"
+            outline: 'none',
+            lineHeight: '1.6',
+            background: '#ffffff',
+            color: '#1a1a2e',
+            overflowY: 'auto',
+            boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.02)',
+            whiteSpace: 'pre-wrap',
           }}
         />
       </Box>
@@ -716,22 +763,19 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
       >
         <Stack gap="md">
           <Text size="sm" color="dimmed">
-            Отправьте эту ссылку вашему соавтору для совместного редактирования в реальном времени. Все изменения сохраняются в общей базе данных.
+            Отправьте эту ссылку вашему соавтору для совместного редактирования в реальном времени.
+            Все изменения сохраняются в общей базе данных.
           </Text>
 
           <Box>
-            <Text size="xs" fw={700} mb={5}>Ссылка для подключения:</Text>
+            <Text size="xs" fw={700} mb={5}>
+              Ссылка для подключения:
+            </Text>
             <Group gap="xs">
-              <TextInput
-                value={shareLink}
-                readOnly
-                size="sm"
-                style={{ flex: 1 }}
-                radius="md"
-              />
+              <TextInput value={shareLink} readOnly size="sm" style={{ flex: 1 }} radius="md" />
               <Button
                 size="sm"
-                color={copiedLink ? "green" : "indigo"}
+                color={copiedLink ? 'green' : 'indigo'}
                 onClick={async () => {
                   await navigator.clipboard.writeText(shareLink);
                   setCopiedLink(true);
@@ -745,19 +789,15 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
           </Box>
 
           <Box>
-            <Text size="xs" fw={700} mb={5}>ID комнаты (для ручного ввода):</Text>
+            <Text size="xs" fw={700} mb={5}>
+              ID комнаты (для ручного ввода):
+            </Text>
             <Group gap="xs">
-              <TextInput
-                value={noteId}
-                readOnly
-                size="sm"
-                style={{ flex: 1 }}
-                radius="md"
-              />
+              <TextInput value={noteId} readOnly size="sm" style={{ flex: 1 }} radius="md" />
               <Button
                 size="sm"
                 variant="light"
-                color={copiedId ? "green" : "indigo"}
+                color={copiedId ? 'green' : 'indigo'}
                 onClick={async () => {
                   await navigator.clipboard.writeText(noteId);
                   setCopiedId(true);
@@ -771,7 +811,8 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({ noteId
           </Box>
 
           <Alert color="blue" radius="md" style={{ fontSize: '13px' }}>
-            Синхронизация происходит через ваш персональный сервер WebSocket-шлюза на порту 5006. Все данные сохраняются в MongoDB.
+            Синхронизация происходит через ваш персональный сервер WebSocket-шлюза на порту 5006.
+            Все данные сохраняются в MongoDB.
           </Alert>
         </Stack>
       </Modal>

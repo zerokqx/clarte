@@ -1,5 +1,19 @@
-import React, { useState } from "react";
-import { Paper, Group, ActionIcon, Menu, TextInput, Badge, Modal, Button, Textarea, Stack, Text, Tooltip, Box } from "@mantine/core";
+import React, { useState } from 'react';
+import {
+  Paper,
+  Group,
+  ActionIcon,
+  Menu,
+  TextInput,
+  Badge,
+  Modal,
+  Button,
+  Textarea,
+  Stack,
+  Text,
+  Tooltip,
+  Box,
+} from '@mantine/core';
 import {
   IconCheck,
   IconTrash,
@@ -11,22 +25,22 @@ import {
   IconFlag,
   IconEdit,
   IconPaperclip,
-} from "@tabler/icons-react";
-import { SerializedAttachment, fileToBase64, compressImage } from "../utils/mediaSerializer";
-import { MediaAttachmentList } from "./MediaAttachmentList";
-import { type Task } from "../hooks/useTasks";
+} from '@tabler/icons-react';
+import { SerializedAttachment, fileToBase64, compressImage } from '../utils/mediaSerializer';
+import { MediaAttachmentList } from './MediaAttachmentList';
+import { type Task } from '../hooks/useTasks';
 
 interface TaskItemProps {
   task: Task;
   projects: string[];
   onToggle: (id: string) => void;
   onDelete: (id: string) => void;
-  onMove: (id: string, section: "Входящие" | "Сегодня" | "Предстоящие") => void;
+  onMove: (id: string, section: 'Входящие' | 'Сегодня' | 'Предстоящие') => void;
   onMoveToProject: (id: string, project: string | undefined) => void;
   onStartEditing: (id: string) => void;
   onUpdateTitle: (id: string, title: string) => void;
   onUpdateDescription: (id: string, cleanDesc: string, attachments: SerializedAttachment[]) => void;
-  onUpdatePriority: (id: string, priority: "high" | "medium" | "low") => void;
+  onUpdatePriority: (id: string, priority: 'high' | 'medium' | 'low') => void;
   onDragStart: (id: string) => void;
   onDragEnd: () => void;
   isDragging: boolean;
@@ -35,15 +49,15 @@ interface TaskItemProps {
 }
 
 const priorityColors = {
-  high: "red",
-  medium: "orange",
-  low: "gray",
+  high: 'red',
+  medium: 'orange',
+  low: 'gray',
 };
 
 const priorityLabels = {
-  high: "Высокий",
-  medium: "Средний",
-  low: "Низкий",
+  high: 'Высокий',
+  medium: 'Средний',
+  low: 'Низкий',
 };
 
 export const TaskItem: React.FC<TaskItemProps> = ({
@@ -65,12 +79,18 @@ export const TaskItem: React.FC<TaskItemProps> = ({
 }) => {
   const [detailsOpened, setDetailsOpened] = useState(false);
   const [localTitle, setLocalTitle] = useState(task.title);
-  const [localDesc, setLocalDesc] = useState(task.cleanDescription || task.description || "");
-  const [localAttachments, setLocalAttachments] = useState<SerializedAttachment[]>(task.attachments || []);
+  const [localDesc, setLocalDesc] = useState(task.cleanDescription || task.description || '');
+  const [localAttachments, setLocalAttachments] = useState<SerializedAttachment[]>(
+    task.attachments || [],
+  );
 
   const handleOpenDetails = () => {
     setLocalTitle(task.title);
-    setLocalDesc(task.cleanDescription || (task.description === "Описание отсутствует" ? "" : task.description) || "");
+    setLocalDesc(
+      task.cleanDescription ||
+        (task.description === 'Описание отсутствует' ? '' : task.description) ||
+        '',
+    );
     setLocalAttachments(task.attachments || []);
     setDetailsOpened(true);
   };
@@ -89,16 +109,18 @@ export const TaskItem: React.FC<TaskItemProps> = ({
 
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
-      if (item.type.startsWith("image/")) {
+      if (item.type.startsWith('image/')) {
         const file = item.getAsFile();
         if (file) {
           e.preventDefault();
           try {
             const compressedBlob = await compressImage(file);
-            const compressedFile = new File([compressedBlob], `Вставка-${Date.now()}.jpg`, { type: "image/jpeg" });
-            
+            const compressedFile = new File([compressedBlob], `Вставка-${Date.now()}.jpg`, {
+              type: 'image/jpeg',
+            });
+
             if (compressedFile.size > 1.5 * 1024 * 1024) {
-              alert("Размер вставляемого изображения превышает лимит 1.5 МБ.");
+              alert('Размер вставляемого изображения превышает лимит 1.5 МБ.');
               return;
             }
 
@@ -113,7 +135,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
 
             setLocalAttachments((prev) => [...prev, newAttachment]);
           } catch (err) {
-            console.error("Failed to process pasted image:", err);
+            console.error('Failed to process pasted image:', err);
           }
         }
       }
@@ -122,7 +144,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
 
   return (
     <Paper
-      className={`task-item priority-${task.priority || "medium"} ${isCompleted ? "completed" : ""} ${isDragging ? "dragging" : ""}`}
+      className={`task-item priority-${task.priority || 'medium'} ${isCompleted ? 'completed' : ''} ${isDragging ? 'dragging' : ''}`}
       draggable
       onDragStart={() => onDragStart(task.id)}
       onDragEnd={onDragEnd}
@@ -131,7 +153,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
       <Group align="flex-start" gap={12} style={{ flex: 1, minWidth: 0 }}>
         <ActionIcon
           variant="subtle"
-          color={isCompleted ? "green" : "gray"}
+          color={isCompleted ? 'green' : 'gray'}
           onClick={() => onToggle(task.id)}
           className="task-checkbox"
         >
@@ -145,32 +167,34 @@ export const TaskItem: React.FC<TaskItemProps> = ({
               autoFocus
               onBlur={(e) => onUpdateTitle(task.id, e.currentTarget.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
+                if (e.key === 'Enter') {
                   onUpdateTitle(task.id, e.currentTarget.value);
                 }
-                if (e.key === "Escape") {
-                  onStartEditing("");
+                if (e.key === 'Escape') {
+                  onStartEditing('');
                 }
               }}
               size="xs"
             />
           ) : (
             <div
-              className={`task-title ${isCompleted ? "completed" : ""}`}
+              className={`task-title ${isCompleted ? 'completed' : ''}`}
               onDoubleClick={() => onStartEditing(task.id)}
             >
               {task.title}
             </div>
           )}
-          {task.cleanDescription && task.cleanDescription !== "Описание отсутствует" && (
+          {task.cleanDescription && task.cleanDescription !== 'Описание отсутствует' && (
             <div className="task-description">{task.cleanDescription}</div>
           )}
 
           {task.attachments && task.attachments.length > 0 && (
-            <div style={{ marginTop: "8px" }} onClick={(e) => e.stopPropagation()}>
+            <div style={{ marginTop: '8px' }} onClick={(e) => e.stopPropagation()}>
               <MediaAttachmentList
                 attachments={task.attachments}
-                onAttachmentsChange={() => {}}
+                onAttachmentsChange={() => {
+                  /* noop: read-only mode */
+                }}
                 readOnly
               />
             </div>
@@ -180,7 +204,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
             {task.dueDate && (
               <span className="task-meta-item">
                 <IconCalendar size={12} stroke={1.5} />
-                {new Date(task.dueDate).toLocaleDateString("ru-RU")}
+                {new Date(task.dueDate).toLocaleDateString('ru-RU')}
               </span>
             )}
             {task.project && (
@@ -189,11 +213,11 @@ export const TaskItem: React.FC<TaskItemProps> = ({
                 {task.project}
               </span>
             )}
-            <Badge size="xs" variant="light" color={priorityColors[task.priority || "medium"]}>
-              {priorityLabels[task.priority || "medium"]}
+            <Badge size="xs" variant="light" color={priorityColors[task.priority || 'medium']}>
+              {priorityLabels[task.priority || 'medium']}
             </Badge>
             {task.attachments && task.attachments.length > 0 && (
-              <span className="task-meta-item" style={{ color: "#4f46e5", fontWeight: 600 }}>
+              <span className="task-meta-item" style={{ color: '#4f46e5', fontWeight: 600 }}>
                 <IconPaperclip size={12} stroke={1.5} />
                 {task.attachments.length}
               </span>
@@ -218,13 +242,22 @@ export const TaskItem: React.FC<TaskItemProps> = ({
           </Menu.Target>
           <Menu.Dropdown>
             <Menu.Label>Переместить в</Menu.Label>
-            <Menu.Item leftSection={<IconInbox size={14} />} onClick={() => onMove(task.id, "Входящие")}>
+            <Menu.Item
+              leftSection={<IconInbox size={14} />}
+              onClick={() => onMove(task.id, 'Входящие')}
+            >
               Входящие
             </Menu.Item>
-            <Menu.Item leftSection={<IconCalendar size={14} />} onClick={() => onMove(task.id, "Сегодня")}>
+            <Menu.Item
+              leftSection={<IconCalendar size={14} />}
+              onClick={() => onMove(task.id, 'Сегодня')}
+            >
               Сегодня
             </Menu.Item>
-            <Menu.Item leftSection={<IconClock size={14} />} onClick={() => onMove(task.id, "Предстоящие")}>
+            <Menu.Item
+              leftSection={<IconClock size={14} />}
+              onClick={() => onMove(task.id, 'Предстоящие')}
+            >
               Предстоящие
             </Menu.Item>
             <Menu.Divider />
@@ -238,18 +271,33 @@ export const TaskItem: React.FC<TaskItemProps> = ({
                 {p}
               </Menu.Item>
             ))}
-            <Menu.Item leftSection={<IconFolder size={14} />} onClick={() => onMoveToProject(task.id, undefined)}>
+            <Menu.Item
+              leftSection={<IconFolder size={14} />}
+              onClick={() => onMoveToProject(task.id, undefined)}
+            >
               Без проекта
             </Menu.Item>
             <Menu.Divider />
             <Menu.Label>Приоритет</Menu.Label>
-            <Menu.Item leftSection={<IconFlag size={14} />} color="red" onClick={() => onUpdatePriority(task.id, "high")}>
+            <Menu.Item
+              leftSection={<IconFlag size={14} />}
+              color="red"
+              onClick={() => onUpdatePriority(task.id, 'high')}
+            >
               Высокий
             </Menu.Item>
-            <Menu.Item leftSection={<IconFlag size={14} />} color="orange" onClick={() => onUpdatePriority(task.id, "medium")}>
+            <Menu.Item
+              leftSection={<IconFlag size={14} />}
+              color="orange"
+              onClick={() => onUpdatePriority(task.id, 'medium')}
+            >
               Средний
             </Menu.Item>
-            <Menu.Item leftSection={<IconFlag size={14} />} color="gray" onClick={() => onUpdatePriority(task.id, "low")}>
+            <Menu.Item
+              leftSection={<IconFlag size={14} />}
+              color="gray"
+              onClick={() => onUpdatePriority(task.id, 'low')}
+            >
               Низкий
             </Menu.Item>
           </Menu.Dropdown>
@@ -285,7 +333,9 @@ export const TaskItem: React.FC<TaskItemProps> = ({
           />
 
           <Box>
-            <Text size="xs" fw={700} mb={5}>Вложения (фото, видео, аудио):</Text>
+            <Text size="xs" fw={700} mb={5}>
+              Вложения (фото, видео, аудио):
+            </Text>
             <MediaAttachmentList
               attachments={localAttachments}
               onAttachmentsChange={setLocalAttachments}

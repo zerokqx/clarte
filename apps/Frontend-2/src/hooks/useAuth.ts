@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { AxiosError } from 'axios';
 import { authApi } from '../api/auth';
 
 export const useAuth = () => {
@@ -12,12 +13,11 @@ export const useAuth = () => {
       const response = await authApi.login({ login, password });
       console.log('Вход успешен:', response);
       return true;
-    } catch (err: any) {
-      const status = err.response?.status;
+    } catch (err) {
+      const axiosErr = err as AxiosError<{ message?: string; details?: string }>;
+      const status = axiosErr.response?.status;
       const message =
-        err.response?.data?.message ||
-        err.response?.data?.details ||
-        err.message;
+        axiosErr.response?.data?.message || axiosErr.response?.data?.details || axiosErr.message;
 
       if (status === 401) {
         setError('Неверный логин или пароль');
@@ -42,12 +42,11 @@ export const useAuth = () => {
       const response = await authApi.register({ login, password });
       console.log('Регистрация успешна:', response);
       return true;
-    } catch (err: any) {
-      const status = err.response?.status;
+    } catch (err) {
+      const axiosErr = err as AxiosError<{ message?: string; details?: string }>;
+      const status = axiosErr.response?.status;
       const message =
-        err.response?.data?.message ||
-        err.response?.data?.details ||
-        err.message;
+        axiosErr.response?.data?.message || axiosErr.response?.data?.details || axiosErr.message;
 
       if (
         status === 409 ||
@@ -66,9 +65,7 @@ export const useAuth = () => {
       } else if (message) {
         setError(message);
       } else {
-        setError(
-          'Ошибка регистрации. Проверьте введённые данные и попробуйте снова.',
-        );
+        setError('Ошибка регистрации. Проверьте введённые данные и попробуйте снова.');
       }
       console.error('Ошибка регистрации:', err);
       throw err;
@@ -78,12 +75,9 @@ export const useAuth = () => {
   };
 
   const logout = () => {
-    document.cookie =
-      'clarte_access=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    document.cookie =
-      'clarte_refresh=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    document.cookie =
-      'clarte_has_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie = 'clarte_access=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie = 'clarte_refresh=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie = 'clarte_has_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     window.location.href = '/login';
   };
 

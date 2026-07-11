@@ -44,6 +44,9 @@
     },
     {
       "path": "./packages/mantine-helpers"
+    },
+    {
+      "path": "./apps/Frontend-2"
     }
   ]
 }

@@ -11,18 +11,14 @@ export const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use((config) => {
-  console.log(
-    'Запрос:',
-    config.method?.toUpperCase(),
-    (config.baseURL || '') + (config.url || ''),
-  );
+  console.log('Запрос:', config.method?.toUpperCase(), (config.baseURL || '') + (config.url || ''));
   return config;
 });
 
 let isRefreshing = false;
-let failedQueue: { resolve: (value: any) => void; reject: (error: any) => void }[] = [];
+let failedQueue: { resolve: (value: unknown) => void; reject: (error: unknown) => void }[] = [];
 
-const processQueue = (error: any) => {
+const processQueue = (error: unknown) => {
   failedQueue.forEach((prom) => {
     if (error) {
       prom.reject(error);
