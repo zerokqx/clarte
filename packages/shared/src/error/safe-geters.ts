@@ -6,8 +6,21 @@ export function safeGeter<DT = string>(key: string, expectedType?: TypeofValue) 
 
   return function <F = undefined>(fallback?: F) {
     return function (error: unknown): F extends undefined ? DT | undefined : DT | F {
-      if (error && typeof error === 'object') {
-        const value = get<unknown>(error, key);
+      let actualError = error;
+      let actualFallback = fallback;
+
+      // Handle parameter inversion (e.g. caller passed error object first and fallback second)
+      if (
+        actualFallback &&
+        typeof actualFallback === 'object' &&
+        (!actualError || typeof actualError !== 'object')
+      ) {
+        actualError = fallback;
+        actualFallback = error;
+      }
+
+      if (actualError && typeof actualError === 'object') {
+        const value = get<unknown>(actualError, key);
 
         if (typeof value === resolveTypeExpected) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -16,7 +29,7 @@ export function safeGeter<DT = string>(key: string, expectedType?: TypeofValue) 
       }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return fallback as any;
+      return actualFallback as any;
     };
   };
 }

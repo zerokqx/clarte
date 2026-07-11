@@ -362,11 +362,12 @@ export const useTasks = () => {
     attachments: SerializedAttachment[],
   ) => {
     const payloadDesc = buildDescription(cleanDesc, attachments);
+    const finalDesc = payloadDesc.length >= 10 ? payloadDesc : 'Описание отсутствует';
 
     setTasks((prev) =>
       prev.map((t) =>
         t.id === id
-          ? { ...t, description: payloadDesc, cleanDescription: cleanDesc, attachments }
+          ? { ...t, description: finalDesc, cleanDescription: cleanDesc, attachments }
           : t,
       ),
     );
@@ -375,14 +376,14 @@ export const useTasks = () => {
     if (cached) {
       const cachedTasks = JSON.parse(cached);
       const updated = cachedTasks.map((t: RawTask) =>
-        t.id === id ? { ...t, description: payloadDesc } : t,
+        t.id === id ? { ...t, description: finalDesc } : t,
       );
       localStorage.setItem('clarte_tasks_cache', JSON.stringify(updated));
     }
 
     try {
       await apiClient.patch(`/todos/${id}`, {
-        description: payloadDesc,
+        description: finalDesc,
       });
       await fetchTasks();
     } catch (err) {
