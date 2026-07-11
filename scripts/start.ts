@@ -92,9 +92,7 @@ async function main() {
     try {
       execSync('pnpm add --global nx', { stdio: 'inherit' });
     } catch {
-      console.log(
-        '⚠️ Warning: Failed to install nx globally. Proceeding with local execution.',
-      );
+      console.log('⚠️ Warning: Failed to install nx globally. Proceeding with local execution.');
     }
   }
 
@@ -127,8 +125,7 @@ async function main() {
   }
 
   const selectedProjects = await checkbox({
-    message:
-      'Выберите микросервисы для запуска (Пробел - поставить галочку, Enter - подтвердить):',
+    message: 'Выберите микросервисы для запуска (Пробел - поставить галочку, Enter - подтвердить):',
     choices: projects.map((project) => ({ name: project, value: project })),
     loop: false,
   });
@@ -138,19 +135,11 @@ async function main() {
     process.exit(0);
   }
 
-  console.log(
-    `\n⚡ Starting selected microservices: ${selectedProjects.join(', ')}...`,
-  );
+  console.log(`\n⚡ Starting selected microservices: ${selectedProjects.join(', ')}...`);
 
   // Формируем аргумент --projects=app1,app2
   const projectsArg = `--projects=${selectedProjects.join(',')}`;
-  spawnCommand('pnpm', [
-    'nx',
-    'run-many',
-    '--targets=serve',
-    projectsArg,
-    '--no-tui',
-  ]);
+  spawnCommand('pnpm', ['nx', 'run-many', '--targets=serve', projectsArg, '--no-tui']);
 }
 
 main().catch(console.error);

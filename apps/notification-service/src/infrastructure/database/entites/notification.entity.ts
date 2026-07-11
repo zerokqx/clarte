@@ -20,6 +20,3 @@ export class NotificationOrmEntity {
   @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
   createdAt!: Date;
 }
-
-
-

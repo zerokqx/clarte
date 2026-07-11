@@ -52,11 +52,6 @@ export interface UserEditChangeAvatarRequest {
   avatarUrl: string;
 }
 
-export interface UserEditChangeLoginRequest {
-  userId: string;
-  login: string;
-}
-
 export interface UploadPresignedUrlResponse {
   urlPublic: string;
   urlPresigned: string;
@@ -70,19 +65,15 @@ export const USER_PACKAGE_NAME = 'user';
 
 export interface UserEditServiceClient {
   userChangeAvatar(request: UserEditChangeAvatarRequest): Observable<Empty>;
-
-  userChangeLogin(request: UserEditChangeLoginRequest): Observable<Empty>;
 }
 
 export interface UserEditServiceController {
   userChangeAvatar(request: UserEditChangeAvatarRequest): void | Promise<void>;
-
-  userChangeLogin(request: UserEditChangeLoginRequest): void | Promise<void>;
 }
 
 export function UserEditServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ['userChangeAvatar', 'userChangeLogin'];
+    const grpcMethods: string[] = ['userChangeAvatar'];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod('UserEditService', method)(constructor.prototype[method], method, descriptor);

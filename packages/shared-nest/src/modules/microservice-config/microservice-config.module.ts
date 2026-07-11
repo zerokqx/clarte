@@ -3,16 +3,11 @@ import { Env } from '@humanwhocodes/env';
 import { ConfigModule, registerAs } from '@nestjs/config';
 import { prefixForEnv, PrefixForEnvOption, Prefix } from '@clarte/shared';
 
-type ConfigPrefixer<P extends string, Opt extends PrefixForEnvOption> = <
-  V extends string,
->(
+type ConfigPrefixer<P extends string, Opt extends PrefixForEnvOption> = <V extends string>(
   value: V,
 ) => Prefix<P, V, Opt>;
 
-interface AdditionalFieldsArgs<
-  P extends string,
-  Opt extends PrefixForEnvOption,
-> {
+interface AdditionalFieldsArgs<P extends string, Opt extends PrefixForEnvOption> {
   prefix: ConfigPrefixer<P, Opt>;
   env: Env;
 }
@@ -34,10 +29,8 @@ export interface MicroserviceConfigTypeDefaultFields {
   host: string;
   port: string;
 }
-export type MicroserviceConfigType<
-  T extends object = object,
-  TDefault extends boolean = true,
-> = T & (TDefault extends true ? MicroserviceConfigTypeDefaultFields : object);
+export type MicroserviceConfigType<T extends object = object, TDefault extends boolean = true> = T &
+  (TDefault extends true ? MicroserviceConfigTypeDefaultFields : object);
 
 @Module({})
 export class MicroserviceConfigModule {
@@ -56,27 +49,22 @@ export class MicroserviceConfigModule {
     const logger = new Logger(MicroserviceConfigModule.name);
 
     logger.debug(`Инициализация модуля конфигурации для ${registerAsName}`);
-    const configuration = registerAs(
-      registerAsName,
-      (): MicroserviceConfigType<T, TDefault> => {
-        const env = new Env();
-        const prefix = prefixForEnv(value, options);
-        logger.debug(`Тестовый префикс - ${prefix('test')}`);
-        const fields: MicroserviceConfigTypeDefaultFields = {
-          host: env.get(prefix('host'), 'localhost'),
-          port: env.require(prefix('port')),
-        };
+    const configuration = registerAs(registerAsName, (): MicroserviceConfigType<T, TDefault> => {
+      const env = new Env();
+      const prefix = prefixForEnv(value, options);
+      logger.debug(`Тестовый префикс - ${prefix('test')}`);
+      const fields: MicroserviceConfigTypeDefaultFields = {
+        host: env.get(prefix('host'), 'localhost'),
+        port: env.require(prefix('port')),
+      };
 
-        logger.debug(
-          `Дефолтные значений - ${defaultFields ? 'Включено' : 'Отключено'}`, fields
-        );
+      logger.debug(`Дефолтные значений - ${defaultFields ? 'Включено' : 'Отключено'}`, fields);
 
-        return {
-          ...(defaultFields ? fields : {}),
-          ...(additionalFields ? additionalFields({ prefix, env }) : {}),
-        } as MicroserviceConfigType<T, TDefault>;
-      },
-    );
+      return {
+        ...(defaultFields ? fields : {}),
+        ...(additionalFields ? additionalFields({ prefix, env }) : {}),
+      } as MicroserviceConfigType<T, TDefault>;
+    });
     logger.debug('RegisterAs успешно завершил работу');
     return {
       module: MicroserviceConfigModule,

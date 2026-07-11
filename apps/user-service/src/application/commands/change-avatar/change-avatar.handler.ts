@@ -1,21 +1,13 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { ChangeAvatarCommand } from './change-avatar.command';
-import {
-  InjectUserRepository,
-  InjectUserAvatarGenerator,
-} from '@/application/decorators';
-import {
-  type IUserWriteRepository,
-  type IUserAvatarGenerator,
-} from '@/application/ports';
+import { InjectUserRepository, InjectUserAvatarGenerator } from '@/application/decorators';
+import { type IUserWriteRepository, type IUserAvatarGenerator } from '@/application/ports';
 import { Effect, pipe } from 'effect';
 import { UserNotFound } from '@/application/exceptions';
 import { CouldntSaveProfileError } from '@/application/exceptions/couldnt-save-profile.exception';
 
 @CommandHandler(ChangeAvatarCommand)
-export class ChangeAvatarHandler
-  implements ICommandHandler<ChangeAvatarCommand>
-{
+export class ChangeAvatarHandler implements ICommandHandler<ChangeAvatarCommand> {
   constructor(
     @InjectUserRepository('w')
     private readonly domainRepo: IUserWriteRepository,
@@ -24,7 +16,7 @@ export class ChangeAvatarHandler
   ) {}
 
   async execute(command: ChangeAvatarCommand): Promise<void> {
-    console.log(command)
+    console.log(command);
     const program = pipe(
       Effect.tryPromise({
         try: () => this.domainRepo.findUserById(command.id),
@@ -37,10 +29,7 @@ export class ChangeAvatarHandler
       Effect.flatMap((user) =>
         Effect.tryPromise({
           try: () => this.domainRepo.save(user),
-          catch: () =>
-            new CouldntSaveProfileError(
-              "Couldn't save profile, please try again later",
-            ),
+          catch: () => new CouldntSaveProfileError("Couldn't save profile, please try again later"),
         }),
       ),
     );

@@ -1,2 +1,2 @@
-export * from"./note-repository.interface";
-export * from "./di-tokens"
+export * from './note-repository.interface';
+export * from './di-tokens';

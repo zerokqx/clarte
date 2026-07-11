@@ -9,10 +9,7 @@ export interface PrefixForEnvOption {
 }
 
 export const prefixForEnv =
-  <T extends string, Opt extends PrefixForEnvOption>(
-    prefix: T,
-    options?: Opt,
-  ) =>
+  <T extends string, Opt extends PrefixForEnvOption>(prefix: T, options?: Opt) =>
   <V extends string>(value: V): Prefix<T, V, Opt> => {
     let valueWithPrefix = `${prefix}${value}`;
     if (options?.upperCase) valueWithPrefix = valueWithPrefix.toUpperCase();

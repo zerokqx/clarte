@@ -12,8 +12,6 @@ export interface IUserClient {
 
   userChangeAvatar(data: User.UserEditChangeAvatarRequest): Observable<void>;
 
-  userChangeLogin(data: User.UserEditChangeLoginRequest): Observable<void>;
-
   uploadPresignedUrl(
     data: User.UploadPresignedUrlRequest,
   ): Observable<User.UploadPresignedUrlResponse>;

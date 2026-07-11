@@ -68,7 +68,9 @@ export const compressImage = (file: File, maxWidth = 800, maxHeight = 800): Prom
   });
 };
 
-export const parseDescription = (rawDescription = ''): { cleanDescription: string; attachments: SerializedAttachment[] } => {
+export const parseDescription = (
+  rawDescription = '',
+): { cleanDescription: string; attachments: SerializedAttachment[] } => {
   if (!rawDescription) {
     return { cleanDescription: '', attachments: [] };
   }
@@ -88,7 +90,10 @@ export const parseDescription = (rawDescription = ''): { cleanDescription: strin
   }
 };
 
-export const buildDescription = (cleanDescription: string, attachments: SerializedAttachment[]): string => {
+export const buildDescription = (
+  cleanDescription: string,
+  attachments: SerializedAttachment[],
+): string => {
   const desc = cleanDescription.trim();
   if (attachments.length === 0) {
     return desc;

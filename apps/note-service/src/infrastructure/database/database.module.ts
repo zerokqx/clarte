@@ -5,9 +5,7 @@ import { NOTE_READ_REPO, NOTE_WRITE_REPO } from '@/application';
 import { NoteReadRepository, NoteWriteRepository } from './repository';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([{ name: Note.name, schema: NoteSchema }]),
-  ],
+  imports: [MongooseModule.forFeature([{ name: Note.name, schema: NoteSchema }])],
   providers: [
     {
       provide: NOTE_READ_REPO,

@@ -1,4 +1,4 @@
-import {  useUserControllerMe } from '@/shared/api/orval';
+import { useUserControllerMe } from '@/shared/api/orval';
 
 export const useMe = () => {
   return useUserControllerMe();

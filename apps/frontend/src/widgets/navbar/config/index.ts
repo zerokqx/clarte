@@ -1,2 +1,1 @@
-
-export const navbarItems = []
+export const navbarItems = [];

@@ -12,13 +12,7 @@ import {
   Loader,
   Box,
 } from '@mantine/core';
-import {
-  IconMicrophone,
-  IconSquare,
-  IconPlus,
-  IconTrash,
-  IconFileText,
-} from '@tabler/icons-react';
+import { IconMicrophone, IconSquare, IconPlus, IconTrash, IconFileText } from '@tabler/icons-react';
 import { SerializedAttachment, fileToBase64, compressImage } from '../utils/mediaSerializer';
 
 interface MediaAttachmentListProps {
@@ -210,7 +204,9 @@ export const MediaAttachmentList: React.FC<MediaAttachmentListProps> = ({
           {isUploading && (
             <Group gap={6}>
               <Loader size="xs" color="indigo" />
-              <Text size="xs" color="dimmed">Сжатие и кодирование...</Text>
+              <Text size="xs" color="dimmed">
+                Сжатие и кодирование...
+              </Text>
             </Group>
           )}
         </Group>
@@ -281,7 +277,10 @@ export const MediaAttachmentList: React.FC<MediaAttachmentListProps> = ({
                     <IconMicrophone
                       size={28}
                       stroke={1.5}
-                      style={{ color: '#4f46e5', animation: isRecording ? 'pulse 1s infinite' : 'none' }}
+                      style={{
+                        color: '#4f46e5',
+                        animation: isRecording ? 'pulse 1s infinite' : 'none',
+                      }}
                     />
                   )}
                   {!isImage && !isVideo && !isAudio && (
@@ -340,12 +339,7 @@ export const MediaAttachmentList: React.FC<MediaAttachmentListProps> = ({
             )}
             {previewMedia.type.startsWith('audio/') && (
               <Box p="xl" style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                <audio
-                  src={previewMedia.data}
-                  controls
-                  autoPlay
-                  style={{ width: '100%' }}
-                />
+                <audio src={previewMedia.data} controls autoPlay style={{ width: '100%' }} />
               </Box>
             )}
             <Text size="xs" color="dimmed">

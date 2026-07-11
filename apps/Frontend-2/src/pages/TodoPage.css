@@ -2,7 +2,7 @@
   display: flex;
   height: 100vh;
   background: #f8f9fc;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: #1a1a2e;
   overflow: hidden;
 }
@@ -57,7 +57,7 @@
 }
 
 .nav-item.active::before {
-  content: "";
+  content: '';
   position: absolute;
   left: -16px;
   top: 50%;
@@ -270,7 +270,9 @@
 }
 
 .collaborative-editor-container textarea {
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 .collaborative-editor-container textarea:focus {
@@ -286,7 +288,9 @@
   color: #9ca3af;
   cursor: pointer;
   opacity: 0;
-  transition: opacity 0.2s, color 0.2s;
+  transition:
+    opacity 0.2s,
+    color 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -319,137 +323,142 @@
   }
 }
 
-[data-mantine-color-scheme="dark"] .todo-app {
+[data-mantine-color-scheme='dark'] .todo-app {
   background: #141517;
   color: #c1c2c5;
 }
 
-[data-mantine-color-scheme="dark"] .sidebar {
+[data-mantine-color-scheme='dark'] .sidebar {
   background: #1a1b1e;
   border-right-color: #2c2e33;
 }
 
-[data-mantine-color-scheme="dark"] .logo {
+[data-mantine-color-scheme='dark'] .logo {
   color: #ffffff;
 }
 
-[data-mantine-color-scheme="dark"] .nav-item {
+[data-mantine-color-scheme='dark'] .nav-item {
   color: #909296;
 }
 
-[data-mantine-color-scheme="dark"] .nav-item:hover {
+[data-mantine-color-scheme='dark'] .nav-item:hover {
   background: #25262b;
   color: #ffffff;
 }
 
-[data-mantine-color-scheme="dark"] .nav-item.active {
+[data-mantine-color-scheme='dark'] .nav-item.active {
   background: #1c1d24;
   color: #5c7cfa;
 }
 
-[data-mantine-color-scheme="dark"] .nav-item.active::before {
+[data-mantine-color-scheme='dark'] .nav-item.active::before {
   background: #5c7cfa;
 }
 
-[data-mantine-color-scheme="dark"] .add-project-btn {
+[data-mantine-color-scheme='dark'] .add-project-btn {
   color: #5c6066;
 }
 
-[data-mantine-color-scheme="dark"] .add-project-btn:hover {
+[data-mantine-color-scheme='dark'] .add-project-btn:hover {
   background: #25262b;
   color: #5c7cfa;
 }
 
-[data-mantine-color-scheme="dark"] .main-content {
+[data-mantine-color-scheme='dark'] .main-content {
   background: #141517;
 }
 
-[data-mantine-color-scheme="dark"] .main-header .mantine-Text-root {
+[data-mantine-color-scheme='dark'] .main-header .mantine-Text-root {
   color: #ffffff;
 }
 
-[data-mantine-color-scheme="dark"] .task-item {
+[data-mantine-color-scheme='dark'] .task-item {
   background: #1a1b1e;
   border-color: #2c2e33;
 }
 
-[data-mantine-color-scheme="dark"] .task-item:hover {
+[data-mantine-color-scheme='dark'] .task-item:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-[data-mantine-color-scheme="dark"] .task-title {
+[data-mantine-color-scheme='dark'] .task-title {
   color: #ffffff;
 }
 
-[data-mantine-color-scheme="dark"] .task-description {
+[data-mantine-color-scheme='dark'] .task-description {
   color: #909296;
 }
 
-[data-mantine-color-scheme="dark"] .task-section-badge {
+[data-mantine-color-scheme='dark'] .task-section-badge {
   background: #2c2e33;
   color: #909296;
 }
 
-[data-mantine-color-scheme="dark"] .drop-zone {
+[data-mantine-color-scheme='dark'] .drop-zone {
   border-color: #2c2e33;
   color: #5c6066;
 }
 
-[data-mantine-color-scheme="dark"] .drop-zone:hover {
+[data-mantine-color-scheme='dark'] .drop-zone:hover {
   border-color: #5c7cfa;
   background: #1c1d24;
   color: #5c7cfa;
 }
 
-[data-mantine-color-scheme="dark"] .drop-zone-inbox:hover {
+[data-mantine-color-scheme='dark'] .drop-zone-inbox:hover {
   border-color: #5c7cfa;
   background: #1c1d24;
 }
 
-[data-mantine-color-scheme="dark"] .drop-zone-today:hover {
+[data-mantine-color-scheme='dark'] .drop-zone-today:hover {
   border-color: #2b8a3e;
   background: #142918;
 }
 
-[data-mantine-color-scheme="dark"] .drop-zone-upcoming:hover {
+[data-mantine-color-scheme='dark'] .drop-zone-upcoming:hover {
   border-color: #e67e22;
   background: #2c1e11;
 }
 
-[data-mantine-color-scheme="dark"] .collaborative-editor-container textarea {
+[data-mantine-color-scheme='dark'] .collaborative-editor-container textarea {
   background: #1a1b1e;
   color: #ffffff;
   border-color: #2c2e33;
 }
 
-[data-mantine-color-scheme="dark"] .collaborative-editor-container .mantine-Paper-root {
+[data-mantine-color-scheme='dark'] .collaborative-editor-container .mantine-Paper-root {
   background: #1a1b1e !important;
   border-color: #2c2e33 !important;
 }
 
-[data-mantine-color-scheme="dark"] .collaborative-editor-container .mantine-Paper-root .mantine-Text-root {
+[data-mantine-color-scheme='dark']
+  .collaborative-editor-container
+  .mantine-Paper-root
+  .mantine-Text-root {
   color: #ffffff !important;
 }
 
-[data-mantine-color-scheme="dark"] .collaborative-editor-container .mantine-Text-root.mantine-Text-dimmed {
+[data-mantine-color-scheme='dark']
+  .collaborative-editor-container
+  .mantine-Text-root.mantine-Text-dimmed {
   color: #909296 !important;
 }
 
-[data-mantine-color-scheme="dark"] .mantine-TextInput-input {
+[data-mantine-color-scheme='dark'] .mantine-TextInput-input {
   background: #1a1b1e;
   color: #ffffff;
   border-color: #2c2e33;
 }
 
-[data-mantine-color-scheme="dark"] .mantine-TextInput-input:focus {
+[data-mantine-color-scheme='dark'] .mantine-TextInput-input:focus {
   border-color: #5c7cfa;
 }
 
-[data-mantine-color-scheme="dark"] .sidebar-nav .mantine-Divider-root {
+[data-mantine-color-scheme='dark'] .sidebar-nav .mantine-Divider-root {
   border-top-color: #2c2e33;
 }
 
-[data-mantine-color-scheme="dark"] .sidebar-nav .mantine-Divider-root .mantine-Divider-label {
+[data-mantine-color-scheme='dark'] .sidebar-nav .mantine-Divider-root .mantine-Divider-label {
   color: #909296;
   background: #1a1b1e;
 }
@@ -489,7 +498,10 @@
 
 .task-item {
   animation: fadeInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease !important;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease !important;
 }
 
 .task-item:hover {
@@ -498,7 +510,10 @@
 }
 
 .nav-item {
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, color 0.2s ease !important;
+  transition:
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.2s ease,
+    color 0.2s ease !important;
 }
 
 .nav-item:hover {
@@ -506,7 +521,10 @@
 }
 
 .add-project-btn {
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, color 0.2s ease !important;
+  transition:
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.2s ease,
+    color 0.2s ease !important;
 }
 
 .add-project-btn:hover {
@@ -523,7 +541,9 @@
 
 .notification-item {
   animation: fadeIn 0.2s ease-out both;
-  transition: background-color 0.2s ease, transform 0.2s ease !important;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease !important;
 }
 
 .notification-item:hover {
@@ -531,7 +551,9 @@
 }
 
 .collaborative-editor-container textarea {
-  transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease !important;
 }
 
 .mantine-Modal-content {
@@ -541,4 +563,3 @@
 .empty-state {
   animation: fadeIn 0.5s ease-out both;
 }
-

@@ -5,4 +5,3 @@
  * Gateway for microservices
  * OpenAPI spec version: 1.0
  */
-

@@ -13,7 +13,7 @@ import type {
   UseMutationResult,
 } from '@tanstack/react-query';
 
-import type { UserChangeAvatarDTO, UserChangeLoginDTO } from '../../model';
+import type { UserChangeAvatarDTO } from '../../model';
 
 import { customInstance } from '../../../axios-custom-instance';
 import type { ErrorType, BodyType } from '../../../axios-custom-instance';
@@ -107,88 +107,4 @@ export const useUserEditControllerChangeAvatar = <TError = ErrorType<unknown>, T
   TContext
 > => {
   return useMutation(getUserEditControllerChangeAvatarMutationOptions(options), queryClient);
-};
-/**
- * @summary Изменить логин пользователя
- */
-export const userEditControllerChangeLogin = (
-  userChangeLoginDTO: BodyType<UserChangeLoginDTO>,
-  options?: SecondParameter<typeof customInstance>,
-  signal?: AbortSignal,
-) => {
-  return customInstance<void>(
-    {
-      url: `/api/users/change-login`,
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      data: userChangeLoginDTO,
-      signal,
-    },
-    options,
-  );
-};
-
-export const getUserEditControllerChangeLoginMutationOptions = <
-  TError = ErrorType<unknown>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof userEditControllerChangeLogin>>,
-    TError,
-    { data: BodyType<UserChangeLoginDTO> },
-    TContext
-  >;
-  request?: SecondParameter<typeof customInstance>;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof userEditControllerChangeLogin>>,
-  TError,
-  { data: BodyType<UserChangeLoginDTO> },
-  TContext
-> => {
-  const mutationKey = ['userEditControllerChangeLogin'];
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof userEditControllerChangeLogin>>,
-    { data: BodyType<UserChangeLoginDTO> }
-  > = (props) => {
-    const { data } = props ?? {};
-
-    return userEditControllerChangeLogin(data, requestOptions);
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type UserEditControllerChangeLoginMutationResult = NonNullable<
-  Awaited<ReturnType<typeof userEditControllerChangeLogin>>
->;
-export type UserEditControllerChangeLoginMutationBody = BodyType<UserChangeLoginDTO>;
-export type UserEditControllerChangeLoginMutationError = ErrorType<unknown>;
-
-/**
- * @summary Изменить логин пользователя
- */
-export const useUserEditControllerChangeLogin = <TError = ErrorType<unknown>, TContext = unknown>(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof userEditControllerChangeLogin>>,
-      TError,
-      { data: BodyType<UserChangeLoginDTO> },
-      TContext
-    >;
-    request?: SecondParameter<typeof customInstance>;
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
-  Awaited<ReturnType<typeof userEditControllerChangeLogin>>,
-  TError,
-  { data: BodyType<UserChangeLoginDTO> },
-  TContext
-> => {
-  return useMutation(getUserEditControllerChangeLoginMutationOptions(options), queryClient);
 };

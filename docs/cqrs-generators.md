@@ -15,12 +15,15 @@ pnpm nx run @clarte/source:cqrs:command --name=<имя-команды> --service
 ```
 
 ### Пример использования:
+
 ```bash
 pnpm nx run @clarte/source:cqrs:command --name=create-todo --service=todo-service
 ```
 
 ### Сгенерированная структура файлов:
+
 В директории `apps/todo-service/src/application/commands/create-todo/` будут созданы:
+
 1. `create-todo.command.ts` — класс команды (наследуется от `Command`).
 2. `create-todo.handler.ts` — класс обработчика команды (декорирован `@CommandHandler(...)`).
 3. `index.ts` — barrel-экспорт для удобного импорта.
@@ -38,12 +41,15 @@ pnpm nx run @clarte/source:cqrs:query --name=<имя-запроса> --service=<
 ```
 
 ### Пример использования:
+
 ```bash
 pnpm nx run @clarte/source:cqrs:query --name=get-user-todos --service=todo-service
 ```
 
 ### Сгенерированная структура файлов:
+
 В директории `apps/todo-service/src/application/queries/get-user-todos/` будут созданы:
+
 1. `get-user-todos.query.ts` — класс запроса (реализует `Query`).
 2. `get-user-todos.handler.ts` — класс обработчика запроса (декорирован `@QueryHandler(...)`).
 3. `index.ts` — barrel-экспорт.

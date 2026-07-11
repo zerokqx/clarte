@@ -20,12 +20,7 @@ export class User extends Entity {
     super(_id);
   }
 
-  public static create(
-    id: string,
-    login: string,
-    hashedPassword: string,
-    avatarUrl: string,
-  ): User {
+  public static create(id: string, login: string, hashedPassword: string, avatarUrl: string): User {
     return new User(
       id,
       UserLogin.create(login),
@@ -34,12 +29,7 @@ export class User extends Entity {
     );
   }
 
-  public static restore(
-    id: string,
-    login: string,
-    password: string,
-    avatarUrl: string,
-  ): User {
+  public static restore(id: string, login: string, password: string, avatarUrl: string): User {
     return new User(
       id,
       UserLogin.restore(login),
@@ -49,9 +39,7 @@ export class User extends Entity {
   }
 
   public changeAvatar(newAvatar: string, defaultAvatar: string): void {
-    this._avatarUrl = UserAvatar.create(
-      newAvatar.trim() === '' ? defaultAvatar : newAvatar,
-    );
+    this._avatarUrl = UserAvatar.create(newAvatar.trim() === '' ? defaultAvatar : newAvatar);
   }
 
   public changeLogin(newRawLogin: string): void {

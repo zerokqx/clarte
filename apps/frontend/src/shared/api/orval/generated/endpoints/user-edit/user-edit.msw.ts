@@ -25,25 +25,4 @@ export const getUserEditControllerChangeAvatarMockHandler = (
     options,
   );
 };
-
-export const getUserEditControllerChangeLoginMockHandler = (
-  overrideResponse?:
-    void | ((info: Parameters<Parameters<typeof http.patch>[1]>[0]) => Promise<void> | void),
-  options?: RequestHandlerOptions,
-) => {
-  return http.patch(
-    '*/api/users/change-login',
-    async (info: Parameters<Parameters<typeof http.patch>[1]>[0]) => {
-      if (typeof overrideResponse === 'function') {
-        await overrideResponse(info);
-      }
-
-      return new HttpResponse(null, { status: 204 });
-    },
-    options,
-  );
-};
-export const getUserEditMock = () => [
-  getUserEditControllerChangeAvatarMockHandler(),
-  getUserEditControllerChangeLoginMockHandler(),
-];
+export const getUserEditMock = () => [getUserEditControllerChangeAvatarMockHandler()];

@@ -5,10 +5,10 @@
 // source: notification.proto
 
 /* eslint-disable */
-import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
-import { Observable } from "rxjs";
+import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
 
-export const protobufPackage = "notification";
+export const protobufPackage = 'notification';
 
 export interface Notification {
   id: string;
@@ -25,31 +25,40 @@ export interface GetNotificationsByIdResponse {
   notifications: Notification[];
 }
 
-export const NOTIFICATION_PACKAGE_NAME = "notification";
+export const NOTIFICATION_PACKAGE_NAME = 'notification';
 
 export interface NotificationServiceClient {
-  getNotificationsById(request: GetNotificationsByIdRequest): Observable<GetNotificationsByIdResponse>;
+  getNotificationsById(
+    request: GetNotificationsByIdRequest,
+  ): Observable<GetNotificationsByIdResponse>;
 }
 
 export interface NotificationServiceController {
   getNotificationsById(
     request: GetNotificationsByIdRequest,
-  ): Promise<GetNotificationsByIdResponse> | Observable<GetNotificationsByIdResponse> | GetNotificationsByIdResponse;
+  ):
+    | Promise<GetNotificationsByIdResponse>
+    | Observable<GetNotificationsByIdResponse>
+    | GetNotificationsByIdResponse;
 }
 
 export function NotificationServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["getNotificationsById"];
+    const grpcMethods: string[] = ['getNotificationsById'];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod("NotificationService", method)(constructor.prototype[method], method, descriptor);
+      GrpcMethod('NotificationService', method)(constructor.prototype[method], method, descriptor);
     }
     const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod("NotificationService", method)(constructor.prototype[method], method, descriptor);
+      GrpcStreamMethod('NotificationService', method)(
+        constructor.prototype[method],
+        method,
+        descriptor,
+      );
     }
   };
 }
 
-export const NOTIFICATION_SERVICE_NAME = "NotificationService";
+export const NOTIFICATION_SERVICE_NAME = 'NotificationService';

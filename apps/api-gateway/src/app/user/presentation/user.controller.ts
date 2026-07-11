@@ -19,14 +19,11 @@ export class UserController extends Marks.Controller.Private {
 
   @ApiOperation({
     summary: 'Получить пользователя по ID',
-    description:
-      'Возвращает информацию о пользователе по его уникальному идентификатору',
+    description: 'Возвращает информацию о пользователе по его уникальному идентификатору',
   })
   @ApiOkResponse({ type: UserFindDTO })
   @Get('id/:id')
-  findUserById(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Observable<UserFindDTO> {
+  findUserById(@Param('id', ParseUUIDPipe) id: string): Observable<UserFindDTO> {
     return this.userClient.findUserById(id).pipe(
       map(
         (raw) =>

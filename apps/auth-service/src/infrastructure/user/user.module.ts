@@ -18,8 +18,7 @@ import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared
       {
         name: USER_GRPC_CLIENT,
         useFactory(config: ConfigService) {
-          const { host, port } =
-            config.getOrThrow<MicroserviceConfigType>('user-service');
+          const { host, port } = config.getOrThrow<MicroserviceConfigType>('user-service');
           return {
             transport: Transport.GRPC,
             options: {

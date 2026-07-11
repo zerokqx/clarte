@@ -87,11 +87,7 @@ export class S3Service implements IS3Service {
     }
   }
 
-  async download(
-    bucket: string,
-    key: string,
-    metadata?: Record<string, string>,
-  ): Promise<Buffer> {
+  async download(bucket: string, key: string, metadata?: Record<string, string>): Promise<Buffer> {
     try {
       const command = new GetObjectCommand({
         Bucket: bucket,
@@ -113,10 +109,7 @@ export class S3Service implements IS3Service {
     }
   }
 
-  async delete(
-    bucket: string,
-    key: string,
-  ): Promise<void> {
+  async delete(bucket: string, key: string): Promise<void> {
     try {
       const command = new DeleteObjectCommand({
         Bucket: bucket,

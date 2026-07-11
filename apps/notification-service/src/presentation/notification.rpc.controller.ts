@@ -5,7 +5,11 @@ import { InjectNotificationRepo } from '@/application/decorators';
 import type { INotificationRepository } from '@/application/ports';
 import { Notification as NotificationDomain } from '@/domain';
 import { randomUUID } from 'crypto';
-import { UserEventPattern, type IUserCreatedPayload, type IUserEnteredPayload } from '@clarte/shared-event-types/user';
+import {
+  UserEventPattern,
+  type IUserCreatedPayload,
+  type IUserEnteredPayload,
+} from '@clarte/shared-event-types/user';
 import { TodoEventPattern, type ITodoReminderPayload } from '@clarte/shared-event-types/todo';
 
 @Controller()
@@ -38,9 +42,7 @@ export class NotificationRpcController implements Notification.NotificationServi
 
   // 2. RMQ Handler for the "user.created" event
   @EventPattern(UserEventPattern.UserCreated)
-  async handleUserCreated(
-    @Payload() data: IUserCreatedPayload,
-  ) {
+  async handleUserCreated(@Payload() data: IUserCreatedPayload) {
     try {
       this.logger.log(`Received RMQ Event "user.created" for user: ${data.userId}`);
 
@@ -56,15 +58,15 @@ export class NotificationRpcController implements Notification.NotificationServi
       await this.notificationRepository.save(notification);
       this.logger.log(`Welcome notification for user ${data.userId} successfully saved to DB.`);
     } catch (err) {
-      this.logger.error(`Failed to process user.created event for user ${data.userId}: ${err instanceof Error ? err.message : err}`);
+      this.logger.error(
+        `Failed to process user.created event for user ${data.userId}: ${err instanceof Error ? err.message : err}`,
+      );
     }
   }
 
   // 3. RMQ Handler for the "user.entered" event
   @EventPattern(UserEventPattern.UserEntered)
-  async handleUserEntered(
-    @Payload() data: IUserEnteredPayload,
-  ) {
+  async handleUserEntered(@Payload() data: IUserEnteredPayload) {
     try {
       this.logger.log(`Received RMQ Event "user.entered" for user: ${data.userId}`);
 
@@ -80,18 +82,19 @@ export class NotificationRpcController implements Notification.NotificationServi
       await this.notificationRepository.save(notification);
       this.logger.log(`Login notification for user ${data.userId} successfully saved to DB.`);
     } catch (err) {
-      this.logger.error(`Failed to process user.entered event for user ${data.userId}: ${err instanceof Error ? err.message : err}`);
+      this.logger.error(
+        `Failed to process user.entered event for user ${data.userId}: ${err instanceof Error ? err.message : err}`,
+      );
     }
   }
 
   // 4. RMQ Handler for the "todo.reminder" event
   @EventPattern(TodoEventPattern.TodoReminder)
-  async handleTodoReminder(
-    @Payload() data: ITodoReminderPayload,
-    @Ctx() context: RmqContext,
-  ) {
+  async handleTodoReminder(@Payload() data: ITodoReminderPayload, @Ctx() context: RmqContext) {
     try {
-      this.logger.log(`Received RMQ Event "todo.reminder" for user: ${data.userId}, todo: ${data.todoId}`);
+      this.logger.log(
+        `Received RMQ Event "todo.reminder" for user: ${data.userId}, todo: ${data.todoId}`,
+      );
 
       // Construct a new Notification using the DDD aggregate root rules
       const notification = NotificationDomain.create(
@@ -105,7 +108,9 @@ export class NotificationRpcController implements Notification.NotificationServi
       await this.notificationRepository.save(notification);
       this.logger.log(`Reminder notification for user ${data.userId} successfully saved to DB.`);
     } catch (err) {
-      this.logger.error(`Failed to process todo.reminder event for user ${data.userId}, todo ${data.todoId}: ${err instanceof Error ? err.message : err}`);
+      this.logger.error(
+        `Failed to process todo.reminder event for user ${data.userId}, todo ${data.todoId}: ${err instanceof Error ? err.message : err}`,
+      );
     }
   }
 }

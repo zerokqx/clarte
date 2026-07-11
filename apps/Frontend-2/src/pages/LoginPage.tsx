@@ -1,13 +1,5 @@
 import { useForm } from '@mantine/form';
-import {
-  TextInput,
-  PasswordInput,
-  Button,
-  Paper,
-  Title,
-  Container,
-  Stack,
-} from '@mantine/core';
+import { TextInput, PasswordInput, Button, Paper, Title, Container, Stack } from '@mantine/core';
 import { z } from 'zod';
 import { useAuth } from '../hooks/useAuth';
 
@@ -56,11 +48,7 @@ export const LoginPage = () => {
 
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Stack>
-            <TextInput
-              label="Логин"
-              placeholder="Введите логин"
-              {...form.getInputProps('login')}
-            />
+            <TextInput label="Логин" placeholder="Введите логин" {...form.getInputProps('login')} />
 
             <PasswordInput
               label="Пароль"
@@ -69,11 +57,7 @@ export const LoginPage = () => {
             />
 
             {authError && (
-              <div
-                style={{ color: 'red', textAlign: 'center', fontSize: '14px' }}
-              >
-                {authError}
-              </div>
+              <div style={{ color: 'red', textAlign: 'center', fontSize: '14px' }}>{authError}</div>
             )}
 
             <Button type="submit" fullWidth loading={isLoading} mt="sm">
@@ -91,10 +75,7 @@ export const LoginPage = () => {
           }}
         >
           Нет аккаунта?{' '}
-          <a
-            href="/register"
-            style={{ color: '#1a73e8', textDecoration: 'none' }}
-          >
+          <a href="/register" style={{ color: '#1a73e8', textDecoration: 'none' }}>
             Зарегистрироваться
           </a>
         </div>

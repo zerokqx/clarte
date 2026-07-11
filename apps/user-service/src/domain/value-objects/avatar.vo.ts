@@ -10,9 +10,7 @@ export class UserAvatar extends ValueObject<string> {
     const isDataUri = value.startsWith('data:image/');
 
     if (!isDataUri && !this.isValidUrl(value)) {
-      throw new AvatarWrongError(
-        'Передан некорректный формат URL или Data URI для аватара',
-      );
+      throw new AvatarWrongError('Передан некорректный формат URL или Data URI для аватара');
     }
 
     return new UserAvatar(value);

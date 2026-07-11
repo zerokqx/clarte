@@ -42,10 +42,7 @@ export abstract class IS3Service {
   /**
    * Deletes a file from S3
    */
-  abstract delete(
-    bucket: string,
-    key: string,
-  ): Promise<void>;
+  abstract delete(bucket: string, key: string): Promise<void>;
 
   /**
    * Assembles a direct, permanent public URL for a file in a public bucket
