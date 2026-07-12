@@ -79,6 +79,23 @@
         "ciTargetName": "test-ci",
         "testMode": "watch"
       }
+    },
+    {
+      "plugin": "@nx/docker",
+      "options": {
+        "buildTarget": {
+          "name": "docker:build",
+          "cwd": ".",
+          "args": [
+            "-f {projectRoot}/Dockerfile",
+            "--build-arg APP_NAME={projectName}",
+            "--build-arg APP_PATH={projectRoot}"
+          ]
+        },
+        "runTarget": {
+          "name": "docker:run"
+        }
+      }
     }
   ],
   "analytics": false,

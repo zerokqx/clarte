@@ -27,10 +27,10 @@
       "default": "./dist/ports/di-tokens.js"
     },
     "./functions": {
-      "@clarte/source": "./src/functions/get-proto-path.ts",
-      "types": "./dist/functions/get-proto-path.d.ts",
-      "import": "./dist/functions/get-proto-path.js",
-      "default": "./dist/functions/get-proto-path.js"
+      "@clarte/source": "./src/functions/index.ts",
+      "types": "./dist/functions/index.d.ts",
+      "import": "./dist/functions/index.js",
+      "default": "./dist/functions/index.js"
     }
   },
   "nx": {
@@ -46,7 +46,6 @@
           "{options.outputPath}"
         ],
         "dependsOn": [
-          "proto:generate",
           "^build"
         ],
         "options": {

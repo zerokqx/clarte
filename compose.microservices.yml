@@ -1,0 +1,6 @@
+services:
+  note-service:
+    extends:
+      file: apps/note-service/compose.microservice.yml
+      service: clarte-note-service
+
