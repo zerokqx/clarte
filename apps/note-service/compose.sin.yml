@@ -1,0 +1,7 @@
+version: '3.8'
+
+services:
+  test-sin-service:
+    image: alpine
+    container_name: clarte-test-sin
+    command: sh -c "echo 'Hello from sin suffix!' && sleep 3600"

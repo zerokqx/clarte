@@ -47,9 +47,6 @@
     },
     {
       "path": "./packages/shared-api"
-    },
-    {
-      "path": "./tools/cqrs"
     }
   ],
   "compilerOptions": {

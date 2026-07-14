@@ -39,6 +39,7 @@
   },
   "private": true,
   "devDependencies": {
+    "@clarte/workspace-plugin": "workspace:*",
     "@eslint/js": "^9.8.0",
     "@inquirer/prompts": "^8.5.2",
     "@nestjs/schematics": "^11.0.0",
@@ -105,9 +106,9 @@
     "vite": "^8.1.0",
     "vitest": "~4.1.0",
     "wait-on": "^9.0.10",
+    "webpack": "^5.101.3",
     "webpack-cli": "7.2.1",
-    "webpack-dev-server": "^5.2.1",
-    "webpack": "^5.101.3"
+    "webpack-dev-server": "^5.2.1"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.14.4",
@@ -125,6 +126,7 @@
     "@nestjs/swagger": "^11.4.4",
     "@nestjs/typeorm": "^11.0.3",
     "@nestjs/websockets": "^11.1.27",
+    "@nx/devkit": "23.1.0",
     "@swc/helpers": "0.5.18",
     "amqp-connection-manager": "^5.0.0",
     "amqplib": "^2.0.1",
@@ -168,5 +170,11 @@
     "protobufjs": ">=7.6.3",
     "js-yaml": ">=4.2.0",
     "yjs": "13.6.31"
-  }
+  },
+  "generators": "./generators.json",
+  "files": [
+    "dist",
+    "!**/*.tsbuildinfo",
+    "generators.json"
+  ]
 }

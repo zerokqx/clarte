@@ -69,7 +69,8 @@ export class ${pascalName}Command extends Command<any> {
 }
 `;
 
-const handlerContent = `import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+const handlerContent = `
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { ${pascalName}Command } from './${name}.command';
 
 @CommandHandler(${pascalName}Command)

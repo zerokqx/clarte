@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "cqrs-generator",
+  "title": "CQRS Generator",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Имя команды/хэндлера (например, CreateUser)",
+      "x-prompt": "Как будет называться команда?"
+    },
+
+    "projectName": {
+      "type": "string",
+      "description": "Имя проекта"
+    }
+  },
+  "required": ["name", "projectName"]
+}
