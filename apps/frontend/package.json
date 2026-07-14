@@ -52,13 +52,6 @@
     "yjs": "13.6.31",
     "zod": "^4.4.3"
   },
-  "nx": {
-    "tags": [
-      "scope:frontend",
-      "type:app"
-    ],
-    "targets": {}
-  },
   "devDependencies": {
     "@rolldown/plugin-babel": "^0.2.3",
     "@tanstack/router-plugin": "^1.168.18",

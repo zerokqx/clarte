@@ -1,0 +1,8 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "@clarte/frontend",
+  "root": "apps/frontend",
+  "projectType": "application",
+  "tags": ["scope:frontend", "type:app"],
+  "targets": {}
+}
