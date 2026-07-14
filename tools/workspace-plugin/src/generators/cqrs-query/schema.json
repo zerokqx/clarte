@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "cqrs-query",
+  "title": "CQRS Query Generator",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Имя запроса (например, GetUserById)",
+      "x-prompt": "Как будет называться запрос?"
+    },
+    "projectName": {
+      "type": "string",
+      "description": "Имя проекта"
+    }
+  },
+  "required": ["name", "projectName"]
+}

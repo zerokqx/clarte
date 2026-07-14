@@ -1,17 +1,17 @@
 import { formatFiles, generateFiles, readProjectConfiguration, names, type Tree } from '@nx/devkit';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
-import type { CqrsGeneratorGeneratorSchema } from './schema';
+import type { CqrsCommandSchema } from './schema';
 
 const generatorDir = dirname(fileURLToPath(import.meta.url));
 
-export async function cqrsGeneratorGenerator(tree: Tree, options: CqrsGeneratorGeneratorSchema) {
+export async function cqrsCommandGenerator(tree: Tree, options: CqrsCommandSchema) {
   const projectConfig = readProjectConfiguration(tree, options.projectName);
   const projectRoot = projectConfig.root;
 
   const resolvedNames = names(options.name);
 
-  const targetPath = join(projectRoot, 'src/app/commands', resolvedNames.fileName);
+  const targetPath = join(projectRoot, 'src/application/commands', resolvedNames.fileName);
 
   generateFiles(tree, join(generatorDir, 'files'), targetPath, {
     ...options,
@@ -21,5 +21,4 @@ export async function cqrsGeneratorGenerator(tree: Tree, options: CqrsGeneratorG
   await formatFiles(tree);
 }
 
-export default cqrsGeneratorGenerator;
-
+export default cqrsCommandGenerator;

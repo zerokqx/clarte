@@ -1,0 +1,11 @@
+import { QueryHandler, IQueryHandler } from '@nestjs/cqrs';
+import { <%= className %>Query } from './<%= fileName %>.query';
+
+@QueryHandler(<%= className %>Query)
+export class <%= className %>Handler implements IQueryHandler<<%= className %>Query> {
+  constructor() {}
+
+  async execute(query: <%= className %>Query): Promise<void> {
+    const { payload } = query;
+  }
+}

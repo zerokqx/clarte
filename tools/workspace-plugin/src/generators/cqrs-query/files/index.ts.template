@@ -1,0 +1,2 @@
+export * from './<%= fileName %>.query';
+export * from './<%= fileName %>.handler';

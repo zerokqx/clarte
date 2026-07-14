@@ -1,15 +1,14 @@
 {
   "$schema": "https://json-schema.org/schema",
-  "$id": "cqrs-generator",
-  "title": "CQRS Generator",
+  "$id": "cqrs-command",
+  "title": "CQRS Command Generator",
   "type": "object",
   "properties": {
     "name": {
       "type": "string",
-      "description": "Имя команды/хэндлера (например, CreateUser)",
+      "description": "Имя команды (например, CreateUser)",
       "x-prompt": "Как будет называться команда?"
     },
-
     "projectName": {
       "type": "string",
       "description": "Имя проекта"
