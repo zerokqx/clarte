@@ -17,7 +17,8 @@
       "@/*": ["src/*"]
     },
     "rootDir": "src",
-    "allowArbitraryExtensions": true
+    "allowArbitraryExtensions": true,
+    "ignoreDeprecations": "6.0"
   },
   "exclude": [
     "out-tsc",

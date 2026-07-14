@@ -16,6 +16,10 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2022",
-    "customConditions": ["@clarte/source"]
+    "customConditions": ["@clarte/source"],
+    "noUncheckedSideEffectImports": false,
+    "types": ["*"],
+    "esModuleInterop": false,
+    "ignoreDeprecations": "6.0"
   }
 }

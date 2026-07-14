@@ -30,7 +30,7 @@ if (!project) {
 // Convert kebab-case to PascalCase
 const pascalName = name
   .split('-')
-  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
   .join('');
 
 // Determine project path
@@ -93,4 +93,3 @@ console.log(`  Folder: ${path.relative(path.join(__dirname, '..'), targetDir)}`)
 console.log(`  File: ${name}.command.ts`);
 console.log(`  File: ${name}.handler.ts`);
 console.log(`  File: index.ts`);
-

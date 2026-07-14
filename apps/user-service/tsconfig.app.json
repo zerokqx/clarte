@@ -11,7 +11,9 @@
       "@/*": ["src/*"]
     },
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "ignoreDeprecations": "6.0",
+    "rootDir": "."
     // "target": "es2021"
   },
   "include": ["src/**/*.ts"],

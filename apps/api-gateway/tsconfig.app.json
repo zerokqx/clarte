@@ -8,11 +8,11 @@
     "experimentalDecorators": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"]
     },
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "ignoreDeprecations": "6.0",
+    "rootDir": "."
     // "target": "es2021"
   },
   "include": ["src/**/*.ts"],
