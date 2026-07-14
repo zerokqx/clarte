@@ -4,3 +4,10 @@ services:
       file: apps/note-service/compose.microservice.yml
       service: clarte-note-service
 
+networks:
+  default:
+    external: true
+    name: clarte-network
+  note-db-network:
+    external: true
+    name: clarte-note-db-network

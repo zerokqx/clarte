@@ -86,7 +86,10 @@
       },
       "compose-infra-up": {},
       "compose-infra-down": {},
-      "compose-infra-logs": {}
+      "compose-infra-logs": {},
+      "compose-service-up": {},
+      "compose-service-down": {},
+      "compose-service-logs": {}
     }
   },
   "dependencies": {

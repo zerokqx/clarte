@@ -1,7 +1,5 @@
 services:
   mongodb:
-    # profiles:
-    #   - db
     image: mongo:latest
     container_name: clarte-notes-service-mongodb
     ports:
@@ -12,10 +10,11 @@ services:
       MONGO_INITDB_ROOT_DATABASE: ${MONGO_DB}
     volumes:
       - mongo_data:/data/db
+    networks:
+      - note-db-network
     restart: always
 volumes:
   mongo_data:
 networks:
-  default:
-    external: true
-    name: clarte-network
+  note-db-network:
+    name: clarte-note-db-network
