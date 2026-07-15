@@ -1,19 +1,16 @@
-# --- ЭТАП 1: Базовое окружение и сборщик зависимостей ---
 FROM node:24-alpine AS builder
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Устанавливаем pnpm глобально
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# Копируем файлы конфигурации репозитория
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json tsconfig.base.json ./ 
 
 RUN pnpm fetch
 COPY . .
 
-ENV HTTP_PROXY="http://127.0.0.1:2080"
-ENV HTTPS_PROXY="http://127.0.0.1:2080"
+# ENV HTTP_PROXY="http://host.docker.internal:2080"
+# ENV HTTPS_PROXY="http://host.docker.internal:2080"
 
 RUN HUSKY=0 pnpm install --ignore-scripts
 ARG SERVICE_NAME

@@ -1,22 +1,20 @@
 services:
-  clarte-note-service:
-    image: apps-note-service:latest
-    container_name: clarte-note-service
+  clarte-api-gateway:
+    image: apps-api-gateway:latest
+    container_name: clarte-api-gateway
     build:
       context: ../..
       dockerfile: Dockerfile
       args:
-        - SERVICE_NAME=note-service
+        - SERVICE_NAME=api-gateway
     env_file:
       - .env
       - .env.docker
+    ports:
+      - "5000:3000"
     networks:
       - default
-      - note-net
 networks:
   default:
     external: true
     name: clarte-network
-  note-net:
-    external: true
-    name: clarte-note-network

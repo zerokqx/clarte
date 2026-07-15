@@ -3,11 +3,35 @@ services:
     extends:
       file: apps/note-service/compose.microservice.yml
       service: clarte-note-service
-
+  user-service:
+    extends:
+      file: apps/user-service/compose.microservice.yml
+      service: clarte-user-service
+  todo-service:
+    extends:
+      file: apps/todo-service/compose.microservice.yml
+      service: clarte-todo-service
+  notification-service:
+    extends:
+      file: apps/notification-service/compose.microservice.yml
+      service: clarte-notification-service
+  api-gateway:
+    extends:
+      file: ./apps/api-gateway/compose.microservice.yml
+      service: clarte-api-gateway
 networks:
   default:
     external: true
     name: clarte-network
-  note-db-network:
+  note-net:
     external: true
-    name: clarte-note-db-network
+    name: clarte-note-network
+  todo-net:
+    external: true
+    name: clarte-todo-network
+  user-net:
+    external: true
+    name: clarte-user-network
+  notification-net:
+    external: true
+    name: clarte-notification-network

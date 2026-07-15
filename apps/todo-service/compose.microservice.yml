@@ -1,22 +1,22 @@
 services:
-  clarte-note-service:
-    image: apps-note-service:latest
-    container_name: clarte-note-service
+  clarte-todo-service:
+    image: apps-todo-service:latest
+    container_name: clarte-todo-service
     build:
       context: ../..
       dockerfile: Dockerfile
       args:
-        - SERVICE_NAME=note-service
+        - SERVICE_NAME=todo-service
     env_file:
       - .env
       - .env.docker
     networks:
       - default
-      - note-net
+      - todo-net
 networks:
   default:
     external: true
     name: clarte-network
-  note-net:
+  todo-net:
     external: true
-    name: clarte-note-network
+    name: clarte-todo-network

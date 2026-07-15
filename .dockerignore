@@ -6,3 +6,6 @@ dist
 .nx
 .devenv
 .direnv
+.husky
+.agents
+.vscode

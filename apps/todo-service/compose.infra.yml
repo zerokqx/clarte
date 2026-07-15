@@ -11,8 +11,12 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: always
+    networks:
+      - todo-net
 volumes:
   postgres_data:
 networks:
   default:
     name: clarte-network
+  todo-net:
+    name: clarte-todo-network
