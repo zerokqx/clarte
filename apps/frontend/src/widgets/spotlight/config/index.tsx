@@ -22,7 +22,6 @@ export const spotlightActions: (SpotlightActionGroupData | SpotlightActionData)[
         description: 'Скроет все элементы',
         onClick: () => layoutStore.toggleZenMode(),
       },
-
     ],
   },
 ];

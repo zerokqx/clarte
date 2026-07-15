@@ -5,11 +5,11 @@
 // source: todo.proto
 
 /* eslint-disable */
-import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
-import { Observable } from "rxjs";
-import { Empty } from "./google/protobuf/empty";
+import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
+import { Empty } from './google/protobuf/empty';
 
-export const protobufPackage = "todo";
+export const protobufPackage = 'todo';
 
 export interface TodoResponse {
   id: string;
@@ -66,7 +66,7 @@ export interface GetUserTodsResponse {
   todos: TodoResponse[];
 }
 
-export const TODO_PACKAGE_NAME = "todo";
+export const TODO_PACKAGE_NAME = 'todo';
 
 export interface TodoServiceClient {
   createTodo(request: CreateTodoRequest): Observable<CreateTodoResponse>;
@@ -103,23 +103,23 @@ export interface TodoServiceController {
 export function TodoServiceControllerMethods() {
   return function (constructor: Function) {
     const grpcMethods: string[] = [
-      "createTodo",
-      "updateTodo",
-      "getUserTodos",
-      "completeTodo",
-      "uncompleteTodo",
-      "deleteTodo",
+      'createTodo',
+      'updateTodo',
+      'getUserTodos',
+      'completeTodo',
+      'uncompleteTodo',
+      'deleteTodo',
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod("TodoService", method)(constructor.prototype[method], method, descriptor);
+      GrpcMethod('TodoService', method)(constructor.prototype[method], method, descriptor);
     }
     const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod("TodoService", method)(constructor.prototype[method], method, descriptor);
+      GrpcStreamMethod('TodoService', method)(constructor.prototype[method], method, descriptor);
     }
   };
 }
 
-export const TODO_SERVICE_NAME = "TodoService";
+export const TODO_SERVICE_NAME = 'TodoService';

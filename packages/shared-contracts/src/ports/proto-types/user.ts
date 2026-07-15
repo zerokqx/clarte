@@ -5,11 +5,11 @@
 // source: user.proto
 
 /* eslint-disable */
-import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
-import { Observable } from "rxjs";
-import { Empty } from "./google/protobuf/empty";
+import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
+import { Empty } from './google/protobuf/empty';
 
-export const protobufPackage = "user";
+export const protobufPackage = 'user';
 
 export interface UserFindByIdRequest {
   id: string;
@@ -66,7 +66,7 @@ export interface UploadPresignedUrlRequest {
   userId: string;
 }
 
-export const USER_PACKAGE_NAME = "user";
+export const USER_PACKAGE_NAME = 'user';
 
 export interface UserEditServiceClient {
   userChangeAvatar(request: UserEditChangeAvatarRequest): Observable<Empty>;
@@ -82,20 +82,24 @@ export interface UserEditServiceController {
 
 export function UserEditServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["userChangeAvatar", "userChangeLogin"];
+    const grpcMethods: string[] = ['userChangeAvatar', 'userChangeLogin'];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod("UserEditService", method)(constructor.prototype[method], method, descriptor);
+      GrpcMethod('UserEditService', method)(constructor.prototype[method], method, descriptor);
     }
     const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod("UserEditService", method)(constructor.prototype[method], method, descriptor);
+      GrpcStreamMethod('UserEditService', method)(
+        constructor.prototype[method],
+        method,
+        descriptor,
+      );
     }
   };
 }
 
-export const USER_EDIT_SERVICE_NAME = "UserEditService";
+export const USER_EDIT_SERVICE_NAME = 'UserEditService';
 
 export interface UserStorageServiceClient {
   uploadPresignedUrl(request: UploadPresignedUrlRequest): Observable<UploadPresignedUrlResponse>;
@@ -104,25 +108,32 @@ export interface UserStorageServiceClient {
 export interface UserStorageServiceController {
   uploadPresignedUrl(
     request: UploadPresignedUrlRequest,
-  ): Promise<UploadPresignedUrlResponse> | Observable<UploadPresignedUrlResponse> | UploadPresignedUrlResponse;
+  ):
+    | Promise<UploadPresignedUrlResponse>
+    | Observable<UploadPresignedUrlResponse>
+    | UploadPresignedUrlResponse;
 }
 
 export function UserStorageServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["uploadPresignedUrl"];
+    const grpcMethods: string[] = ['uploadPresignedUrl'];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod("UserStorageService", method)(constructor.prototype[method], method, descriptor);
+      GrpcMethod('UserStorageService', method)(constructor.prototype[method], method, descriptor);
     }
     const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod("UserStorageService", method)(constructor.prototype[method], method, descriptor);
+      GrpcStreamMethod('UserStorageService', method)(
+        constructor.prototype[method],
+        method,
+        descriptor,
+      );
     }
   };
 }
 
-export const USER_STORAGE_SERVICE_NAME = "UserStorageService";
+export const USER_STORAGE_SERVICE_NAME = 'UserStorageService';
 
 export interface UserCreateServiceClient {
   userCreate(request: UserCreateRequest): Observable<Empty>;
@@ -134,20 +145,24 @@ export interface UserCreateServiceController {
 
 export function UserCreateServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["userCreate"];
+    const grpcMethods: string[] = ['userCreate'];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod("UserCreateService", method)(constructor.prototype[method], method, descriptor);
+      GrpcMethod('UserCreateService', method)(constructor.prototype[method], method, descriptor);
     }
     const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod("UserCreateService", method)(constructor.prototype[method], method, descriptor);
+      GrpcStreamMethod('UserCreateService', method)(
+        constructor.prototype[method],
+        method,
+        descriptor,
+      );
     }
   };
 }
 
-export const USER_CREATE_SERVICE_NAME = "UserCreateService";
+export const USER_CREATE_SERVICE_NAME = 'UserCreateService';
 
 export interface UserFindServiceClient {
   findById(request: UserFindByIdRequest): Observable<UserFindByIdResponse>;
@@ -162,28 +177,37 @@ export interface UserFindServiceController {
 
   findByLogin(
     request: UserFindByLoginRequest,
-  ): Promise<UserFindByLoginResponse> | Observable<UserFindByLoginResponse> | UserFindByLoginResponse;
+  ):
+    | Promise<UserFindByLoginResponse>
+    | Observable<UserFindByLoginResponse>
+    | UserFindByLoginResponse;
 }
 
 export function UserFindServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["findById", "findByLogin"];
+    const grpcMethods: string[] = ['findById', 'findByLogin'];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod("UserFindService", method)(constructor.prototype[method], method, descriptor);
+      GrpcMethod('UserFindService', method)(constructor.prototype[method], method, descriptor);
     }
     const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod("UserFindService", method)(constructor.prototype[method], method, descriptor);
+      GrpcStreamMethod('UserFindService', method)(
+        constructor.prototype[method],
+        method,
+        descriptor,
+      );
     }
   };
 }
 
-export const USER_FIND_SERVICE_NAME = "UserFindService";
+export const USER_FIND_SERVICE_NAME = 'UserFindService';
 
 export interface UserCredentialsServiceClient {
-  getCredentialsByLogin(request: UserGetCredentialsByLoginRequest): Observable<UserGetCredentialsByLoginResponse>;
+  getCredentialsByLogin(
+    request: UserGetCredentialsByLoginRequest,
+  ): Observable<UserGetCredentialsByLoginResponse>;
 }
 
 export interface UserCredentialsServiceController {
@@ -197,17 +221,25 @@ export interface UserCredentialsServiceController {
 
 export function UserCredentialsServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["getCredentialsByLogin"];
+    const grpcMethods: string[] = ['getCredentialsByLogin'];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod("UserCredentialsService", method)(constructor.prototype[method], method, descriptor);
+      GrpcMethod('UserCredentialsService', method)(
+        constructor.prototype[method],
+        method,
+        descriptor,
+      );
     }
     const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod("UserCredentialsService", method)(constructor.prototype[method], method, descriptor);
+      GrpcStreamMethod('UserCredentialsService', method)(
+        constructor.prototype[method],
+        method,
+        descriptor,
+      );
     }
   };
 }
 
-export const USER_CREDENTIALS_SERVICE_NAME = "UserCredentialsService";
+export const USER_CREDENTIALS_SERVICE_NAME = 'UserCredentialsService';

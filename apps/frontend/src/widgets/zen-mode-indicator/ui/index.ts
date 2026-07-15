@@ -1,1 +1,1 @@
-export * from "./zen-mode-indicator"
+export * from './zen-mode-indicator';

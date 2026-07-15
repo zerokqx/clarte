@@ -1,2 +1,2 @@
-export * from "./get-proto-dir"
-export * from "./get-proto-path"
+export * from './get-proto-dir';
+export * from './get-proto-path';
