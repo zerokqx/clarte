@@ -45,6 +45,9 @@
       "path": "../../packages/shared-api/tsconfig.lib.json"
     },
     {
+      "path": "../../packages/shared/tsconfig.lib.json"
+    },
+    {
       "path": "../../packages/mantine-helpers/tsconfig.lib.json"
     }
   ]

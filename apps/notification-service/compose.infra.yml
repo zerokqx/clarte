@@ -11,8 +11,10 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: always
+    networks:
+      - notification-net
 volumes:
   postgres_data:
 networks:
-  default:
-    name: clarte-network
+  notification-net:
+    name: clarte-notification-network

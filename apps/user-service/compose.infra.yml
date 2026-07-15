@@ -12,9 +12,12 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: always
+    networks:
+      - user-net
 volumes:
   postgres_data:
-
 networks:
   default:
     name: clarte-network
+  user-net:
+    name: clarte-user-network

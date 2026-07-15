@@ -11,10 +11,10 @@ services:
     volumes:
       - mongo_data:/data/db
     networks:
-      - note-db-network
+      - note-net
     restart: always
 volumes:
   mongo_data:
 networks:
-  note-db-network:
-    name: clarte-note-db-network
+  note-net:
+    name: clarte-note-network
