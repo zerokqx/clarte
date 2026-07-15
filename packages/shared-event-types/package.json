@@ -27,28 +27,6 @@
       "default": "./dist/user/index.js"
     }
   },
-  "nx": {
-    "tags": [
-      "scope:shared-event-types",
-      "type:lib"
-    ],
-    "sourceRoot": "packages/shared-event-types/src",
-    "targets": {
-      "build": {
-        "executor": "@nx/js:swc",
-        "outputs": [
-          "{options.outputPath}"
-        ],
-        "options": {
-          "outputPath": "packages/shared-event-types/dist",
-          "main": "packages/shared-event-types/src/index.ts",
-          "tsConfig": "packages/shared-event-types/tsconfig.lib.json",
-          "skipTypeCheck": true,
-          "stripLeadingPaths": true
-        }
-      }
-    }
-  },
   "dependencies": {
     "@swc/helpers": "0.5.18"
   }

@@ -15,28 +15,6 @@
       "default": "./dist/index.js"
     }
   },
-  "nx": {
-    "tags": [
-      "scope:frontend",
-      "type:lib"
-    ],
-    "sourceRoot": "packages/mantine-helpers/src",
-    "targets": {
-      "build": {
-        "executor": "@nx/js:swc",
-        "outputs": [
-          "{options.outputPath}"
-        ],
-        "options": {
-          "outputPath": "packages/mantine-helpers/dist",
-          "main": "packages/mantine-helpers/src/index.ts",
-          "tsConfig": "packages/mantine-helpers/tsconfig.lib.json",
-          "skipTypeCheck": true,
-          "stripLeadingPaths": true
-        }
-      }
-    }
-  },
   "dependencies": {
     "@mantine/core": "^9.4.1",
     "@mantine/hooks": "^9.4.1",

@@ -4,9 +4,7 @@
 //   protoc               v7.34.1
 // source: google/protobuf/timestamp.proto
 
-/* eslint-disable */
-
-export const protobufPackage = "google.protobuf";
+export const protobufPackage = 'google.protobuf';
 
 /**
  * A Timestamp represents a point in time independent of any time zone or local
@@ -116,4 +114,4 @@ export interface Timestamp {
   nanos: number;
 }
 
-export const GOOGLE_PROTOBUF_PACKAGE_NAME = "google.protobuf";
+export const GOOGLE_PROTOBUF_PACKAGE_NAME = 'google.protobuf';

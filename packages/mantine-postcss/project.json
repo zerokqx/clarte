@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/project-schema.json",
+  "name": "@clarte/mantine-postcss",
+  "root": "packages/mantine-postcss",
+  "projectType": "library",
+  "tags": ["scope:frontend", "type:lib"],
+  "targets": {
+    "build": {
+      "executor": "nx:noop"
+    }
+  }
+}

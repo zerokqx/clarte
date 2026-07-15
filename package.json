@@ -139,7 +139,21 @@
   "pnpm": {
     "overrides": {
       "yjs": "13.6.31"
-    }
+    },
+    "ignoredBuiltDependencies": [
+      "@parcel/watcher",
+      "@scarf/scarf",
+      "@swc/core",
+      "argon2",
+      "esbuild",
+      "less",
+      "leveldown",
+      "msgpackr-extract",
+      "msw",
+      "nx",
+      "protobufjs",
+      "unrs-resolver"
+    ]
   },
   "overrides": {
     "form-data": ">=4.0.6",

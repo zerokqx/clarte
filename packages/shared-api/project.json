@@ -1,0 +1,39 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/project-schema.json",
+  "name": "@clarte/shared-api",
+  "root": "packages/shared-api",
+  "projectType": "library",
+  "sourceRoot": "packages/shared-api/src",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "dependsOn": ["orval"],
+      "options": {
+        "outputPath": "packages/shared-api/dist",
+        "main": "packages/shared-api/src/index.ts",
+        "tsConfig": "packages/shared-api/tsconfig.lib.json",
+        "skipTypeCheck": true,
+        "stripLeadingPaths": true
+      }
+    },
+    "orval": {
+      "executor": "nx:run-commands",
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/orval.config.ts",
+        "{workspaceRoot}/apps/api-gateway/src/**/*.ts",
+        {
+          "env": "OPENAPI_URL"
+        }
+      ],
+      "outputs": ["{projectRoot}/src/generated"],
+      "options": {
+        "command": "orval",
+        "args": ["--config=./orval.config.ts"],
+        "cwd": "packages/shared-api"
+      }
+    }
+  },
+  "tags": ["type:lib", "scope:shared"]
+}

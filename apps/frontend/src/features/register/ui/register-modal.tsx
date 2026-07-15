@@ -1,7 +1,10 @@
 import { Anchor, Modal, Stack, Text } from '@mantine/core';
 import { RegisterForm } from './register-form.containter';
 
-interface RegisterModalProps extends Pick<Modal.Props, 'opened' | 'onClose' | 'stackId' | 'fullScreen' | 'centered'> {
+interface RegisterModalProps extends Pick<
+  Modal.Props,
+  'opened' | 'onClose' | 'stackId' | 'fullScreen' | 'centered'
+> {
   onHaveAccount?: () => void;
 }
 

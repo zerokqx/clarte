@@ -21,29 +21,8 @@
       "default": "./dist/exceptions/index.js"
     }
   },
-  "nx": {
-    "tags": [
-      "scope:shared-domain",
-      "type:lib"
-    ],
-    "sourceRoot": "packages/shared-domain/src",
-    "targets": {
-      "build": {
-        "executor": "@nx/js:swc",
-        "outputs": [
-          "{options.outputPath}"
-        ],
-        "options": {
-          "outputPath": "packages/shared-domain/dist",
-          "main": "packages/shared-domain/src/index.ts",
-          "tsConfig": "packages/shared-domain/tsconfig.lib.json",
-          "skipTypeCheck": true,
-          "stripLeadingPaths": true
-        }
-      }
-    }
-  },
   "dependencies": {
-    "@swc/helpers": "0.5.18"
+    "@swc/helpers": "0.5.18",
+    "type-fest": "^5.8.0"
   }
 }

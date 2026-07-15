@@ -30,9 +30,6 @@
     },
     {
       "path": "../../packages/shared-contracts/tsconfig.lib.json"
-    },
-    {
-      "path": "../../packages/shared/tsconfig.lib.json"
     }
   ]
 }

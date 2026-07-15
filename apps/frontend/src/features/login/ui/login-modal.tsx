@@ -1,7 +1,10 @@
 import { Anchor, Modal, Stack, Text } from '@mantine/core';
 import { LoginForm } from './login-form.containter';
 
-interface LoginModalProps extends Pick<Modal.Props, 'opened' | 'onClose' | 'stackId' | 'fullScreen' | 'centered'> {
+interface LoginModalProps extends Pick<
+  Modal.Props,
+  'opened' | 'onClose' | 'stackId' | 'fullScreen' | 'centered'
+> {
   onDontHaveAccount?: () => void;
 }
 
