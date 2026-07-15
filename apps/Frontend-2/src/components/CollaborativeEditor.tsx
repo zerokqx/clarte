@@ -14,7 +14,10 @@ import {
   Stack,
   Alert,
   TextInput,
+  ActionIcon,
+  useMantineColorScheme,
 } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { IconCopy, IconCheck, IconCloudCheck, IconEdit, IconTypography } from '@tabler/icons-react';
 import { HocuspocusProvider } from '@hocuspocus/provider';
 import * as Y from 'yjs';
@@ -221,11 +224,30 @@ const insertHtmlAtCaret = (html: string) => {
   }
 };
 
+const fontOptions = [
+  { value: 'Inter', label: 'Inter' },
+  { value: 'Roboto', label: 'Roboto' },
+  { value: 'Montserrat', label: 'Montserrat' },
+  { value: 'Oswald', label: 'Oswald' },
+  { value: 'Arial', label: 'Arial (Без засечек)' },
+  { value: 'Times New Roman', label: 'Times New Roman (С засечками)' },
+  { value: 'Merriweather', label: 'Merriweather' },
+  { value: 'Playfair Display', label: 'Playfair Display' },
+  { value: 'Georgia', label: 'Georgia' },
+  { value: 'Lora', label: 'Lora' },
+  { value: 'Fira Code', label: 'Fira Code (Моно)' },
+  { value: 'Courier New', label: 'Courier New (Моно)' },
+];
+
 export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({
   noteId,
   noteTitle,
   currentUser,
 }) => {
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  const { colorScheme } = useMantineColorScheme();
+  const isDark = colorScheme === 'dark';
+
   const [activeUsers, setActiveUsers] = useState<
     { name: string; color: string; isTyping: boolean }[]
   >([]);
@@ -596,61 +618,119 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({
       style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
       onPaste={handlePaste}
     >
-      <Paper p="sm" withBorder mb="md" radius="md" style={{ background: '#ffffff' }}>
-        <Group justify="space-between">
-          <Box>
-            <Text size="sm" fw={700} style={{ color: '#1a1a2e' }}>
-              {noteTitle}
-            </Text>
-            <Text size="xs" color="dimmed">
-              ID комнаты: {noteId}
-            </Text>
-          </Box>
-
-          <Group gap="xs">
-            <Select
-              size="xs"
-              value={fontFamily}
-              onChange={(val) => {
-                if (val) {
-                  setFontFamily(val);
-                  localStorage.setItem('clarte_editor_font', val);
-                }
-              }}
-              data={[
-                { value: 'Inter', label: 'Inter (Без засечек)' },
-                { value: 'Montserrat', label: 'Montserrat' },
-                { value: 'Merriweather', label: 'Merriweather (Книжный)' },
-                { value: 'Playfair Display', label: 'Playfair Display' },
-                { value: 'Fira Code', label: 'Fira Code (Моноширинный)' },
-              ]}
-              leftSection={<IconTypography size={14} />}
-              style={{ width: 150 }}
-              radius="md"
-            />
-
-            <Badge
-              variant="light"
-              color={syncing ? 'orange' : 'green'}
-              leftSection={syncing ? null : <IconCloudCheck size={12} />}
-            >
-              {syncing ? 'Синхронизация...' : 'Синхронизировано'}
-            </Badge>
-
-            <Tooltip label="Поделиться заметкой с другом">
-              <Button
+      <Paper
+        p="sm"
+        withBorder
+        mb="md"
+        radius="md"
+        style={{
+          background: isDark ? '#1a1b1e' : '#ffffff',
+          borderColor: isDark ? '#2c2e33' : '#e5e7eb',
+        }}
+      >
+        {isMobile ? (
+          <Group justify="space-between" wrap="nowrap" gap="xs">
+            <Box style={{ minWidth: 0, flex: 1 }}>
+              <Text
                 size="xs"
-                variant={copied ? 'filled' : 'outline'}
-                color={copied ? 'green' : 'indigo'}
-                leftSection={copied ? <IconCheck size={14} /> : <IconCopy size={14} />}
-                onClick={handleCopyLink}
-                radius="md"
+                color="dimmed"
+                style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
               >
-                {copied ? 'Ссылка скопирована!' : 'Поделиться'}
-              </Button>
-            </Tooltip>
+                ID: {noteId}
+              </Text>
+            </Box>
+            <Group gap="xs" style={{ flexShrink: 0 }}>
+              <Select
+                size="xs"
+                value={fontFamily}
+                onChange={(val) => {
+                  if (val) {
+                    setFontFamily(val);
+                    localStorage.setItem('clarte_editor_font', val);
+                  }
+                }}
+                data={fontOptions}
+                searchable
+                nothingFoundMessage="Шрифт не найден"
+                leftSection={<IconTypography size={14} />}
+                style={{ width: 125 }}
+                radius="md"
+              />
+              <Tooltip label="Поделиться">
+                <ActionIcon
+                  size="md"
+                  variant={copied ? 'filled' : 'outline'}
+                  color={copied ? 'green' : 'indigo'}
+                  onClick={handleCopyLink}
+                  radius="md"
+                >
+                  {copied ? <IconCheck size={16} /> : <IconCopy size={16} />}
+                </ActionIcon>
+              </Tooltip>
+              <Indicator
+                color={syncing ? 'orange' : 'green'}
+                processing={syncing}
+                size={8}
+                offset={2}
+              >
+                <ActionIcon size="md" variant="subtle" color="gray">
+                  <IconCloudCheck size={18} />
+                </ActionIcon>
+              </Indicator>
+            </Group>
           </Group>
-        </Group>
+        ) : (
+          <Group justify="space-between">
+            <Box>
+              <Text size="sm" fw={700} style={{ color: isDark ? '#ffffff' : '#1a1a2e' }}>
+                {noteTitle}
+              </Text>
+              <Text size="xs" color="dimmed">
+                ID комнаты: {noteId}
+              </Text>
+            </Box>
+
+            <Group gap="xs">
+              <Select
+                size="xs"
+                value={fontFamily}
+                onChange={(val) => {
+                  if (val) {
+                    setFontFamily(val);
+                    localStorage.setItem('clarte_editor_font', val);
+                  }
+                }}
+                data={fontOptions}
+                searchable
+                nothingFoundMessage="Шрифт не найден"
+                leftSection={<IconTypography size={14} />}
+                style={{ width: 175 }}
+                radius="md"
+              />
+
+              <Badge
+                variant="light"
+                color={syncing ? 'orange' : 'green'}
+                leftSection={syncing ? null : <IconCloudCheck size={12} />}
+              >
+                {syncing ? 'Синхронизация...' : 'Синхронизировано'}
+              </Badge>
+
+              <Tooltip label="Поделиться заметкой с другом">
+                <Button
+                  size="xs"
+                  variant={copied ? 'filled' : 'outline'}
+                  color={copied ? 'green' : 'indigo'}
+                  leftSection={copied ? <IconCheck size={14} /> : <IconCopy size={14} />}
+                  onClick={handleCopyLink}
+                  radius="md"
+                >
+                  {copied ? 'Ссылка скопирована!' : 'Поделиться'}
+                </Button>
+              </Tooltip>
+            </Group>
+          </Group>
+        )}
 
         {activeUsers.length > 0 && (
           <Group
@@ -658,7 +738,7 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({
             mt="sm"
             justify="flex-start"
             align="center"
-            style={{ borderTop: '1px solid #f1f3f5', paddingTop: '8px' }}
+            style={{ borderTop: `1px solid ${isDark ? '#2c2e33' : '#f1f3f5'}`, paddingTop: '8px' }}
           >
             <Text size="xs" color="dimmed" fw={500}>
               Соавторы в сети:
@@ -721,7 +801,7 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({
         style={{
           flex: 1,
           position: 'relative',
-          minHeight: '400px',
+          minHeight: isMobile ? '250px' : '400px',
           display: 'flex',
           flexDirection: 'column',
         }}
@@ -737,16 +817,16 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({
             flex: 1,
             width: '100%',
             height: '100%',
-            minHeight: '400px',
-            border: '1px solid #e5e7eb',
+            minHeight: isMobile ? '250px' : '400px',
+            border: `1px solid ${isDark ? '#2c2e33' : '#e5e7eb'}`,
             borderRadius: '8px',
             padding: '20px',
             fontSize: '15px',
             fontFamily: fontFamily,
             outline: 'none',
             lineHeight: '1.6',
-            background: '#ffffff',
-            color: '#1a1a2e',
+            background: isDark ? '#1a1b1e' : '#ffffff',
+            color: isDark ? '#ffffff' : '#1a1a2e',
             overflowY: 'auto',
             boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.02)',
             whiteSpace: 'pre-wrap',

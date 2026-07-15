@@ -22,9 +22,12 @@ import {
   SegmentedControl,
   useMantineColorScheme,
   Progress,
+  Drawer,
+  Burger,
+  Paper,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { z } from 'zod';
 import {
   IconPlus,
@@ -46,6 +49,8 @@ import {
   IconSun,
   IconMoon,
   IconFlag,
+  IconArrowLeft,
+  IconFilter,
 } from '@tabler/icons-react';
 import { useAuth } from '../hooks/useAuth';
 import { useTasks } from '../hooks/useTasks';
@@ -156,6 +161,9 @@ export const TodoPage = () => {
   const [isAddingTask, setIsAddingTask] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
 
   const [userProfile, setUserProfile] = useState<{
     id: string;
@@ -435,9 +443,9 @@ export const TodoPage = () => {
 
   const selectedNote = notes.find((n) => n.id === selectedNoteId);
 
-  return (
-    <div className="todo-app">
-      <div className="sidebar">
+  const renderSidebarContent = () => {
+    return (
+      <>
         <Group justify="space-between" mb="lg">
           <div className="logo">
             <IconListCheck size={28} stroke={1.5} />
@@ -489,6 +497,7 @@ export const TodoPage = () => {
                   onClick={() => {
                     setSelectedView(view);
                     setSelectedProject(null);
+                    if (isMobile) closeDrawer();
                   }}
                 >
                   {viewIcons[view]}
@@ -506,7 +515,10 @@ export const TodoPage = () => {
                 <div
                   key={project}
                   className={`nav-item ${selectedProject === project ? 'active' : ''}`}
-                  onClick={() => setSelectedProject(project)}
+                  onClick={() => {
+                    setSelectedProject(project);
+                    if (isMobile) closeDrawer();
+                  }}
                 >
                   <IconFolder size={16} stroke={1.5} />
                   <span>{project}</span>
@@ -566,7 +578,7 @@ export const TodoPage = () => {
         ) : (
           <Box
             className="sidebar-nav"
-            style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
+            style={{ display: 'flex', flexDirection: 'column', gap: '10px', flex: 1, minHeight: 0 }}
           >
             <Group grow gap="xs">
               <Button
@@ -574,7 +586,10 @@ export const TodoPage = () => {
                 variant="light"
                 color="indigo"
                 leftSection={<IconPlus size={14} />}
-                onClick={() => createNote()}
+                onClick={() => {
+                  createNote();
+                  if (isMobile) closeDrawer();
+                }}
               >
                 Создать
               </Button>
@@ -602,7 +617,10 @@ export const TodoPage = () => {
                     <div
                       key={n.id}
                       className={`nav-item ${selectedNoteId === n.id ? 'active' : ''}`}
-                      onClick={() => setSelectedNoteId(n.id)}
+                      onClick={() => {
+                        setSelectedNoteId(n.id);
+                        if (isMobile) closeDrawer();
+                      }}
                     >
                       <IconFileText
                         size={16}
@@ -649,7 +667,7 @@ export const TodoPage = () => {
             justify="space-between"
             mt="auto"
             pt="md"
-            style={{ borderTop: '1px solid #e5e7eb' }}
+            style={{ borderTop: `1px solid ${colorScheme === 'dark' ? '#2c2e33' : '#e5e7eb'}` }}
           >
             <Group gap="xs">
               <Avatar src={userProfile.avatarUrl} alt={userProfile.login} radius="xl" size="md">
@@ -675,143 +693,69 @@ export const TodoPage = () => {
             </Tooltip>
           </Group>
         )}
-      </div>
+      </>
+    );
+  };
+
+  return (
+    <div className="todo-app">
+      {isMobile ? (
+        <Drawer
+          opened={drawerOpened}
+          onClose={closeDrawer}
+          size="280px"
+          withCloseButton={false}
+          styles={{
+            body: { height: '100%', padding: 0 },
+          }}
+        >
+          <div
+            className="sidebar"
+            style={{ width: '100%', minWidth: '100%', height: '100%', borderRight: 'none' }}
+          >
+            {renderSidebarContent()}
+          </div>
+        </Drawer>
+      ) : (
+        <div className="sidebar">{renderSidebarContent()}</div>
+      )}
 
       <div className="main-content">
-        {activeMode === 'tasks' ? (
-          <>
-            <div className="main-header">
-              <Text size="28px" fw={700}>
-                {currentTitle}
-              </Text>
-              <Group>
-                <Popover
-                  opened={notificationsOpened}
-                  onChange={setNotificationsOpened}
-                  position="bottom-end"
-                  withArrow
-                  shadow="md"
-                  width={320}
+        <div className="main-header">
+          <Group gap="xs" style={{ flex: 1, minWidth: 0 }}>
+            {isMobile &&
+              (activeMode === 'notes' && selectedNoteId ? (
+                <ActionIcon
+                  variant="subtle"
+                  color="gray"
+                  onClick={() => setSelectedNoteId(null)}
+                  size="lg"
+                  radius="md"
                 >
-                  <Popover.Target>
-                    <Indicator
-                      label={unreadCount > 0 ? unreadCount : undefined}
-                      size={16}
-                      offset={3}
-                      color="indigo"
-                      disabled={unreadCount === 0}
-                    >
-                      <ActionIcon
-                        variant="subtle"
-                        size="lg"
-                        radius="md"
-                        onClick={() => {
-                          setNotificationsOpened((o) => !o);
-                          fetchNotifications();
-                        }}
-                      >
-                        <IconBell size={20} stroke={1.5} />
-                      </ActionIcon>
-                    </Indicator>
-                  </Popover.Target>
-                  <Popover.Dropdown p={0}>
-                    <div
-                      style={{
-                        padding: '12px 16px',
-                        borderBottom: '1px solid #f1f3f5',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Text fw={600} size="sm">
-                        Уведомления
-                      </Text>
-                      {unreadCount > 0 && (
-                        <Button
-                          variant="subtle"
-                          size="xs"
-                          color="indigo"
-                          onClick={markAllNotificationsAsRead}
-                          style={{ fontSize: '11px', height: 'auto', padding: '2px 6px' }}
-                        >
-                          Прочитать всё
-                        </Button>
-                      )}
-                    </div>
-                    <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
-                      {notifications.length === 0 ? (
-                        <div
-                          style={{ padding: '24px 16px', textAlign: 'center', color: '#9ca3af' }}
-                        >
-                          <IconBellOff size={32} stroke={1} style={{ margin: '0 auto 8px' }} />
-                          <Text size="xs">Нет новых уведомлений</Text>
-                        </div>
-                      ) : (
-                        notifications.map((n) => {
-                          const isUnread = !readNotificationIds.includes(n.id);
-                          return (
-                            <div
-                              key={n.id}
-                              onClick={() => markNotificationAsRead(n.id)}
-                              style={{
-                                padding: '12px 16px',
-                                borderBottom: '1px solid #f1f3f5',
-                                fontSize: '13px',
-                                cursor: 'pointer',
-                                backgroundColor: isUnread
-                                  ? colorScheme === 'dark'
-                                    ? '#1c2436'
-                                    : '#f5f7ff'
-                                  : 'transparent',
-                                transition: 'background-color 0.2s ease, transform 0.2s ease',
-                                position: 'relative',
-                              }}
-                              className="notification-item"
-                            >
-                              <Group justify="space-between" align="flex-start" wrap="nowrap">
-                                <Text
-                                  fw={isUnread ? 700 : 600}
-                                  size="xs"
-                                  color={isUnread ? 'indigo' : 'dimmed'}
-                                >
-                                  {n.title}
-                                </Text>
-                                {isUnread && (
-                                  <span
-                                    style={{
-                                      width: '6px',
-                                      height: '6px',
-                                      backgroundColor: '#4f46e5',
-                                      borderRadius: '50%',
-                                      display: 'inline-block',
-                                      marginTop: '4px',
-                                    }}
-                                  />
-                                )}
-                              </Group>
-                              <Text
-                                size="xs"
-                                mt={2}
-                                style={{ color: colorScheme === 'dark' ? '#c1c2c5' : '#4b5563' }}
-                              >
-                                {n.text}
-                              </Text>
-                              <Text size="10px" color="dimmed" mt={4}>
-                                {new Date(n.createdAt).toLocaleDateString('ru-RU')}{' '}
-                                {new Date(n.createdAt).toLocaleTimeString('ru-RU', {
-                                  hour: '2-digit',
-                                  minute: '2-digit',
-                                })}
-                              </Text>
-                            </div>
-                          );
-                        })
-                      )}
-                    </div>
-                  </Popover.Dropdown>
-                </Popover>
+                  <IconArrowLeft size={20} />
+                </ActionIcon>
+              ) : (
+                <Burger opened={drawerOpened} onClick={toggleDrawer} size="sm" mr="xs" />
+              ))}
 
+            <Text
+              size="28px"
+              fw={700}
+              style={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                color: colorScheme === 'dark' ? '#ffffff' : '#1a1a2e',
+                lineHeight: 1.2,
+              }}
+            >
+              {activeMode === 'notes' && selectedNote ? selectedNote.title : currentTitle}
+            </Text>
+          </Group>
+
+          <Group gap="xs" style={{ flexShrink: 0 }}>
+            {!isMobile && activeMode === 'tasks' && (
+              <>
                 <Select
                   value={filterStatus}
                   onChange={(value) => setFilterStatus(value as 'all' | 'active' | 'completed')}
@@ -851,146 +795,342 @@ export const TodoPage = () => {
                 >
                   Добавить задачу
                 </Button>
-              </Group>
-            </div>
-
-            {tasksError && (
-              <Alert
-                icon={<IconAlertCircle size={16} />}
-                title="Внимание"
-                color="red"
-                variant="light"
-                mb="md"
-                withCloseButton
-                onClose={() => refreshTasks()}
-              >
-                {tasksError}
-              </Alert>
+              </>
             )}
 
-            {pushPermission === 'default' && (
-              <Alert
-                icon={<IconBell size={16} />}
-                title="Уведомления на рабочем столе"
-                color="indigo"
-                variant="light"
-                mb="sm"
-              >
-                <Group justify="space-between" align="center" style={{ width: '100%' }}>
-                  <Text size="xs">
-                    Включите уведомления, чтобы получать предупреждения о просроченных задачах и
-                    делах на сегодня.
-                  </Text>
-                  <Button size="xs" color="indigo" onClick={requestPermission}>
-                    Включить
-                  </Button>
-                </Group>
-              </Alert>
-            )}
-
-            {reminderStats.overdueCount > 0 && (
-              <Alert
-                icon={<IconAlertCircle size={16} />}
-                title="Просроченные задачи"
-                color="red"
-                variant="light"
-                mb="sm"
-              >
-                У вас есть {reminderStats.overdueCount} просроченных задач! Пожалуйста, проверьте
-                их.
-              </Alert>
-            )}
-
-            {reminderStats.todayCount > 0 && (
-              <Alert
-                icon={<IconCalendar size={16} />}
-                title="Задачи на сегодня"
-                color="yellow"
-                variant="light"
-                mb="sm"
-              >
-                На сегодня запланировано {reminderStats.todayCount} задач. Продуктивного дня!
-              </Alert>
-            )}
-
-            {stats.total > 0 && (
-              <Box
-                mb="md"
-                p="sm"
-                style={{
-                  background: colorScheme === 'dark' ? '#1e1e24' : '#f1f3f9',
-                  borderRadius: '8px',
-                  border: colorScheme === 'dark' ? '1px solid #2c2e33' : '1px solid #e5e7eb',
-                }}
-              >
-                <Group justify="space-between" mb="xs">
-                  <Text
-                    component="div"
-                    size="xs"
-                    fw={700}
-                    style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
-                  >
-                    <span>Прогресс:</span>
-                    <Badge size="xs" variant="filled" color="indigo">
-                      {selectedProject || selectedView}
-                    </Badge>
-                  </Text>
-                  <Text size="xs" fw={700} color="indigo">
-                    Выполнено {stats.completed} из {stats.total} ({stats.percent}%)
-                  </Text>
-                </Group>
-                <Progress
-                  value={stats.percent}
-                  color="indigo"
-                  size="xs"
-                  radius="xl"
-                  striped
-                  animated
-                />
-              </Box>
-            )}
-
-            <ScrollArea className="tasks-container">
-              {isTasksLoading && tasks.length === 0 ? (
-                <Group justify="center" py="xl">
-                  <Loader size="md" />
-                  <Text size="sm" color="dimmed">
-                    Загрузка задач...
-                  </Text>
-                </Group>
-              ) : sortedTasks.length === 0 ? (
-                <div className="empty-state">
-                  <IconListCheck size={64} stroke={1} color="#d0d5dd" />
-                  <Text size="md" mt="md" color="gray.6">
-                    Нет задач
-                  </Text>
-                  <Text size="sm" color="gray.5">
-                    Добавьте новую задачу ниже
-                  </Text>
-                </div>
-              ) : (
-                sortedTasks.map((task) => (
-                  <TaskItem
-                    key={task.id}
-                    task={task}
-                    projects={projects}
-                    onToggle={toggleComplete}
-                    onDelete={deleteTask}
-                    onMove={moveTask}
-                    onMoveToProject={moveTaskToProject}
-                    onStartEditing={setEditingTaskId}
-                    onUpdateTitle={updateTaskTitle}
-                    onUpdateDescription={updateTaskDescription}
-                    onUpdatePriority={updateTaskPriority}
-                    onDragStart={handleDragStart}
-                    onDragEnd={handleDragEnd}
-                    isDragging={draggingTaskId === task.id}
-                    editingTaskId={editingTaskId}
-                    isCompleted={task.isCompleted}
+            {!isMobile && activeMode === 'notes' && selectedNote && (
+              <Select
+                value={selectedNote.priority || 'medium'}
+                onChange={(val) =>
+                  updateNotePriority(selectedNote.id, val as 'high' | 'medium' | 'low')
+                }
+                data={[
+                  { value: 'high', label: 'Высокий приоритет' },
+                  { value: 'medium', label: 'Средний приоритет' },
+                  { value: 'low', label: 'Низкий приоритет' },
+                ]}
+                size="xs"
+                radius="md"
+                style={{ width: 160 }}
+                leftSection={
+                  <IconFlag
+                    size={14}
+                    color={notePriorityColors[selectedNote.priority || 'medium']}
                   />
-                ))
-              )}
+                }
+              />
+            )}
 
+            <Popover
+              opened={notificationsOpened}
+              onChange={setNotificationsOpened}
+              position="bottom-end"
+              withArrow
+              shadow="md"
+              width={320}
+            >
+              <Popover.Target>
+                <Indicator
+                  label={unreadCount > 0 ? unreadCount : undefined}
+                  size={16}
+                  offset={3}
+                  color="indigo"
+                  disabled={unreadCount === 0}
+                >
+                  <ActionIcon
+                    variant="subtle"
+                    size="lg"
+                    radius="md"
+                    onClick={() => {
+                      setNotificationsOpened((o) => !o);
+                      fetchNotifications();
+                    }}
+                  >
+                    <IconBell size={20} stroke={1.5} />
+                  </ActionIcon>
+                </Indicator>
+              </Popover.Target>
+              <Popover.Dropdown p={0}>
+                <div
+                  style={{
+                    padding: '12px 16px',
+                    borderBottom: '1px solid #f1f3f5',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Text fw={600} size="sm">
+                    Уведомления
+                  </Text>
+                  {unreadCount > 0 && (
+                    <Button
+                      variant="subtle"
+                      size="xs"
+                      color="indigo"
+                      onClick={markAllNotificationsAsRead}
+                      style={{ fontSize: '11px', height: 'auto', padding: '2px 6px' }}
+                    >
+                      Прочитать всё
+                    </Button>
+                  )}
+                </div>
+                <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                  {notifications.length === 0 ? (
+                    <div style={{ padding: '24px 16px', textAlign: 'center', color: '#9ca3af' }}>
+                      <IconBellOff size={32} stroke={1} style={{ margin: '0 auto 8px' }} />
+                      <Text size="xs">Нет новых уведомлений</Text>
+                    </div>
+                  ) : (
+                    notifications.map((n) => {
+                      const isUnread = !readNotificationIds.includes(n.id);
+                      return (
+                        <div
+                          key={n.id}
+                          onClick={() => markNotificationAsRead(n.id)}
+                          style={{
+                            padding: '12px 16px',
+                            borderBottom: '1px solid #f1f3f5',
+                            fontSize: '13px',
+                            cursor: 'pointer',
+                            backgroundColor: isUnread
+                              ? colorScheme === 'dark'
+                                ? '#1c2436'
+                                : '#f5f7ff'
+                              : 'transparent',
+                            transition: 'background-color 0.2s ease, transform 0.2s ease',
+                            position: 'relative',
+                          }}
+                          className="notification-item"
+                        >
+                          <Group justify="space-between" align="flex-start" wrap="nowrap">
+                            <Text
+                              fw={isUnread ? 700 : 600}
+                              size="xs"
+                              color={isUnread ? 'indigo' : 'dimmed'}
+                            >
+                              {n.title}
+                            </Text>
+                            {isUnread && (
+                              <span
+                                style={{
+                                  width: '6px',
+                                  height: '6px',
+                                  backgroundColor: '#4f46e5',
+                                  borderRadius: '50%',
+                                  display: 'inline-block',
+                                  marginTop: '4px',
+                                }}
+                              />
+                            )}
+                          </Group>
+                          <Text
+                            size="xs"
+                            mt={2}
+                            style={{ color: colorScheme === 'dark' ? '#c1c2c5' : '#4b5563' }}
+                          >
+                            {n.text}
+                          </Text>
+                          <Text size="10px" color="dimmed" mt={4}>
+                            {new Date(n.createdAt).toLocaleDateString('ru-RU')}{' '}
+                            {new Date(n.createdAt).toLocaleTimeString('ru-RU', {
+                              hour: '2-digit',
+                              minute: '2-digit',
+                            })}
+                          </Text>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+              </Popover.Dropdown>
+            </Popover>
+          </Group>
+        </div>
+
+        {isMobile && activeMode === 'tasks' && (
+          <div className="mobile-filters-bar">
+            <TextInput
+              placeholder="Поиск..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.currentTarget.value)}
+              leftSection={<IconSearch size={16} />}
+              size="xs"
+              radius="md"
+              style={{ flex: 1 }}
+            />
+            <Popover position="bottom-end" shadow="md" withArrow>
+              <Popover.Target>
+                <ActionIcon variant="light" size="lg" radius="md" color="indigo">
+                  <IconFilter size={18} />
+                </ActionIcon>
+              </Popover.Target>
+              <Popover.Dropdown p="xs">
+                <Stack gap="xs">
+                  <Text size="xs" fw={700}>
+                    Фильтр по статусу
+                  </Text>
+                  <SegmentedControl
+                    value={filterStatus}
+                    onChange={(val) => setFilterStatus(val as 'all' | 'active' | 'completed')}
+                    data={[
+                      { label: 'Все', value: 'all' },
+                      { label: 'Активные', value: 'active' },
+                      { label: 'Выполненные', value: 'completed' },
+                    ]}
+                    size="xs"
+                  />
+                  <Text size="xs" fw={700} mt="xs">
+                    Фильтр по приоритету
+                  </Text>
+                  <Select
+                    value={filterPriority}
+                    onChange={(val) => setFilterPriority(val as 'all' | 'high' | 'medium' | 'low')}
+                    data={[
+                      { value: 'all', label: 'Любой' },
+                      { value: 'high', label: 'Высокий' },
+                      { value: 'medium', label: 'Средний' },
+                      { value: 'low', label: 'Низкий' },
+                    ]}
+                    size="xs"
+                  />
+                </Stack>
+              </Popover.Dropdown>
+            </Popover>
+          </div>
+        )}
+
+        {tasksError && (
+          <Alert
+            icon={<IconAlertCircle size={16} />}
+            title="Внимание"
+            color="red"
+            variant="light"
+            mb="md"
+            withCloseButton
+            onClose={() => refreshTasks()}
+          >
+            {tasksError}
+          </Alert>
+        )}
+
+        {pushPermission === 'default' && (
+          <Alert
+            icon={<IconBell size={16} />}
+            title="Уведомления на рабочем столе"
+            color="indigo"
+            variant="light"
+            mb="sm"
+          >
+            <Group justify="space-between" align="center" style={{ width: '100%' }}>
+              <Text size="xs">
+                Включите уведомления, чтобы получать предупреждения о просроченных задачах и делах
+                на сегодня.
+              </Text>
+              <Button size="xs" color="indigo" onClick={requestPermission}>
+                Включить
+              </Button>
+            </Group>
+          </Alert>
+        )}
+
+        {reminderStats.overdueCount > 0 && (
+          <Alert
+            icon={<IconAlertCircle size={16} />}
+            title="Просроченные задачи"
+            color="red"
+            variant="light"
+            mb="sm"
+          >
+            У вас есть {reminderStats.overdueCount} просроченных задач! Пожалуйста, проверьте их.
+          </Alert>
+        )}
+
+        {reminderStats.todayCount > 0 && (
+          <Alert
+            icon={<IconCalendar size={16} />}
+            title="Задачи на сегодня"
+            color="yellow"
+            variant="light"
+            mb="sm"
+          >
+            На сегодня запланировано {reminderStats.todayCount} задач. Продуктивного дня!
+          </Alert>
+        )}
+
+        {stats.total > 0 && (
+          <Box
+            mb="md"
+            p="sm"
+            style={{
+              background: colorScheme === 'dark' ? '#1e1e24' : '#f1f3f9',
+              borderRadius: '8px',
+              border: colorScheme === 'dark' ? '1px solid #2c2e33' : '1px solid #e5e7eb',
+            }}
+          >
+            <Group justify="space-between" mb="xs">
+              <Text
+                component="div"
+                size="xs"
+                fw={700}
+                style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+              >
+                <span>Прогресс:</span>
+                <Badge size="xs" variant="filled" color="indigo">
+                  {selectedProject || selectedView}
+                </Badge>
+              </Text>
+              <Text size="xs" fw={700} color="indigo">
+                Выполнено {stats.completed} из {stats.total} ({stats.percent}%)
+              </Text>
+            </Group>
+            <Progress value={stats.percent} color="indigo" size="xs" radius="xl" striped animated />
+          </Box>
+        )}
+
+        {activeMode === 'tasks' ? (
+          <ScrollArea className="tasks-container">
+            {isTasksLoading && tasks.length === 0 ? (
+              <Group justify="center" py="xl">
+                <Loader size="md" />
+                <Text size="sm" color="dimmed">
+                  Загрузка задач...
+                </Text>
+              </Group>
+            ) : sortedTasks.length === 0 ? (
+              <div className="empty-state">
+                <IconListCheck size={64} stroke={1} color="#d0d5dd" />
+                <Text size="md" mt="md" color="gray.6">
+                  Нет задач
+                </Text>
+                <Text size="sm" color="gray.5">
+                  Добавьте новую задачу ниже
+                </Text>
+              </div>
+            ) : (
+              sortedTasks.map((task) => (
+                <TaskItem
+                  key={task.id}
+                  task={task}
+                  projects={projects}
+                  onToggle={toggleComplete}
+                  onDelete={deleteTask}
+                  onMove={moveTask}
+                  onMoveToProject={moveTaskToProject}
+                  onStartEditing={setEditingTaskId}
+                  onUpdateTitle={updateTaskTitle}
+                  onUpdateDescription={updateTaskDescription}
+                  onUpdatePriority={updateTaskPriority}
+                  onDragStart={handleDragStart}
+                  onDragEnd={handleDragEnd}
+                  isDragging={draggingTaskId === task.id}
+                  editingTaskId={editingTaskId}
+                  isCompleted={task.isCompleted}
+                />
+              ))
+            )}
+
+            {!isMobile && (
               <Group grow mt="md" gap="xs">
                 {views.map((section) => (
                   <div
@@ -1003,59 +1143,64 @@ export const TodoPage = () => {
                   </div>
                 ))}
               </Group>
-            </ScrollArea>
-          </>
+            )}
+          </ScrollArea>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
             {selectedNote ? (
               <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                <Group justify="space-between" align="center" mb="sm">
-                  <Box style={{ flex: 1 }}>
-                    <TextInput
-                      value={selectedNote.title}
-                      onChange={(e) => updateNoteTitle(selectedNote.id, e.currentTarget.value)}
-                      size="lg"
-                      variant="unstyled"
-                      placeholder="Введите название заметки..."
-                      style={{ fontSize: '28px', fontWeight: 700, border: 'none' }}
-                      styles={{
-                        input: {
-                          fontSize: '28px',
-                          fontWeight: 700,
-                          paddingLeft: 0,
-                          color: colorScheme === 'dark' ? '#ffffff' : '#1a1a2e',
-                          background: 'transparent',
-                          border: 'none',
-                          '&:focus': {
-                            border: 'none',
-                          },
-                        },
-                      }}
+                {isMobile ? (
+                  <Group justify="space-between" align="center" mb="xs">
+                    <Select
+                      value={selectedNote.priority || 'medium'}
+                      onChange={(val) =>
+                        updateNotePriority(selectedNote.id, val as 'high' | 'medium' | 'low')
+                      }
+                      data={[
+                        { value: 'high', label: 'Высокий приоритет' },
+                        { value: 'medium', label: 'Средний приоритет' },
+                        { value: 'low', label: 'Низкий приоритет' },
+                      ]}
+                      size="xs"
+                      radius="md"
+                      style={{ width: '100%' }}
+                      leftSection={
+                        <IconFlag
+                          size={14}
+                          color={notePriorityColors[selectedNote.priority || 'medium']}
+                        />
+                      }
                     />
-                  </Box>
-                  <Select
-                    value={selectedNote.priority || 'medium'}
-                    onChange={(val) =>
-                      updateNotePriority(selectedNote.id, val as 'high' | 'medium' | 'low')
-                    }
-                    data={[
-                      { value: 'high', label: 'Высокий приоритет' },
-                      { value: 'medium', label: 'Средний приоритет' },
-                      { value: 'low', label: 'Низкий приоритет' },
-                    ]}
-                    size="xs"
-                    radius="md"
-                    style={{ width: 160 }}
-                    leftSection={
-                      <IconFlag
-                        size={14}
-                        color={notePriorityColors[selectedNote.priority || 'medium']}
+                  </Group>
+                ) : (
+                  <Group justify="space-between" align="center" mb="sm">
+                    <Box style={{ flex: 1 }}>
+                      <TextInput
+                        value={selectedNote.title}
+                        onChange={(e) => updateNoteTitle(selectedNote.id, e.currentTarget.value)}
+                        size="lg"
+                        variant="unstyled"
+                        placeholder="Введите название заметки..."
+                        style={{ fontSize: '28px', fontWeight: 700, border: 'none' }}
+                        styles={{
+                          input: {
+                            fontSize: '28px',
+                            fontWeight: 700,
+                            paddingLeft: 0,
+                            color: colorScheme === 'dark' ? '#ffffff' : '#1a1a2e',
+                            background: 'transparent',
+                            border: 'none',
+                            '&:focus': {
+                              border: 'none',
+                            },
+                          },
+                        }}
                       />
-                    }
-                  />
-                </Group>
+                    </Box>
+                  </Group>
+                )}
 
-                <div style={{ flex: 1 }}>
+                <div style={{ flex: 1, minHeight: 0 }}>
                   <CollaborativeEditor
                     key={selectedNote.id}
                     noteId={selectedNote.id}
@@ -1063,6 +1208,94 @@ export const TodoPage = () => {
                     currentUser={userProfile}
                   />
                 </div>
+              </div>
+            ) : isMobile ? (
+              <div className="mobile-notes-container">
+                <Group grow gap="xs" mb="md">
+                  <Button
+                    size="xs"
+                    variant="light"
+                    color="indigo"
+                    leftSection={<IconPlus size={14} />}
+                    onClick={() => createNote()}
+                  >
+                    Создать заметку
+                  </Button>
+                  <Button
+                    size="xs"
+                    variant="outline"
+                    color="indigo"
+                    leftSection={<IconLink size={14} />}
+                    onClick={openConnectModal}
+                  >
+                    Войти в ID
+                  </Button>
+                </Group>
+
+                <Text size="xs" fw={700} color="gray.5" tt="uppercase" px="xs" mb="xs">
+                  Заметки
+                </Text>
+                <ScrollArea style={{ flex: 1 }}>
+                  <div className="mobile-notes-list">
+                    {sortedNotes.length === 0 ? (
+                      <Text size="xs" color="dimmed" ta="center" mt="xl">
+                        Нет заметок. Создайте новую или подключитесь по ID.
+                      </Text>
+                    ) : (
+                      sortedNotes.map((n) => (
+                        <Paper
+                          key={n.id}
+                          className={`mobile-note-card priority-${n.priority || 'medium'}`}
+                          onClick={() => setSelectedNoteId(n.id)}
+                          p="sm"
+                          withBorder
+                          style={{
+                            cursor: 'pointer',
+                            marginBottom: '6px',
+                            transition: 'all 0.2s',
+                          }}
+                        >
+                          <Group justify="space-between" align="center" wrap="nowrap">
+                            <Group gap="xs" style={{ flex: 1, minWidth: 0 }}>
+                              <IconFileText
+                                size={16}
+                                style={{
+                                  color: notePriorityColors[n.priority || 'medium'],
+                                  flexShrink: 0,
+                                }}
+                              />
+                              <Text
+                                fw={600}
+                                size="sm"
+                                style={{
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis',
+                                  whiteSpace: 'nowrap',
+                                }}
+                              >
+                                {n.title || 'Без названия'}
+                              </Text>
+                            </Group>
+                            <Group gap={4} onClick={(e) => e.stopPropagation()}>
+                              <ActionIcon
+                                variant="subtle"
+                                color="red"
+                                size="sm"
+                                onClick={() => {
+                                  if (window.confirm(`Удалить заметку "${n.title}"?`)) {
+                                    deleteNote(n.id);
+                                  }
+                                }}
+                              >
+                                <IconTrash size={14} />
+                              </ActionIcon>
+                            </Group>
+                          </Group>
+                        </Paper>
+                      ))
+                    )}
+                  </div>
+                </ScrollArea>
               </div>
             ) : (
               <div className="empty-state">
@@ -1078,6 +1311,27 @@ export const TodoPage = () => {
           </div>
         )}
       </div>
+
+      {isMobile && (activeMode === 'tasks' || (activeMode === 'notes' && !selectedNoteId)) && (
+        <ActionIcon
+          className="fab-btn"
+          size={56}
+          radius="xl"
+          color="indigo"
+          variant="filled"
+          onClick={() => {
+            if (activeMode === 'tasks') {
+              setIsAddingTask(true);
+              open();
+              setTimeout(() => inputRef.current?.focus(), 100);
+            } else {
+              createNote();
+            }
+          }}
+        >
+          <IconPlus size={28} />
+        </ActionIcon>
+      )}
 
       <Modal
         opened={opened && isAddingTask}
