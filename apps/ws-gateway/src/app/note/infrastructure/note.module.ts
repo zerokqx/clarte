@@ -1,4 +1,4 @@
-import { getProtoPath } from '@clarte/shared-contracts/functions';
+import { join } from 'path';
 import { ConfigService, ConfigModule } from '@nestjs/config';
 import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared-nest/modules';
 import { Global, Module } from '@nestjs/common';
@@ -25,7 +25,7 @@ import { NoteClient } from './note.client';
             options: {
               url: `${host}:${port}`,
               package: Notes.NOTES_PACKAGE_NAME,
-              protoPath: getProtoPath('notes'),
+              protoPath: join(__dirname, 'proto/notes.proto'),
             },
           };
         },

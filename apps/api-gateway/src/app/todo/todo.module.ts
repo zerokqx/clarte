@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { Todo } from '@clarte/shared-contracts/proto';
-import { getProtoPath } from '@clarte/shared-contracts/functions';
+import { join } from 'path';
 import { TodoController } from './presentation/todo.controller';
 import { TodoClient } from './infrastructure/clients/todo.client';
 import { TODO_CLIENT, TODO_GRPC_CLIENT } from './application';
@@ -28,7 +28,7 @@ import {
             options: {
               url: `${host}:${port}`,
               package: Todo.TODO_PACKAGE_NAME,
-              protoPath: getProtoPath('todo'),
+              protoPath: join(__dirname, 'proto/todo.proto'),
             },
           };
         },

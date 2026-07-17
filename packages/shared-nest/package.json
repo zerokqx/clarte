@@ -71,10 +71,6 @@
     "@clarte/shared-domain": "workspace:*",
     "@grpc/grpc-js": "^1.14.4",
     "@humanwhocodes/env": "^4.0.1",
-    "@nestjs/common": "^11.1.27",
-    "@nestjs/config": "^4.0.4",
-    "@nestjs/microservices": "^11.1.27",
-    "@nestjs/passport": "^11.0.5",
     "@swc/helpers": "0.5.18",
     "effect": "^3.21.4",
     "express": "^5.2.1",
@@ -84,5 +80,11 @@
   },
   "devDependencies": {
     "@types/passport-jwt": "^4.0.1"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "*",
+    "@nestjs/config": "*",
+    "@nestjs/microservices": "*",
+    "@nestjs/passport": "*"
   }
 }

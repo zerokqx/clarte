@@ -8,7 +8,6 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '@/app.module';
 import { User } from '@clarte/shared-contracts/proto';
-import { getProtoPath } from '@clarte/shared-contracts/functions';
 import { ProblemDetailsToGrpcExceptionFilter } from '@clarte/shared-nest/filters';
 
 import { GrpcErrorPropagationInterceptor } from '@clarte/shared-nest/interceptors';
@@ -26,7 +25,7 @@ async function bootstrap() {
       options: {
         package: User.USER_PACKAGE_NAME,
         url: `${HOST}:${PORT}`,
-        protoPath: join(process.cwd(), getProtoPath('user')),
+        protoPath: join(__dirname, 'proto/user.proto'),
       },
     },
   );

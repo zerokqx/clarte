@@ -4,7 +4,7 @@ services:
     container_name: clarte-todo-service
     build:
       context: ../..
-      dockerfile: Dockerfile
+      dockerfile: apps/todo-service/Dockerfile
       args:
         - SERVICE_NAME=todo-service
     env_file:

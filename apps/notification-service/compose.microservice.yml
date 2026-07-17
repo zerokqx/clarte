@@ -4,7 +4,7 @@ services:
     container_name: clarte-notification-service
     build:
       context: ../..
-      dockerfile: Dockerfile
+      dockerfile: apps/notification-service/Dockerfile
       args:
         - SERVICE_NAME=notification-service
     env_file:

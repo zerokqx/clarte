@@ -8,7 +8,6 @@
     "build": {
       "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
-      "dependsOn": ["orval"],
       "options": {
         "outputPath": "packages/shared-api/dist",
         "main": "packages/shared-api/src/index.ts",

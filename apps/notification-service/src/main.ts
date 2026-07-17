@@ -3,7 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { Env } from '@humanwhocodes/env';
-import { getProtoPath } from '@clarte/shared-contracts/functions';
+import { join } from 'path';
 import { Notification } from '@clarte/shared-contracts/proto';
 
 async function bootstrap() {
@@ -26,7 +26,7 @@ async function bootstrap() {
     options: {
       url: `${HOST}:${PORT}`,
       package: Notification.NOTIFICATION_PACKAGE_NAME,
-      protoPath: getProtoPath('notification'),
+      protoPath: join(__dirname, 'proto/notification.proto'),
     },
   });
 

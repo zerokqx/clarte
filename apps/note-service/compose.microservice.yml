@@ -4,7 +4,7 @@ services:
     container_name: clarte-note-service
     build:
       context: ../..
-      dockerfile: Dockerfile
+      dockerfile: apps/note-service/Dockerfile
       args:
         - SERVICE_NAME=note-service
     env_file:

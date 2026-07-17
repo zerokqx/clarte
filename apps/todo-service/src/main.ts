@@ -9,8 +9,7 @@ import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { Env } from '@humanwhocodes/env';
 import { Todo } from '@clarte/shared-contracts/proto';
-
-import { getProtoPath } from '@clarte/shared-contracts/functions';
+import { join } from 'path';
 
 async function bootstrap() {
   const env = new Env();
@@ -23,7 +22,7 @@ async function bootstrap() {
       options: {
         url: `${HOST}:${PORT}`,
         package: Todo.TODO_PACKAGE_NAME,
-        protoPath: getProtoPath('todo'),
+        protoPath: join(__dirname, 'proto/todo.proto'),
       },
     },
   );
