@@ -1,17 +1,15 @@
 services:
-  clarte-api-gateway:
+  clarte-auth-service:
     image: apps-auth-service:latest
     container_name: clarte-auth-service
     build:
       context: ../..
-      dockerfile: Dockerfile
+      dockerfile: apps/auth-service/Dockerfile
       args:
         - SERVICE_NAME=auth-service
     env_file:
       - .env
       - .env.docker
-    ports:
-      - "5000:3000"
     networks:
       - default
 networks:

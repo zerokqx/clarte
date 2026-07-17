@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { User } from '@clarte/shared-contracts/proto';
-import { getProtoPath } from '@clarte/shared-contracts/functions';
+import { join } from 'path';
 import { UserController } from '@/app/user/presentation/user.controller';
 import { UserStorageController } from '@/app/user/presentation/user-storage.controller';
 import { UserEditController } from '@/app/user/presentation/user-edit.controller';
@@ -27,7 +27,7 @@ import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared
             options: {
               url: `${host}:${port}`,
               package: User.USER_PACKAGE_NAME,
-              protoPath: getProtoPath('user'),
+              protoPath: join(__dirname, 'proto/user.proto'),
             },
           };
         },

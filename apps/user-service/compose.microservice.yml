@@ -4,7 +4,7 @@ services:
     container_name: clarte-user-service
     build:
       context: ../..
-      dockerfile: Dockerfile
+      dockerfile: apps/user-service/Dockerfile
       args:
         - SERVICE_NAME=user-service
     env_file:

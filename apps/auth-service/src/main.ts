@@ -8,7 +8,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from '@/app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { Auth } from '@clarte/shared-contracts/proto';
-import { getProtoPath } from '@clarte/shared-contracts/functions';
+import { join } from 'path';
 import { ProblemDetailsToGrpcExceptionFilter } from '@clarte/shared-nest/filters';
 import { GrpcErrorPropagationInterceptor } from '@clarte/shared-nest/interceptors';
 import { Env } from '@humanwhocodes/env';
@@ -26,7 +26,7 @@ async function bootstrap() {
       options: {
         package: Auth.AUTH_PACKAGE_NAME,
         url: `${HOST}:${PORT}`,
-        protoPath: getProtoPath('auth'),
+        protoPath: join(__dirname, 'proto/auth.proto'),
       },
     },
   );

@@ -1,4 +1,4 @@
-import { getProtoPath } from '@clarte/shared-contracts/functions';
+import { join } from 'path';
 import { ConfigService } from '@nestjs/config';
 import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared-nest/modules';
 import { Global, Module } from '@nestjs/common';
@@ -34,7 +34,7 @@ type Algorithm = NonNullable<JwtVerifyOptions['algorithms']>[number];
             options: {
               url: `${host}:${port}`,
               package: Auth.AUTH_PACKAGE_NAME,
-              protoPath: getProtoPath('auth'),
+              protoPath: join(__dirname, 'proto/auth.proto'),
             },
           };
         },

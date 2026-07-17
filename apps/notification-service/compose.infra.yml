@@ -1,5 +1,5 @@
 services:
-  postgres:
+  clarte-notification-service-postgres:
     image: postgres:16-alpine
     container_name: clarte-notification-service-postgres
     ports:
