@@ -41,7 +41,7 @@ export const unionEvents = <T extends AnyDomainEventClass[]>(..._args: T) => {
 
 export abstract class AggregateRoot<
   Props extends EntityBaseProps,
-  Events extends ReturnType<typeof unionEvents>,
+  Events extends ReturnType<typeof unionEvents> = never,
 > extends Entity<Props> {
   private _domainEvents: Events[] = [];
 

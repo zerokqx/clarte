@@ -11,8 +11,7 @@
     pkgs.git
     pkgs.protobuf
     pkgs.openssl
-    pkgs.pnpm
-    pkgs.minio-client
+    pkgs.pnpm pkgs.minio-client
   ];
 
   # https://devenv.sh/languages/
