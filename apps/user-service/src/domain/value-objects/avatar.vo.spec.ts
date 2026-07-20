@@ -4,7 +4,8 @@ import { AvatarWrongError } from '@/domain/exceptions/avatar-wrong';
 describe('UserAvatar', () => {
   describe('create()', () => {
     it('должен успешно создавать VO при валидном data URI', () => {
-      const dataUri = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+      const dataUri =
+        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
       const vo = UserAvatar.create(dataUri);
       expect(vo.value).toBe(dataUri);
     });
@@ -12,7 +13,7 @@ describe('UserAvatar', () => {
     it('должен успешно создавать VO при валидном http/https URL', () => {
       const httpUrl = 'http://example.com/avatar.png';
       const httpsUrl = 'https://example.com/avatar.png';
-      
+
       expect(UserAvatar.create(httpUrl).value).toBe(httpUrl);
       expect(UserAvatar.create(httpsUrl).value).toBe(httpsUrl);
     });

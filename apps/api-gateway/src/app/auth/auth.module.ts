@@ -23,8 +23,7 @@ import {
       {
         name: AUTH_GRPC_CLIENT,
         useFactory(config: ConfigService) {
-          const { host, port } =
-            config.getOrThrow<MicroserviceConfigType>('auth-service');
+          const { host, port } = config.getOrThrow<MicroserviceConfigType>('auth-service');
           return {
             transport: Transport.GRPC,
             options: {

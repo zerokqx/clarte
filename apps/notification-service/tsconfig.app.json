@@ -18,7 +18,13 @@
     "rootDir": "."
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["eslint.config.js", "eslint.config.cjs", "eslint.config.mjs"],
+  "exclude": [
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts",
+    "eslint.config.js",
+    "eslint.config.cjs",
+    "eslint.config.mjs"
+  ],
   "references": [
     {
       "path": "../../packages/shared-event-types/tsconfig.lib.json"

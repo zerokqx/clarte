@@ -2,7 +2,8 @@ import { TokenVo } from './token.vo';
 import { TokenInvalidError } from '@/domain/exceptions';
 
 describe('TokenVo', () => {
-  const validJwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+  const validJwt =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
 
   describe('create()', () => {
     it('должен успешно создавать VO при валидном JWT формате', () => {
@@ -17,7 +18,7 @@ describe('TokenVo', () => {
 
     it('должен выбрасывать ошибку, если строка не соответствует JWT', () => {
       expect(() => TokenVo.create('just_a_random_string')).toThrow(TokenInvalidError);
-      expect(() => TokenVo.create('invalid format !')).toThrow(TokenInvalidError); 
+      expect(() => TokenVo.create('invalid format !')).toThrow(TokenInvalidError);
     });
   });
 

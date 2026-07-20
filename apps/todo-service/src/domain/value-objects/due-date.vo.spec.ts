@@ -39,7 +39,9 @@ describe('DueDateVo', () => {
     it('должен выбрасывать ошибку, если дата слишком далеко в будущем (> 50 лет)', () => {
       const farFutureDate = new Date('2075-01-01T12:00:00Z');
       expect(() => DueDateVo.create(farFutureDate)).toThrow(DateException);
-      expect(() => DueDateVo.create(farFutureDate)).toThrow('Дата выполнения находится слишком далеко в будущем.');
+      expect(() => DueDateVo.create(farFutureDate)).toThrow(
+        'Дата выполнения находится слишком далеко в будущем.',
+      );
     });
   });
 

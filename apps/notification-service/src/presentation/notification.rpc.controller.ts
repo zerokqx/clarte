@@ -90,7 +90,7 @@ export class NotificationRpcController implements Notification.NotificationServi
 
   // 4. RMQ Handler for the "todo.reminder" event
   @EventPattern(TodoEventPattern.TodoReminder)
-  async handleTodoReminder(@Payload() data: ITodoReminderPayload, @Ctx() context: RmqContext) {
+  async handleTodoReminder(@Payload() data: ITodoReminderPayload) {
     try {
       this.logger.log(
         `Received RMQ Event "todo.reminder" for user: ${data.userId}, todo: ${data.todoId}`,

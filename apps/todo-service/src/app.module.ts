@@ -36,8 +36,10 @@ import { BullModule } from '@nestjs/bullmq';
     }),
     RmqModule.register({
       name: TODO_RMQ_CLIENT,
-      exchange: 'clarte_events_exchange',
-      exchangeType: 'topic',
+      options: {
+        exchange: 'clarte_events_exchange',
+        exchangeType: 'topic',
+      },
     }),
     BullModule.forRootAsync({
       useFactory(config: ConfigService) {

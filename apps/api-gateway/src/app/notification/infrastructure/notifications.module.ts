@@ -5,25 +5,20 @@ import { Notification } from '@clarte/shared-contracts/proto';
 import { join } from 'path';
 import { NotificationController } from '@/app/notification/presentation/notification.controller';
 import { NotificationClient } from '@/app/notification/infrastructure/clients/notification.client';
-import {
-  NOTIFICATION_CLIENT,
-  NOTIFICATION_GRPC_CLIENT,
-} from '@/app/notification/application';
+import { NOTIFICATION_CLIENT, NOTIFICATION_GRPC_CLIENT } from '@/app/notification/application';
 import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared-nest/modules';
 
 @Module({
   imports: [
     MicroserviceConfigModule.register({
       registerAsName: 'notification-service',
-      prefixOptions: { value: 'notification_', upperCase: true},
+      prefixOptions: { value: 'notification_', upperCase: true },
     }),
     ClientsModule.registerAsync([
       {
         name: NOTIFICATION_GRPC_CLIENT,
         useFactory(config: ConfigService) {
-          const { host, port } = config.getOrThrow<MicroserviceConfigType>(
-            'notification-service',
-          );
+          const { host, port } = config.getOrThrow<MicroserviceConfigType>('notification-service');
           return {
             transport: Transport.GRPC,
             options: {

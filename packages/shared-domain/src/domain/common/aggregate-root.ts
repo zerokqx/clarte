@@ -8,7 +8,7 @@ export interface IDomainEvent<Name extends string = string, Payload = unknown> {
   readonly payload: Payload;
 }
 
-type IDomainEventClass<Name extends string, P> = Class<IDomainEvent<Name, P>>;
+type IDomainEventClass<Name extends string, P> = Class<IDomainEvent<Name, P>, [P]>;
 
 export const defineDomainEvent = <Name extends string>(eventName: Name) => {
   return <Payload>(): IDomainEventClass<Name, Payload> => {
@@ -35,6 +35,7 @@ type AnyDomainEventClass = IDomainEventClass<any, any>;
 
 export type ExtractUnionEvents<T extends AnyDomainEventClass[]> = InstanceType<T[number]>;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const unionEvents = <T extends AnyDomainEventClass[]>(..._args: T) => {
   return null as unknown as ExtractUnionEvents<T>;
 };

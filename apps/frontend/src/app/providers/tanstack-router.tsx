@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { observer } from 'mobx-react-lite';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { routeTree } from '@/app/route-tree.gen';

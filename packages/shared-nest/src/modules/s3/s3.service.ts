@@ -48,7 +48,7 @@ export class S3Service implements IS3Service {
     bucket: string,
     key: string,
     expiresIn = 3600,
-    metadata?: Record<string, string>,
+    // metadata?: Record<string, string>,
   ): Promise<string> {
     try {
       const command = new GetObjectCommand({
@@ -90,7 +90,7 @@ export class S3Service implements IS3Service {
   async download(
     bucket: string,
     key: string,
-    metadata?: Record<string, string>,
+    // metadata?: Record<string, string>,
   ): Promise<Buffer> {
     try {
       const command = new GetObjectCommand({
@@ -113,10 +113,7 @@ export class S3Service implements IS3Service {
     }
   }
 
-  async delete(
-    bucket: string,
-    key: string,
-  ): Promise<void> {
+  async delete(bucket: string, key: string): Promise<void> {
     try {
       const command = new DeleteObjectCommand({
         Bucket: bucket,

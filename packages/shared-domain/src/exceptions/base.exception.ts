@@ -24,11 +24,11 @@ export abstract class ProblemDetailsException extends Error {
    * Дополнительный контекст: динамические детали ошибки, специфичные для этого вызова.
    * Сюда мы можем закинуть, например, список невалидных полей или id, который не нашли.
    */
-  readonly extensions?: Record<string, any>;
+  readonly extensions?: Record<string, unknown>;
 
   constructor(
     detail: string, // Конкретное описание: "Пользователь с id 123 не найден"
-    extensions?: Record<string, any>,
+    extensions?: Record<string, unknown>,
   ) {
     // В базовый Error.message уходит подробный detail
     super(detail);

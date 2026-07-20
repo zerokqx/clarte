@@ -16,8 +16,12 @@ describe('PasswordHashVo', () => {
     });
 
     it('должен выбрасывать ошибку, если формат хеша не Argon2id', () => {
-      expect(() => PasswordHashVo.create('just_a_plain_password')).toThrow(PasswordHashInvalidError);
-      expect(() => PasswordHashVo.create('$2b$10$somebcryptHashHere123')).toThrow(PasswordHashInvalidError);
+      expect(() => PasswordHashVo.create('just_a_plain_password')).toThrow(
+        PasswordHashInvalidError,
+      );
+      expect(() => PasswordHashVo.create('$2b$10$somebcryptHashHere123')).toThrow(
+        PasswordHashInvalidError,
+      );
     });
   });
 });

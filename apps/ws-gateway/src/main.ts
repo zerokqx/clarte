@@ -9,6 +9,7 @@ import { AppModule } from './app/app.module';
 import { Env } from '@humanwhocodes/env';
 import { Transport, type MicroserviceOptions } from '@nestjs/microservices';
 import { HOCUSPOCUS_SERVER, type IHocuspocusServerPort } from './app/hocuspocus/application/ports';
+import type { Server } from 'http';
 
 async function bootstrap() {
   const env = new Env();
@@ -34,8 +35,8 @@ async function bootstrap() {
   });
 
   const hocuspocusServer = app.get<IHocuspocusServerPort>(HOCUSPOCUS_SERVER);
-  const httpServer = app.getHttpServer();
-  httpServer.on('upgrade', (request: any, socket: any, head: any) => {
+  const httpServer = app.getHttpServer() as Server;
+  httpServer.on('upgrade', (request, socket, head) => {
     const pathname = request.url;
     Logger.log(`[HTTP Upgrade] Request to ${pathname}`);
     if (pathname?.startsWith('/yjs')) {

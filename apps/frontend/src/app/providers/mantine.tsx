@@ -3,7 +3,6 @@ import { ModalsProvider } from '@mantine/modals';
 import { ReactProvider } from '@/shared/types';
 import { theme } from '../mantine/theme';
 import { themeStore } from '@/entities/theme';
-import { useLocation } from '@tanstack/react-router';
 import { observer } from 'mobx-react-lite';
 
 export const MantineProvider: ReactProvider = observer(({ children }) => {

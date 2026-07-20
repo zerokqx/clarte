@@ -3,7 +3,7 @@ services:
     image: apps-frontend:latest
     container_name: clarte-frontend
     ports:
-      - "80:80"
+      - '80:80'
     build:
       context: ../..
       dockerfile: apps/frontend/Dockerfile

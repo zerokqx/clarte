@@ -18,17 +18,14 @@ async function bootstrap() {
   const env = new Env();
   const PORT = env.get('PORT', 5001);
   const HOST = env.get('HOST', 'localhost');
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
-    {
-      transport: Transport.GRPC,
-      options: {
-        package: User.USER_PACKAGE_NAME,
-        url: `${HOST}:${PORT}`,
-        protoPath: join(__dirname, 'proto/user.proto'),
-      },
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
+    transport: Transport.GRPC,
+    options: {
+      package: User.USER_PACKAGE_NAME,
+      url: `${HOST}:${PORT}`,
+      protoPath: join(__dirname, 'proto/user.proto'),
     },
-  );
+  });
   app.useGlobalInterceptors(new GrpcErrorPropagationInterceptor());
   app.useGlobalFilters(new ProblemDetailsToGrpcExceptionFilter());
   await app.listen();

@@ -6,10 +6,7 @@ import { join } from 'path';
 import { TodoController } from './presentation/todo.controller';
 import { TodoClient } from './infrastructure/clients/todo.client';
 import { TODO_CLIENT, TODO_GRPC_CLIENT } from './application';
-import {
-  MicroserviceConfigModule,
-  MicroserviceConfigType,
-} from '@clarte/shared-nest/modules';
+import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared-nest/modules';
 
 @Module({
   imports: [
@@ -21,8 +18,7 @@ import {
       {
         name: TODO_GRPC_CLIENT,
         useFactory(config: ConfigService) {
-          const { host, port } =
-            config.getOrThrow<MicroserviceConfigType>('todo-service');
+          const { host, port } = config.getOrThrow<MicroserviceConfigType>('todo-service');
           return {
             transport: Transport.GRPC,
             options: {

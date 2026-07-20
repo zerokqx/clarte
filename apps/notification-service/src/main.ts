@@ -51,12 +51,8 @@ async function bootstrap() {
   // Wires up the Nest application context without starting an HTTP server
   await app.init();
 
-  Logger.log(
-    `🚀 Notification Service is listening on gRPC: grpc://${HOST}:${PORT}`,
-  );
-  Logger.log(
-    `🚀 Notification Service is listening on RMQ: ${rmqUrl} (queue: notification_queue)`,
-  );
+  Logger.log(`🚀 Notification Service is listening on gRPC: grpc://${HOST}:${PORT}`);
+  Logger.log(`🚀 Notification Service is listening on RMQ: ${rmqUrl} (queue: notification_queue)`);
 }
 
 bootstrap();

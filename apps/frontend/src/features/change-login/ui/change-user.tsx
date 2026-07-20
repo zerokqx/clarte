@@ -1,5 +1,5 @@
 import { Effect as E, pipe } from 'effect';
-import { TextInput, Loader } from '@mantine/core';
+import { TextInput } from '@mantine/core';
 import { useDebouncedCallback } from '@mantine/hooks';
 import { useChangeLogin } from '../api/change-login.mutation';
 import { UserLoginSchema } from '@/entities/user';

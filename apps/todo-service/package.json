@@ -9,5 +9,7 @@
     "@clarte/shared-event-types": "workspace:*",
     "@clarte/shared-nest": "workspace:*"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/jest": "~30.0.0"
+  }
 }

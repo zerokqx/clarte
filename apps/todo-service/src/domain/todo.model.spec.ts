@@ -1,5 +1,5 @@
 import { Todo } from './todo.model';
-import { LengthTitleInvalidException, LengthDescriptionInvalidException, DateException } from './exceptions';
+import { LengthTitleInvalidException } from './exceptions';
 
 describe('Todo Domain Entity', () => {
   const defaultCreateDto = {

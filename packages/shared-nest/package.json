@@ -76,7 +76,8 @@
     "express": "^5.2.1",
     "nestjs-s3": "^3.0.1",
     "passport-jwt": "^4.0.1",
-    "rxjs": "^7.8.2"
+    "rxjs": "^7.8.2",
+    "type-fest": "catalog:"
   },
   "devDependencies": {
     "@types/passport-jwt": "^4.0.1"

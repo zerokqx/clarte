@@ -5,10 +5,7 @@
  * Gateway for microservices
  * OpenAPI spec version: 1.0
  */
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -21,27 +18,24 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
+  UseQueryResult,
 } from '@tanstack/react-query';
 
 import type {
   CreateTodoDTO,
   TodoControllerCreateTodo200,
   TodoDTO,
-  UpdateTodoDTO
+  UpdateTodoDTO,
 } from '../../model';
 
 import { customInstance } from '../../../custom-instance';
-import type { ErrorType , BodyType } from '../../../custom-instance';
+import type { ErrorType, BodyType } from '../../../custom-instance';
 
 type AwaitedInput<T> = PromiseLike<T> | T;
 
-      type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
-
+type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
-
-
 
 const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKey: K } => {
   const result = { queryKey } as T & { queryKey: K };
@@ -62,406 +56,519 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
  * @summary Создать новую задачу
  */
 export const todoControllerCreateTodo = (
-    createTodoDTO: BodyType<CreateTodoDTO>,
- options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+  createTodoDTO: BodyType<CreateTodoDTO>,
+  options?: SecondParameter<typeof customInstance>,
+  signal?: AbortSignal,
 ) => {
-
-
-      return customInstance<TodoControllerCreateTodo200>(
-      {url: `/api/todos`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: createTodoDTO, signal
+  return customInstance<TodoControllerCreateTodo200>(
+    {
+      url: `/api/todos`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: createTodoDTO,
+      signal,
     },
-      options);
-    }
+    options,
+  );
+};
 
+export const getTodoControllerCreateTodoMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof todoControllerCreateTodo>>,
+    TError,
+    { data: BodyType<CreateTodoDTO> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customInstance>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof todoControllerCreateTodo>>,
+  TError,
+  { data: BodyType<CreateTodoDTO> },
+  TContext
+> => {
+  const mutationKey = ['todoControllerCreateTodo'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof todoControllerCreateTodo>>,
+    { data: BodyType<CreateTodoDTO> }
+  > = (props) => {
+    const { data } = props ?? {};
 
+    return todoControllerCreateTodo(data, requestOptions);
+  };
 
-export const getTodoControllerCreateTodoMutationOptions = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof todoControllerCreateTodo>>, TError,{data: BodyType<CreateTodoDTO>}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof todoControllerCreateTodo>>, TError,{data: BodyType<CreateTodoDTO>}, TContext> => {
+  return { mutationFn, ...mutationOptions };
+};
 
-const mutationKey = ['todoControllerCreateTodo'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+export type TodoControllerCreateTodoMutationResult = NonNullable<
+  Awaited<ReturnType<typeof todoControllerCreateTodo>>
+>;
+export type TodoControllerCreateTodoMutationBody = BodyType<CreateTodoDTO>;
+export type TodoControllerCreateTodoMutationError = ErrorType<unknown>;
 
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof todoControllerCreateTodo>>, {data: BodyType<CreateTodoDTO>}> = (props) => {
-          const {data} = props ?? {};
-
-          return  todoControllerCreateTodo(data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type TodoControllerCreateTodoMutationResult = NonNullable<Awaited<ReturnType<typeof todoControllerCreateTodo>>>
-    export type TodoControllerCreateTodoMutationBody = BodyType<CreateTodoDTO>
-    export type TodoControllerCreateTodoMutationError = ErrorType<unknown>
-
-    /**
+/**
  * @summary Создать новую задачу
  */
-export const useTodoControllerCreateTodo = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof todoControllerCreateTodo>>, TError,{data: BodyType<CreateTodoDTO>}, TContext>, request?: SecondParameter<typeof customInstance>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof todoControllerCreateTodo>>,
-        TError,
-        {data: BodyType<CreateTodoDTO>},
-        TContext
-      > => {
-      return useMutation(getTodoControllerCreateTodoMutationOptions(options), queryClient);
-    }
-    /**
+export const useTodoControllerCreateTodo = <TError = ErrorType<unknown>, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof todoControllerCreateTodo>>,
+      TError,
+      { data: BodyType<CreateTodoDTO> },
+      TContext
+    >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof todoControllerCreateTodo>>,
+  TError,
+  { data: BodyType<CreateTodoDTO> },
+  TContext
+> => {
+  return useMutation(getTodoControllerCreateTodoMutationOptions(options), queryClient);
+};
+/**
  * @summary Получить список задач текущего пользователя
  */
 export const todoControllerGetUserTodos = (
-
- options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+  options?: SecondParameter<typeof customInstance>,
+  signal?: AbortSignal,
 ) => {
-
-
-      return customInstance<TodoDTO[]>(
-      {url: `/api/todos`, method: 'GET', signal
-    },
-      options);
-    }
-
-
-
+  return customInstance<TodoDTO[]>({ url: `/api/todos`, method: 'GET', signal }, options);
+};
 
 export const getTodoControllerGetUserTodosQueryKey = () => {
-    return [
-    `/api/todos`
-    ] as const;
-    }
+  return [`/api/todos`] as const;
+};
 
+export const getTodoControllerGetUserTodosQueryOptions = <
+  TData = Awaited<ReturnType<typeof todoControllerGetUserTodos>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof todoControllerGetUserTodos>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof customInstance>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-export const getTodoControllerGetUserTodosQueryOptions = <TData = Awaited<ReturnType<typeof todoControllerGetUserTodos>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof todoControllerGetUserTodos>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-) => {
+  const queryKey = queryOptions?.queryKey ?? getTodoControllerGetUserTodosQueryKey();
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof todoControllerGetUserTodos>>> = ({
+    signal,
+  }) => todoControllerGetUserTodos(requestOptions, signal);
 
-  const queryKey =  queryOptions?.queryKey ?? getTodoControllerGetUserTodosQueryKey();
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof todoControllerGetUserTodos>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type TodoControllerGetUserTodosQueryResult = NonNullable<
+  Awaited<ReturnType<typeof todoControllerGetUserTodos>>
+>;
+export type TodoControllerGetUserTodosQueryError = ErrorType<unknown>;
 
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof todoControllerGetUserTodos>>> = ({ signal }) => todoControllerGetUserTodos(requestOptions, signal);
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof todoControllerGetUserTodos>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type TodoControllerGetUserTodosQueryResult = NonNullable<Awaited<ReturnType<typeof todoControllerGetUserTodos>>>
-export type TodoControllerGetUserTodosQueryError = ErrorType<unknown>
-
-
-export function useTodoControllerGetUserTodos<TData = Awaited<ReturnType<typeof todoControllerGetUserTodos>>, TError = ErrorType<unknown>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof todoControllerGetUserTodos>>, TError, TData>> & Pick<
+export function useTodoControllerGetUserTodos<
+  TData = Awaited<ReturnType<typeof todoControllerGetUserTodos>>,
+  TError = ErrorType<unknown>,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof todoControllerGetUserTodos>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof todoControllerGetUserTodos>>,
           TError,
           Awaited<ReturnType<typeof todoControllerGetUserTodos>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useTodoControllerGetUserTodos<TData = Awaited<ReturnType<typeof todoControllerGetUserTodos>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof todoControllerGetUserTodos>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useTodoControllerGetUserTodos<
+  TData = Awaited<ReturnType<typeof todoControllerGetUserTodos>>,
+  TError = ErrorType<unknown>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof todoControllerGetUserTodos>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof todoControllerGetUserTodos>>,
           TError,
           Awaited<ReturnType<typeof todoControllerGetUserTodos>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useTodoControllerGetUserTodos<TData = Awaited<ReturnType<typeof todoControllerGetUserTodos>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof todoControllerGetUserTodos>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useTodoControllerGetUserTodos<
+  TData = Awaited<ReturnType<typeof todoControllerGetUserTodos>>,
+  TError = ErrorType<unknown>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof todoControllerGetUserTodos>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 /**
  * @summary Получить список задач текущего пользователя
  */
 
-export function useTodoControllerGetUserTodos<TData = Awaited<ReturnType<typeof todoControllerGetUserTodos>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof todoControllerGetUserTodos>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useTodoControllerGetUserTodos<
+  TData = Awaited<ReturnType<typeof todoControllerGetUserTodos>>,
+  TError = ErrorType<unknown>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof todoControllerGetUserTodos>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getTodoControllerGetUserTodosQueryOptions(options);
 
-  const queryOptions = getTodoControllerGetUserTodosQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
   return withQueryKey(query, queryOptions.queryKey);
 }
-
-
-
-
-
 
 /**
  * @summary Обновить существующую задачу
  */
 export const todoControllerUpdateTodo = (
-    id: string,
-    updateTodoDTO: BodyType<UpdateTodoDTO>,
- options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+  id: string,
+  updateTodoDTO: BodyType<UpdateTodoDTO>,
+  options?: SecondParameter<typeof customInstance>,
+  signal?: AbortSignal,
 ) => {
-
-
-      return customInstance<void>(
-      {url: `/api/todos/${id}`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: updateTodoDTO, signal
+  return customInstance<void>(
+    {
+      url: `/api/todos/${id}`,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      data: updateTodoDTO,
+      signal,
     },
-      options);
-    }
+    options,
+  );
+};
 
+export const getTodoControllerUpdateTodoMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof todoControllerUpdateTodo>>,
+    TError,
+    { id: string; data: BodyType<UpdateTodoDTO> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customInstance>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof todoControllerUpdateTodo>>,
+  TError,
+  { id: string; data: BodyType<UpdateTodoDTO> },
+  TContext
+> => {
+  const mutationKey = ['todoControllerUpdateTodo'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof todoControllerUpdateTodo>>,
+    { id: string; data: BodyType<UpdateTodoDTO> }
+  > = (props) => {
+    const { id, data } = props ?? {};
 
+    return todoControllerUpdateTodo(id, data, requestOptions);
+  };
 
-export const getTodoControllerUpdateTodoMutationOptions = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof todoControllerUpdateTodo>>, TError,{id: string;data: BodyType<UpdateTodoDTO>}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof todoControllerUpdateTodo>>, TError,{id: string;data: BodyType<UpdateTodoDTO>}, TContext> => {
+  return { mutationFn, ...mutationOptions };
+};
 
-const mutationKey = ['todoControllerUpdateTodo'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+export type TodoControllerUpdateTodoMutationResult = NonNullable<
+  Awaited<ReturnType<typeof todoControllerUpdateTodo>>
+>;
+export type TodoControllerUpdateTodoMutationBody = BodyType<UpdateTodoDTO>;
+export type TodoControllerUpdateTodoMutationError = ErrorType<unknown>;
 
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof todoControllerUpdateTodo>>, {id: string;data: BodyType<UpdateTodoDTO>}> = (props) => {
-          const {id,data} = props ?? {};
-
-          return  todoControllerUpdateTodo(id,data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type TodoControllerUpdateTodoMutationResult = NonNullable<Awaited<ReturnType<typeof todoControllerUpdateTodo>>>
-    export type TodoControllerUpdateTodoMutationBody = BodyType<UpdateTodoDTO>
-    export type TodoControllerUpdateTodoMutationError = ErrorType<unknown>
-
-    /**
+/**
  * @summary Обновить существующую задачу
  */
-export const useTodoControllerUpdateTodo = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof todoControllerUpdateTodo>>, TError,{id: string;data: BodyType<UpdateTodoDTO>}, TContext>, request?: SecondParameter<typeof customInstance>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof todoControllerUpdateTodo>>,
-        TError,
-        {id: string;data: BodyType<UpdateTodoDTO>},
-        TContext
-      > => {
-      return useMutation(getTodoControllerUpdateTodoMutationOptions(options), queryClient);
-    }
-    /**
+export const useTodoControllerUpdateTodo = <TError = ErrorType<unknown>, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof todoControllerUpdateTodo>>,
+      TError,
+      { id: string; data: BodyType<UpdateTodoDTO> },
+      TContext
+    >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof todoControllerUpdateTodo>>,
+  TError,
+  { id: string; data: BodyType<UpdateTodoDTO> },
+  TContext
+> => {
+  return useMutation(getTodoControllerUpdateTodoMutationOptions(options), queryClient);
+};
+/**
  * @summary Удалить задачу
  */
 export const todoControllerDeleteTodo = (
-    id: string,
- options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+  id: string,
+  options?: SecondParameter<typeof customInstance>,
+  signal?: AbortSignal,
 ) => {
+  return customInstance<void>({ url: `/api/todos/${id}`, method: 'DELETE', signal }, options);
+};
 
+export const getTodoControllerDeleteTodoMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof todoControllerDeleteTodo>>,
+    TError,
+    { id: string },
+    TContext
+  >;
+  request?: SecondParameter<typeof customInstance>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof todoControllerDeleteTodo>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  const mutationKey = ['todoControllerDeleteTodo'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-      return customInstance<void>(
-      {url: `/api/todos/${id}`, method: 'DELETE', signal
-    },
-      options);
-    }
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof todoControllerDeleteTodo>>,
+    { id: string }
+  > = (props) => {
+    const { id } = props ?? {};
 
+    return todoControllerDeleteTodo(id, requestOptions);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
+export type TodoControllerDeleteTodoMutationResult = NonNullable<
+  Awaited<ReturnType<typeof todoControllerDeleteTodo>>
+>;
 
-export const getTodoControllerDeleteTodoMutationOptions = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof todoControllerDeleteTodo>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof todoControllerDeleteTodo>>, TError,{id: string}, TContext> => {
+export type TodoControllerDeleteTodoMutationError = ErrorType<unknown>;
 
-const mutationKey = ['todoControllerDeleteTodo'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof todoControllerDeleteTodo>>, {id: string}> = (props) => {
-          const {id} = props ?? {};
-
-          return  todoControllerDeleteTodo(id,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type TodoControllerDeleteTodoMutationResult = NonNullable<Awaited<ReturnType<typeof todoControllerDeleteTodo>>>
-
-    export type TodoControllerDeleteTodoMutationError = ErrorType<unknown>
-
-    /**
+/**
  * @summary Удалить задачу
  */
-export const useTodoControllerDeleteTodo = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof todoControllerDeleteTodo>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customInstance>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof todoControllerDeleteTodo>>,
-        TError,
-        {id: string},
-        TContext
-      > => {
-      return useMutation(getTodoControllerDeleteTodoMutationOptions(options), queryClient);
-    }
-    /**
+export const useTodoControllerDeleteTodo = <TError = ErrorType<unknown>, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof todoControllerDeleteTodo>>,
+      TError,
+      { id: string },
+      TContext
+    >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof todoControllerDeleteTodo>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  return useMutation(getTodoControllerDeleteTodoMutationOptions(options), queryClient);
+};
+/**
  * @summary Пометить задачу как выполненную
  */
 export const todoControllerCompleteTodo = (
-    id: string,
- options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+  id: string,
+  options?: SecondParameter<typeof customInstance>,
+  signal?: AbortSignal,
 ) => {
+  return customInstance<void>(
+    { url: `/api/todos/${id}/complete`, method: 'PATCH', signal },
+    options,
+  );
+};
 
+export const getTodoControllerCompleteTodoMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof todoControllerCompleteTodo>>,
+    TError,
+    { id: string },
+    TContext
+  >;
+  request?: SecondParameter<typeof customInstance>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof todoControllerCompleteTodo>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  const mutationKey = ['todoControllerCompleteTodo'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-      return customInstance<void>(
-      {url: `/api/todos/${id}/complete`, method: 'PATCH', signal
-    },
-      options);
-    }
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof todoControllerCompleteTodo>>,
+    { id: string }
+  > = (props) => {
+    const { id } = props ?? {};
 
+    return todoControllerCompleteTodo(id, requestOptions);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
+export type TodoControllerCompleteTodoMutationResult = NonNullable<
+  Awaited<ReturnType<typeof todoControllerCompleteTodo>>
+>;
 
-export const getTodoControllerCompleteTodoMutationOptions = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof todoControllerCompleteTodo>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof todoControllerCompleteTodo>>, TError,{id: string}, TContext> => {
+export type TodoControllerCompleteTodoMutationError = ErrorType<unknown>;
 
-const mutationKey = ['todoControllerCompleteTodo'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof todoControllerCompleteTodo>>, {id: string}> = (props) => {
-          const {id} = props ?? {};
-
-          return  todoControllerCompleteTodo(id,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type TodoControllerCompleteTodoMutationResult = NonNullable<Awaited<ReturnType<typeof todoControllerCompleteTodo>>>
-
-    export type TodoControllerCompleteTodoMutationError = ErrorType<unknown>
-
-    /**
+/**
  * @summary Пометить задачу как выполненную
  */
-export const useTodoControllerCompleteTodo = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof todoControllerCompleteTodo>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customInstance>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof todoControllerCompleteTodo>>,
-        TError,
-        {id: string},
-        TContext
-      > => {
-      return useMutation(getTodoControllerCompleteTodoMutationOptions(options), queryClient);
-    }
-    /**
+export const useTodoControllerCompleteTodo = <TError = ErrorType<unknown>, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof todoControllerCompleteTodo>>,
+      TError,
+      { id: string },
+      TContext
+    >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof todoControllerCompleteTodo>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  return useMutation(getTodoControllerCompleteTodoMutationOptions(options), queryClient);
+};
+/**
  * @summary Пометить задачу как невыполненную
  */
 export const todoControllerUncompleteTodo = (
-    id: string,
- options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+  id: string,
+  options?: SecondParameter<typeof customInstance>,
+  signal?: AbortSignal,
 ) => {
+  return customInstance<void>(
+    { url: `/api/todos/${id}/uncomplete`, method: 'PATCH', signal },
+    options,
+  );
+};
 
+export const getTodoControllerUncompleteTodoMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof todoControllerUncompleteTodo>>,
+    TError,
+    { id: string },
+    TContext
+  >;
+  request?: SecondParameter<typeof customInstance>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof todoControllerUncompleteTodo>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  const mutationKey = ['todoControllerUncompleteTodo'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-      return customInstance<void>(
-      {url: `/api/todos/${id}/uncomplete`, method: 'PATCH', signal
-    },
-      options);
-    }
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof todoControllerUncompleteTodo>>,
+    { id: string }
+  > = (props) => {
+    const { id } = props ?? {};
 
+    return todoControllerUncompleteTodo(id, requestOptions);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
+export type TodoControllerUncompleteTodoMutationResult = NonNullable<
+  Awaited<ReturnType<typeof todoControllerUncompleteTodo>>
+>;
 
-export const getTodoControllerUncompleteTodoMutationOptions = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof todoControllerUncompleteTodo>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof todoControllerUncompleteTodo>>, TError,{id: string}, TContext> => {
+export type TodoControllerUncompleteTodoMutationError = ErrorType<unknown>;
 
-const mutationKey = ['todoControllerUncompleteTodo'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof todoControllerUncompleteTodo>>, {id: string}> = (props) => {
-          const {id} = props ?? {};
-
-          return  todoControllerUncompleteTodo(id,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type TodoControllerUncompleteTodoMutationResult = NonNullable<Awaited<ReturnType<typeof todoControllerUncompleteTodo>>>
-
-    export type TodoControllerUncompleteTodoMutationError = ErrorType<unknown>
-
-    /**
+/**
  * @summary Пометить задачу как невыполненную
  */
-export const useTodoControllerUncompleteTodo = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof todoControllerUncompleteTodo>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customInstance>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof todoControllerUncompleteTodo>>,
-        TError,
-        {id: string},
-        TContext
-      > => {
-      return useMutation(getTodoControllerUncompleteTodoMutationOptions(options), queryClient);
-    }
+export const useTodoControllerUncompleteTodo = <TError = ErrorType<unknown>, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof todoControllerUncompleteTodo>>,
+      TError,
+      { id: string },
+      TContext
+    >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof todoControllerUncompleteTodo>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  return useMutation(getTodoControllerUncompleteTodoMutationOptions(options), queryClient);
+};

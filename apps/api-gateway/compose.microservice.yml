@@ -9,7 +9,7 @@ services:
       - .env
       - .env.docker
     ports:
-      - "5000:3000"
+      - '5000:3000'
     networks:
       - default
 networks:

@@ -1,4 +1,5 @@
-import { Entity } from '@clarte/shared-domain/domain';
+import { UserEventPattern, UserEventPayloadMap } from '@clarte/shared-event-types/user';
+import { AggregateRoot, defineDomainEvent, unionEvents } from '@clarte/shared-domain/domain';
 import { UserAvatar } from '@/domain/value-objects/avatar.vo';
 import { UserLogin } from '@/domain/value-objects/login.vo';
 import { UserPassword } from '@/domain/value-objects/password.vo';
@@ -24,7 +25,13 @@ interface CreateUserDto {
   avatarUrl: string;
 }
 
-export class User extends Entity<UserProps> {
+const UserChangeLoginEvent = defineDomainEvent(UserEventPattern.UserChangeLogin)<
+  UserEventPayloadMap[UserEventPattern.UserChangeLogin]
+>();
+
+type UserUnionEvents = ReturnType<typeof unionEvents<[typeof UserChangeLoginEvent]>>;
+
+export class User extends AggregateRoot<UserProps, UserUnionEvents> {
   private constructor(props: UserProps) {
     super(props);
   }
@@ -55,6 +62,7 @@ export class User extends Entity<UserProps> {
     const newLogin = UserLogin.create(newRawLogin);
     if (this._props.login.equals(newLogin)) return;
     this._props.login = newLogin;
+    this.addDomainEvent(new UserChangeLoginEvent({ newLogin: newLogin.value, userId: this.id }));
   }
 
   get passwordHash(): string {

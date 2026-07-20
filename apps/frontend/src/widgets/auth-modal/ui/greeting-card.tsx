@@ -1,4 +1,4 @@
-import { Box, Group, Stack, Text, Title, ThemeIcon, rem, darken } from '@mantine/core';
+import { Box, Group, Stack, Text, Title, ThemeIcon, rem } from '@mantine/core';
 import { AUTH_FEATURES, AUTH_WELCOME_TEXTS } from '../config';
 import { M } from '@clarte/mantine-helpers';
 

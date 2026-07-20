@@ -15,17 +15,14 @@ async function bootstrap() {
   const env = new Env();
   const PORT = env.get('PORT', 5004);
   const HOST = env.get('HOST', 'localhost');
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
-    {
-      transport: Transport.GRPC,
-      options: {
-        url: `${HOST}:${PORT}`,
-        package: Todo.TODO_PACKAGE_NAME,
-        protoPath: join(__dirname, 'proto/todo.proto'),
-      },
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
+    transport: Transport.GRPC,
+    options: {
+      url: `${HOST}:${PORT}`,
+      package: Todo.TODO_PACKAGE_NAME,
+      protoPath: join(__dirname, 'proto/todo.proto'),
     },
-  );
+  });
   await app.listen();
   Logger.log(`🚀 Microservice Todo is running on grpc://${HOST}:${PORT}`);
 }

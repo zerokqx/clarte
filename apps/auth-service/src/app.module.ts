@@ -31,8 +31,10 @@ const handlers: Provider[] = [
     }),
     RmqModule.register({
       name: AUTH_RMQ_CLIENT,
-      exchange: 'clarte_events_exchange',
-      exchangeType: 'topic',
+      options: {
+        exchange: 'clarte_events_exchange',
+        exchangeType: 'topic',
+      },
     }),
     UserModule,
     JwtModule,

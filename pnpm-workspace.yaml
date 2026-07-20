@@ -3,3 +3,5 @@ packages:
   - 'apps/*'
   - 'frontend'
   - 'tools/*'
+catalog:
+  type-fest: '^5.8.0'

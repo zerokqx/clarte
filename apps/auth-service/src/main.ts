@@ -18,24 +18,19 @@ async function bootstrap() {
   const PORT = env.get('PORT', 5002);
   const HOST = env.get('HOST', 'localhost');
 
-
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
-    {
-      transport: Transport.GRPC,
-      options: {
-        package: Auth.AUTH_PACKAGE_NAME,
-        url: `${HOST}:${PORT}`,
-        protoPath: join(__dirname, 'proto/auth.proto'),
-      },
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
+    transport: Transport.GRPC,
+    options: {
+      package: Auth.AUTH_PACKAGE_NAME,
+      url: `${HOST}:${PORT}`,
+      protoPath: join(__dirname, 'proto/auth.proto'),
     },
-  );
+  });
   app.useGlobalFilters(new ProblemDetailsToGrpcExceptionFilter());
   app.useGlobalInterceptors(new GrpcErrorPropagationInterceptor());
   await app.listen();
   Logger.log(`🛂 Auth microservice started on url http://${HOST}:${PORT}`);
-  Logger.log("Protocol: gRPC")
-
+  Logger.log('Protocol: gRPC');
 }
 
 bootstrap().catch((err) => {

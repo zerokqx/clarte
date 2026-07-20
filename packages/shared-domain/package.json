@@ -23,6 +23,6 @@
   },
   "dependencies": {
     "@swc/helpers": "0.5.18",
-    "type-fest": "^5.8.0"
+    "type-fest": "catalog:"
   }
 }

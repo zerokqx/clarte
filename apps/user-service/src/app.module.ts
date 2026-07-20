@@ -42,8 +42,10 @@ import { ChangeLoginHandler } from './application/commands/change-login';
     AppConfigModule,
     RmqModule.register({
       name: USER_RMQ_CLIENT,
-      exchange: 'clarte_events_exchange',
-      exchangeType: 'topic',
+      options: {
+        exchange: 'clarte_events_exchange',
+        exchangeType: 'topic',
+      },
     }),
     DatabaseModule,
     TypeOrmModule.forFeature([UserOrmEntity]),
