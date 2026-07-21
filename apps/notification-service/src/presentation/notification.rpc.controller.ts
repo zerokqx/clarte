@@ -1,8 +1,8 @@
 import { Controller, Logger } from '@nestjs/common';
-import { EventPattern, Payload, Ctx, RmqContext } from '@nestjs/microservices';
+import { EventPattern, Payload } from '@nestjs/microservices';
 import { Notification } from '@clarte/shared-contracts/proto';
 import { InjectNotificationRepo } from '@/application/decorators';
-import type { INotificationRepository } from '@/application/ports';
+import { INotificationRepository } from '@/application/ports';
 import { Notification as NotificationDomain } from '@/domain';
 import { randomUUID } from 'crypto';
 import {
@@ -11,6 +11,9 @@ import {
   type IUserEnteredPayload,
 } from '@clarte/shared-event-types/user';
 import { TodoEventPattern, type ITodoReminderPayload } from '@clarte/shared-event-types/todo';
+import { QueryBus } from '@nestjs/cqrs';
+import { GetNotificationsQuery } from '@/application/queries/get-notifications';
+import { CqrsRepoType } from '@clarte/shared-nest/types';
 
 @Controller()
 @Notification.NotificationServiceControllerMethods()
@@ -18,25 +21,25 @@ export class NotificationRpcController implements Notification.NotificationServi
   private readonly logger = new Logger(NotificationRpcController.name);
 
   constructor(
-    @InjectNotificationRepo()
-    private readonly notificationRepository: INotificationRepository,
+    private readonly queryBus: QueryBus,
+    @InjectNotificationRepo(CqrsRepoType.w)
+    private readonly writeRepo: INotificationRepository[CqrsRepoType.w],
   ) {}
 
   // 1. gRPC Handler (implementation of NotificationService)
   async getNotificationsById(
     request: Notification.GetNotificationsByIdRequest,
   ): Promise<Notification.GetNotificationsByIdResponse> {
-    const notifications = await this.notificationRepository.getByUserId(request.userId);
+    const notifications = await this.queryBus.execute(
+      new GetNotificationsQuery(request.userId),
+    );
     return {
-      notifications: notifications.map((n) => {
-        const plain = n.toPlain();
-        return {
-          id: plain.id,
-          title: plain.title,
-          text: plain.text,
-          createdAt: plain.createdAt,
-        };
-      }),
+      notifications: notifications.map((n) => ({
+        id: n.id,
+        title: n.title,
+        text: n.text,
+        createdAt: n.createdAt,
+      })),
     };
   }
 
@@ -55,7 +58,7 @@ export class NotificationRpcController implements Notification.NotificationServi
       });
 
       // Save the notification to PostgreSQL using the DDD repository port/adapter
-      await this.notificationRepository.save(notification);
+      await this.writeRepo.save(notification);
       this.logger.log(`Welcome notification for user ${data.userId} successfully saved to DB.`);
     } catch (err) {
       this.logger.error(
@@ -79,7 +82,7 @@ export class NotificationRpcController implements Notification.NotificationServi
       });
 
       // Save the notification to PostgreSQL using the DDD repository port/adapter
-      await this.notificationRepository.save(notification);
+      await this.writeRepo.save(notification);
       this.logger.log(`Login notification for user ${data.userId} successfully saved to DB.`);
     } catch (err) {
       this.logger.error(
@@ -105,7 +108,7 @@ export class NotificationRpcController implements Notification.NotificationServi
       });
 
       // Save the notification to PostgreSQL using the DDD repository port/adapter
-      await this.notificationRepository.save(notification);
+      await this.writeRepo.save(notification);
       this.logger.log(`Reminder notification for user ${data.userId} successfully saved to DB.`);
     } catch (err) {
       this.logger.error(

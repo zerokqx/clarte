@@ -3,7 +3,7 @@ export enum CqrsRepoType {
   w = 2,
 }
 
-export type CrqsRepository<R extends object, W extends object> = Readonly<{
+export type CrqsRepository<R extends object = object, W extends object = object> = Readonly<{
   [CqrsRepoType.r]: R;
   [CqrsRepoType.w]: W;
 }>;

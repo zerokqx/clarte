@@ -27,10 +27,13 @@
   ],
   "references": [
     {
+      "path": "../../packages/shared-nest/tsconfig.lib.json"
+    },
+    {
       "path": "../../packages/shared-event-types/tsconfig.lib.json"
     },
     {
-      "path": "../../packages/shared-nest/tsconfig.lib.json"
+      "path": "../../packages/shared/tsconfig.lib.json"
     },
     {
       "path": "../../packages/shared-domain/tsconfig.lib.json"

@@ -1,4 +1,8 @@
-import { Inject } from '@nestjs/common';
-import { NOTIFICATION_REPO } from '../ports/di-tokens';
+import { NOTIFICATION_WRITE_REPO, NOTIFICATION_READ_REPO } from '../ports/di-tokens';
+import { mkRepoInjectV2 } from '@clarte/shared-nest/functions';
+import { INotificationRepository } from '../ports';
 
-export const InjectNotificationRepo = () => Inject(NOTIFICATION_REPO);
+export const InjectNotificationRepo = mkRepoInjectV2<INotificationRepository>(
+  NOTIFICATION_WRITE_REPO,
+  NOTIFICATION_READ_REPO,
+);

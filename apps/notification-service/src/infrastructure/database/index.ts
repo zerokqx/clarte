@@ -1,3 +1,4 @@
 export * from './entites';
-export * from './database-notification.repository';
+export * from './notification-read.repository';
+export * from './notification-write.repository';
 export * from './database.module';

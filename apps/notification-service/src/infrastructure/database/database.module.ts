@@ -7,8 +7,9 @@ import {
   DatabaseConfiguration,
   AppConfiguration,
 } from '@clarte/shared-nest/modules';
-import { NOTIFICATION_REPO } from '@/application/ports';
-import { DatabaseNotificationRepository } from './database-notification.repository';
+import { NOTIFICATION_READ_REPO, NOTIFICATION_WRITE_REPO } from '@/application/ports';
+import { NotificationReadRepository } from './notification-read.repository';
+import { NotificationWriteRepository } from './notification-write.repository';
 
 @Module({
   imports: [
@@ -36,10 +37,14 @@ import { DatabaseNotificationRepository } from './database-notification.reposito
   ],
   providers: [
     {
-      provide: NOTIFICATION_REPO,
-      useClass: DatabaseNotificationRepository,
+      provide: NOTIFICATION_READ_REPO,
+      useClass: NotificationReadRepository,
+    },
+    {
+      provide: NOTIFICATION_WRITE_REPO,
+      useClass: NotificationWriteRepository,
     },
   ],
-  exports: [NOTIFICATION_REPO],
+  exports: [NOTIFICATION_READ_REPO, NOTIFICATION_WRITE_REPO],
 })
 export class DatabaseModule {}

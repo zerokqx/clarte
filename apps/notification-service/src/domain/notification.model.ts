@@ -1,7 +1,7 @@
 import { Entity } from '@clarte/shared-domain/domain';
 import { IdVo, TitleVo, TextVo } from './value-objects';
 
-interface NotificationPlain {
+export interface NotificationPlain {
   id: string;
   userId: string;
   title: string;

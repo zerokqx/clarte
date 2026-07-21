@@ -2,12 +2,18 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateNotifyCommand } from './create-notify.command';
 import { randomUUID } from 'crypto';
 import { Notification } from '@/domain';
-import { InjectNotificationRepo } from '@/application/decorators';
+import { InjectNotificationRepo} from '@/application/decorators';
+import { INotificationRepository } from '@/application/ports';
+import { Logger } from '@nestjs/common';
+import { CqrsRepoType } from '@clarte/shared-nest/types';
 
 @CommandHandler(CreateNotifyCommand)
 export class CreateNotifyHandler implements ICommandHandler<CreateNotifyCommand> {
+  private readonly logger = new Logger(CreateNotifyHandler.name);
+
   constructor(
-@InjectNotificationRepo()
+    @InjectNotificationRepo(CqrsRepoType.w)
+    private readonly writeRepo: INotificationRepository[CqrsRepoType.w],
   ) {}
 
   async execute({ payload }: CreateNotifyCommand): Promise<void> {
@@ -18,8 +24,7 @@ export class CreateNotifyHandler implements ICommandHandler<CreateNotifyCommand>
       text: payload.text,
     });
 
-    // Save the notification to PostgreSQL using the DDD repository port/adapter
-    await this.notificationRepository.save(notification);
-    this.logger.log(`Welcome notification for user ${data.userId} successfully saved to DB.`);
+    await this.writeRepo.save(notification);
+    this.logger.log(`Notification for user ${payload.userId} successfully saved to DB.`);
   }
 }
