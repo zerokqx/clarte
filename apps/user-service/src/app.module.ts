@@ -31,6 +31,7 @@ import { RmqModule } from '@clarte/shared-nest/modules';
 import { PresignedUploadHandler } from './application/queries/presigned-upload';
 import { UserStorageController } from './presentation/user-storage.rpc.controller';
 import { ChangeLoginHandler } from './application/commands/change-login';
+import { exchange, queue } from '@clarte/shared';
 
 @Module({
   imports: [
@@ -43,8 +44,11 @@ import { ChangeLoginHandler } from './application/commands/change-login';
     RmqModule.register({
       name: USER_RMQ_CLIENT,
       options: {
-        exchange: 'clarte_events_exchange',
+        queue: queue('user', 'events'),
+        exchange: exchange('user', 'events'),
         exchangeType: 'topic',
+        wildcards: true,
+        queueOptions: { durable: true },
       },
     }),
     DatabaseModule,

@@ -1,3 +1,4 @@
+import { queue, exchange } from '@clarte/shared';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
@@ -30,13 +31,12 @@ async function bootstrap() {
     },
   });
 
-  // Connect RMQ microservice
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.RMQ,
     options: {
       urls: [rmqUrl],
-      queue: 'notification_queue',
-      exchange: 'clarte_events_exchange',
+      queue: queue('notification-service'),
+      exchange: exchange('user', 'events'),
       exchangeType: 'topic',
       wildcards: true,
       queueOptions: {

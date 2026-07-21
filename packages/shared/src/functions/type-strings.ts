@@ -1,4 +1,5 @@
 import { isString } from 'radash';
+import { Join } from 'type-fest';
 
 type HostValues = 'localhost' | (string & {});
 export type Url<
@@ -19,3 +20,11 @@ export const http = url('http');
 export const grpc = url('grpc');
 export const ws = url('ws');
 export const https = url('https');
+
+const suffix =
+  <S extends string, A extends string[]>(suffix: S) =>
+  (...args: A) =>
+    `${args.join('.')}.${suffix}` as `${Join<A, '.'>}.${S}`;
+
+export const exchange = suffix('exchange');
+export const queue = suffix('queue');

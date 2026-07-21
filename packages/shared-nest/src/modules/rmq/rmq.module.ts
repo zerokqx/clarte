@@ -5,7 +5,7 @@ import { DynamicModule, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RmqConfiguration, rmqConfiguration } from './rmq.config';
 
-type RmqModuleOptions = OmitDeep<RmqOptions, 'transport' | 'options.queue' | 'options.urls'> & {
+type RmqModuleOptions = OmitDeep<RmqOptions, 'transport' | 'options.urls'> & {
   name: Token;
 };
 

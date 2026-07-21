@@ -1,15 +1,18 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { ChangeLoginCommand } from './change-login.command';
-import { InjectUserRepository } from '@/application/decorators';
+import { InjectUserRepository, InjectUserRmqClient } from '@/application/decorators';
 import { type IUserWriteRepository } from '@/application/ports';
 import { Effect, pipe } from 'effect';
 import { UserNotFound, DbError } from '@/application/exceptions';
+import { ClientRMQ } from '@nestjs/microservices';
+import { firstValueFrom } from 'rxjs';
 
 @CommandHandler(ChangeLoginCommand)
 export class ChangeLoginHandler implements ICommandHandler<ChangeLoginCommand> {
   constructor(
     @InjectUserRepository('w')
     private readonly writeRepo: IUserWriteRepository,
+    @InjectUserRmqClient() private readonly userRmqClient: ClientRMQ,
   ) {}
 
   async execute(command: ChangeLoginCommand): Promise<void> {
@@ -29,6 +32,14 @@ export class ChangeLoginHandler implements ICommandHandler<ChangeLoginCommand> {
           try: () => this.writeRepo.save(user),
           catch: () => new DbError('Не удалось обновить логин в базе данных'),
         }),
+      ),
+      Effect.tap((user) =>
+        Effect.all(
+          user.domainEvents.map((ev) =>
+            Effect.tryPromise(() => firstValueFrom(this.userRmqClient.emit(ev.eventName, ev))),
+          ),
+          { discard: true },
+        ),
       ),
     );
 

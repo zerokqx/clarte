@@ -50,7 +50,7 @@ export abstract class AggregateRoot<
     super(props);
   }
 
-  get domainEvents(): IDomainEvent[] {
+  get domainEvents(): Events[] {
     return this._domainEvents;
   }
 

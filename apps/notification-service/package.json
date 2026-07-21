@@ -5,6 +5,7 @@
   "dependencies": {
     "@clarte/shared-contracts": "workspace:*",
     "@clarte/shared-domain": "workspace:*",
+    "@clarte/shared": "workspace:*",
     "@clarte/shared-event-types": "workspace:*",
     "@clarte/shared-nest": "workspace:*",
     "@humanwhocodes/env": "^3.0.0"
