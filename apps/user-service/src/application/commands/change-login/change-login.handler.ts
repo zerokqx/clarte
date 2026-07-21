@@ -21,28 +21,38 @@ export class ChangeLoginHandler implements ICommandHandler<ChangeLoginCommand> {
         try: () => this.writeRepo.findUserById(command.userId),
         catch: () => new DbError('Не удалось выполнить запрос к базе данных'),
       }),
+
       Effect.flatMap((user) =>
         user ? Effect.succeed(user) : Effect.fail(new UserNotFound('Пользователь не найден')),
       ),
+
       Effect.tap((user) => {
         user.changeLogin(command.login);
       }),
       Effect.flatMap((user) =>
-        Effect.tryPromise({
-          try: () => this.writeRepo.save(user),
-          catch: () => new DbError('Не удалось обновить логин в базе данных'),
-        }),
-      ),
-      Effect.tap((user) =>
-        Effect.all(
-          user.domainEvents.map((ev) =>
-            Effect.tryPromise(() => firstValueFrom(this.userRmqClient.emit(ev.eventName, ev))),
+        pipe(
+          Effect.tryPromise({
+            try: () => this.writeRepo.save(user),
+            catch: () => new DbError('Не удалось обновить логин в базе данных'),
+          }),
+          Effect.andThen(() =>
+            Effect.all(
+              user.domainEvents.map((ev) =>
+                Effect.tryPromise(() =>
+                  firstValueFrom(this.userRmqClient.emit(ev.eventName, ev.payload)),
+                ),
+              ),
+              { discard: true },
+            ),
           ),
-          { discard: true },
         ),
       ),
     );
 
-    await Effect.runPromiseExit(program);
+    const exit = await Effect.runPromiseExit(program);
+
+    if (exit._tag === 'Failure') {
+      throw exit.cause;
+    }
   }
 }

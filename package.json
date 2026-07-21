@@ -6,7 +6,7 @@
     "frontend:dev:run": "nx serve frontend --no-tui",
     "build:libs": "nx run-many --target=build --no-tui --projects=tag:type:lib",
     "dev": "wait-on http://localhost:5000/docs && pnpm frontend:dev:run",
-    "backend:dev:run": "nx run-many -t serve --exclude=@clarte/frontend --no-tui",
+    "backend:dev:run": "nx run-many -t serve --exclude=@clarte/frontend",
     "prepare": "husky"
   },
   "lint-staged": {
