@@ -1,6 +1,11 @@
 import { Controller, Logger } from '@nestjs/common';
 import { EventPattern, Payload } from '@nestjs/microservices';
-import { UserEventPattern, UserEventPayloadMap, type IUserCreatedPayload, type IUserEnteredPayload } from '@clarte/shared-event-types/user';
+import {
+  UserEventPattern,
+  UserEventPayloadMap,
+  type IUserCreatedPayload,
+  type IUserEnteredPayload,
+} from '@clarte/shared-event-types/user';
 import { CommandBus } from '@nestjs/cqrs';
 import { CreateNotifyCommand } from '@/application/commands/create-notify';
 

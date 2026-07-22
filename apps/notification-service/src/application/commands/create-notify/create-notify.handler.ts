@@ -2,7 +2,7 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateNotifyCommand } from './create-notify.command';
 import { randomUUID } from 'crypto';
 import { Notification } from '@/domain';
-import { InjectNotificationRepo} from '@/application/decorators';
+import { InjectNotificationRepo } from '@/application/decorators';
 import { INotificationRepository } from '@/application/ports';
 import { Logger } from '@nestjs/common';
 import { CqrsRepoType } from '@clarte/shared-nest/types';
