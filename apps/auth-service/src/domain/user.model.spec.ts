@@ -21,7 +21,7 @@ describe('AuthUser Domain Model', () => {
       expect(mockHasher.hash).toHaveBeenCalledTimes(1);
 
       expect(user.id).toBe(userId);
-      expect(user.login).toBe(login);
+      expect(user.loginValue).toBe(login);
       expect(user.passwordHash).toBe(validArgonHash);
     });
   });

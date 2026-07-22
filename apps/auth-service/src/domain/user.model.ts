@@ -1,4 +1,10 @@
-import { AggregateRoot } from '@clarte/shared-domain/domain';
+import { AuthEventPatern, type AuthEventPayloadMap } from '@clarte/shared-event-types/auth';
+import {
+  AggregateRoot,
+  defineDomainEvent,
+  eventToArray,
+  unionEvents,
+} from '@clarte/shared-domain/domain';
 import { LoginVo, PasswordHashVo } from '@/domain/value-objects';
 import { IPasswordHasher } from '@/domain/ports';
 
@@ -20,7 +26,17 @@ interface RestoreAuthUserDto {
   passwordHash: string;
 }
 
-export class AuthUser extends AggregateRoot<AuthUserProps> {
+const UserLoginedEvent = defineDomainEvent(AuthEventPatern.UserLogined)<
+  AuthEventPayloadMap[AuthEventPatern.UserLogined]
+>();
+const UserRegisteredEvent = defineDomainEvent(AuthEventPatern.UserRegistered)<
+  AuthEventPayloadMap[AuthEventPatern.UserRegistered]
+>();
+
+const __unionEvents = unionEvents(UserLoginedEvent, UserRegisteredEvent);
+type AuthUserUnionEvents = typeof __unionEvents;
+
+export class AuthUser extends AggregateRoot<AuthUserProps, AuthUserUnionEvents> {
   private constructor(props: AuthUserProps) {
     super(props);
   }
@@ -36,7 +52,9 @@ export class AuthUser extends AggregateRoot<AuthUserProps> {
     const hashString = await hasher.hash(rawPassword);
     const passwordHash = PasswordHashVo.create(hashString);
 
-    return new AuthUser({ id, login, passwordHash });
+    const user = new AuthUser({ id, login, passwordHash });
+    user.addDomainEvent(new UserRegisteredEvent({ userId: user.id }));
+    return user;
   }
 
   public static restore(dto: RestoreAuthUserDto): AuthUser {
@@ -51,6 +69,20 @@ export class AuthUser extends AggregateRoot<AuthUserProps> {
     return await hasher.compare(rawPassword, this.passwordHash);
   }
 
+  public async login(rawPassword: string, hasher: IPasswordHasher): Promise<void> {
+    const isPasswordValid = await this.comparePassword(rawPassword, hasher);
+
+    if (!isPasswordValid) {
+      throw new Error('Invalid credentials');
+    }
+
+    this.addDomainEvent(
+      new UserLoginedEvent({
+        userId: this.id,
+      }),
+    );
+  }
+
   public getProps() {
     return {
       id: this.id,
@@ -59,7 +91,7 @@ export class AuthUser extends AggregateRoot<AuthUserProps> {
     };
   }
 
-  get login(): string {
+  get loginValue(): string {
     return this._props.login.value;
   }
 
@@ -70,7 +102,7 @@ export class AuthUser extends AggregateRoot<AuthUserProps> {
   override toPlain(): AuthUserPlain {
     return {
       id: this.id,
-      login: this.login,
+      login: this.loginValue,
       passwordHash: this.passwordHash,
     };
   }

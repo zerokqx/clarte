@@ -10,15 +10,16 @@ import {
 import { type IJwtService, type IUserClient } from '@/application/ports';
 import { ClientProxy } from '@nestjs/microservices';
 import { UserEventPattern, type UserEventPayloadMap } from '@clarte/shared-event-types/user';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 import {
   UserCredentialsNotFound,
   UserServiceUnavailableException,
   PasswordVerificationFailedException,
 } from '@/application/exceptions';
-import { AuthUser, type IPasswordHasher, PasswordInvalidError } from '@/domain';
+import { AuthUser, type IPasswordHasher } from '@/domain';
 import { InjectJwtService } from '@/application/commands/login-password/jwt-service.inject';
 import { E } from '@clarte/shared';
+import { eventToArray } from '@clarte/shared-domain/domain';
 
 @CommandHandler(LoginPasswordCommand)
 export class LoginPasswordHandler implements ICommandHandler<LoginPasswordCommand> {
@@ -58,41 +59,57 @@ export class LoginPasswordHandler implements ICommandHandler<LoginPasswordComman
       Effect.flatMap((user) =>
         pipe(
           Effect.tryPromise({
-            try: () => user.comparePassword(command.password, this.passwordHasher),
+            try: () => user.login(command.password, this.passwordHasher),
             catch: (error) =>
               new PasswordVerificationFailedException(
                 `Password verification failed: ${E.errorMessage('Unknown Error')(error)}`,
               ),
           }),
-          Effect.filterOrFail(
-            (isValid) => isValid,
-            () => new PasswordInvalidError('Invalid password'),
-          ),
           Effect.map(() => user),
         ),
       ),
       Effect.flatMap((user) =>
-        Effect.tryPromise({
-          try: async () => {
-            const payload = {
-              sub: user.id,
-              sid: '', // TODO Сделать session
-            };
-            const [accessToken, refreshToken] = await Promise.all([
-              this.jwtService.generateAccess(payload),
-              this.jwtService.generateRefresh(payload),
-            ]);
-            return {
-              success: true,
-              accessToken: accessToken.value,
-              refreshToken: refreshToken.value,
-              userId: user.id,
-            };
-          },
-          catch: (error) =>
-            new Error(`Token generation failed: ${E.errorMessage('Unknown Error')(error)}`),
-        }),
+        pipe(
+          Effect.tryPromise({
+            try: async () => {
+              const payload = {
+                sub: user.id,
+                sid: '', // TODO Сделать session
+              };
+              const [accessToken, refreshToken] = await Promise.all([
+                this.jwtService.generateAccess(payload),
+                this.jwtService.generateRefresh(payload),
+              ]);
+              return {
+                success: true,
+                accessToken: accessToken.value,
+                refreshToken: refreshToken.value,
+                userId: user.id,
+              };
+            },
+            catch: (error) =>
+              new Error(`Token generation failed: ${E.errorMessage('Unknown Error')(error)}`),
+          }),
+
+          Effect.tap(() =>
+            Effect.all(
+              user.domainEvents.map((ev) =>
+                Effect.tryPromise({
+                  try: () => {
+                    console.log(ev);
+                    return lastValueFrom(this.rmqClient.emit(...eventToArray(ev)));
+                  },
+                  catch: (error) =>
+                    new Error(
+                      `Failed to emit domain event: ${E.errorMessage('Unknown Error')(error)}`,
+                    ),
+                }),
+              ),
+            ),
+          ),
+        ),
       ),
+
       Effect.runPromiseExit,
     );
 
@@ -102,17 +119,6 @@ export class LoginPasswordHandler implements ICommandHandler<LoginPasswordComman
       },
       onSuccess: (value: Auth.LoginPasswordResponse) => value,
     });
-
-    if (result.success && result.userId) {
-      firstValueFrom(
-        this.rmqClient.emit(UserEventPattern.UserEntered, {
-          userId: result.userId,
-          userAgent: command.userAgent,
-        } satisfies UserEventPayloadMap[UserEventPattern.UserEntered]),
-      ).catch((err) => {
-        console.error('❌ Failed to emit user.entered event:', err);
-      });
-    }
 
     return result;
   }

@@ -13,6 +13,7 @@ import {
 import { AuthController } from '@/presentation';
 import { RefreshHandler } from './application/commands/refresh/refresh.handler';
 import { RmqModule } from '@clarte/shared-nest/modules';
+import { exchange } from '@clarte/shared';
 
 const handlers: Provider[] = [
   LoginPasswordHandler,
@@ -32,8 +33,10 @@ const handlers: Provider[] = [
     RmqModule.register({
       name: AUTH_RMQ_CLIENT,
       options: {
-        exchange: 'clarte_events_exchange',
+        exchange: exchange('auth', 'events'),
         exchangeType: 'topic',
+        wildcards: true,
+        queueOptions: { durable: true },
       },
     }),
     UserModule,

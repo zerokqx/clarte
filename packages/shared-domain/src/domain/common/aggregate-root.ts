@@ -40,6 +40,10 @@ export const unionEvents = <T extends AnyDomainEventClass[]>(..._args: T) => {
   return null as unknown as ExtractUnionEvents<T>;
 };
 
+export const eventToArray = <N extends string, P = unknown>(
+  ev: IDomainEvent<N, P>,
+): [string, P] => [ev.eventName, ev.payload];
+
 export abstract class AggregateRoot<
   Props extends EntityBaseProps,
   Events extends ReturnType<typeof unionEvents> = never,

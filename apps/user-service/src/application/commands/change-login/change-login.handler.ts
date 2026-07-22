@@ -38,9 +38,9 @@ export class ChangeLoginHandler implements ICommandHandler<ChangeLoginCommand> {
           Effect.andThen(() =>
             Effect.all(
               user.domainEvents.map((ev) =>
-                Effect.tryPromise(() =>
-                  firstValueFrom(this.userRmqClient.emit(ev.eventName, ev.payload)),
-                ),
+                Effect.tryPromise(() => {
+                  return firstValueFrom(this.userRmqClient.emit(ev.eventName, ev.payload));
+                }),
               ),
               { discard: true },
             ),

@@ -721,6 +721,9 @@ importers:
       radash:
         specifier: ^12.1.1
         version: 12.1.1
+      type-fest:
+        specifier: 'catalog:'
+        version: 5.8.0
 
   packages/shared-api:
     dependencies:
