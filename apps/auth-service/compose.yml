@@ -1,2 +1,10 @@
 include:
-  - compose.microservice.yml
+  - compose.infra.yml
+
+services:
+  clarte-auth-service:
+    extends:
+      file: ./compose.microservice.yml
+      service: clarte-auth-service
+    depends_on:
+      - clarte-auth-service-postgres

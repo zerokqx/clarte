@@ -1,7 +1,7 @@
 services:
-  clarte-user-service-postgres:
+  clarte-auth-service-postgres:
     image: postgres:16-alpine
-    container_name: clarte-user-service-postgres
+    container_name: clarte-auth-service-postgres
     ports:
       - '${POSTGRES_PORT}:5432'
     environment:
@@ -12,11 +12,9 @@ services:
       - postgres_data:/var/lib/postgresql/data
     restart: always
     networks:
-      - user-net
+      - auth-net
 volumes:
   postgres_data:
 networks:
-  default:
-    name: clarte-network
-  user-net:
-    name: clarte-user-network
+  auth-net:
+    name: clarte-auth-network
