@@ -30,19 +30,40 @@ export const createNodes: CreateNodesV2 = [
                 [`compose${targetSuffix}-up`]: {
                   executor: 'nx:run-commands',
                   options: {
-                    command: `docker compose -f ${configFile} up -d`,
+                    command: `docker compose -f ${filename} up -d`,
+                    cwd: projectRoot,
                   },
                 },
                 [`compose${targetSuffix}-down`]: {
                   executor: 'nx:run-commands',
                   options: {
-                    command: `docker compose -f ${configFile} down`,
+                    command: `docker compose -f ${filename} down --remove-orphans`,
+                    cwd: projectRoot,
+                  },
+                },
+                [`compose${targetSuffix}-restart`]: {
+                  executor: 'nx:run-commands',
+                  options: {
+                    command: `docker compose -f ${configFile} restart`,
+                  },
+                },
+                [`compose${targetSuffix}-build`]: {
+                  executor: 'nx:run-commands',
+                  options: {
+                    command: `docker compose -f ${configFile} up -d --build --remove-orphans`,
+                  },
+                },
+                [`compose${targetSuffix}-ps`]: {
+                  executor: 'nx:run-commands',
+                  options: {
+                    command: `docker compose -f ${configFile} ps`,
                   },
                 },
                 [`compose${targetSuffix}-logs`]: {
                   executor: 'nx:run-commands',
                   options: {
-                    command: `docker compose -f ${configFile} logs -f`,
+                    command: `docker compose -f ${filename} logs -f`,
+                    cwd: projectRoot,
                   },
                 },
               },

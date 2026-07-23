@@ -1,3 +1,5 @@
+name: clarte
+
 services:
   clarte-user-service:
     image: apps-user-service:latest
@@ -18,4 +20,5 @@ networks:
     external: true
     name: clarte-network
   user-net:
+    external: true
     name: clarte-user-network

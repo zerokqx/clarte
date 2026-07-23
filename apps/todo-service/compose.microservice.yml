@@ -1,3 +1,5 @@
+name: clarte
+
 services:
   clarte-todo-service:
     image: apps-todo-service:latest
@@ -18,4 +20,5 @@ networks:
     external: true
     name: clarte-network
   todo-net:
+    external: true
     name: clarte-todo-network

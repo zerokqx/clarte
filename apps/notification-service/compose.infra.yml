@@ -1,3 +1,4 @@
+name: clarte
 services:
   clarte-notification-service-postgres:
     image: postgres:16-alpine

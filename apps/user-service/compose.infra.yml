@@ -1,3 +1,5 @@
+name: clarte
+
 services:
   clarte-user-service-postgres:
     image: postgres:16-alpine

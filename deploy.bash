@@ -22,14 +22,11 @@ else
   echo "✔ nx уже установлен"
 fi
 
-# 4. Запуск контейнеров инфраструктуры (PostgreSQL, Redis, RabbitMQ)
 echo "🐳 Запуск docker-compose инфраструктуры..."
 pnpm nx run-many -t compose-infra-up --no-tui
 
-# 5. Прогрев кэша (сборка всех общих библиотек)
-echo "🔥 Прогрев кэша (сборка всех библиотек)..."
-pnpm nx run-many --target=build --projects=tag:type:package --no-tui
+# echo "🔥 Прогрев кэша (сборка всех библиотек)..."
+# pnpm nx run-many --target=build --projects=tag:type:package --no-tui
 
-# 6. Запуск всех микросервисов
-echo "⚡ Запуск всех микросервисов..."
-NX_DAEMON=false pnpm nx run-many --targets=serve --no-tui
+echo "🐳 Запуск docker-compose сервисов..."
+pnpm nx run-many -t compose-service-up --no-tui

@@ -1,3 +1,5 @@
+name: clarte
+
 services:
   clarte-auth-service:
     image: apps-auth-service:latest
@@ -16,4 +18,5 @@ networks:
     external: true
     name: clarte-network
   auth-net:
+    external: true
     name: clarte-auth-network
