@@ -1,3 +1,5 @@
+name: clarte
+
 services:
   clarte-frontend:
     image: apps-frontend:latest

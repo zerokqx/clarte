@@ -1,3 +1,5 @@
+name: clarte
+
 include:
   - compose.infra.yml
 services:

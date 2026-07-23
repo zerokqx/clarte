@@ -1,3 +1,4 @@
+name: clarte
+
 include:
   - ./compose.infra.yml
-  - ./compose.microservices.yml

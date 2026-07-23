@@ -18,5 +18,4 @@ networks:
     external: true
     name: clarte-network
   notification-net:
-    external: true
     name: clarte-notification-network

@@ -18,5 +18,4 @@ networks:
     external: true
     name: clarte-network
   todo-net:
-    external: true
     name: clarte-todo-network

@@ -1,5 +1,5 @@
 services:
-  mongodb:
+  clarte-notes-service-mongodb:
     image: mongo:latest
     container_name: clarte-notes-service-mongodb
     ports:

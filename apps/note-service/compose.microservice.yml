@@ -18,5 +18,4 @@ networks:
     external: true
     name: clarte-network
   note-net:
-    external: true
     name: clarte-note-network
