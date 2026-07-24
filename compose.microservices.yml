@@ -1,7 +1,0 @@
-include:
-  - apps/note-service/compose.yml
-  - apps/user-service/compose.yml
-  - apps/auth-service/compose.yml
-  - apps/todo-service/compose.yml
-  - apps/notification-service/compose.yml
-  - apps/api-gateway/compose.yml

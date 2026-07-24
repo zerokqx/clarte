@@ -1,4 +1,3 @@
-
 include:
   - compose.infra.yml
 services:

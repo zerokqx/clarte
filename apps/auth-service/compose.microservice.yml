@@ -1,5 +1,3 @@
-name: clarte
-
 services:
   clarte-auth-service:
     image: apps-auth-service:latest

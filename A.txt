@@ -1,0 +1,3 @@
+1) Вынести пароли и все credentials из user-service в auth-service
+2) Создать изолированую базу данных в auth-service
+3) Адаптировать систему

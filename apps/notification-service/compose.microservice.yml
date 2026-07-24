@@ -1,5 +1,3 @@
-name: clarte
-
 services:
   clarte-notification-service:
     image: apps-notification-service:latest

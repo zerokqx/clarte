@@ -1,9 +1,7 @@
-name: clarte
-
 services:
   clarte-user-service-postgres:
     image: postgres:16-alpine
-    container_name: clarte-user-service-postgres
+    # container_name: clarte-user-service-postgres
     ports:
       - '${POSTGRES_PORT}:5432'
     environment:

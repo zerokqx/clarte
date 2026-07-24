@@ -1,9 +1,7 @@
-name: clarte
-
 services:
   clarte-todo-service:
     image: apps-todo-service:latest
-    container_name: clarte-todo-service
+    # container_name: clarte-todo-service
     build:
       context: ../..
       dockerfile: apps/todo-service/Dockerfile

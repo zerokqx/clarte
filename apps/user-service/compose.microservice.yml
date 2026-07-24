@@ -1,5 +1,3 @@
-name: clarte
-
 services:
   clarte-user-service:
     image: apps-user-service:latest

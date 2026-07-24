@@ -1,8 +1,7 @@
-name: clarte
 services:
   clarte-notification-service-postgres:
     image: postgres:16-alpine
-    container_name: clarte-notification-service-postgres
+    # container_name: clarte-notification-service-postgres
     ports:
       - '${POSTGRES_PORT}:5432'
     environment:
