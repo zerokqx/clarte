@@ -5,6 +5,7 @@
   "tags": ["scope:gateway", "type:app"],
   "targets": {
     "build": {
+      "cache": true,
       "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {

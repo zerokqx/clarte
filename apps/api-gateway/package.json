@@ -29,8 +29,8 @@
     "./package.json": "./package.json",
     ".": {
       "@clarte/source": "./src/main.ts",
-      "types": "./dist/main.d.ts",
-      "default": "./dist/main.js"
+      "types": "./dist/src/main.d.ts",
+      "default": "./dist/src/main.js"
     }
   },
   "types": "./dist/main.d.ts",

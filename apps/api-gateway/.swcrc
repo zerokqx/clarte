@@ -2,6 +2,10 @@
   "$schema": "https://swc.rs/schema.json",
   "jsc": {
     "target": "es2021",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
     "parser": {
       "syntax": "typescript",
       "decorators": true,
