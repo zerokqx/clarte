@@ -6,7 +6,34 @@
     "@clarte/shared": "workspace:*",
     "@clarte/shared-contracts": "workspace:*",
     "@clarte/shared-nest": "workspace:*",
-    "cookie-parser": "^1.4.7"
+    "@grpc/grpc-js": "catalog:backend",
+    "@humanwhocodes/env": "catalog:general",
+    "@nestjs/common": "catalog:nestjs",
+    "@nestjs/config": "catalog:nestjs",
+    "@nestjs/core": "catalog:nestjs",
+    "@nestjs/microservices": "catalog:nestjs",
+    "@nestjs/platform-express": "catalog:nestjs",
+    "@nestjs/swagger": "catalog:nestjs",
+    "@swc/helpers": "catalog:swc",
+    "class-transformer": "catalog:validation",
+    "class-validator": "catalog:validation",
+    "cookie-parser": "catalog:backend",
+    "effect": "catalog:general",
+    "express": "catalog:backend",
+    "nestjs-s3": "catalog:nestjs",
+    "reflect-metadata": "catalog:general",
+    "rxjs": "catalog:general",
+    "tslib": "catalog:general"
   },
-  "devDependencies": {}
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@clarte/source": "./src/main.ts",
+      "types": "./dist/main.d.ts",
+      "default": "./dist/main.js"
+    }
+  },
+  "types": "./dist/main.d.ts",
+  "main": "./dist/main.js",
+  "type": "commonjs"
 }

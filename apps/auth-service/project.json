@@ -14,6 +14,9 @@
         "cwd": "apps/auth-service"
       },
       "configurations": {
+        "production": {
+          "args": ["--mode=production"]
+        },
         "development": {
           "args": ["--mode=development"]
         }

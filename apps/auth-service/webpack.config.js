@@ -1,11 +1,13 @@
 const { NxAppWebpackPlugin } = require('@nx/webpack/app-plugin');
 const { join } = require('path');
 
+const prod = process.env.NODE_ENV === 'production';
+
 module.exports = {
   output: {
     path: join(__dirname, 'dist'),
     clean: true,
-    ...(process.env.NODE_ENV !== 'production' && {
+    ...(!prod && {
       devtoolModuleFilenameTemplate: '[absolute-resource-path]',
     }),
   },
@@ -24,9 +26,9 @@ module.exports = {
           output: 'proto',
         },
       ],
-      optimization: false,
+      optimization: prod,
       outputHashing: 'none',
-      generatePackageJson: false,
+      generatePackageJson: true,
       sourceMap: true,
     }),
   ],

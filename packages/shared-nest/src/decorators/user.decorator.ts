@@ -1,3 +1,3 @@
-import { mkReqPropertyDecorator } from "@/functions";
+import { mkReqPropertyDecorator } from '../functions';
 
-export const User = mkReqPropertyDecorator("user")
+export const User = mkReqPropertyDecorator('user');

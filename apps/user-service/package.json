@@ -9,7 +9,8 @@
     "@clarte/shared-event-types": "workspace:*",
     "@clarte/shared-nest": "workspace:*",
     "@dicebear/core": "^10.3.0",
-    "@dicebear/styles": "^10.2.0"
+    "@dicebear/styles": "^10.2.0",
+    "tslib": "catalog:general"
   },
   "devDependencies": {
     "@types/jest": "~30.0.0"

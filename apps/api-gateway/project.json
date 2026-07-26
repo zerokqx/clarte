@@ -1,22 +1,16 @@
 {
-  "$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/project-schema.json",
   "name": "@clarte/api-gateway",
-  "root": "apps/api-gateway",
+  "$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/project-schema.json",
   "projectType": "application",
   "tags": ["scope:gateway", "type:app"],
   "targets": {
     "build": {
-      "executor": "nx:run-commands",
-      "dependsOn": ["^build"],
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
       "options": {
-        "command": "webpack-cli build",
-        "args": ["--mode=production"],
-        "cwd": "apps/api-gateway"
-      },
-      "configurations": {
-        "development": {
-          "args": ["--mode=development"]
-        }
+        "outputPath": "apps/api-gateway/dist",
+        "main": "apps/api-gateway/src/main.ts",
+        "tsConfig": "apps/api-gateway/tsconfig.app.json"
       }
     },
     "prune-lockfile": {

@@ -16,8 +16,8 @@
     }
   },
   "dependencies": {
-    "@swc/helpers": "0.5.18",
-    "radash": "^12.1.1",
-    "type-fest": "catalog:"
+    "@swc/helpers": "catalog:swc",
+    "radash": "catalog:general",
+    "type-fest": "catalog:types"
   }
 }

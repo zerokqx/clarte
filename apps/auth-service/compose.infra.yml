@@ -1,7 +1,6 @@
 services:
   clarte-auth-service-postgres:
     image: postgres:16-alpine
-    # container_name: clarte-auth-service-postgres
     ports:
       - '${POSTGRES_PORT}:5432'
     environment:

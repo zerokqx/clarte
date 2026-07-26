@@ -1,4 +1,4 @@
-import { CqrsRepoType, CrqsRepository } from '@/types';
+import { CqrsRepoType, CrqsRepository } from '../types';
 import { Inject } from '@nestjs/common';
 
 /**

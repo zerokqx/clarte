@@ -8,6 +8,7 @@
     "@clarte/shared-nest": "workspace:*",
     "@hocuspocus/server": "^4.3.0",
     "jsonwebtoken": "^9.0.3",
+    "tslib": "catalog:general",
     "ws": "^8.21.0",
     "yjs": "13.6.31"
   },

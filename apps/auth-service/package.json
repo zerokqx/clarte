@@ -8,9 +8,30 @@
     "@clarte/shared-domain": "workspace:*",
     "@clarte/shared-event-types": "workspace:*",
     "@clarte/shared-nest": "workspace:*",
-    "passport-jwt": "^4.0.1"
+    "@grpc/grpc-js": "catalog:backend",
+    "@humanwhocodes/env": "catalog:general",
+    "@nestjs/common": "catalog:nestjs",
+    "@nestjs/config": "catalog:nestjs",
+    "@nestjs/core": "catalog:nestjs",
+    "@nestjs/cqrs": "catalog:nestjs",
+    "@nestjs/jwt": "catalog:nestjs",
+    "@nestjs/microservices": "catalog:nestjs",
+    "@nestjs/passport": "catalog:nestjs",
+    "@swc/helpers": "0.5.18",
+    "amqp-connection-manager": "catalog:drivers",
+    "amqplib": "catalog:drivers",
+    "argon2": "0.44.0",
+    "class-transformer": "catalog:validation",
+    "class-validator": "catalog:validation",
+    "effect": "catalog:general",
+    "express": "catalog:backend",
+    "ioredis": "catalog:drivers",
+    "nestjs-s3": "catalog:nestjs",
+    "reflect-metadata": "catalog:general",
+    "rxjs": "catalog:general",
+    "tslib": "catalog:general"
   },
   "devDependencies": {
-    "@types/passport-jwt": "^4.0.1"
+    "@types/passport-jwt": "catalog:types"
   }
 }

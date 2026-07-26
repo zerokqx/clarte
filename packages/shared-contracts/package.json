@@ -5,8 +5,8 @@
   "type": "module",
   "main": "./dist/index.js",
   "dependencies": {
-    "@swc/helpers": "0.5.18",
-    "rxjs": "^7.8.2"
+    "rxjs": "catalog:general",
+    "@swc/helpers": "catalog:swc"
   },
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -38,6 +38,6 @@
     }
   },
   "peerDependencies": {
-    "@nestjs/microservices": "*"
+    "@nestjs/microservices": "catalog:nestjs"
   }
 }
