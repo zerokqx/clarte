@@ -12,6 +12,12 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
+    },
+    "./functions": {
+      "@clarte/source": "./src/functions/index.ts",
+      "types": "./dist/functions/index.d.ts",
+      "import": "./dist/functions/index.js",
+      "default": "./dist/functions/index.js"
     }
   },
   "dependencies": {

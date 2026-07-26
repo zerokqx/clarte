@@ -28,3 +28,15 @@ const suffix =
 
 export const exchange = suffix('exchange');
 export const queue = suffix('queue');
+
+export const proto = <T extends string>(name: T): `${T}.proto` => `${name}.proto`;
+
+type Repeat<
+  T extends string,
+  N extends number,
+  Acc extends unknown[] = [],
+> = Acc['length'] extends N ? '' : `${T}${Repeat<T, N, [...Acc, unknown]>}`;
+
+export const p = <N extends number>(num: N): Repeat<'../', N> => {
+  return '../'.repeat(Math.max(0, num)) as Repeat<'../', N>;
+};

@@ -41,6 +41,7 @@
         "serveStaticTargetName": "serve-static"
       }
     },
+
     {
       "plugin": "@nx/eslint/plugin",
       "options": {
@@ -101,6 +102,17 @@
         "runTarget": {
           "name": "docker:run"
         }
+      }
+    },
+    {
+      "plugin": "@nx/rspack/plugin",
+      "options": {
+        "buildTargetName": "build-rs",
+        "serveTargetName": "serve-rs",
+        "serveStaticTargetName": "serve-static",
+        "previewTargetName": "preview",
+        "buildDepsTargetName": "build-deps",
+        "watchDepsTargetName": "watch-deps"
       }
     }
   ],

@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { Notification } from '@clarte/shared-contracts/proto';
+import { p, proto } from '@clarte/shared/functions';
 import { join } from 'path';
 import { NotificationController } from '@/app/notification/presentation/notification.controller';
 import { NotificationClient } from '@/app/notification/infrastructure/clients/notification.client';
@@ -24,7 +25,7 @@ import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared
             options: {
               url: `${host}:${port}`,
               package: Notification.NOTIFICATION_PACKAGE_NAME,
-              protoPath: join(__dirname, 'proto/notification.proto'),
+              protoPath: join(__dirname, p(4), 'proto', proto('notification')),
             },
           };
         },

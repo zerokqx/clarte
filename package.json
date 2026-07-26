@@ -21,8 +21,6 @@
   "nx": {},
   "private": true,
   "devDependencies": {
-    "@swc/helpers": "catalog:swc",
-    "tslib": "catalog:general",
     "@clarte/workspace-plugin": "workspace:*",
     "@eslint/js": "^9.39.5",
     "@nx/devkit": "^23.1.0",
@@ -35,13 +33,19 @@
     "@nx/node": "23.1.0",
     "@nx/plugin": "^23.1.0",
     "@nx/react": "23.1.0",
+    "@nx/rspack": "23.1.0",
     "@nx/vite": "23.1.0",
     "@nx/vitest": "23.1.0",
     "@nx/web": "23.1.0",
     "@nx/webpack": "23.1.0",
+    "@rspack/cli": "2.0.4",
+    "@rspack/core": "2.0.4",
+    "@rspack/dev-server": "^2.0.1",
+    "@rspack/plugin-react-refresh": "^2.0.0",
     "@swc-node/register": "1.11.1",
     "@swc/cli": "~0.8.1",
     "@swc/core": "1.15.8",
+    "@swc/helpers": "catalog:swc",
     "@swc/jest": "~0.2.39",
     "@testing-library/dom": "10.4.0",
     "@testing-library/react": "16.3.0",
@@ -77,11 +81,14 @@
     "nx": "23.1.0",
     "postcss": "8.4.38",
     "prettier": "^3.9.5",
+    "react-refresh": "~0.14.0",
     "some-sass-language-server": "^2.3.8",
+    "swc-loader": "^0.2.7",
     "tailwindcss": "3.4.3",
     "ts-jest": "^29.4.11",
     "ts-node": "10.9.2",
     "ts-proto": "^2.12.0",
+    "tslib": "catalog:general",
     "tsx": "^4.23.1",
     "type-fest": "catalog:",
     "typescript": "6.0.3",
@@ -93,7 +100,6 @@
     "webpack-cli": "7.2.1",
     "webpack-dev-server": "^5.2.6"
   },
-  "dependencies": {},
   "pnpm": {
     "overrides": {
       "yjs": "13.6.31"
@@ -130,5 +136,6 @@
     "dist",
     "!**/*.tsbuildinfo",
     "generators.json"
-  ]
+  ],
+  "dependencies": {}
 }

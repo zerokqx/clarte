@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { Todo } from '@clarte/shared-contracts/proto';
+import { p, proto } from '@clarte/shared/functions';
 import { join } from 'path';
 import { TodoController } from './presentation/todo.controller';
 import { TodoClient } from './infrastructure/clients/todo.client';
@@ -24,7 +25,7 @@ import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared
             options: {
               url: `${host}:${port}`,
               package: Todo.TODO_PACKAGE_NAME,
-              protoPath: join(__dirname, 'proto/todo.proto'),
+              protoPath: join(__dirname, p(3), 'proto', proto('todo')),
             },
           };
         },

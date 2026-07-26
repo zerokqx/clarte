@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { Auth } from '@clarte/shared-contracts/proto';
+import { p, proto } from '@clarte/shared/functions';
 import { join } from 'path';
 import { COOKIE_INTERCEPTOR_OPTIONS } from '@clarte/shared-nest/ports';
 import { AUTH_CLIENT, AUTH_GRPC_CLIENT } from '@/app/auth/aplication';
@@ -29,7 +30,7 @@ import {
             options: {
               url: `${host}:${port}`,
               package: Auth.AUTH_PACKAGE_NAME,
-              protoPath: join(__dirname, 'proto/auth.proto'),
+              protoPath: join(__dirname, p(3), 'proto', proto('auth')),
             },
           };
         },
