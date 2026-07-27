@@ -2,7 +2,8 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from '@/infrastructure/database/database.module';
 import { ConfigModule } from '@nestjs/config';
-import { AppConfigModule, S3SharedModule } from '@clarte/shared-nest/modules';
+import { AppConfigModule } from '@clarte/shared-nest/modules';
+import { S3SharedModule } from '@clarte/shared-nest/modules/s3';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   USER_AVATAR_GENERATOR,

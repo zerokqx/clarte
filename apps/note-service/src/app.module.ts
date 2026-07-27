@@ -1,5 +1,7 @@
 import { ConfigService, ConfigModule } from '@nestjs/config';
-import { AppConfigModule, CompactConfigModule, S3SharedModule } from '@clarte/shared-nest/modules';
+import { AppConfigModule, CompactConfigModule } from '@clarte/shared-nest/modules';
+import { S3SharedModule } from '@clarte/shared-nest/modules/s3';
+
 import { Module, Provider } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { CreateNoteHandler } from './application/commands/create-note';

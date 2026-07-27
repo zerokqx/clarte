@@ -37,6 +37,54 @@
       "import": "./dist/modules/index.js",
       "default": "./dist/modules/index.js"
     },
+    "./modules/s3": {
+      "@clarte/source": "./src/modules/s3/index.ts",
+      "types": "./dist/modules/s3/index.d.ts",
+      "import": "./dist/modules/s3/index.js",
+      "default": "./dist/modules/s3/index.js"
+    },
+    "./modules/database": {
+      "@clarte/source": "./src/modules/database/database-config.module.ts",
+      "types": "./dist/modules/database/database-config.module.d.ts",
+      "import": "./dist/modules/database/database-config.module.js",
+      "default": "./dist/modules/database/database-config.module.js"
+    },
+    "./modules/rmq": {
+      "@clarte/source": "./src/modules/rmq/index.ts",
+      "types": "./dist/modules/rmq/index.d.ts",
+      "import": "./dist/modules/rmq/index.js",
+      "default": "./dist/modules/rmq/index.js"
+    },
+    "./modules/auth": {
+      "@clarte/source": "./src/modules/auth/auth.module.ts",
+      "types": "./dist/modules/auth/auth.module.d.ts",
+      "import": "./dist/modules/auth/auth.module.js",
+      "default": "./dist/modules/auth/auth.module.js"
+    },
+    "./modules/redis": {
+      "@clarte/source": "./src/modules/redis/redis-config.module.ts",
+      "types": "./dist/modules/redis/redis-config.module.d.ts",
+      "import": "./dist/modules/redis/redis-config.module.js",
+      "default": "./dist/modules/redis/redis-config.module.js"
+    },
+    "./modules/app-config": {
+      "@clarte/source": "./src/modules/app-config/app-config.module.ts",
+      "types": "./dist/modules/app-config/app-config.module.d.ts",
+      "import": "./dist/modules/app-config/app-config.module.js",
+      "default": "./dist/modules/app-config/app-config.module.js"
+    },
+    "./modules/microservice-config": {
+      "@clarte/source": "./src/modules/microservice-config/microservice-config.module.ts",
+      "types": "./dist/modules/microservice-config/microservice-config.module.d.ts",
+      "import": "./dist/modules/microservice-config/microservice-config.module.js",
+      "default": "./dist/modules/microservice-config/microservice-config.module.js"
+    },
+    "./modules/compact-config": {
+      "@clarte/source": "./src/modules/compact-config/compact-config.module.ts",
+      "types": "./dist/modules/compact-config/compact-config.module.d.ts",
+      "import": "./dist/modules/compact-config/compact-config.module.js",
+      "default": "./dist/modules/compact-config/compact-config.module.js"
+    },
     "./strategies": {
       "@clarte/source": "./src/strategies/index.ts",
       "types": "./dist/strategies/index.d.ts",
