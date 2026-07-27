@@ -137,5 +137,8 @@
     "!**/*.tsbuildinfo",
     "generators.json"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "@grpc/proto-loader":"^0.8.1"
+
+  }
 }

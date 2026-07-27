@@ -176,6 +176,10 @@ overrides:
 importers:
 
   .:
+    dependencies:
+      '@grpc/proto-loader':
+        specifier: ^0.8.1
+        version: 0.8.1
     devDependencies:
       '@clarte/workspace-plugin':
         specifier: workspace:*

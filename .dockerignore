@@ -9,3 +9,8 @@ dist
 .husky
 .agents
 .vscode
+.tanstack
+docs
+scripts
+**/*.nix
+**/*.md

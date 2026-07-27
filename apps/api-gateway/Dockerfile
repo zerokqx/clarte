@@ -1,24 +1,40 @@
+# --- Стейдж сборки ---
 FROM node:22-alpine AS builder
 
-WORKDIR /usr/src/app
-
 RUN npm install -g pnpm@10.33.2
-COPY pnpm-lock.yaml ./
-RUN pnpm fetch
 
-COPY . .
-RUN pnpm install --frozen-lockfile --offline
+WORKDIR /app
+ENV CI=true
 
-RUN pnpm nx build @clarte/api-gateway --configuration=production
+COPY *.json /app
+COPY pnpm-* /app
+COPY ./nx-plugins ./nx-plugins
+COPY ./tools ./tools
+COPY ./packages ./packages
+COPY ./apps ./apps
 
+# Установка всех зависимостей
+RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
+  pnpm install --ignore-scripts
+
+# Сборка через Nx
+RUN --mount=type=cache,id=nx,target=/app/.nx/cache \
+  pnpm nx build @clarte/api-gateway --configuration=production
+
+# pnpm deploy: резолвит catalog:, ставит только prod-deps в изолированную папку
+RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
+  pnpm --filter=@clarte/api-gateway deploy --prod --legacy /app/deploy
+
+
+# --- Финальный продакшн стейдж ---
 FROM node:22-alpine AS production
 
-WORKDIR /usr/src/app
+WORKDIR /opt/app
 
-COPY --from=builder /usr/src/app/apps/api-gateway/dist ./dist
-COPY --from=builder /usr/src/app/node_modules ./node_modules
-COPY package.json ./
+# dist от Nx-сборки
+COPY --from=builder /app/deploy/dist ./dist
+COPY --from=builder /app/deploy/node_modules ./node_modules
 
 EXPOSE 3000
 
-CMD ["node", "dist/main.js"]
+CMD ["node", "dist/src/main.js"]

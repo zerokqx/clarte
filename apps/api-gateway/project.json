@@ -20,6 +20,12 @@
             "output": "proto"
           }
         ]
+      },
+      "configurations": {
+        "production": {
+          "swcrc": "apps/api-gateway/.swcrc.prod",
+          "skipTypeCheck": true
+        }
       }
     },
 
