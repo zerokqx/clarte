@@ -1,8 +1,8 @@
-const { NxAppWebpackPlugin } = require('@nx/webpack/app-plugin');
-const { join } = require('path');
-const webpack = require('webpack');
+import { composePlugins } from '@nx/rspack';
+import { IgnorePlugin } from '@rspack/core';
+import { join } from 'path';
 
-module.exports = {
+export default {
   output: {
     path: join(__dirname, 'dist'),
     clean: true,
@@ -11,10 +11,8 @@ module.exports = {
     }),
   },
   plugins: [
-    new NxAppWebpackPlugin({
-      useTsconfigPaths: true,
+    new NxRspackPlugin({
       target: 'node',
-      compiler: 'tsc',
       main: './src/main.ts',
       tsConfig: './tsconfig.app.json',
       assets: [
@@ -31,9 +29,9 @@ module.exports = {
       sourceMap: true,
     }),
 
-    // Игнорируем опциональные драйверы NestJS, если они не установлены
-    new webpack.IgnorePlugin({
-      checkResource(resource) {
+    // Игнорируем опциональные ленивые импорты NestJS
+    new IgnorePlugin({
+      checkResource(resource: string) {
         const lazyImports = [
           '@nestjs/microservices',
           '@nestjs/microservices/microservices-module',
@@ -50,8 +48,8 @@ module.exports = {
         try {
           require.resolve(resource, { paths: [process.cwd()] });
           return false;
-        } catch  {
-          return true
+        } catch {
+          return true;
         }
       },
     }),

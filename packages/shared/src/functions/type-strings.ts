@@ -40,3 +40,8 @@ type Repeat<
 export const p = <N extends number>(num: N): Repeat<'../', N> => {
   return '../'.repeat(Math.max(0, num)) as Repeat<'../', N>;
 };
+
+export const hostPort = <H extends HostValues, P extends number | string>(host: H, port: P) =>
+  `${host}:${port}` as `${H}:${P}`;
+
+export const sslKey = <T extends 'private' | 'public'>(type: T) => `${type}.key` as `${T}.key`;

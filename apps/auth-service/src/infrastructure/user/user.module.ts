@@ -7,6 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { USER_GRPC_CLIENT } from '@/infrastructure/ports';
 import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared-nest/modules';
+import { hostPort, p, proto } from '@clarte/shared';
 
 @Module({
   imports: [
@@ -22,9 +23,9 @@ import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared
           return {
             transport: Transport.GRPC,
             options: {
-              url: `${host}:${port}`,
+              url: hostPort(host, port),
               package: User.USER_PACKAGE_NAME,
-              protoPath: join(__dirname, 'proto/user.proto'),
+              protoPath: join(__dirname, p(4), 'proto', proto('user')),
             },
           };
         },

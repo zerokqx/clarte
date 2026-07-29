@@ -1,0 +1,38 @@
+{
+  "$schema": "https://swc.rs/schema.json",
+  "jsc": {
+    "target": "es2022",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "parser": {
+      "syntax": "typescript",
+      "decorators": true,
+      "dynamicImport": true
+    },
+    "transform": {
+      "legacyDecorator": true,
+      "decoratorMetadata": true
+    },
+    "keepClassNames": true,
+    "externalHelpers": true,
+    "minify": {
+      "compress": {
+        "unused": true,
+        "dead_code": true,
+        "keep_classnames": true,
+        "keep_fnames": true
+      },
+      "mangle": {
+        "keep_classnames": true,
+        "keep_fnames": true
+      }
+    }
+  },
+  "module": {
+    "type": "commonjs"
+  },
+  "minify": true,
+  "sourceMaps": false
+}

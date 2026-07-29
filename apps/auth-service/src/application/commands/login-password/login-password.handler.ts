@@ -9,8 +9,7 @@ import {
 } from '@/application/decorators';
 import { type IJwtService, type IUserClient } from '@/application/ports';
 import { ClientProxy } from '@nestjs/microservices';
-import { UserEventPattern, type UserEventPayloadMap } from '@clarte/shared-event-types/user';
-import { firstValueFrom, lastValueFrom } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 import {
   UserCredentialsNotFound,
   UserServiceUnavailableException,
