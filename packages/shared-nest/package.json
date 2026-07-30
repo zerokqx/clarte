@@ -79,6 +79,13 @@
       "import": "./dist/modules/microservice-config/microservice-config.module.js",
       "default": "./dist/modules/microservice-config/microservice-config.module.js"
     },
+
+    "./modules/assets": {
+      "@clarte/source": "./src/modules/assets/assets.module.ts",
+      "types": "./dist/modules/assets/assets.module.d.ts",
+      "import": "./dist/modules/assets/assets.module.js",
+      "default": "./dist/modules/assets/assets.module.js"
+    },
     "./modules/compact-config": {
       "@clarte/source": "./src/modules/compact-config/compact-config.module.ts",
       "types": "./dist/modules/compact-config/compact-config.module.d.ts",

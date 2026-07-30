@@ -1,7 +1,7 @@
 import { Module, Provider } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CqrsModule } from '@nestjs/cqrs';
-import { UserModule, Argon2PasswordHasher, JwtModule } from '@/infrastructure';
+import { UserModule, Argon2PasswordHasher, JwtModule, PROTO_PATH } from '@/infrastructure';
 import {
   LoginPasswordHandler,
   PASSWORD_HASHER,
@@ -9,11 +9,13 @@ import {
   ValidateUserHandler,
   GetPublicJwtKeyHandler,
   AUTH_RMQ_CLIENT,
+  ASSETS_PATH,
 } from '@/application';
 import { AuthController } from '@/presentation';
 import { RefreshHandler } from './application/commands/refresh/refresh.handler';
 import { RmqModule } from '@clarte/shared-nest/modules';
 import { exchange } from '@clarte/shared';
+import { createFolderPathModule } from '@clarte/shared-nest/modules/assets';
 
 const handlers: Provider[] = [
   LoginPasswordHandler,
@@ -25,6 +27,9 @@ const handlers: Provider[] = [
 
 @Module({
   imports: [
+    createFolderPathModule({ name: PROTO_PATH, folderName: 'proto', from: __dirname }),
+    createFolderPathModule({ name: ASSETS_PATH, folderName: 'assets', from: __dirname }),
+
     CqrsModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
@@ -44,7 +49,6 @@ const handlers: Provider[] = [
   ],
   providers: [
     ...handlers,
-
     {
       provide: PASSWORD_HASHER,
       useClass: Argon2PasswordHasher,

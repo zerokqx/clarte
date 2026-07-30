@@ -12,7 +12,7 @@ import { join } from 'path';
 import { ProblemDetailsToGrpcExceptionFilter } from '@clarte/shared-nest/filters';
 import { GrpcErrorPropagationInterceptor } from '@clarte/shared-nest/interceptors';
 import { Env } from '@humanwhocodes/env';
-import { p } from '@clarte/shared';
+import { findUp, nullThrow, proto } from '@clarte/shared';
 
 async function bootstrap() {
   const env = new Env();
@@ -24,7 +24,7 @@ async function bootstrap() {
     options: {
       package: Auth.AUTH_PACKAGE_NAME,
       url: `${HOST}:${PORT}`,
-      protoPath: join(__dirname, p(1), 'proto/auth.proto'),
+      protoPath: join(nullThrow(findUp)('proto', __dirname), proto('auth')),
     },
   });
   app.useGlobalFilters(new ProblemDetailsToGrpcExceptionFilter());

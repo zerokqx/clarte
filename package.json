@@ -61,6 +61,7 @@
     "@vitest/coverage-v8": "~4.1.10",
     "@vitest/ui": "~4.1.10",
     "autoprefixer": "10.4.13",
+    "chokidar": "^5.0.0",
     "cssmodules-language-server": "^1.5.2",
     "eslint": "^9.39.5",
     "eslint-config-prettier": "^10.1.8",
@@ -138,7 +139,6 @@
     "generators.json"
   ],
   "dependencies": {
-    "@grpc/proto-loader":"^0.8.1"
-
+    "@grpc/proto-loader": "^0.8.1"
   }
 }
