@@ -18,23 +18,11 @@
       "decoratorMetadata": true
     },
     "keepClassNames": true,
-    "externalHelpers": true,
-    "minify": {
-      "compress": {
-        "unused": true,
-        "dead_code": true,
-        "keep_classnames": true,
-        "keep_fnames": true
-      },
-      "mangle": {
-        "keep_classnames": true,
-        "keep_fnames": true
-      }
-    }
+    "externalHelpers": true
   },
   "module": {
     "type": "commonjs"
   },
-  "minify": true,
-  "sourceMaps": false
+  "minify": false,
+  "sourceMaps": true
 }

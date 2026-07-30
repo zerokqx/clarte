@@ -4,7 +4,9 @@
     "target": "es2022",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": [
+        "src/*"
+      ]
     },
     "parser": {
       "syntax": "typescript",
@@ -22,11 +24,16 @@
         "unused": true,
         "dead_code": true,
         "keep_classnames": true,
-        "keep_fnames": true
+        "keep_fnames": true,
+        "passes": 2,
+        "evaluate": true,
+        "loops": true,
+        "toplevel": true
       },
       "mangle": {
         "keep_classnames": true,
-        "keep_fnames": true
+        "keep_fnames": true,
+        "toplevel": true
       }
     }
   },

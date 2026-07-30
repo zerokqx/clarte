@@ -29,6 +29,7 @@ async function bootstrap() {
   });
   app.useGlobalFilters(new ProblemDetailsToGrpcExceptionFilter());
   app.useGlobalInterceptors(new GrpcErrorPropagationInterceptor());
+app.enableShutdownHooks();
   await app.listen();
   Logger.log(`🛂 Auth microservice started on url http://${HOST}:${PORT}`);
   Logger.log('Protocol: gRPC');

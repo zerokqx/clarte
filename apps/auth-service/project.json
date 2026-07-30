@@ -41,6 +41,9 @@
         "production": {
           "swcrc": "apps/auth-service/.swcrc.prod",
           "skipTypeCheck": true
+        },
+        "development": {
+          "swcrc": "apps/auth-service/.swcrc"
         }
       }
     },
