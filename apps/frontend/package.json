@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "react": "catalog:react",
+    "react-dom": "catalog:react",
     "@clarte/mantine-helpers": "workspace:*",
     "@clarte/mantine-postcss": "workspace:*",
     "@clarte/shared": "workspace:*",

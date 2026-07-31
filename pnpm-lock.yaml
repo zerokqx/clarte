@@ -695,6 +695,12 @@ importers:
       motion:
         specifier: ^12.42.0
         version: 12.42.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      react:
+        specifier: catalog:react
+        version: 19.2.7
+      react-dom:
+        specifier: catalog:react
+        version: 19.2.7(react@19.2.7)
       react-hook-form:
         specifier: ^7.80.0
         version: 7.80.0(react@19.2.7)
