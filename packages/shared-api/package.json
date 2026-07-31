@@ -38,7 +38,8 @@
   },
   "peerDependencies": {
     "@tanstack/react-query": "catalog:react",
-    "axios": "catalog:general"
+    "axios": "catalog:general",
+    "react": "catalog:react"
   },
   "devDependencies": {
     "@faker-js/faker": "^10.5.0",
