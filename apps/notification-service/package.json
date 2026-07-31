@@ -21,6 +21,7 @@
     "amqplib": "catalog:drivers",
     "class-transformer": "catalog:validation",
     "class-validator": "catalog:validation",
+    "pg": "catalog:drivers",
     "reflect-metadata": "catalog:general",
     "rxjs": "catalog:general",
     "tslib": "catalog:general",

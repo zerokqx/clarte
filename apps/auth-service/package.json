@@ -27,6 +27,7 @@
     "express": "catalog:backend",
     "ioredis": "catalog:drivers",
     "nestjs-s3": "catalog:nestjs",
+    "pg": "catalog:drivers",
     "reflect-metadata": "catalog:general",
     "rxjs": "catalog:general",
     "tslib": "catalog:general"

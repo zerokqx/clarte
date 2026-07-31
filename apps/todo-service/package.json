@@ -22,6 +22,7 @@
     "class-transformer": "catalog:validation",
     "class-validator": "catalog:validation",
     "effect": "catalog:general",
+    "pg": "catalog:drivers",
     "reflect-metadata": "catalog:general",
     "rxjs": "catalog:general",
     "tslib": "catalog:general",
