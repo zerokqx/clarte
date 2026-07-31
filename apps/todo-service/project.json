@@ -6,15 +6,31 @@
   "tags": ["scope:todo", "type:app"],
   "targets": {
     "build": {
-      "executor": "nx:run-commands",
+      "cache": true,
+      "executor": "@nx/js:swc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
-        "command": "webpack-cli build",
-        "args": ["--mode=production"],
-        "cwd": "apps/todo-service"
+        "outputPath": "apps/todo-service/dist",
+        "main": "apps/todo-service/src/main.ts",
+        "tsConfig": "apps/todo-service/tsconfig.app.json",
+        "skipTypeCheck": true,
+        "assets": [
+          {
+            "input": "packages/shared-contracts/src/ports/proto",
+            "glob": "**/*.proto",
+            "output": "proto"
+          }
+        ]
       },
       "configurations": {
+        "production": {
+          "swcrc": "apps/todo-service/.swcrc.prod",
+          "skipTypeCheck": true
+        },
         "development": {
-          "args": ["--mode=development"]
+          "swcrc": "apps/todo-service/.swcrc"
         }
       }
     },

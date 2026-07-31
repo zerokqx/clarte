@@ -10,6 +10,7 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { Env } from '@humanwhocodes/env';
 import { Notes } from '@clarte/shared-contracts/proto';
 import { join } from 'path';
+import { findUp, nullThrow, proto } from '@clarte/shared';
 
 async function bootstrap() {
   const env = new Env();
@@ -19,7 +20,7 @@ async function bootstrap() {
     transport: Transport.GRPC,
     options: {
       url: `${HOST}:${PORT}`,
-      protoPath: join(__dirname, 'proto/notes.proto'),
+      protoPath: join(nullThrow(findUp)('proto', __dirname), proto('notes')),
       package: Notes.NOTES_PACKAGE_NAME,
     },
   });

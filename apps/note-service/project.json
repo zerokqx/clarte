@@ -6,15 +6,31 @@
   "tags": ["scope:note", "type:app"],
   "targets": {
     "build": {
-      "executor": "nx:run-commands",
+      "cache": true,
+      "executor": "@nx/js:swc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
-        "command": "webpack-cli build",
-        "args": ["--mode=production"],
-        "cwd": "apps/note-service"
+        "outputPath": "apps/note-service/dist",
+        "main": "apps/note-service/src/main.ts",
+        "tsConfig": "apps/note-service/tsconfig.app.json",
+        "skipTypeCheck": true,
+        "assets": [
+          {
+            "input": "packages/shared-contracts/src/ports/proto",
+            "glob": "**/*.proto",
+            "output": "proto"
+          }
+        ]
       },
       "configurations": {
+        "production": {
+          "swcrc": "apps/note-service/.swcrc.prod",
+          "skipTypeCheck": true
+        },
         "development": {
-          "args": ["--mode=development"]
+          "swcrc": "apps/note-service/.swcrc"
         }
       }
     },

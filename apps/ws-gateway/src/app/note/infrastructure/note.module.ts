@@ -7,6 +7,9 @@ import { Notes } from '@clarte/shared-contracts/proto';
 import { NOTE_CLIENT, NOTE_GRPC_CLIENT } from '../application/ports';
 import { NoteClient } from './note.client';
 
+import { proto } from '@clarte/shared';
+import { PROTO_PATH } from '../../ports/di-tokens';
+
 @Global()
 @Module({
   imports: [
@@ -17,7 +20,7 @@ import { NoteClient } from './note.client';
     ClientsModule.registerAsync([
       {
         name: NOTE_GRPC_CLIENT,
-        useFactory(config: ConfigService) {
+        useFactory(config: ConfigService, protoPath: string) {
           const { host, port } = config.getOrThrow<MicroserviceConfigType>('note-service');
 
           return {
@@ -25,11 +28,11 @@ import { NoteClient } from './note.client';
             options: {
               url: `${host}:${port}`,
               package: Notes.NOTES_PACKAGE_NAME,
-              protoPath: join(__dirname, 'proto/notes.proto'),
+              protoPath: join(protoPath, proto('notes')),
             },
           };
         },
-        inject: [ConfigService],
+        inject: [ConfigService, PROTO_PATH],
         imports: [ConfigModule],
       },
     ]),

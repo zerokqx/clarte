@@ -30,6 +30,9 @@
         "production": {
           "swcrc": "apps/api-gateway/.swcrc.prod",
           "skipTypeCheck": true
+        },
+        "development": {
+          "swcrc": "apps/api-gateway/.swcrc"
         }
       }
     },

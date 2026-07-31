@@ -7,8 +7,12 @@ import { NotificationModule } from '@/app/notification/infrastructure/notificati
 import { AppConfigModule, JwtModule } from '@clarte/shared-nest/modules';
 import { JwtKeyProvider } from '@/app/auth/infrastructure';
 
+import { createFolderPathModule } from '@clarte/shared-nest/modules/assets';
+import { PROTO_PATH } from '@/app/ports/di-tokens';
+
 @Module({
   imports: [
+    createFolderPathModule({ name: PROTO_PATH, folderName: 'proto', from: __dirname }),
     ConfigModule.forRoot({
       envFilePath: ['.env.local', '.env'],
       isGlobal: true,
