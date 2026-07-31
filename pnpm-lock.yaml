@@ -668,6 +668,9 @@ importers:
       '@tiptap/starter-kit':
         specifier: ^3.27.1
         version: 3.27.1
+      axios:
+        specifier: catalog:general
+        version: 1.18.1
       babel-plugin-react-compiler:
         specifier: ^1.0.0
         version: 1.0.0
