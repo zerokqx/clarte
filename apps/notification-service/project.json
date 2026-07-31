@@ -69,7 +69,8 @@
       "dependsOn": ["build"],
       "options": {
         "buildTarget": "@clarte/notification-service:build",
-        "runBuildTargetDependencies": false
+        "runBuildTargetDependencies": false,
+        "inspect": false
       },
       "configurations": {
         "development": {

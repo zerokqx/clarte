@@ -90,7 +90,8 @@
       ],
       "options": {
         "buildTarget": "@clarte/auth-service:build",
-        "runBuildTargetDependencies": false
+        "runBuildTargetDependencies": false,
+        "inspect": false
       },
       "configurations": {
         "development": {
