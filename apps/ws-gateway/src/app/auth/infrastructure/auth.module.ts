@@ -14,6 +14,7 @@ import {
 } from '../application/ports';
 import { proto } from '@clarte/shared';
 import { PROTO_PATH } from '../../ports/di-tokens';
+import { AuthClient } from './auth.client';
 
 type Algorithm = NonNullable<JwtVerifyOptions['algorithms']>[number];
 
