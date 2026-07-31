@@ -10,7 +10,8 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { Env } from '@humanwhocodes/env';
 import { Todo } from '@clarte/shared-contracts/proto';
 import { join } from 'path';
-import { findUp, nullThrow, proto } from '@clarte/shared';
+import { nullThrow, proto } from '@clarte/shared';
+import { findUp } from '@clarte/shared-nest/functions';
 
 async function bootstrap() {
   const env = new Env();

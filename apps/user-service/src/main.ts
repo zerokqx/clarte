@@ -12,7 +12,8 @@ import { ProblemDetailsToGrpcExceptionFilter } from '@clarte/shared-nest/filters
 
 import { join } from 'path';
 import { Logger } from '@nestjs/common';
-import { findUp, nullThrow, proto } from '@clarte/shared';
+import { nullThrow, proto } from '@clarte/shared';
+import { findUp } from '@clarte/shared-nest/functions';
 
 async function bootstrap() {
   const env = new Env();

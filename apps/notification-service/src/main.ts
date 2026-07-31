@@ -1,4 +1,5 @@
-import { findUp, nullThrow, proto, queue, exchange } from '@clarte/shared';
+import { nullThrow, proto, queue, exchange } from '@clarte/shared';
+import { findUp } from '@clarte/shared-nest/functions';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
