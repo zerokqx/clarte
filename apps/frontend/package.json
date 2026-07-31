@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "axios": "catalog:general",
+    "effect": "catalog:general",
+    "immer": "^10.1.1",
+    "js-cookie": "^3.0.5",
     "react": "catalog:react",
     "react-dom": "catalog:react",
     "@clarte/mantine-helpers": "workspace:*",
@@ -55,6 +58,7 @@
     "zod": "catalog:validation"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@rolldown/plugin-babel": "^0.2.3",
     "@tanstack/react-query-devtools": "^5.101.2",
     "@tanstack/react-router-devtools": "^1.167.0",
