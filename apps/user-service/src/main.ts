@@ -9,6 +9,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from '@/app.module';
 import { User } from '@clarte/shared-contracts/proto';
 import { ProblemDetailsToGrpcExceptionFilter } from '@clarte/shared-nest/filters';
+import { GrpcErrorPropagationInterceptor } from '@clarte/shared-nest/interceptors';
 
 import { join } from 'path';
 import { Logger } from '@nestjs/common';

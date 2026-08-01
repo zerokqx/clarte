@@ -13,7 +13,7 @@
         "outputPath": "packages/shared/dist/cjs",
         "main": "packages/shared/src/index.ts",
         "tsConfig": "packages/shared/tsconfig.lib.json",
-        "swcrc": "packages/shared/.swcrc.cjs",
+        "swcrc": "packages/shared/.swcrc.cjs.json",
         "skipTypeCheck": true,
         "stripLeadingPaths": true
       }
@@ -25,13 +25,17 @@
         "outputPath": "packages/shared/dist/esm",
         "main": "packages/shared/src/index.ts",
         "tsConfig": "packages/shared/tsconfig.lib.json",
-        "swcrc": "packages/shared/.swcrc.esm",
+        "swcrc": "packages/shared/.swcrc.esm.json",
         "skipTypeCheck": true,
         "stripLeadingPaths": true
       }
     },
     "build": {
       "executor": "nx:noop",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "packages/shared/dist/cjs"
+      },
       "dependsOn": ["build-cjs", "build-esm"]
     }
   }
