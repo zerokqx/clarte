@@ -6,16 +6,33 @@
   "tags": ["scope:shared", "type:lib"],
   "sourceRoot": "packages/shared/src",
   "targets": {
-    "build": {
+    "build-cjs": {
       "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "packages/shared/dist",
+        "outputPath": "packages/shared/dist/cjs",
         "main": "packages/shared/src/index.ts",
         "tsConfig": "packages/shared/tsconfig.lib.json",
+        "swcrc": "packages/shared/.swcrc.cjs",
         "skipTypeCheck": true,
         "stripLeadingPaths": true
       }
+    },
+    "build-esm": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "packages/shared/dist/esm",
+        "main": "packages/shared/src/index.ts",
+        "tsConfig": "packages/shared/tsconfig.lib.json",
+        "swcrc": "packages/shared/.swcrc.esm",
+        "skipTypeCheck": true,
+        "stripLeadingPaths": true
+      }
+    },
+    "build": {
+      "executor": "nx:noop",
+      "dependsOn": ["build-cjs", "build-esm"]
     }
   }
 }

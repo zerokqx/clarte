@@ -1,4 +1,5 @@
 {
+  "$schema": "https://swc.rs/schema.json",
   "jsc": {
     "target": "es2022",
     "parser": {
@@ -15,7 +16,9 @@
     "loose": true
   },
   "module": {
-    "type": "commonjs"
+    "type": "commonjs",
+    "strict": true,
+    "noInterop": false
   },
   "sourceMaps": true,
   "exclude": [
