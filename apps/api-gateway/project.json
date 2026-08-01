@@ -2,23 +2,17 @@
   "name": "@clarte/api-gateway",
   "$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/project-schema.json",
   "projectType": "application",
-  "tags": [
-    "scope:gateway",
-    "type:app"
-  ],
+  "tags": ["scope:gateway", "type:app"],
   "targets": {
     "build": {
       "cache": true,
       "executor": "@nx/js:swc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "apps/api-gateway/dist",
         "main": "apps/api-gateway/src/main.ts",
         "tsConfig": "apps/api-gateway/tsconfig.app.json",
         "assets": [
-
           {
             "input": "packages/shared-contracts/src/ports/proto",
             "glob": "**/*.proto",
@@ -30,13 +24,14 @@
         "production": {
           "swcrc": "apps/api-gateway/.swcrc.prod",
           "skipTypeCheck": true
+        },
+        "development": {
+          "swcrc": "apps/api-gateway/.swcrc"
         }
       }
     },
     "prune-lockfile": {
-      "dependsOn": [
-        "build"
-      ],
+      "dependsOn": ["build"],
       "cache": true,
       "executor": "@nx/js:prune-lockfile",
       "outputs": [
@@ -48,35 +43,27 @@
       }
     },
     "copy-workspace-modules": {
-      "dependsOn": [
-        "build"
-      ],
+      "dependsOn": ["build"],
       "cache": true,
-      "outputs": [
-        "{workspaceRoot}/apps/api-gateway/dist/workspace_modules"
-      ],
+      "outputs": ["{workspaceRoot}/apps/api-gateway/dist/workspace_modules"],
       "executor": "@nx/js:copy-workspace-modules",
       "options": {
         "buildTarget": "build"
       }
     },
     "prune": {
-      "dependsOn": [
-        "prune-lockfile",
-        "copy-workspace-modules"
-      ],
+      "dependsOn": ["prune-lockfile", "copy-workspace-modules"],
       "executor": "nx:noop"
     },
     "serve": {
       "continuous": true,
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
-      "dependsOn": [
-        "build"
-      ],
+      "dependsOn": ["build"],
       "options": {
         "buildTarget": "@clarte/api-gateway:build",
-        "runBuildTargetDependencies": false
+        "runBuildTargetDependencies": false,
+        "inspect": false
       },
       "configurations": {
         "development": {

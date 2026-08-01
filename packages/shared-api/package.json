@@ -38,11 +38,12 @@
   },
   "peerDependencies": {
     "@tanstack/react-query": "catalog:react",
-    "axios": "catalog:general"
+    "axios": "catalog:general",
+    "react": "catalog:react"
   },
   "devDependencies": {
     "@faker-js/faker": "^10.5.0",
-    "msw": "^2.14.6",
+    "msw": "catalog:react",
     "orval": "^8.19.0"
   }
 }

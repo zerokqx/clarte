@@ -1,6 +1,6 @@
 services:
   clarte-auth-service:
-    image: apps-auth-service:latest
+    image: zerok1/clarte-auth-service:latest
     container_name: clarte-auth-service
     build:
       context: ../..

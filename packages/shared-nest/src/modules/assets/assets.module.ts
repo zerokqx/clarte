@@ -1,5 +1,6 @@
-import { findUp, nullThrow, Token } from '@clarte/shared';
-import { DynamicModule,  Module } from '@nestjs/common';
+import { nullThrow, Token } from '@clarte/shared';
+import { findUp } from '../../functions';
+import { DynamicModule, Module } from '@nestjs/common';
 
 interface FolderPathModuleOptions {
   name: Token;
@@ -26,5 +27,3 @@ export function createFolderPathModule(options: FolderPathModuleOptions): Dynami
     exports: [options.name],
   };
 }
-
-

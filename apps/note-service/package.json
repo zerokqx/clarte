@@ -5,6 +5,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "catalog:aws",
     "@aws-sdk/s3-request-presigner": "catalog:aws",
+    "@clarte/shared": "workspace:*",
     "@clarte/shared-contracts": "workspace:*",
     "@clarte/shared-domain": "workspace:*",
     "@clarte/shared-nest": "workspace:*",

@@ -1,6 +1,9 @@
 import { CreateNodesV2 } from '@nx/devkit';
 import { dirname, basename } from 'path';
 
+const suffixTable = {
+  microservice: 'service',
+};
 export const createNodes: CreateNodesV2 = [
   '**/compose*.{yml,yaml}',
   (configFiles) => {
@@ -15,9 +18,7 @@ export const createNodes: CreateNodesV2 = [
       const match = filename.match(/^(?:docker-)?compose(?:\.([^.]+))?\.ya?ml$/);
 
       let suffixName = match && match[1] ? match[1] : '';
-      if (suffixName === 'microservice') {
-        suffixName = 'service';
-      }
+      suffixName = suffixTable[suffixName] ?? suffixName;
 
       const targetSuffix = suffixName ? `-${suffixName}` : '';
 
@@ -63,6 +64,13 @@ export const createNodes: CreateNodesV2 = [
                   executor: 'nx:run-commands',
                   options: {
                     command: `docker compose -f ${filename} logs -f`,
+                    cwd: projectRoot,
+                  },
+                },
+                [`compose${targetSuffix}-push`]: {
+                  executor: 'nx:run-commands',
+                  options: {
+                    command: `docker compose -f ${filename} push`,
                     cwd: projectRoot,
                   },
                 },

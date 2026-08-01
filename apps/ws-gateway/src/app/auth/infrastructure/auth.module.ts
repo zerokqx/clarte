@@ -12,6 +12,8 @@ import {
   JWT_ALOGORITM,
   type IAuthClient,
 } from '../application/ports';
+import { proto } from '@clarte/shared';
+import { PROTO_PATH } from '../../ports/di-tokens';
 import { AuthClient } from './auth.client';
 
 type Algorithm = NonNullable<JwtVerifyOptions['algorithms']>[number];
@@ -26,7 +28,7 @@ type Algorithm = NonNullable<JwtVerifyOptions['algorithms']>[number];
     ClientsModule.registerAsync([
       {
         name: AUTH_GRPC_CLIENT,
-        useFactory(config: ConfigService) {
+        useFactory(config: ConfigService, protoPath: string) {
           const { host, port } = config.getOrThrow<MicroserviceConfigType>('auth-service');
 
           return {
@@ -34,11 +36,11 @@ type Algorithm = NonNullable<JwtVerifyOptions['algorithms']>[number];
             options: {
               url: `${host}:${port}`,
               package: Auth.AUTH_PACKAGE_NAME,
-              protoPath: join(__dirname, 'proto/auth.proto'),
+              protoPath: join(protoPath, proto('auth')),
             },
           };
         },
-        inject: [ConfigService],
+        inject: [ConfigService, PROTO_PATH],
       },
     ]),
     JwtModule.registerAsync({

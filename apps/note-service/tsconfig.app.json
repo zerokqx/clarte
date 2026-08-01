@@ -32,6 +32,9 @@
   ],
   "references": [
     {
+      "path": "../../packages/shared/tsconfig.lib.json"
+    },
+    {
       "path": "../../packages/shared-nest/tsconfig.lib.json"
     },
     {

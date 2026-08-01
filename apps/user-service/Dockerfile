@@ -1,24 +1,33 @@
+ARG APP_NAME=@clarte/user-service
+
 FROM node:22-alpine AS builder
 
-WORKDIR /usr/src/app
+ARG APP_NAME
 
 RUN npm install -g pnpm@10.33.2
-COPY pnpm-lock.yaml ./
-RUN pnpm fetch
+
+WORKDIR /app
+ENV CI=true
 
 COPY . .
-RUN pnpm install --frozen-lockfile --offline
 
-RUN pnpm nx build @clarte/user-service --configuration=production
+RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
+  pnpm install --ignore-scripts
+
+RUN --mount=type=cache,id=nx,target=/app/.nx/cache \
+  pnpm nx build ${APP_NAME} --configuration=production
+
+RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
+  pnpm --filter=${APP_NAME} deploy --prod --legacy /app/deploy
+
 
 FROM node:22-alpine AS production
 
-WORKDIR /usr/src/app
+WORKDIR /opt/app
 
-COPY --from=builder /usr/src/app/apps/user-service/dist ./dist
-COPY --from=builder /usr/src/app/node_modules ./node_modules
-COPY package.json ./
+COPY --from=builder /app/deploy/dist ./dist
+COPY --from=builder /app/deploy/node_modules ./node_modules
 
 EXPOSE 3000
 
-CMD ["node", "dist/main.js"]
+CMD ["node", "dist/src/main.js"]

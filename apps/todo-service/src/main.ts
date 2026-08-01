@@ -10,6 +10,8 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { Env } from '@humanwhocodes/env';
 import { Todo } from '@clarte/shared-contracts/proto';
 import { join } from 'path';
+import { nullThrow, proto } from '@clarte/shared';
+import { findUp } from '@clarte/shared-nest/functions';
 
 async function bootstrap() {
   const env = new Env();
@@ -20,7 +22,7 @@ async function bootstrap() {
     options: {
       url: `${HOST}:${PORT}`,
       package: Todo.TODO_PACKAGE_NAME,
-      protoPath: join(__dirname, 'proto/todo.proto'),
+      protoPath: join(nullThrow(findUp)('proto', __dirname), proto('todo')),
     },
   });
   await app.listen();

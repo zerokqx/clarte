@@ -12,7 +12,8 @@ import { join } from 'path';
 import { ProblemDetailsToGrpcExceptionFilter } from '@clarte/shared-nest/filters';
 import { GrpcErrorPropagationInterceptor } from '@clarte/shared-nest/interceptors';
 import { Env } from '@humanwhocodes/env';
-import { findUp, nullThrow, proto } from '@clarte/shared';
+import { nullThrow, proto } from '@clarte/shared';
+import { findUp } from '@clarte/shared-nest/functions';
 
 async function bootstrap() {
   const env = new Env();
@@ -29,7 +30,7 @@ async function bootstrap() {
   });
   app.useGlobalFilters(new ProblemDetailsToGrpcExceptionFilter());
   app.useGlobalInterceptors(new GrpcErrorPropagationInterceptor());
-app.enableShutdownHooks();
+  app.enableShutdownHooks();
   await app.listen();
   Logger.log(`🛂 Auth microservice started on url http://${HOST}:${PORT}`);
   Logger.log('Protocol: gRPC');

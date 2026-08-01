@@ -9,10 +9,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from '@/app.module';
 import { User } from '@clarte/shared-contracts/proto';
 import { ProblemDetailsToGrpcExceptionFilter } from '@clarte/shared-nest/filters';
-
 import { GrpcErrorPropagationInterceptor } from '@clarte/shared-nest/interceptors';
+
 import { join } from 'path';
 import { Logger } from '@nestjs/common';
+import { nullThrow, proto } from '@clarte/shared';
+import { findUp } from '@clarte/shared-nest/functions';
 
 async function bootstrap() {
   const env = new Env();
@@ -23,7 +25,7 @@ async function bootstrap() {
     options: {
       package: User.USER_PACKAGE_NAME,
       url: `${HOST}:${PORT}`,
-      protoPath: join(__dirname, 'proto/user.proto'),
+      protoPath: join(nullThrow(findUp)('proto', __dirname), proto('user')),
     },
   });
   app.useGlobalInterceptors(new GrpcErrorPropagationInterceptor());

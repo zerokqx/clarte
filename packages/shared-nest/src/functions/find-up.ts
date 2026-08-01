@@ -9,7 +9,7 @@ export interface FindUpOptions {
 }
 
 export const findUp = (name: string, from: string, options: FindUpOptions = {}): string | null => {
-  const { type = 'directory', stopAt } = options;
+  const { stopAt } = options;
   const target = join(from, name);
 
   if (existsSync(target)) return target;

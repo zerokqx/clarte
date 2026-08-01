@@ -1,4 +1,8 @@
+ARG APP_NAME=@clarte/api-gateway
+
 FROM node:22-alpine AS builder
+
+ARG APP_NAME
 
 RUN npm install -g pnpm@10.33.2
 
@@ -11,10 +15,10 @@ RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
   pnpm install --ignore-scripts
 
 RUN --mount=type=cache,id=nx,target=/app/.nx/cache \
-  pnpm nx build @clarte/api-gateway --configuration=production
+  pnpm nx build ${APP_NAME} --configuration=production
 
 RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
-  pnpm --filter=@clarte/api-gateway deploy --prod --legacy /app/deploy
+  pnpm --filter=${APP_NAME} deploy --prod --legacy /app/deploy
 
 
 FROM node:22-alpine AS production
@@ -22,7 +26,7 @@ FROM node:22-alpine AS production
 WORKDIR /opt/app
 
 COPY --from=builder /app/deploy/dist ./dist
-COPY --from=builder /app/deploy/node_modules ./node_modules
+COPY --from=builder /app/deploy/node_modules ./node_modules 
 
 EXPOSE 3000
 

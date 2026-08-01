@@ -1,6 +1,6 @@
 services:
   clarte-user-service:
-    image: apps-user-service:latest
+    image: zerok1/clarte-user-service:latest
     container_name: clarte-user-service
     build:
       context: ../..

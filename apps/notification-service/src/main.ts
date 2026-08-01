@@ -1,4 +1,5 @@
-import { queue, exchange } from '@clarte/shared';
+import { nullThrow, proto, queue, exchange } from '@clarte/shared';
+import { findUp } from '@clarte/shared-nest/functions';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
@@ -27,7 +28,7 @@ async function bootstrap() {
     options: {
       url: `${HOST}:${PORT}`,
       package: Notification.NOTIFICATION_PACKAGE_NAME,
-      protoPath: join(__dirname, 'proto/notification.proto'),
+      protoPath: join(nullThrow(findUp)('proto', __dirname), proto('notification')),
     },
   });
 

@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@aws-sdk/client-s3": "catalog:aws",
+    "@aws-sdk/s3-request-presigner": "catalog:aws",
     "@clarte/shared": "workspace:*",
     "@clarte/shared-contracts": "workspace:*",
     "@clarte/shared-domain": "workspace:*",
@@ -10,9 +12,27 @@
     "@clarte/shared-nest": "workspace:*",
     "@dicebear/core": "^10.3.0",
     "@dicebear/styles": "^10.2.0",
-    "tslib": "catalog:general"
+    "@grpc/grpc-js": "catalog:backend",
+    "@humanwhocodes/env": "catalog:general",
+    "@nestjs/common": "catalog:nestjs",
+    "nestjs-s3": "catalog:nestjs",
+    "@nestjs/config": "catalog:nestjs",
+    "@nestjs/core": "catalog:nestjs",
+    "@nestjs/cqrs": "catalog:nestjs",
+    "@nestjs/microservices": "catalog:nestjs",
+    "@nestjs/typeorm": "catalog:nestjs",
+    "@swc/helpers": "catalog:swc",
+    "class-transformer": "catalog:validation",
+    "class-validator": "catalog:validation",
+    "effect": "catalog:general",
+    "pg": "catalog:drivers",
+    "reflect-metadata": "catalog:general",
+    "rxjs": "catalog:general",
+    "tslib": "catalog:general",
+    "type-fest": "catalog:types",
+    "typeorm": "catalog:backend"
   },
   "devDependencies": {
-    "@types/jest": "~30.0.0"
+    "@types/jest": "catalog:types"
   }
 }

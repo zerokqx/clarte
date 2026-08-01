@@ -1,6 +1,6 @@
 services:
   clarte-frontend:
-    image: apps-frontend:latest
+    image: zerok1/clarte-frontend:latest
     container_name: clarte-frontend
     ports:
       - '80:80'

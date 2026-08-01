@@ -21,7 +21,7 @@ import { sslKey } from '@clarte/shared';
           publicKey,
         };
       },
-      inject:[ASSETS_PATH]
+      inject: [ASSETS_PATH],
     }),
   ],
   providers: [

@@ -2,12 +2,14 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { Todo } from '@clarte/shared-contracts/proto';
-import { p, proto } from '@clarte/shared/functions';
+import { proto } from '@clarte/shared/functions';
 import { join } from 'path';
 import { TodoController } from './presentation/todo.controller';
 import { TodoClient } from './infrastructure/clients/todo.client';
 import { TODO_CLIENT, TODO_GRPC_CLIENT } from './application';
 import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared-nest/modules';
+
+import { PROTO_PATH } from '@/app/ports/di-tokens';
 
 @Module({
   imports: [
@@ -18,18 +20,18 @@ import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared
     ClientsModule.registerAsync([
       {
         name: TODO_GRPC_CLIENT,
-        useFactory(config: ConfigService) {
+        useFactory(config: ConfigService, protoPath: string) {
           const { host, port } = config.getOrThrow<MicroserviceConfigType>('todo-service');
           return {
             transport: Transport.GRPC,
             options: {
               url: `${host}:${port}`,
               package: Todo.TODO_PACKAGE_NAME,
-              protoPath: join(__dirname, p(3), 'proto', proto('todo')),
+              protoPath: join(protoPath, proto('todo')),
             },
           };
         },
-        inject: [ConfigService],
+        inject: [ConfigService, PROTO_PATH],
       },
     ]),
   ],

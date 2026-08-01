@@ -6,15 +6,29 @@
   "tags": ["scope:notification", "type:app"],
   "targets": {
     "build": {
-      "executor": "nx:run-commands",
+      "cache": true,
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
       "options": {
-        "command": "webpack-cli build",
-        "args": ["--mode=production"],
-        "cwd": "apps/notification-service"
+        "outputPath": "apps/notification-service/dist",
+        "main": "apps/notification-service/src/main.ts",
+        "tsConfig": "apps/notification-service/tsconfig.app.json",
+        "skipTypeCheck": true,
+        "assets": [
+          {
+            "input": "packages/shared-contracts/src/ports/proto",
+            "glob": "**/*.proto",
+            "output": "proto"
+          }
+        ]
       },
       "configurations": {
+        "production": {
+          "swcrc": "apps/notification-service/.swcrc.prod",
+          "skipTypeCheck": true
+        },
         "development": {
-          "args": ["--mode=development"]
+          "swcrc": "apps/notification-service/.swcrc"
         }
       }
     },
@@ -53,7 +67,8 @@
       "dependsOn": ["build"],
       "options": {
         "buildTarget": "@clarte/notification-service:build",
-        "runBuildTargetDependencies": false
+        "runBuildTargetDependencies": false,
+        "inspect": false
       },
       "configurations": {
         "development": {

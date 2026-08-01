@@ -8,9 +8,27 @@
     "@clarte/shared-domain": "workspace:*",
     "@clarte/shared-event-types": "workspace:*",
     "@clarte/shared-nest": "workspace:*",
-    "tslib": "catalog:general"
+    "@grpc/grpc-js": "catalog:backend",
+    "@humanwhocodes/env": "catalog:general",
+    "@nestjs/bullmq": "catalog:nestjs",
+    "@nestjs/common": "catalog:nestjs",
+    "@nestjs/config": "catalog:nestjs",
+    "@nestjs/core": "catalog:nestjs",
+    "@nestjs/cqrs": "catalog:nestjs",
+    "@nestjs/microservices": "catalog:nestjs",
+    "@nestjs/typeorm": "catalog:nestjs",
+    "@swc/helpers": "catalog:swc",
+    "bullmq": "catalog:backend",
+    "class-transformer": "catalog:validation",
+    "class-validator": "catalog:validation",
+    "effect": "catalog:general",
+    "pg": "catalog:drivers",
+    "reflect-metadata": "catalog:general",
+    "rxjs": "catalog:general",
+    "tslib": "catalog:general",
+    "typeorm": "catalog:backend"
   },
   "devDependencies": {
-    "@types/jest": "~30.0.0"
+    "@types/jest": "catalog:types"
   }
 }

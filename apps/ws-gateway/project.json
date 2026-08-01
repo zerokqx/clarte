@@ -6,15 +6,29 @@
   "tags": ["scope:gateway", "type:app"],
   "targets": {
     "build": {
-      "executor": "nx:run-commands",
+      "cache": true,
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
       "options": {
-        "command": "webpack-cli build",
-        "args": ["--mode=production"],
-        "cwd": "apps/ws-gateway"
+        "outputPath": "apps/ws-gateway/dist",
+        "main": "apps/ws-gateway/src/main.ts",
+        "tsConfig": "apps/ws-gateway/tsconfig.app.json",
+        "skipTypeCheck": true,
+        "assets": [
+          {
+            "input": "packages/shared-contracts/src/ports/proto",
+            "glob": "**/*.proto",
+            "output": "proto"
+          }
+        ]
       },
       "configurations": {
+        "production": {
+          "swcrc": "apps/ws-gateway/.swcrc.prod",
+          "skipTypeCheck": true
+        },
         "development": {
-          "args": ["--mode=development"]
+          "swcrc": "apps/ws-gateway/.swcrc"
         }
       }
     },
@@ -50,7 +64,8 @@
       "dependsOn": ["build"],
       "options": {
         "buildTarget": "@clarte/ws-gateway:build",
-        "runBuildTargetDependencies": false
+        "runBuildTargetDependencies": false,
+        "inspect": false
       },
       "configurations": {
         "development": {

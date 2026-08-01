@@ -1,6 +1,6 @@
 services:
   clarte-todo-service:
-    image: apps-todo-service:latest
+    image: zerok1/clarte-todo-service:latest
     # container_name: clarte-todo-service
     build:
       context: ../..
