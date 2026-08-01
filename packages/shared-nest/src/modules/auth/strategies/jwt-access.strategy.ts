@@ -9,7 +9,7 @@ import {
   type IAuthenticatedUser,
   type IJwtKeyProvider,
 } from '@clarte/shared-contracts/interfaces';
-import { getRequestCookie } from '@/functions';
+import { getRequestCookie } from '../../../functions';
 
 @Global()
 @Injectable()
@@ -21,11 +21,7 @@ export class AccesStrategy extends PassportStrategy(Strategy, 'jwt-access') {
     @Inject(JWT_KEY_PROVIDER)
     keyProvider: IJwtKeyProvider,
   ) {
-    const secretOrKeyProvider: SecretOrKeyProvider = async (
-      _req,
-      _rawJwtToken,
-      done,
-    ) => {
+    const secretOrKeyProvider: SecretOrKeyProvider = async (_req, _rawJwtToken, done) => {
       try {
         if (!this.cachedKey) {
           this.cachedKey = await keyProvider.get();
@@ -41,8 +37,7 @@ export class AccesStrategy extends PassportStrategy(Strategy, 'jwt-access') {
       passReqToCallback: true,
       algorithms: ['RS256'],
       jwtFromRequest: ExtractJwt.fromExtractors([
-        (req: Request): string | null =>
-          getRequestCookie(req, COOKIE_NAME.JWT_ACCESS) ?? null,
+        (req: Request): string | null => getRequestCookie(req, COOKIE_NAME.JWT_ACCESS) ?? null,
       ]),
     });
   }

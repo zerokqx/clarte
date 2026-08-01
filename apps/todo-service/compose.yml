@@ -1,0 +1,9 @@
+include:
+  - compose.infra.yml
+services:
+  clarte-todo-service:
+    extends:
+      file: compose.microservice.yml
+      service: clarte-todo-service
+    depends_on:
+      - clarte-todo-service-postgres

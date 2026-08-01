@@ -10,13 +10,9 @@ export class DomainException extends Error {
   /**
    * Дополнительный контекст (например, { minLength: 8, actualLength: 5 })
    */
-  public readonly metadata?: Record<string, any>;
+  public readonly metadata?: Record<string, unknown>;
 
-  constructor(
-    message: string,
-    code = 'DOMAIN_ERROR',
-    metadata?: Record<string, any>,
-  ) {
+  constructor(message: string, code = 'DOMAIN_ERROR', metadata?: Record<string, unknown>) {
     super(message);
     this.name = this.constructor.name;
     this.code = code;

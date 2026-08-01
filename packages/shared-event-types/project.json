@@ -1,0 +1,21 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/project-schema.json",
+  "name": "@clarte/shared-event-types",
+  "root": "packages/shared-event-types",
+  "projectType": "library",
+  "tags": ["scope:shared-event-types", "type:lib"],
+  "sourceRoot": "packages/shared-event-types/src",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "packages/shared-event-types/dist",
+        "main": "packages/shared-event-types/src/index.ts",
+        "tsConfig": "packages/shared-event-types/tsconfig.lib.json",
+        "skipTypeCheck": true,
+        "stripLeadingPaths": true
+      }
+    }
+  }
+}

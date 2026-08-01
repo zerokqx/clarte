@@ -14,7 +14,9 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "target": "es2021"
+    "target": "es2021",
+    "ignoreDeprecations": "6.0",
+    "rootDir": "."
   },
   "include": ["src/**/*.ts"],
   "exclude": [
@@ -29,6 +31,9 @@
     "eslint.config.mjs"
   ],
   "references": [
+    {
+      "path": "../../packages/shared/tsconfig.lib.json"
+    },
     {
       "path": "../../packages/shared-nest/tsconfig.lib.json"
     },

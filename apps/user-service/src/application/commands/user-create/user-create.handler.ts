@@ -1,8 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import {
-  type IUserAvatarGenerator,
-  type IUserWriteRepository,
-} from '@/application/ports';
+import { type IUserAvatarGenerator, type IUserWriteRepository } from '@/application/ports';
 import { UserCreateCommand } from '@/application/commands/user-create/user-create.command';
 import { User } from '@/domain';
 import {
@@ -11,10 +8,7 @@ import {
   InjectUserRmqClient,
 } from '@/application/decorators';
 import { ClientProxy } from '@nestjs/microservices';
-import {
-  UserEventPattern,
-  type UserEventPayloadMap,
-} from '@clarte/shared-event-types/user';
+import { UserEventPattern, type UserEventPayloadMap } from '@clarte/shared-event-types/user';
 import { lastValueFrom } from 'rxjs';
 import { Logger } from '@nestjs/common';
 import { Effect } from 'effect';
@@ -32,12 +26,12 @@ export class UserCreateHandler implements ICommandHandler<UserCreateCommand> {
   ) {}
 
   async execute(command: UserCreateCommand): Promise<void> {
-    const user = User.create(
-      command.id,
-      command.login,
-      command.passwordHash,
-      this.userAvatarGenerator.generate(command.login),
-    );
+    const user = User.create({
+      id: command.id,
+      login: command.login,
+      passwordHash: command.passwordHash,
+      avatarUrl: this.userAvatarGenerator.generate(command.login),
+    });
     await this.repoWrite.save(user);
 
     const eventProgram = Effect.tryPromise({

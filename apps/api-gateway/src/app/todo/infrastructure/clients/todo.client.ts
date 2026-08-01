@@ -7,14 +7,10 @@ import { map, Observable } from 'rxjs';
 export class TodoClient implements ITodoClient, OnModuleInit {
   private todoService!: Todo.TodoServiceClient;
 
-  constructor(
-    @InjectTodoGrpcClient() private readonly todoGrpcClient: ClientGrpc,
-  ) {}
+  constructor(@InjectTodoGrpcClient() private readonly todoGrpcClient: ClientGrpc) {}
 
   onModuleInit() {
-    this.todoService = this.todoGrpcClient.getService(
-      Todo.TODO_SERVICE_NAME,
-    );
+    this.todoService = this.todoGrpcClient.getService(Todo.TODO_SERVICE_NAME);
   }
 
   createTodo(data: Todo.CreateTodoRequest): Observable<Todo.CreateTodoResponse> {
@@ -23,6 +19,18 @@ export class TodoClient implements ITodoClient, OnModuleInit {
 
   updateTodo(data: Todo.UpdateTodoRequest): Observable<void> {
     return this.todoService.updateTodo(data).pipe(map(() => void 0));
+  }
+
+  completeTodo(data: Todo.CompleteTodoRequest): Observable<void> {
+    return this.todoService.completeTodo(data).pipe(map(() => void 0));
+  }
+
+  uncompleteTodo(data: Todo.UncompleteTodoRequest): Observable<void> {
+    return this.todoService.uncompleteTodo(data).pipe(map(() => void 0));
+  }
+
+  deleteTodo(data: Todo.DeleteTodoRequest): Observable<void> {
+    return this.todoService.deleteTodo(data).pipe(map(() => void 0));
   }
 
   getUserTodos(userId: string): Observable<Todo.GetUserTodsResponse> {

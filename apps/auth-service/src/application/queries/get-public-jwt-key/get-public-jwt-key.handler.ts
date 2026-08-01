@@ -1,22 +1,15 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { GetPublicJwtKeyQuery } from '@/application/queries/get-public-jwt-key/get-public-jwt-key.query';
-import { promises as fs, existsSync } from 'fs';
+import { promises as fs } from 'fs';
 import { join } from 'path';
+import { sslKey } from '@clarte/shared';
+import { Inject } from '@nestjs/common';
+import { ASSETS_PATH } from '@/application/ports';
 
 @QueryHandler(GetPublicJwtKeyQuery)
-export class GetPublicJwtKeyHandler
-  implements IQueryHandler<GetPublicJwtKeyQuery>
-{
+export class GetPublicJwtKeyHandler implements IQueryHandler<GetPublicJwtKeyQuery> {
+  constructor(@Inject(ASSETS_PATH) private readonly assetsPath: string) {}
   async execute(): Promise<string> {
-    const getAssetsPath = () => {
-      const distAssets = join(__dirname, 'assets');
-      if (existsSync(distAssets)) {
-        return distAssets;
-      }
-      return join(__dirname, '..', '..', '..', 'assets');
-    };
-
-    const assetsDir = getAssetsPath();
-    return fs.readFile(join(assetsDir, 'public.key'), 'utf-8');
+    return fs.readFile(join(this.assetsPath, sslKey('public')), 'utf-8');
   }
 }

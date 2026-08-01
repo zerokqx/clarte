@@ -1,14 +1,16 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UpdateTodoCommand } from './update-todo.command';
 import { InjectTodoRepo } from '@/application/decorators';
-import { ITodoWriteRepository } from '@/application/ports';
+import { ITodoRepository } from '@/application/ports';
 import { TodoNotFoundException } from '@/domain/exceptions';
+import { CqrsRepoType } from '@clarte/shared-nest/types';
 
+// TODO Исправить баги типов
 @CommandHandler(UpdateTodoCommand)
 export class UpdateTodoHandler implements ICommandHandler<UpdateTodoCommand> {
   constructor(
     @InjectTodoRepo('w')
-    private readonly repoWrite: ITodoWriteRepository,
+    private readonly repoWrite: ITodoRepository[CqrsRepoType.w],
   ) {}
 
   async execute(command: UpdateTodoCommand): Promise<void> {
@@ -35,7 +37,11 @@ export class UpdateTodoHandler implements ICommandHandler<UpdateTodoCommand> {
     }
 
     if (data.isCompleted !== undefined && data.isCompleted !== null) {
-      todo.changeIsCompleted(data.isCompleted);
+      if (data.isCompleted) {
+        todo.completed();
+      } else {
+        todo.uncompleted();
+      }
     }
 
     await this.repoWrite.save(todo);

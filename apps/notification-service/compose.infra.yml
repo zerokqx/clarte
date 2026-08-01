@@ -1,9 +1,9 @@
 services:
-  postgres:
+  clarte-notification-service-postgres:
     image: postgres:16-alpine
-    container_name: clarte-notification-service-postgres
+    # container_name: clarte-notification-service-postgres
     ports:
-      - "${POSTGRES_PORT}:5432"
+      - '${POSTGRES_PORT}:5432'
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -11,8 +11,10 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: always
+    networks:
+      - notification-net
 volumes:
   postgres_data:
 networks:
-  default:
-    name: clarte-network
+  notification-net:
+    name: clarte-notification-network

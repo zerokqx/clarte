@@ -1,0 +1,101 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/project-schema.json",
+  "name": "@clarte/auth-service",
+  "root": "apps/auth-service",
+  "projectType": "application",
+  "tags": ["scope:auth", "type:app"],
+  "targets": {
+    "build": {
+      "cache": true,
+      "executor": "@nx/js:swc",
+      "dependsOn": ["^build", "generate-keys"],
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "apps/auth-service/dist",
+        "main": "apps/auth-service/src/main.ts",
+        "tsConfig": "apps/auth-service/tsconfig.app.json",
+        "skipTypeCheck": true,
+        "assets": [
+          {
+            "input": "apps/auth-service/src/assets",
+            "glob": "**/*",
+            "output": "src/assets",
+            "ignore": []
+          },
+          {
+            "input": "packages/shared-contracts/src/ports/proto",
+            "glob": "**/*.proto",
+            "output": "proto"
+          }
+        ]
+      },
+      "configurations": {
+        "production": {
+          "swcrc": "apps/auth-service/.swcrc.prod",
+          "skipTypeCheck": true
+        },
+        "development": {
+          "swcrc": "apps/auth-service/.swcrc"
+        }
+      }
+    },
+    "prune-lockfile": {
+      "dependsOn": ["build"],
+      "cache": true,
+      "executor": "@nx/js:prune-lockfile",
+      "outputs": [
+        "{workspaceRoot}/apps/auth-service/dist/package.json",
+        "{workspaceRoot}/apps/auth-service/dist/pnpm-lock.yaml"
+      ],
+      "options": {
+        "buildTarget": "build"
+      }
+    },
+    "copy-workspace-modules": {
+      "dependsOn": ["build"],
+      "cache": true,
+      "outputs": ["{workspaceRoot}/apps/auth-service/dist/workspace_modules"],
+      "executor": "@nx/js:copy-workspace-modules",
+      "options": {
+        "buildTarget": "build"
+      }
+    },
+    "prune": {
+      "dependsOn": ["prune-lockfile", "copy-workspace-modules"],
+      "executor": "nx:noop"
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "@clarte/auth-service:build",
+        "runBuildTargetDependencies": false,
+        "inspect": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "@clarte/auth-service:build:development"
+        },
+        "production": {
+          "buildTarget": "@clarte/auth-service:build:production"
+        }
+      }
+    },
+    "generate-keys": {
+      "executor": "nx:run-commands",
+      "cache": true,
+      "outputs": ["{projectRoot}/src/assets/private.key", "{projectRoot}/src/assets/public.key"],
+      "options": {
+        "commands": [
+          "mkdir -p src/assets",
+          "test -f src/assets/private.key || openssl genrsa -out src/assets/private.key 2048",
+          "test -f src/assets/public.key || openssl rsa -in src/assets/private.key -pubout -out src/assets/public.key"
+        ],
+        "cwd": "apps/auth-service",
+        "parallel": false
+      }
+    }
+  }
+}

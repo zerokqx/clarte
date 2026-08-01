@@ -1,0 +1,21 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/project-schema.json",
+  "name": "@clarte/shared-domain",
+  "root": "packages/shared-domain",
+  "projectType": "library",
+  "tags": ["scope:shared-domain", "type:lib"],
+  "sourceRoot": "packages/shared-domain/src",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "packages/shared-domain/dist",
+        "main": "packages/shared-domain/src/index.ts",
+        "tsConfig": "packages/shared-domain/tsconfig.lib.json",
+        "skipTypeCheck": true,
+        "stripLeadingPaths": true
+      }
+    }
+  }
+}

@@ -3,17 +3,17 @@ import { Module } from '@nestjs/common';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { JwtService } from '@/infrastructure/jwt/jwt.service';
-import { JWT_SERVICE } from '@/application';
+import { ASSETS_PATH, JWT_SERVICE } from '@/application';
+import { sslKey } from '@clarte/shared';
 
 @Module({
   imports: [
     JwtModuleNestJS.registerAsync({
-      async useFactory() {
-        const read = (file: string) =>
-          readFileSync(join(__dirname, 'assets', file), 'utf-8');
+      async useFactory(assetsPath: string) {
+        const read = (file: string) => readFileSync(join(assetsPath, file), 'utf-8');
 
-        const privateKey = read('private.key');
-        const publicKey = read('public.key');
+        const privateKey = read(sslKey('private'));
+        const publicKey = read(sslKey('public'));
         return {
           signOptions: { algorithm: 'RS256' },
           global: true,
@@ -21,6 +21,7 @@ import { JWT_SERVICE } from '@/application';
           publicKey,
         };
       },
+      inject: [ASSETS_PATH],
     }),
   ],
   providers: [

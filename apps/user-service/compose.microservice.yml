@@ -1,0 +1,22 @@
+services:
+  clarte-user-service:
+    image: zerok1/clarte-user-service:latest
+    container_name: clarte-user-service
+    build:
+      context: ../..
+      dockerfile: apps/user-service/Dockerfile
+      args:
+        - SERVICE_NAME=user-service
+    env_file:
+      - .env
+      - .env.docker
+    networks:
+      - default
+      - user-net
+networks:
+  default:
+    external: true
+    name: clarte-network
+  user-net:
+    external: true
+    name: clarte-user-network

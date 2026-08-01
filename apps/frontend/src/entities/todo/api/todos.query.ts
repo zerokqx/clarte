@@ -1,3 +1,3 @@
-import { useTodoControllerGetUserTodos } from '@/shared/api/orval';
+import { useTodoControllerGetUserTodos } from '@clarte/shared-api/endpoints';
 
 export const useTodos = () => useTodoControllerGetUserTodos();

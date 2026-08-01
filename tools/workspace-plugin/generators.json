@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "name": "workspace-plugin",
+  "version": "0.0.1",
+  "generators": {
+    "cqrs-command": {
+      "factory": "./src/generators/cqrs-command/cqrs-command",
+      "schema": "./src/generators/cqrs-command/schema.json",
+      "description": "Генератор NestJS CQRS команд и хэндлеров"
+    },
+    "cqrs-query": {
+      "factory": "./src/generators/cqrs-query/cqrs-query",
+      "schema": "./src/generators/cqrs-query/schema.json",
+      "description": "Генератор NestJS CQRS запросов и хэндлеров"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+services:
+  clarte-todo-service:
+    image: zerok1/clarte-todo-service:latest
+    # container_name: clarte-todo-service
+    build:
+      context: ../..
+      dockerfile: apps/todo-service/Dockerfile
+      args:
+        - SERVICE_NAME=todo-service
+    env_file:
+      - .env
+      - .env.docker
+    networks:
+      - default
+      - todo-net
+networks:
+  default:
+    external: true
+    name: clarte-network
+  todo-net:
+    external: true
+    name: clarte-todo-network

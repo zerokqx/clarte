@@ -1,22 +1,12 @@
 import classes from './create-toodo.module.scss';
 import { UnstyledButton } from '@mantine/core';
-import { openCreateTodoModal } from './open-create-todo-modal';
-import { M } from '@clarte/mantine-helpers';
-import { useCreateTodo } from '../api';
 import { PlusIcon } from '@phosphor-icons/react/dist/icons/Plus';
+import { useCreateTodoAction } from '../model';
 
 export const CreateTodoButton = () => {
-  const isMobile = M.useBreakpointMediaQuery('max-width', 'xs');
-  const { mutateAsync } = useCreateTodo();
+  const { handleClick } = useCreateTodoAction();
   return (
-    <UnstyledButton
-      className={classes.button}
-      variant="transparent"
-      onClick={async () => {
-        const data = await openCreateTodoModal({ fullScreen: isMobile });
-        if (data) mutateAsync({ data });
-      }}
-    >
+    <UnstyledButton className={classes.button} variant="transparent" onClick={handleClick}>
       <PlusIcon className={classes.buttonIcon} aria-hidden="true" />
       Создать задачу
     </UnstyledButton>

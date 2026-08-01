@@ -9,24 +9,22 @@ import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { Env } from '@humanwhocodes/env';
 import { Todo } from '@clarte/shared-contracts/proto';
-
-import { getProtoPath } from '@clarte/shared-contracts/functions';
+import { join } from 'path';
+import { nullThrow, proto } from '@clarte/shared';
+import { findUp } from '@clarte/shared-nest/functions';
 
 async function bootstrap() {
   const env = new Env();
   const PORT = env.get('PORT', 5004);
   const HOST = env.get('HOST', 'localhost');
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
-    {
-      transport: Transport.GRPC,
-      options: {
-        url: `${HOST}:${PORT}`,
-        package: Todo.TODO_PACKAGE_NAME,
-        protoPath: getProtoPath('todo'),
-      },
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
+    transport: Transport.GRPC,
+    options: {
+      url: `${HOST}:${PORT}`,
+      package: Todo.TODO_PACKAGE_NAME,
+      protoPath: join(nullThrow(findUp)('proto', __dirname), proto('todo')),
     },
-  );
+  });
   await app.listen();
   Logger.log(`🚀 Microservice Todo is running on grpc://${HOST}:${PORT}`);
 }

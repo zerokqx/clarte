@@ -11,11 +11,10 @@ import { Job } from 'bullmq';
 @Injectable()
 @Processor(TODO_BULLMQ_TIMERS)
 export class ReminderProcessor extends WorkerHost {
-  constructor(private readonly todoReminderService: TodoReminderService) {super()}
-  override async process(
-    job: Job<TodoBullMQMapper[TodoBullMQPatterns.TodoReminder]>,
-    token?: string,
-  ): Promise<any> {
+  constructor(private readonly todoReminderService: TodoReminderService) {
+    super();
+  }
+  override async process(job: Job<TodoBullMQMapper[TodoBullMQPatterns.TodoReminder]>) {
     this.todoReminderService.execute(job.data);
     return;
   }

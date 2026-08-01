@@ -1,5 +1,5 @@
 import { authStore } from '@/entities/session';
-import { useAuthControllerLogout } from '@/shared/api/orval';
+import { useAuthControllerLogout } from '@clarte/shared-api/endpoints';
 
 export const useLogout = () => {
   return useAuthControllerLogout({

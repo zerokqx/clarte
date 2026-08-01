@@ -7,9 +7,11 @@ import {
   RmqModule,
 } from '@clarte/shared-nest/modules';
 import {
+  CompleteTodoHandler,
   TODO_BULLMQ_TIMERS,
   TODO_RMQ_CLIENT,
   TodoReminderService,
+  UncompleteTodoHandler,
 } from './application';
 import { DatabaseModule, ReminderProcessor } from './infrastructure';
 import { CqrsModule } from '@nestjs/cqrs';
@@ -19,6 +21,7 @@ import {
   CreateTodoHandler,
   UpdateTodoHandler,
   GetUserTodosHandler,
+  DeleteHandler,
 } from './application';
 import { BullModule } from '@nestjs/bullmq';
 
@@ -33,13 +36,14 @@ import { BullModule } from '@nestjs/bullmq';
     }),
     RmqModule.register({
       name: TODO_RMQ_CLIENT,
-      exchange: 'clarte_events_exchange',
-      exchangeType: 'topic',
+      options: {
+        exchange: 'clarte_events_exchange',
+        exchangeType: 'topic',
+      },
     }),
     BullModule.forRootAsync({
       useFactory(config: ConfigService) {
-        const { host, password, port } =
-          config.getOrThrow<RedisConfiguration>('redis');
+        const { host, password, port } = config.getOrThrow<RedisConfiguration>('redis');
         return {
           connection: { password, host, port: parseInt(port, 10) },
         };
@@ -58,6 +62,9 @@ import { BullModule } from '@nestjs/bullmq';
     GetUserTodosHandler,
     TodoReminderService,
     ReminderProcessor,
+    CompleteTodoHandler,
+    UncompleteTodoHandler,
+    DeleteHandler,
   ],
 })
 export class AppModule {}

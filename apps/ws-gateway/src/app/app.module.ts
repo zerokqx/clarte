@@ -12,8 +12,12 @@ import { type INoteClient } from './note';
 import { RedisModule } from '../infrastructure';
 import { IRedisConfiguration } from '../application';
 import { map } from 'rxjs';
+import { createFolderPathModule } from '@clarte/shared-nest/modules/assets';
+import { PROTO_PATH } from './ports/di-tokens';
+
 @Module({
   imports: [
+    createFolderPathModule({ name: PROTO_PATH, folderName: 'proto', from: __dirname }),
     ConfigModule.forRoot({ isGlobal: true }),
     NoteModule,
     HocuspocusModule.registerAsync({

@@ -1,3 +1,3 @@
-import { useUserEditControllerChangeLogin } from '@/shared/api/orval';
+import { useUserEditControllerChangeLogin } from '@clarte/shared-api/endpoints';
 
 export const useChangeLogin = () => useUserEditControllerChangeLogin();

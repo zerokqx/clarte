@@ -2,7 +2,8 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from '@/infrastructure/database/database.module';
 import { ConfigModule } from '@nestjs/config';
-import { AppConfigModule, S3SharedModule } from '@clarte/shared-nest/modules';
+import { AppConfigModule } from '@clarte/shared-nest/modules';
+import { S3SharedModule } from '@clarte/shared-nest/modules/s3';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   USER_AVATAR_GENERATOR,
@@ -31,6 +32,7 @@ import { RmqModule } from '@clarte/shared-nest/modules';
 import { PresignedUploadHandler } from './application/queries/presigned-upload';
 import { UserStorageController } from './presentation/user-storage.rpc.controller';
 import { ChangeLoginHandler } from './application/commands/change-login';
+import { exchange, queue } from '@clarte/shared';
 
 @Module({
   imports: [
@@ -42,8 +44,13 @@ import { ChangeLoginHandler } from './application/commands/change-login';
     AppConfigModule,
     RmqModule.register({
       name: USER_RMQ_CLIENT,
-      exchange: 'clarte_events_exchange',
-      exchangeType: 'topic',
+      options: {
+        queue: queue('user', 'events'),
+        exchange: exchange('user', 'events'),
+        exchangeType: 'topic',
+        wildcards: true,
+        queueOptions: { durable: true },
+      },
     }),
     DatabaseModule,
     TypeOrmModule.forFeature([UserOrmEntity]),

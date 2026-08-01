@@ -12,9 +12,7 @@ export default [
       '**/vitest.config.*.timestamp*',
     ],
   },
-
   // ==================== DDD ARCHITECTURE BOUNDARIES ====================
-
   // 1. Правила для DOMAIN (Абсолютное ядро. Не зависит НИ ОТ ЧЕГО, кроме себя)
   {
     files: ['**/src/domain/**/*.{ts,tsx,js,jsx}'],
@@ -42,7 +40,6 @@ export default [
       ],
     },
   },
-
   // 2. Правила для APPLICATION (Бизнес-логика. Зависит только от Domain)
   {
     files: ['**/src/application/**/*.{ts,tsx,js,jsx}'],
@@ -68,9 +65,7 @@ export default [
   },
   // 3. Слой INFRASTRUCTURE (Внешний слой. Может импортировать Domain и Application)
   // Здесь no-restricted-imports не нужен, так как импорты идут внутрь.
-
   // ======================================================================
-
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
     rules: {
@@ -91,7 +86,6 @@ export default [
               sourceTag: 'type:app',
               onlyDependOnLibsWithTags: ['type:lib'],
             },
-
             // 2. Изоляция бизнес-доменов (scopes)
             // Приложения (микросервисы и шлюзы) не могут зависеть друг от друга напрямую,
             // они могут зависеть только от общих библиотек (shared-*)
@@ -165,7 +159,6 @@ export default [
                 'scope:frontend',
               ],
             },
-
             // 3. Чистота слоев внутри shared пакетов
             {
               // Доменный слой не зависит от NestJS инфраструктуры
@@ -214,5 +207,22 @@ export default [
       '**/*.mjs',
     ],
     rules: {},
+  },
+  {
+    files: ['**/*.json'],
+    // Override or add rules here
+    rules: {},
+    languageOptions: {
+      parser: await import('jsonc-eslint-parser'),
+    },
+  },
+  {
+    files: ['**/package.json', '**/generators.json'],
+    rules: {
+      '@nx/nx-plugin-checks': 'error',
+    },
+    languageOptions: {
+      parser: await import('jsonc-eslint-parser'),
+    },
   },
 ];

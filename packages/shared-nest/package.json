@@ -2,7 +2,6 @@
   "name": "@clarte/shared-nest",
   "version": "0.0.1",
   "private": true,
-  "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -38,6 +37,60 @@
       "import": "./dist/modules/index.js",
       "default": "./dist/modules/index.js"
     },
+    "./modules/s3": {
+      "@clarte/source": "./src/modules/s3/index.ts",
+      "types": "./dist/modules/s3/index.d.ts",
+      "import": "./dist/modules/s3/index.js",
+      "default": "./dist/modules/s3/index.js"
+    },
+    "./modules/database": {
+      "@clarte/source": "./src/modules/database/database-config.module.ts",
+      "types": "./dist/modules/database/database-config.module.d.ts",
+      "import": "./dist/modules/database/database-config.module.js",
+      "default": "./dist/modules/database/database-config.module.js"
+    },
+    "./modules/rmq": {
+      "@clarte/source": "./src/modules/rmq/index.ts",
+      "types": "./dist/modules/rmq/index.d.ts",
+      "import": "./dist/modules/rmq/index.js",
+      "default": "./dist/modules/rmq/index.js"
+    },
+    "./modules/auth": {
+      "@clarte/source": "./src/modules/auth/auth.module.ts",
+      "types": "./dist/modules/auth/auth.module.d.ts",
+      "import": "./dist/modules/auth/auth.module.js",
+      "default": "./dist/modules/auth/auth.module.js"
+    },
+    "./modules/redis": {
+      "@clarte/source": "./src/modules/redis/redis-config.module.ts",
+      "types": "./dist/modules/redis/redis-config.module.d.ts",
+      "import": "./dist/modules/redis/redis-config.module.js",
+      "default": "./dist/modules/redis/redis-config.module.js"
+    },
+    "./modules/app-config": {
+      "@clarte/source": "./src/modules/app-config/app-config.module.ts",
+      "types": "./dist/modules/app-config/app-config.module.d.ts",
+      "import": "./dist/modules/app-config/app-config.module.js",
+      "default": "./dist/modules/app-config/app-config.module.js"
+    },
+    "./modules/microservice-config": {
+      "@clarte/source": "./src/modules/microservice-config/microservice-config.module.ts",
+      "types": "./dist/modules/microservice-config/microservice-config.module.d.ts",
+      "import": "./dist/modules/microservice-config/microservice-config.module.js",
+      "default": "./dist/modules/microservice-config/microservice-config.module.js"
+    },
+    "./modules/assets": {
+      "@clarte/source": "./src/modules/assets/assets.module.ts",
+      "types": "./dist/modules/assets/assets.module.d.ts",
+      "import": "./dist/modules/assets/assets.module.js",
+      "default": "./dist/modules/assets/assets.module.js"
+    },
+    "./modules/compact-config": {
+      "@clarte/source": "./src/modules/compact-config/compact-config.module.ts",
+      "types": "./dist/modules/compact-config/compact-config.module.d.ts",
+      "import": "./dist/modules/compact-config/compact-config.module.js",
+      "default": "./dist/modules/compact-config/compact-config.module.js"
+    },
     "./strategies": {
       "@clarte/source": "./src/strategies/index.ts",
       "types": "./dist/strategies/index.d.ts",
@@ -63,49 +116,29 @@
       "default": "./dist/ports/index.js"
     }
   },
-  "nx": {
-    "tags": [
-      "scope:shared-nest",
-      "type:lib"
-    ],
-    "sourceRoot": "packages/shared-nest/src",
-    "targets": {
-      "build": {
-        "executor": "@nx/js:swc",
-        "outputs": [
-          "{options.outputPath}"
-        ],
-        "options": {
-          "outputPath": "packages/shared-nest/dist",
-          "main": "packages/shared-nest/src/index.ts",
-          "tsConfig": "packages/shared-nest/tsconfig.lib.json",
-          "skipTypeCheck": true,
-          "stripLeadingPaths": true,
-          "clean": false
-        }
-      }
-    }
-  },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1075.0",
-    "@aws-sdk/s3-request-presigner": "^3.1075.0",
+    "@swc/helpers": "catalog:swc",
     "@clarte/shared": "workspace:*",
     "@clarte/shared-contracts": "workspace:*",
     "@clarte/shared-domain": "workspace:*",
-    "@grpc/grpc-js": "^1.14.4",
-    "@humanwhocodes/env": "^4.0.1",
-    "@nestjs/common": "^11.1.27",
-    "@nestjs/config": "^4.0.4",
-    "@nestjs/microservices": "^11.1.27",
-    "@nestjs/passport": "^11.0.5",
-    "@swc/helpers": "0.5.18",
-    "effect": "^3.21.4",
-    "express": "^5.2.1",
-    "nestjs-s3": "^3.0.1",
-    "passport-jwt": "^4.0.1",
-    "rxjs": "^7.8.2"
+    "passport-jwt": "catalog:backend"
   },
   "devDependencies": {
-    "@types/passport-jwt": "^4.0.1"
+    "@types/passport-jwt": "catalog:types"
+  },
+  "peerDependencies": {
+    "@grpc/grpc-js": "catalog:backend",
+    "@aws-sdk/client-s3": "catalog:aws",
+    "@aws-sdk/s3-request-presigner": "catalog:aws",
+    "@humanwhocodes/env": "catalog:general",
+    "effect": "catalog:general",
+    "express": "catalog:backend",
+    "nestjs-s3": "catalog:nestjs",
+    "@nestjs/common": "catalog:nestjs",
+    "@nestjs/config": "catalog:nestjs",
+    "@nestjs/microservices": "catalog:nestjs",
+    "type-fest": "catalog:types",
+    "@nestjs/passport": "*",
+    "rxjs": "catalog:general"
   }
 }

@@ -1,11 +1,11 @@
 import { Effect as E, pipe } from 'effect';
-import { TextInput, Loader } from '@mantine/core';
+import { TextInput } from '@mantine/core';
 import { useDebouncedCallback } from '@mantine/hooks';
 import { useChangeLogin } from '../api/change-login.mutation';
 import { UserLoginSchema } from '@/entities/user';
 import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { getUserControllerMeQueryKey } from '@/shared/api/orval';
+import { getUserControllerMeQueryKey } from '@clarte/shared-api/endpoints';
 import { ZodError } from 'zod';
 
 type ChangeLoginProps = Pick<TextInput.Props, 'defaultValue'>;

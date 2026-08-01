@@ -1,0 +1,22 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/project-schema.json",
+  "name": "@clarte/shared-nest",
+  "root": "packages/shared-nest",
+  "projectType": "library",
+  "tags": ["scope:shared-nest", "type:lib"],
+  "sourceRoot": "packages/shared-nest/src",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "packages/shared-nest/dist",
+        "main": "packages/shared-nest/src/index.ts",
+        "tsConfig": "packages/shared-nest/tsconfig.lib.json",
+        "skipTypeCheck": true,
+        "stripLeadingPaths": true,
+        "clean": false
+      }
+    }
+  }
+}

@@ -1,8 +1,7 @@
-import { ActionIcon, Badge, Checkbox, Skeleton, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Checkbox, Skeleton, Text, Tooltip } from '@mantine/core';
 import { CalendarIcon } from '@phosphor-icons/react/dist/csr/Calendar';
 import { PencilSimpleIcon } from '@phosphor-icons/react/dist/csr/PencilSimple';
 import { TrashIcon } from '@phosphor-icons/react/dist/csr/Trash';
-import { ClockIcon } from '@phosphor-icons/react/dist/csr/Clock';
 import classes from './todo.module.scss';
 import { M } from '@clarte/mantine-helpers';
 
@@ -15,14 +14,15 @@ export interface TodoDataProp {
   createdAt: string;
 }
 
-interface TodoProps {
+export interface TodoProps {
   data: TodoDataProp;
-  onToggleComplete?: () => void;
+  onComplete?: () => void;
+  onUnComplete?: () => void;
   onEdit?: () => void;
-  onDelete?: () => void;
+  onDelete?: () => Promise<void>;
 }
 
-export const Todo = ({ data, onToggleComplete, onEdit, onDelete }: TodoProps) => {
+export const Todo = ({ data, onComplete, onUnComplete, onEdit, onDelete }: TodoProps) => {
   const isOverdue = !data.isCompleted && new Date(data.dueDate).getTime() < Date.now();
 
   const formattedDate = new Date(data.dueDate).toLocaleString('ru-RU', {
@@ -33,13 +33,21 @@ export const Todo = ({ data, onToggleComplete, onEdit, onDelete }: TodoProps) =>
     minute: '2-digit',
   });
 
+  const handleCheckboxChange = () => {
+    if (data.isCompleted) {
+      onUnComplete?.();
+    } else {
+      onComplete?.();
+    }
+  };
+
   return (
     <div className={classes.todo}>
       <Checkbox
         size="md"
         checked={data.isCompleted}
-        onChange={onToggleComplete}
-        color="teal"
+        onChange={handleCheckboxChange}
+        color="green"
         radius="xl"
         className={classes.todoCheckbox}
       />
@@ -58,10 +66,7 @@ export const Todo = ({ data, onToggleComplete, onEdit, onDelete }: TodoProps) =>
 
         <div className={classes.todoMetaGroup}>
           <div className={classes.todoDueDate}>
-            <CalendarIcon
-              size={14}
-              color={data.isCompleted ? M.dimmed() : isOverdue ? M.color('red')(6) : M.primary(6)}
-            />
+            <CalendarIcon size={14} color={M.primary()} />
             <Text
               className={classes.todoDateText}
               data-completed={data.isCompleted}
@@ -70,26 +75,6 @@ export const Todo = ({ data, onToggleComplete, onEdit, onDelete }: TodoProps) =>
               {formattedDate}
             </Text>
           </div>
-
-          {data.isCompleted ? (
-            <Badge color="teal" variant="light" size="xs" radius="sm">
-              Выполнено
-            </Badge>
-          ) : isOverdue ? (
-            <Badge
-              color="red"
-              variant="light"
-              size="xs"
-              radius="sm"
-              leftSection={<ClockIcon size={10} />}
-            >
-              Просрочено
-            </Badge>
-          ) : (
-            <Badge color="blue" variant="light" size="xs" radius="sm">
-              В процессе
-            </Badge>
-          )}
         </div>
       </div>
 
@@ -98,9 +83,9 @@ export const Todo = ({ data, onToggleComplete, onEdit, onDelete }: TodoProps) =>
           <ActionIcon
             variant="subtle"
             color="gray"
-            onClick={onEdit}
             radius="md"
             size="md"
+            onClick={onEdit}
             className={classes.todoActionButton}
           >
             <PencilSimpleIcon size={18} />

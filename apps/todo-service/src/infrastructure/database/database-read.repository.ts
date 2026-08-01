@@ -20,7 +20,7 @@ export class TodoRepositoryRead implements ITodoReadRepository {
         created_at AS "createdAt",
         updated_at AS "updatedAt"
        FROM todos
-       WHERE id = $1
+       WHERE id = $1 AND is_deleted = false
        LIMIT 1`,
       [id],
     );
@@ -54,7 +54,8 @@ export class TodoRepositoryRead implements ITodoReadRepository {
         created_at AS "createdAt",
         updated_at AS "updatedAt"
        FROM todos
-       WHERE user_id = $1`,
+       WHERE user_id = $1 AND is_deleted = false
+       `,
       [userId],
     );
 
@@ -75,9 +76,9 @@ export class TodoRepositoryRead implements ITodoReadRepository {
           row.isCompleted,
           row.title,
           row.description,
-          row.dueDate,
-          row.createdAt,
-          row.updatedAt,
+          row.dueDate.toISOString(),
+          row.createdAt.toISOString(),
+          row.updatedAt.toISOString(),
         ),
     );
   }

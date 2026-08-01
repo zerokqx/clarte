@@ -1,0 +1,49 @@
+{
+  "name": "@clarte/shared-api",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@clarte/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./endpoints": {
+      "@clarte/source": "./src/generated/endpoints/index.ts",
+      "types": "./dist/generated/endpoints/index.d.ts",
+      "import": "./dist/generated/endpoints/index.js",
+      "default": "./dist/generated/endpoints/index.js"
+    },
+    "./model": {
+      "@clarte/source": "./src/generated/model/index.ts",
+      "types": "./dist/generated/model/index.d.ts",
+      "import": "./dist/generated/model/index.js",
+      "default": "./dist/generated/model/index.js"
+    },
+    "./endpoints/*": {
+      "@clarte/source": "./src/generated/endpoints/*",
+      "types": "./dist/generated/endpoints/*.d.ts",
+      "import": "./dist/generated/endpoints/*.js",
+      "default": "./dist/generated/endpoints/*.js"
+    }
+  },
+  "dependencies": {
+    "@swc/helpers": "catalog:swc"
+  },
+  "peerDependencies": {
+    "@tanstack/react-query": "catalog:react",
+    "axios": "catalog:general",
+    "react": "catalog:react"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^10.5.0",
+    "msw": "catalog:react",
+    "orval": "^8.19.0"
+  }
+}

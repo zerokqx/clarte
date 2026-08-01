@@ -4,5 +4,5 @@ import { NavbarContext } from './navbar-context';
 export const useNavbar = () => {
   const context = use(NavbarContext);
   if (!context) throw new Error('useNavbar must be used within a NavbarProvider');
-  return context
+  return context;
 };

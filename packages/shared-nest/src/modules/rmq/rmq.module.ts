@@ -1,28 +1,19 @@
-import { ClientsModule, Transport } from '@nestjs/microservices';
+import { type Token } from '@clarte/shared';
+import type { OmitDeep } from 'type-fest';
+import { ClientsModule, RmqOptions, Transport } from '@nestjs/microservices';
 import { DynamicModule, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RmqConfiguration, rmqConfiguration } from './rmq.config';
-import { AmqplibQueueOptions } from '@nestjs/microservices/external/rmq-url.interface';
 
-interface RmqModuleOptions {
-  name: string | symbol;
-  queue?: string;
-  queueOptions?: AmqplibQueueOptions;
-  exchange?: string;
-  exchangeType?: string;
-}
+type RmqModuleOptions = OmitDeep<RmqOptions, 'transport' | 'options.urls'> & {
+  name: Token;
+};
 
 @Module({
   imports: [ConfigModule.forFeature(rmqConfiguration)],
 })
 export class RmqModule {
-  public static register({
-    name,
-    queue,
-    queueOptions,
-    exchange,
-    exchangeType,
-  }: RmqModuleOptions): DynamicModule {
+  public static register({ name, options }: RmqModuleOptions): DynamicModule {
     return {
       module: RmqModule,
       imports: [
@@ -35,11 +26,8 @@ export class RmqModule {
               return {
                 transport: Transport.RMQ,
                 options: {
-                  queue: queue ?? '',
                   urls: [`amqp://${defaultUser}:${defaultPass}@${host}:${port}`],
-                  queueOptions: queueOptions ?? {durable: true},
-                  ...(exchange && { exchange, wildcards: true }),
-                  ...(exchangeType && { exchangeType }),
+                  ...options,
                 },
               };
             },

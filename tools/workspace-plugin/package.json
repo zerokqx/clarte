@@ -1,0 +1,6 @@
+{
+  "name": "@clarte/workspace-plugin",
+  "version": "0.0.1",
+  "dependencies": {},
+  "generators": "./generators.json"
+}

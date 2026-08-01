@@ -1,9 +1,11 @@
+import { nullThrow, proto, queue, exchange } from '@clarte/shared';
+import { findUp } from '@clarte/shared-nest/functions';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { Env } from '@humanwhocodes/env';
-import { getProtoPath } from '@clarte/shared-contracts/functions';
+import { join } from 'path';
 import { Notification } from '@clarte/shared-contracts/proto';
 
 async function bootstrap() {
@@ -26,17 +28,16 @@ async function bootstrap() {
     options: {
       url: `${HOST}:${PORT}`,
       package: Notification.NOTIFICATION_PACKAGE_NAME,
-      protoPath: getProtoPath('notification'),
+      protoPath: join(nullThrow(findUp)('proto', __dirname), proto('notification')),
     },
   });
 
-  // Connect RMQ microservice
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.RMQ,
     options: {
       urls: [rmqUrl],
-      queue: 'notification_queue',
-      exchange: 'clarte_events_exchange',
+      queue: queue('notification-service'),
+      exchange: exchange('user', 'events'),
       exchangeType: 'topic',
       wildcards: true,
       queueOptions: {
@@ -51,12 +52,8 @@ async function bootstrap() {
   // Wires up the Nest application context without starting an HTTP server
   await app.init();
 
-  Logger.log(
-    `🚀 Notification Service is listening on gRPC: grpc://${HOST}:${PORT}`,
-  );
-  Logger.log(
-    `🚀 Notification Service is listening on RMQ: ${rmqUrl} (queue: notification_queue)`,
-  );
+  Logger.log(`🚀 Notification Service is listening on gRPC: grpc://${HOST}:${PORT}`);
+  Logger.log(`🚀 Notification Service is listening on RMQ: ${rmqUrl} (queue: notification_queue)`);
 }
 
 bootstrap();

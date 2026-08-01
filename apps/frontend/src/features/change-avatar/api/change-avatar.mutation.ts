@@ -1,6 +1,9 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { useUserEditControllerChangeAvatar, getUserControllerMeQueryKey } from '@/shared/api/orval';
-import type { UserMeDTO } from '@/shared/api/orval';
+import {
+  useUserEditControllerChangeAvatar,
+  getUserControllerMeQueryKey,
+} from '@clarte/shared-api/endpoints';
+import type { UserMeDTO } from '@clarte/shared-api/model';
 import { produce } from 'immer';
 
 export const useChangeAvatar = () => {

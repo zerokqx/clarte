@@ -1,2 +1,2 @@
-export { Header } from "./header";
-export { HeaderView } from "./header.view";
+export { Header } from './header';
+export { HeaderView } from './header.view';

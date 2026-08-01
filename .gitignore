@@ -1,7 +1,6 @@
 # See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
 # compiled output
-*.key
 .env.local
 dist
 tmp
@@ -68,3 +67,4 @@ test-output
 
 vite.config.*.timestamp*
 vitest.config.*.timestamp*
+.nx/migrate-runs

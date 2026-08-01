@@ -7,16 +7,5 @@
     "./package.json": "./package.json",
     ".": "./src/index.js"
   },
-  "nx": {
-    "tags": [
-      "scope:frontend",
-      "type:lib"
-    ],
-    "targets": {
-      "build": {
-        "executor": "nx:noop"
-      }
-    }
-  },
   "dependencies": {}
 }

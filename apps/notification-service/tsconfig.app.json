@@ -13,16 +13,27 @@
     "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "target": "es2021"
+    "target": "es2021",
+    "ignoreDeprecations": "6.0",
+    "rootDir": "."
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["eslint.config.js", "eslint.config.cjs", "eslint.config.mjs"],
+  "exclude": [
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts",
+    "eslint.config.js",
+    "eslint.config.cjs",
+    "eslint.config.mjs"
+  ],
   "references": [
+    {
+      "path": "../../packages/shared-nest/tsconfig.lib.json"
+    },
     {
       "path": "../../packages/shared-event-types/tsconfig.lib.json"
     },
     {
-      "path": "../../packages/shared-nest/tsconfig.lib.json"
+      "path": "../../packages/shared/tsconfig.lib.json"
     },
     {
       "path": "../../packages/shared-domain/tsconfig.lib.json"

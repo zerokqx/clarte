@@ -3,7 +3,8 @@ import * as ReactDOM from 'react-dom/client';
 import { AppProviders } from './providers';
 import { enableLogging } from 'mobx-logger';
 import { authStore } from '@/entities/session';
-import { setupAxiosInterceptors } from '@/shared/api';
+import { setupAxiosInterceptors } from '@clarte/shared-api';
+import { StrictMode } from 'react';
 
 setupAxiosInterceptors(() => authStore.refreshTokens());
 if (import.meta.env.DEV) {
@@ -28,6 +29,10 @@ async function enableMocking() {
 
 enableMocking().then(() => {
   const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-  root.render(<AppProviders />);
+  root.render(
+    <StrictMode>
+      <AppProviders />
+    </StrictMode>,
+  );
   authStore.initAuth();
 });

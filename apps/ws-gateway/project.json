@@ -1,0 +1,80 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/project-schema.json",
+  "name": "@clarte/ws-gateway",
+  "root": "apps/ws-gateway",
+  "projectType": "application",
+  "tags": ["scope:gateway", "type:app"],
+  "targets": {
+    "build": {
+      "cache": true,
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "apps/ws-gateway/dist",
+        "main": "apps/ws-gateway/src/main.ts",
+        "tsConfig": "apps/ws-gateway/tsconfig.app.json",
+        "skipTypeCheck": true,
+        "assets": [
+          {
+            "input": "packages/shared-contracts/src/ports/proto",
+            "glob": "**/*.proto",
+            "output": "proto"
+          }
+        ]
+      },
+      "configurations": {
+        "production": {
+          "swcrc": "apps/ws-gateway/.swcrc.prod",
+          "skipTypeCheck": true
+        },
+        "development": {
+          "swcrc": "apps/ws-gateway/.swcrc"
+        }
+      }
+    },
+    "prune-lockfile": {
+      "dependsOn": ["build"],
+      "cache": true,
+      "executor": "@nx/js:prune-lockfile",
+      "outputs": [
+        "{workspaceRoot}/apps/ws-gateway/dist/package.json",
+        "{workspaceRoot}/apps/ws-gateway/dist/pnpm-lock.yaml"
+      ],
+      "options": {
+        "buildTarget": "build"
+      }
+    },
+    "copy-workspace-modules": {
+      "dependsOn": ["build"],
+      "cache": true,
+      "outputs": ["{workspaceRoot}/apps/ws-gateway/dist/workspace_modules"],
+      "executor": "@nx/js:copy-workspace-modules",
+      "options": {
+        "buildTarget": "build"
+      }
+    },
+    "prune": {
+      "dependsOn": ["prune-lockfile", "copy-workspace-modules"],
+      "executor": "nx:noop"
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "@clarte/ws-gateway:build",
+        "runBuildTargetDependencies": false,
+        "inspect": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "@clarte/ws-gateway:build:development"
+        },
+        "production": {
+          "buildTarget": "@clarte/ws-gateway:build:production"
+        }
+      }
+    }
+  }
+}

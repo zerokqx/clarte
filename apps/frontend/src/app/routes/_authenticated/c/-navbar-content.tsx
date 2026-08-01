@@ -1,6 +1,6 @@
 import { ChecksIcon } from '@phosphor-icons/react/dist/csr/Checks';
-import { LogoutButton } from '@/features/logout';
 import { Navbar } from '@/widgets/navbar';
+import { SettingsButtoon } from '@/features/settings-button';
 
 export const NavbarContent = () => (
   <Navbar>
@@ -11,7 +11,7 @@ export const NavbarContent = () => (
       </Navbar.Item>
     </Navbar.Body>
     <Navbar.Down>
-      <LogoutButton />
+      <SettingsButtoon />
     </Navbar.Down>
   </Navbar>
 );

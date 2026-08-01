@@ -1,0 +1,9 @@
+include:
+  - compose.infra.yml
+services:
+  clarte-note-service:
+    extends:
+      file: compose.microservice.yml
+      service: clarte-note-service
+    depends_on:
+      - clarte-notes-service-mongodb

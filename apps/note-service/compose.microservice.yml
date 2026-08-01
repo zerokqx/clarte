@@ -1,0 +1,22 @@
+services:
+  clarte-note-service:
+    image: zerok1/clarte-note-service:latest
+    container_name: clarte-note-service
+    build:
+      context: ../..
+      dockerfile: apps/note-service/Dockerfile
+      args:
+        - SERVICE_NAME=note-service
+    env_file:
+      - .env
+      - .env.docker
+    networks:
+      - default
+      - note-net
+networks:
+  default:
+    external: true
+    name: clarte-network
+  note-net:
+    external: true
+    name: clarte-note-network

@@ -1,4 +1,4 @@
-import {  useUserControllerMe } from '@/shared/api/orval';
+import { useUserControllerMe } from '@clarte/shared-api/endpoints';
 
 export const useMe = () => {
   return useUserControllerMe();

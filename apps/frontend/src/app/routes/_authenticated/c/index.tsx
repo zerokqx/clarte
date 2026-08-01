@@ -1,5 +1,3 @@
-import { authStore } from '@/entities/session';
-import { Button } from '@mantine/core';
 import { createFileRoute } from '@tanstack/react-router';
 import { observer } from 'mobx-react-lite';
 

@@ -2,11 +2,12 @@ import { Module } from '@nestjs/common';
 import { USER_CLIENT } from '@/application';
 import { UserClient } from '@/infrastructure/user/user.client';
 import { User } from '@clarte/shared-contracts/proto';
-import { getProtoPath } from '@clarte/shared-contracts/functions';
+import { join } from 'path';
 import { ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { USER_GRPC_CLIENT } from '@/infrastructure/ports';
+import { PROTO_PATH, USER_GRPC_CLIENT } from '@/infrastructure/ports';
 import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared-nest/modules';
+import { hostPort, proto } from '@clarte/shared';
 
 @Module({
   imports: [
@@ -17,19 +18,18 @@ import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared
     ClientsModule.registerAsync([
       {
         name: USER_GRPC_CLIENT,
-        useFactory(config: ConfigService) {
-          const { host, port } =
-            config.getOrThrow<MicroserviceConfigType>('user-service');
+        useFactory(config: ConfigService, protoPath: string) {
+          const { host, port } = config.getOrThrow<MicroserviceConfigType>('user-service');
           return {
             transport: Transport.GRPC,
             options: {
-              url: `${host}:${port}`,
+              url: hostPort(host, port),
               package: User.USER_PACKAGE_NAME,
-              protoPath: getProtoPath('user'),
+              protoPath: join(protoPath, proto('user')),
             },
           };
         },
-        inject: [ConfigService],
+        inject: [ConfigService, PROTO_PATH],
       },
     ]),
   ],

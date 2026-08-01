@@ -6,3 +6,13 @@ dist
 .nx
 .devenv
 .direnv
+.husky
+.agents
+.vscode
+.tanstack
+docs
+scripts
+**/*.nix
+**/*.md
+**/*.nix
+**/*.spec.ts

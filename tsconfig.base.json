@@ -15,13 +15,11 @@
     "noUnusedLocals": true,
     "skipLibCheck": true,
     "strict": true,
-    // "baseUrl":".",
-    // "paths": {
-    //   "@clarte/shared": [
-    //     "packages/shared/src/index.ts"
-    //   ]
-    // },
     "target": "ES2022",
-    "customConditions": ["@clarte/source"]
+    "customConditions": ["@clarte/source"],
+    "noUncheckedSideEffectImports": false,
+    "types": ["*"],
+    "esModuleInterop": false,
+    "ignoreDeprecations": "6.0"
   }
 }

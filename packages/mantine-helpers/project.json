@@ -1,0 +1,21 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/project-schema.json",
+  "name": "@clarte/mantine-helpers",
+  "root": "packages/mantine-helpers",
+  "projectType": "library",
+  "tags": ["scope:frontend", "type:lib"],
+  "sourceRoot": "packages/mantine-helpers/src",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "packages/mantine-helpers/dist",
+        "main": "packages/mantine-helpers/src/index.ts",
+        "tsConfig": "packages/mantine-helpers/tsconfig.lib.json",
+        "skipTypeCheck": true,
+        "stripLeadingPaths": true
+      }
+    }
+  }
+}

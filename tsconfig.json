@@ -44,6 +44,12 @@
     },
     {
       "path": "./packages/mantine-helpers"
+    },
+    {
+      "path": "./packages/shared-api"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "ignoreDeprecations": "6.0"
+  }
 }

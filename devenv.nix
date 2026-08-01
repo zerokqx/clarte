@@ -11,10 +11,13 @@
     pkgs.git
     pkgs.protobuf
     pkgs.openssl
-    pkgs.pnpm
     pkgs.minio-client
   ];
 
+  languages.javascript = {
+    enable = true;
+    pnpm.enable = true;
+  };
   # https://devenv.sh/languages/
   # languages.rust.enable = true;
 

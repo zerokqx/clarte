@@ -58,7 +58,11 @@ export class HocuspocusAdapter implements IHocuspocusServerPort, OnModuleInit, O
   }
 
   public handleUpgrade(request: IncomingMessage, socket: Duplex, head: Buffer): void {
-    (this.server as any).crossws.handleUpgrade(request, socket, head);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const crossws = (this.server as any).crossws;
+    if (crossws && typeof crossws.handleUpgrade === 'function') {
+      crossws.handleUpgrade(request, socket, head);
+    }
   }
 
   async onModuleInit() {

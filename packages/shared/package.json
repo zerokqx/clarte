@@ -2,43 +2,29 @@
   "name": "@clarte/shared",
   "version": "0.0.1",
   "private": true,
-  "type": "module",
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/cjs/index.d.ts",
   "exports": {
     "./package.json": "./package.json",
     ".": {
       "@clarte/source": "./src/index.ts",
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "default": "./dist/index.js"
-    }
-  },
-  "nx": {
-    "tags": [
-      "scope:shared",
-      "type:lib"
-    ],
-    "sourceRoot": "packages/shared/src",
-    "targets": {
-      "build": {
-        "executor": "@nx/js:swc",
-        "outputs": [
-          "{options.outputPath}"
-        ],
-        "options": {
-          "outputPath": "packages/shared/dist",
-          "main": "packages/shared/src/index.ts",
-          "tsConfig": "packages/shared/tsconfig.lib.json",
-          "skipTypeCheck": true,
-          "stripLeadingPaths": true
-        }
-      }
+      "types": "./dist/cjs/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "default": "./dist/cjs/index.js"
+    },
+    "./functions": {
+      "@clarte/source": "./src/functions/index.ts",
+      "types": "./dist/cjs/functions/index.d.ts",
+      "import": "./dist/esm/functions/index.js",
+      "require": "./dist/cjs/functions/index.js",
+      "default": "./dist/cjs/functions/index.js"
     }
   },
   "dependencies": {
-    "@swc/helpers": "0.5.18",
-    "radash": "^12.1.1"
+    "@swc/helpers": "catalog:swc",
+    "radash": "catalog:general",
+    "type-fest": "catalog:types"
   }
 }

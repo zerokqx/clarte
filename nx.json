@@ -15,6 +15,7 @@
     "sharedGlobals": []
   },
   "plugins": [
+    "./nx-plugins/docker-compose.ts",
     {
       "plugin": "@nx/js/typescript",
       "options": {
@@ -40,6 +41,7 @@
         "serveStaticTargetName": "serve-static"
       }
     },
+
     {
       "plugin": "@nx/eslint/plugin",
       "options": {
@@ -62,7 +64,6 @@
       "plugin": "@nx/vite/plugin",
       "options": {
         "buildTargetName": "build",
-        "testTargetName": "test",
         "serveTargetName": "serve",
         "devTargetName": "dev",
         "previewTargetName": "preview",
@@ -75,9 +76,43 @@
     {
       "plugin": "@nx/vitest",
       "options": {
+        "testTargetName": "test"
+      }
+    },
+    {
+      "plugin": "@nx/vitest",
+      "options": {
         "testTargetName": "test",
         "ciTargetName": "test-ci",
         "testMode": "watch"
+      }
+    },
+    {
+      "plugin": "@nx/docker",
+      "options": {
+        "buildTarget": {
+          "name": "docker:build",
+          "cwd": ".",
+          "args": [
+            "-f {projectRoot}/Dockerfile",
+            "--build-arg APP_NAME={projectName}",
+            "--build-arg APP_PATH={projectRoot}"
+          ]
+        },
+        "runTarget": {
+          "name": "docker:run"
+        }
+      }
+    },
+    {
+      "plugin": "@nx/rspack/plugin",
+      "options": {
+        "buildTargetName": "build-rs",
+        "serveTargetName": "serve-rs",
+        "serveStaticTargetName": "serve-static",
+        "previewTargetName": "preview",
+        "buildDepsTargetName": "build-deps",
+        "watchDepsTargetName": "watch-deps"
       }
     }
   ],
@@ -91,26 +126,13 @@
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
     },
-    "compose-infra-up": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "docker compose -f {projectRoot}/compose.infra.yml up -d"
-      }
-    },
-    "compose-infra-down": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "docker compose -f {projectRoot}/compose.infra.yml down"
-      }
-    },
-    "compose-infra-logs": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "docker compose -f {projectRoot}/compose.infra.yml logs -f"
-      }
-    },
     "test": {
       "dependsOn": ["^build"]
+    },
+    "@nx/js:tsc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   },
   "generators": {

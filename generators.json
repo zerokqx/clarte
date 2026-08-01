@@ -1,0 +1,14 @@
+{
+  "generators": {
+    "cqrs-generator": {
+      "factory": "./dist/tools/workspace-plugin/src/generators/cqrs-generator/cqrs-generator",
+      "schema": "./dist/tools/workspace-plugin/src/generators/cqrs-generator/schema.json",
+      "description": "cqrs-generator generator"
+    },
+    "cqrs": {
+      "factory": "./dist/tools/my-plugin/src/generators/cqrs/cqrs",
+      "schema": "./dist/tools/my-plugin/src/generators/cqrs/schema.json",
+      "description": "cqrs generator"
+    }
+  }
+}

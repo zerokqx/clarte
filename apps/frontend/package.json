@@ -3,22 +3,28 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "axios": "catalog:general",
+    "effect": "catalog:general",
+    "immer": "^10.1.1",
+    "js-cookie": "catalog:general",
+    "react": "catalog:react",
+    "react-dom": "catalog:react",
     "@clarte/mantine-helpers": "workspace:*",
     "@clarte/mantine-postcss": "workspace:*",
     "@clarte/shared": "workspace:*",
-    "@hocuspocus/provider": "^4.3.0",
+    "@clarte/shared-api": "workspace:*",
+    "@hocuspocus/provider": "catalog:yjs",
     "@hookform/resolvers": "^5.4.0",
-    "@mantine/core": "^9.4.1",
-    "@mantine/dates": "^9.4.1",
-    "@mantine/hooks": "^9.4.1",
-    "@mantine/modals": "^9.4.1",
-    "@mantine/notifications": "^9.4.1",
-    "@mantine/spotlight": "^9.4.1",
-    "@mantine/tiptap": "^9.4.1",
-    "@phosphor-icons/react": "^2.1.10",
-    "@tanstack/react-query": "^5.101.2",
-    "@tanstack/react-router": "^1.170.16",
-    "@tanstack/react-router-devtools": "^1.167.0",
+    "@mantine/core": "catalog:react",
+    "@mantine/dates": "catalog:react",
+    "@mantine/hooks": "catalog:react",
+    "@mantine/modals": "catalog:react",
+    "@mantine/notifications": "catalog:react",
+    "@mantine/spotlight": "catalog:react",
+    "@mantine/tiptap": "catalog:react",
+    "@phosphor-icons/react": "catalog:react",
+    "@tanstack/react-query": "catalog:react",
+    "@tanstack/react-router": "catalog:react",
     "@tiptap/extension-code-block": "^3.27.1",
     "@tiptap/extension-code-block-lowlight": "^3.27.1",
     "@tiptap/extension-collaboration": "^3.27.1",
@@ -34,6 +40,7 @@
     "@tiptap/pm": "^3.27.1",
     "@tiptap/react": "^3.27.1",
     "@tiptap/starter-kit": "^3.27.1",
+    "babel-plugin-react-compiler": "^1.0.0",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.21",
     "lowlight": "^3.3.0",
@@ -43,49 +50,21 @@
     "mobx-react-lite": "^4.1.1",
     "motion": "^12.42.0",
     "react-hook-form": "^7.80.0",
-    "react-yjs": "^2.0.1",
-    "y-protocols": "^1.0.7",
-    "y-websocket": "^1.5.4",
-    "yjs": "13.6.31",
-    "zod": "^4.4.3"
-  },
-  "nx": {
-    "tags": [
-      "scope:frontend",
-      "type:app"
-    ],
-    "targets": {
-      "orval": {
-        "executor": "nx:run-commands",
-        "cache": true,
-        "inputs": [
-          "{projectRoot}/orval.config.ts",
-          {
-            "env": "VITE_BACKEND_PORT"
-          },
-          {
-            "env": "VITE_BACKEND_HOST"
-          }
-        ],
-        "outputs": [
-          "{projectRoot}/src/shared/api/orval/generated"
-        ],
-        "options": {
-          "command": "orval",
-          "args": [
-            "--config=./orval.config.ts"
-          ],
-          "cwd": "apps/frontend"
-        }
-      }
-    }
+    "react-yjs": "catalog:yjs",
+    "tslib": "catalog:general",
+    "y-protocols": "catalog:yjs",
+    "y-websocket": "catalog:yjs",
+    "yjs": "catalog:yjs",
+    "zod": "catalog:validation"
   },
   "devDependencies": {
-    "@faker-js/faker": "^10.5.0",
+    "@types/js-cookie": "catalog:types",
+    "@rolldown/plugin-babel": "^0.2.3",
+    "@tanstack/react-query-devtools": "^5.101.2",
+    "@tanstack/react-router-devtools": "^1.167.0",
     "@tanstack/router-plugin": "^1.168.18",
     "eslint": "^9.39.4",
-    "msw": "^2.14.6",
-    "orval": "^8.19.0",
+    "msw": "catalog:react",
     "postcss": "8.4.38",
     "postcss-preset-mantine": "^1.18.0",
     "postcss-simple-vars": "^7.0.1",

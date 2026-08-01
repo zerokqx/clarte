@@ -1,0 +1,91 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/project-schema.json",
+  "name": "@clarte/note-service",
+  "root": "apps/note-service",
+  "projectType": "application",
+  "tags": ["scope:note", "type:app"],
+  "targets": {
+    "build": {
+      "cache": true,
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "apps/note-service/dist",
+        "main": "apps/note-service/src/main.ts",
+        "tsConfig": "apps/note-service/tsconfig.app.json",
+        "skipTypeCheck": true,
+        "assets": [
+          {
+            "input": "packages/shared-contracts/src/ports/proto",
+            "glob": "**/*.proto",
+            "output": "proto"
+          }
+        ]
+      },
+      "configurations": {
+        "production": {
+          "swcrc": "apps/note-service/.swcrc.prod",
+          "skipTypeCheck": true
+        },
+        "development": {
+          "swcrc": "apps/note-service/.swcrc"
+        }
+      }
+    },
+    "prune-lockfile": {
+      "dependsOn": ["build"],
+      "cache": true,
+      "executor": "@nx/js:prune-lockfile",
+      "outputs": [
+        "{workspaceRoot}/apps/note-service/dist/package.json",
+        "{workspaceRoot}/apps/note-service/dist/pnpm-lock.yaml"
+      ],
+      "options": {
+        "buildTarget": "build"
+      }
+    },
+    "copy-workspace-modules": {
+      "dependsOn": ["build"],
+      "cache": true,
+      "outputs": ["{workspaceRoot}/apps/note-service/dist/workspace_modules"],
+      "executor": "@nx/js:copy-workspace-modules",
+      "options": {
+        "buildTarget": "build"
+      }
+    },
+    "prune": {
+      "dependsOn": ["prune-lockfile", "copy-workspace-modules"],
+      "executor": "nx:noop"
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "@clarte/note-service:build",
+        "runBuildTargetDependencies": false,
+        "inspect": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "@clarte/note-service:build:development"
+        },
+        "production": {
+          "buildTarget": "@clarte/note-service:build:production"
+        }
+      }
+    },
+    "test": {
+      "options": {
+        "passWithNoTests": true
+      }
+    },
+    "compose-infra-up": {},
+    "compose-infra-down": {},
+    "compose-infra-logs": {},
+    "compose-service-up": {},
+    "compose-service-down": {},
+    "compose-service-logs": {}
+  }
+}
