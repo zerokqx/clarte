@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@aws-sdk/client-s3": "catalog:aws",
+    "@aws-sdk/s3-request-presigner": "catalog:aws",
     "@clarte/shared": "workspace:*",
     "@clarte/shared-contracts": "workspace:*",
     "@clarte/shared-domain": "workspace:*",
@@ -13,6 +15,7 @@
     "@grpc/grpc-js": "catalog:backend",
     "@humanwhocodes/env": "catalog:general",
     "@nestjs/common": "catalog:nestjs",
+    "nestjs-s3": "catalog:nestjs",
     "@nestjs/config": "catalog:nestjs",
     "@nestjs/core": "catalog:nestjs",
     "@nestjs/cqrs": "catalog:nestjs",

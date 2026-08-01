@@ -18,6 +18,9 @@ export default defineConfig(({ mode }) => {
     css: { modules: { localsConvention: 'camelCase', exportGlobals: true } },
     root: import.meta.dirname,
     cacheDir: '../node_modules/.vite/frontend',
+    optimizeDeps: {
+      include: ['react', 'react-dom', 'react-dom/client', '@tiptap/react'],
+    },
     resolve: {
       alias: {
         '@': `${import.meta.dirname}/src`,
