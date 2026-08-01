@@ -121,10 +121,10 @@
     "@clarte/shared": "workspace:*",
     "@clarte/shared-contracts": "workspace:*",
     "@clarte/shared-domain": "workspace:*",
-    "passport-jwt": "^4.0.1"
+    "passport-jwt": "catalog:backend"
   },
   "devDependencies": {
-    "@types/passport-jwt": "^4.0.1"
+    "@types/passport-jwt": "catalog:types"
   },
   "peerDependencies": {
     "@grpc/grpc-js": "catalog:backend",

@@ -8,7 +8,7 @@
     "@clarte/shared-domain": "workspace:*",
     "@clarte/shared-nest": "workspace:*",
     "@hocuspocus/extension-redis": "catalog:yjs",
-    "@hocuspocus/server": "^4.3.0",
+    "@hocuspocus/server": "catalog:yjs",
     "@humanwhocodes/env": "catalog:general",
     "@nestjs/common": "catalog:nestjs",
     "@nestjs/config": "catalog:nestjs",
@@ -16,15 +16,15 @@
     "@nestjs/jwt": "catalog:nestjs",
     "@nestjs/microservices": "catalog:nestjs",
     "@swc/helpers": "catalog:swc",
-    "jsonwebtoken": "^9.0.3",
+    "jsonwebtoken": "catalog:backend",
     "reflect-metadata": "catalog:general",
     "rxjs": "catalog:general",
     "tslib": "catalog:general",
-    "ws": "^8.21.0",
+    "ws": "catalog:backend",
     "yjs": "catalog:yjs"
   },
   "devDependencies": {
-    "@types/jsonwebtoken": "^9.0.10",
-    "@types/ws": "^8.18.1"
+    "@types/jsonwebtoken": "catalog:types",
+    "@types/ws": "catalog:types"
   }
 }

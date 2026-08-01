@@ -9,6 +9,10 @@ catalogs:
   types:
     type-fest: '^5.8.0'
     '@types/passport-jwt': '^4.0.1'
+    '@types/jest': '~30.0.0'
+    '@types/jsonwebtoken': '^9.0.10'
+    '@types/ws': '^8.18.1'
+    '@types/js-cookie': '^3.0.6'
   drivers:
     'pg': '^8.22.0'
     'mongoose': '^9.7.4'
@@ -21,6 +25,10 @@ catalogs:
     'express': '5.2.1'
     '@grpc/grpc-js': '^1.14.4'
     'passport-jwt': '^4.0.1'
+    'argon2': '0.44.0'
+    'bullmq': '^5.41.7'
+    'jsonwebtoken': '^9.0.3'
+    'ws': '^8.21.0'
   general:
     '@humanwhocodes/env': '^4.0.1'
     'effect': '^3.14.0'
@@ -29,6 +37,7 @@ catalogs:
     'reflect-metadata': '0.2.2'
     'rxjs': '^7.8.2'
     'axios': '^1.18.1'
+    'js-cookie': '^3.0.5'
   validation:
     'class-validator': '^0.15.1'
     'class-transformer': '^0.5.1'
@@ -65,9 +74,11 @@ catalogs:
     '@phosphor-icons/react': '^2.1.10'
     '@tanstack/react-router': '^1.170.16'
     '@tanstack/react-query': '^5.101.2'
+    'msw': '^2.14.6'
   yjs:
     '@hocuspocus/extension-redis': '^4.4.0'
     '@hocuspocus/provider': '^4.3.0'
+    '@hocuspocus/server': '^4.3.0'
     'y-protocols': '^1.0.7'
     'react-yjs': '^2.0.1'
     'y-websocket': '^1.5.4'

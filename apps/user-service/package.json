@@ -30,6 +30,6 @@
     "typeorm": "catalog:backend"
   },
   "devDependencies": {
-    "@types/jest": "~30.0.0"
+    "@types/jest": "catalog:types"
   }
 }

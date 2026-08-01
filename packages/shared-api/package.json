@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^10.5.0",
-    "msw": "^2.14.6",
+    "msw": "catalog:react",
     "orval": "^8.19.0"
   }
 }
