@@ -8,9 +8,7 @@
     "build": {
       "cache": true,
       "executor": "@nx/js:swc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "apps/todo-service/dist",
         "main": "apps/todo-service/src/main.ts",

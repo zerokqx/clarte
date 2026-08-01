@@ -26,8 +26,6 @@ import { PROTO_PATH } from '@/app/ports/di-tokens';
       imports: [AuthModule],
       provider: JwtKeyProvider,
     }),
-
-
   ],
   controllers: [],
   providers: [],

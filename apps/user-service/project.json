@@ -8,9 +8,7 @@
     "build": {
       "cache": true,
       "executor": "@nx/js:swc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "apps/user-service/dist",
         "main": "apps/user-service/src/main.ts",

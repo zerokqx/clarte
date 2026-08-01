@@ -27,5 +27,3 @@ export function createFolderPathModule(options: FolderPathModuleOptions): Dynami
     exports: [options.name],
   };
 }
-
-

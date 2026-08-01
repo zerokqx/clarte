@@ -79,7 +79,6 @@
       "import": "./dist/modules/microservice-config/microservice-config.module.js",
       "default": "./dist/modules/microservice-config/microservice-config.module.js"
     },
-
     "./modules/assets": {
       "@clarte/source": "./src/modules/assets/assets.module.ts",
       "types": "./dist/modules/assets/assets.module.d.ts",

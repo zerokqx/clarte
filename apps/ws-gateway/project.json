@@ -8,9 +8,7 @@
     "build": {
       "cache": true,
       "executor": "@nx/js:swc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "apps/ws-gateway/dist",
         "main": "apps/ws-gateway/src/main.ts",

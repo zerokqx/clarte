@@ -8,9 +8,7 @@
     "build": {
       "cache": true,
       "executor": "@nx/js:swc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "apps/notification-service/dist",
         "main": "apps/notification-service/src/main.ts",

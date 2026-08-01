@@ -30,7 +30,7 @@ import { PROTO_PATH } from '@/app/ports/di-tokens';
           return {
             transport: Transport.GRPC,
             options: {
-              url: hostPort(host,port),
+              url: hostPort(host, port),
               package: Auth.AUTH_PACKAGE_NAME,
               protoPath: join(protoPath, proto('auth')),
             },

@@ -1,9 +1,5 @@
 import { AuthEventPatern, type AuthEventPayloadMap } from '@clarte/shared-event-types/auth';
-import {
-  AggregateRoot,
-  defineDomainEvent,
-  unionEvents,
-} from '@clarte/shared-domain/domain';
+import { AggregateRoot, defineDomainEvent, unionEvents } from '@clarte/shared-domain/domain';
 import { LoginVo, PasswordHashVo } from '@/domain/value-objects';
 import { IPasswordHasher } from '@/domain/ports';
 
