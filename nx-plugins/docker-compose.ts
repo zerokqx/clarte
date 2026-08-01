@@ -67,6 +67,13 @@ export const createNodes: CreateNodesV2 = [
                     cwd: projectRoot,
                   },
                 },
+                [`compose${targetSuffix}-push`]: {
+                  executor: 'nx:run-commands',
+                  options: {
+                    command: `docker compose -f ${filename} push`,
+                    cwd: projectRoot,
+                  },
+                },
               },
             },
           },

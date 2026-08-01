@@ -1,6 +1,6 @@
 services:
   clarte-notification-service:
-    image: apps-notification-service:latest
+    image: zerok1/clarte-notification-service:latest
     container_name: clarte-notification-service
     build:
       context: ../..

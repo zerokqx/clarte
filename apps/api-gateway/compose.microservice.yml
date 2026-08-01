@@ -1,6 +1,6 @@
 services:
   clarte-api-gateway:
-    image: apps-api-gateway:latest
+    image: zerok1/clarte-api-gateway:latest
     container_name: clarte-api-gateway
     build:
       context: ../..

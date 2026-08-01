@@ -1,6 +1,6 @@
 services:
   clarte-note-service:
-    image: apps-note-service:latest
+    image: zerok1/clarte-note-service:latest
     container_name: clarte-note-service
     build:
       context: ../..
