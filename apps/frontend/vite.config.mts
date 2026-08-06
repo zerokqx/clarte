@@ -43,6 +43,13 @@ export default defineConfig(({ mode }) => {
     preview: {
       port: port,
       host: host,
+      proxy: {
+        '/api': {
+          target: proxyTarget,
+          changeOrigin: true,
+          secure: false,
+        },
+      },
     },
 
     plugins: [

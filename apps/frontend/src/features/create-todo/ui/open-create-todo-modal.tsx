@@ -17,6 +17,13 @@ export const openCreateTodoModal = ({ fullScreen }: OpenCreateTodoModalProps) =>
 
     const modalId = modals.open({
       fullScreen,
+      centered: true,
+      radius: 'lg',
+      padding: 'lg',
+      overlayProps: {
+        backgroundOpacity: 0.45,
+        blur: 4,
+      },
       title: 'Новая задача',
       onClose: () => safeResolve(null),
       children: (

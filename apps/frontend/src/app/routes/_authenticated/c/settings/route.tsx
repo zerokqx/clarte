@@ -15,6 +15,7 @@ export const Route = createFileRoute('/_authenticated/c/settings')({
       throw redirect({ to: '/c/settings/account' });
   },
 
+  pendingMs: 0,
   component: RouteComponent,
 });
 
