@@ -31,7 +31,7 @@ export default defineConfig(({ mode }) => {
     server: {
       port: port,
       host: host,
-      allowedHosts: ['.lhr.life'],
+      allowedHosts: ['.lhr.life', '.local'],
       proxy: {
         '/api': {
           target: proxyTarget,

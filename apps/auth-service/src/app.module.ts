@@ -1,7 +1,13 @@
 import { Module, Provider } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CqrsModule } from '@nestjs/cqrs';
-import { UserModule, Argon2PasswordHasher, JwtModule, PROTO_PATH } from '@/infrastructure';
+import {
+  UserModule,
+  Argon2PasswordHasher,
+  JwtModule,
+  DatabaseModule,
+  PROTO_PATH,
+} from '@/infrastructure';
 import {
   LoginPasswordHandler,
   PASSWORD_HASHER,
@@ -13,8 +19,8 @@ import {
 } from '@/application';
 import { AuthController } from '@/presentation';
 import { RefreshHandler } from './application/commands/refresh/refresh.handler';
-import { RmqModule } from '@clarte/shared-nest/modules';
-import { exchange } from '@clarte/shared';
+import { AppConfigModule, RmqModule } from '@clarte/shared-nest/modules';
+import { exchange, env } from '@clarte/shared';
 import { createFolderPathModule } from '@clarte/shared-nest/modules/assets';
 
 const handlers: Provider[] = [
@@ -33,8 +39,10 @@ const handlers: Provider[] = [
     CqrsModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env.local', '.env'],
+      envFilePath: [env('local'), env()],
     }),
+    AppConfigModule,
+    DatabaseModule,
     RmqModule.register({
       name: AUTH_RMQ_CLIENT,
       options: {
