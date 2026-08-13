@@ -19,6 +19,8 @@ export class NoteWriteRepository implements INoteRepositoryWrite {
       tags: doc.tags,
       bytes: doc.bytes ? new Uint8Array(doc.bytes) : null,
       authorId: doc.authorId,
+      parentId: doc.parentId ?? null,
+      linksTo: doc.linksTo ?? [],
       createdAt: doc.createdAt,
       updatedAt: doc.updatedAt,
     });
@@ -31,6 +33,8 @@ export class NoteWriteRepository implements INoteRepositoryWrite {
         text: note.text,
         bytes: note.bytes ? Buffer.from(note.bytes) : null,
         authorId: note.authorId,
+        parentId: note.parentId,
+        linksTo: note.linksTo,
         tags: note.tags,
         updatedAt: note.updatedAt,
       },

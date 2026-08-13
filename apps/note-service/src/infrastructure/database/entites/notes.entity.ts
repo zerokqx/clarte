@@ -15,6 +15,12 @@ export class Note {
   @Prop({ type: String, required: true, index: true, immutable: true })
   authorId!: string;
 
+  @Prop({ type: String, required: false, index: true })
+  parentId!: string | null;
+
+  @Prop({ type: [String], default: [] })
+  linksTo!: string[];
+
   @Prop({
     type: Buffer,
     required: false,

@@ -5,12 +5,16 @@ export type CreateNoteCommandProps = {
   tags: string[];
   bytes: Uint8Array | null;
   authorId: string;
+  parentId?: string | null;
+  linksTo?: string[];
 };
 export class CreateNoteCommand extends Command<string> implements CreateNoteCommandProps {
   public readonly text!: string;
   public readonly tags!: string[];
   public readonly bytes!: Uint8Array | null;
   public readonly authorId!: string;
+  public readonly parentId?: string | null;
+  public readonly linksTo?: string[];
 
   constructor(props: CreateNoteCommandProps) {
     super();

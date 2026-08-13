@@ -5,6 +5,8 @@ export class NoteReadModel {
   // readonly text!: string;
   readonly tags!: string[];
   readonly authorId!: string;
+  readonly parentId?: string | null;
+  readonly linksTo?: string[];
   readonly createdAt!: Date;
   readonly updatedAt!: Date;
   // readonly bytes!: Uint8Array;

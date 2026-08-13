@@ -19,6 +19,8 @@ export class NoteReadRepository implements INoteRepositoryRead {
       id: note._id,
       tags: note.tags,
       authorId: note.authorId,
+      parentId: note.parentId ?? null,
+      linksTo: note.linksTo ?? [],
       updatedAt: note.updatedAt,
       createdAt: note.createdAt,
     });

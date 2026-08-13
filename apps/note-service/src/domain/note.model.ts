@@ -7,6 +7,8 @@ interface NotePlain {
   tags: string[];
   bytes: Uint8Array | null;
   authorId: string;
+  parentId: string | null;
+  linksTo: string[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -17,6 +19,8 @@ interface NoteProps {
   tags: string[];
   bytes: Uint8Array | null;
   authorId: string;
+  parentId: string | null;
+  linksTo: string[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -27,6 +31,8 @@ interface CreateNoteDto {
   tags?: string[];
   bytes?: Uint8Array | null;
   authorId: string;
+  parentId?: string | null;
+  linksTo?: string[];
 }
 
 interface RestoreNoteDto {
@@ -35,6 +41,8 @@ interface RestoreNoteDto {
   tags: string[];
   bytes: Uint8Array | null;
   authorId: string;
+  parentId?: string | null;
+  linksTo?: string[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -52,6 +60,8 @@ export class Note extends Entity<NoteProps> {
       tags: dto.tags ?? [],
       bytes: dto.bytes ?? null,
       authorId: dto.authorId,
+      parentId: dto.parentId ?? null,
+      linksTo: dto.linksTo ?? [],
       createdAt: now,
       updatedAt: now,
     });
@@ -64,6 +74,8 @@ export class Note extends Entity<NoteProps> {
       tags: dto.tags,
       bytes: dto.bytes,
       authorId: dto.authorId,
+      parentId: dto.parentId ?? null,
+      linksTo: dto.linksTo ?? [],
       createdAt: dto.createdAt,
       updatedAt: dto.updatedAt,
     });
@@ -85,6 +97,16 @@ export class Note extends Entity<NoteProps> {
     this._props.updatedAt = new Date();
   }
 
+  changeParentId(parentId: string | null) {
+    this._props.parentId = parentId;
+    this._props.updatedAt = new Date();
+  }
+
+  changeLinksTo(linksTo: string[]) {
+    this._props.linksTo = linksTo;
+    this._props.updatedAt = new Date();
+  }
+
   get text(): string {
     return this._props.text.value;
   }
@@ -101,6 +123,14 @@ export class Note extends Entity<NoteProps> {
     return this._props.authorId;
   }
 
+  get parentId(): string | null {
+    return this._props.parentId;
+  }
+
+  get linksTo(): string[] {
+    return this._props.linksTo;
+  }
+
   get createdAt(): Date {
     return this._props.createdAt;
   }
@@ -115,6 +145,8 @@ export class Note extends Entity<NoteProps> {
       tags: this.tags,
       bytes: this.bytes,
       authorId: this.authorId,
+      parentId: this.parentId,
+      linksTo: this.linksTo,
       updatedAt: this.updatedAt,
       createdAt: this.createdAt,
       id: this.id,

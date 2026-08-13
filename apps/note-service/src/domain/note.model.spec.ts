@@ -14,6 +14,8 @@ describe('Note Domain Entity', () => {
     tags: ['test', 'jest'],
     bytes: null,
     authorId: 'user-456',
+    parentId: 'parent-789',
+    linksTo: ['link-1', 'link-2'],
     createdAt: new Date('2024-01-01T00:00:00Z'),
     updatedAt: new Date('2024-01-01T00:00:00Z'),
   };
@@ -27,8 +29,21 @@ describe('Note Domain Entity', () => {
       expect(note.authorId).toBe(defaultCreateDto.authorId);
       expect(note.tags).toEqual([]);
       expect(note.bytes).toBeNull();
+      expect(note.parentId).toBeNull();
+      expect(note.linksTo).toEqual([]);
       expect(note.createdAt).toBeInstanceOf(Date);
       expect(note.updatedAt).toBeInstanceOf(Date);
+    });
+
+    it('должен успешно создавать заметку с parentId и linksTo', () => {
+      const note = Note.create({
+        ...defaultCreateDto,
+        parentId: 'parent-123',
+        linksTo: ['note-999'],
+      });
+
+      expect(note.parentId).toBe('parent-123');
+      expect(note.linksTo).toEqual(['note-999']);
     });
 
     it('должен выбрасывать ошибку InvalidText, если передана пустая строка текста', () => {
@@ -47,6 +62,8 @@ describe('Note Domain Entity', () => {
       expect(note.tags).toEqual(defaultRestoreDto.tags);
       expect(note.bytes).toBe(defaultRestoreDto.bytes);
       expect(note.authorId).toBe(defaultRestoreDto.authorId);
+      expect(note.parentId).toBe(defaultRestoreDto.parentId);
+      expect(note.linksTo).toEqual(defaultRestoreDto.linksTo);
       expect(note.createdAt).toBe(defaultRestoreDto.createdAt);
       expect(note.updatedAt).toBe(defaultRestoreDto.updatedAt);
     });
@@ -99,6 +116,26 @@ describe('Note Domain Entity', () => {
       expect(note.bytes).toEqual(newBytes);
       expect(note.updatedAt).not.toEqual(oldUpdatedAt);
     });
+
+    it('changeParentId() должен обновлять parentId и updatedAt', () => {
+      const oldUpdatedAt = note.updatedAt;
+      const newParentId = 'new-parent-456';
+
+      note.changeParentId(newParentId);
+
+      expect(note.parentId).toBe(newParentId);
+      expect(note.updatedAt).not.toEqual(oldUpdatedAt);
+    });
+
+    it('changeLinksTo() должен обновлять linksTo и updatedAt', () => {
+      const oldUpdatedAt = note.updatedAt;
+      const newLinks = ['link-3', 'link-4'];
+
+      note.changeLinksTo(newLinks);
+
+      expect(note.linksTo).toEqual(newLinks);
+      expect(note.updatedAt).not.toEqual(oldUpdatedAt);
+    });
   });
 
   describe('toPlain()', () => {
@@ -112,6 +149,8 @@ describe('Note Domain Entity', () => {
         tags: defaultRestoreDto.tags,
         bytes: defaultRestoreDto.bytes,
         authorId: defaultRestoreDto.authorId,
+        parentId: defaultRestoreDto.parentId,
+        linksTo: defaultRestoreDto.linksTo,
         createdAt: defaultRestoreDto.createdAt,
         updatedAt: defaultRestoreDto.updatedAt,
       });

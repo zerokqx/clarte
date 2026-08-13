@@ -18,6 +18,8 @@ export class CreateNoteHandler implements ICommandHandler<CreateNoteCommand> {
       tags: command.tags,
       bytes: command.bytes,
       authorId: command.authorId,
+      parentId: command.parentId,
+      linksTo: command.linksTo,
     });
     const program = pipe(
       Effect.tryPromise({
