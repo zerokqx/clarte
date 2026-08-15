@@ -1,89 +1,108 @@
 import { Entity } from '@clarte/shared-domain/domain';
-import { TextVo } from './value-objects';
+import { LabelVo } from './value-objects';
 
-interface NotePlain {
+export type NodeType = 'file' | 'folder';
+
+export interface NodePlain {
   id: string;
-  text: string;
+  label: string;
+  content: string;
   tags: string[];
   bytes: Uint8Array | null;
   authorId: string;
   parentId: string | null;
   linksTo: string[];
+  type: NodeType;
   createdAt: Date;
   updatedAt: Date;
 }
 
-interface NoteProps {
+export interface NodeProps {
   id: string;
-  text: TextVo;
+  label: LabelVo;
+  content: string;
   tags: string[];
   bytes: Uint8Array | null;
   authorId: string;
   parentId: string | null;
   linksTo: string[];
+  type: NodeType;
   createdAt: Date;
   updatedAt: Date;
 }
 
-interface CreateNoteDto {
+export interface CreateNodeDto {
   id: string;
-  text: string;
+  label: string;
+  content?: string;
   tags?: string[];
   bytes?: Uint8Array | null;
   authorId: string;
   parentId?: string | null;
   linksTo?: string[];
+  type?: NodeType;
 }
 
-interface RestoreNoteDto {
+export interface RestoreNodeDto {
   id: string;
-  text: string;
+  label: string;
+  content?: string;
   tags: string[];
   bytes: Uint8Array | null;
   authorId: string;
   parentId?: string | null;
   linksTo?: string[];
+  type?: NodeType;
   createdAt: Date;
   updatedAt: Date;
 }
 
-export class Note extends Entity<NoteProps> {
-  private constructor(props: NoteProps) {
+export class Node extends Entity<NodeProps> {
+  private constructor(props: NodeProps) {
     super(props);
   }
 
-  public static create(dto: CreateNoteDto): Note {
+  public static create(dto: CreateNodeDto): Node {
     const now = new Date();
-    return new Note({
+    return new Node({
       id: dto.id,
-      text: TextVo.create(dto.text),
+      label: LabelVo.create(dto.label),
+      content: dto.content ?? '',
       tags: dto.tags ?? [],
       bytes: dto.bytes ?? null,
       authorId: dto.authorId,
       parentId: dto.parentId ?? null,
       linksTo: dto.linksTo ?? [],
+      type: dto.type ?? 'file',
       createdAt: now,
       updatedAt: now,
     });
   }
 
-  public static restore(dto: RestoreNoteDto): Note {
-    return new Note({
+  public static restore(dto: RestoreNodeDto): Node {
+    return new Node({
       id: dto.id,
-      text: TextVo.restore(dto.text),
+      label: LabelVo.restore(dto.label),
+      content: dto.content ?? '',
       tags: dto.tags,
       bytes: dto.bytes,
       authorId: dto.authorId,
       parentId: dto.parentId ?? null,
       linksTo: dto.linksTo ?? [],
+      type: dto.type ?? 'file',
       createdAt: dto.createdAt,
       updatedAt: dto.updatedAt,
     });
   }
 
-  changeText(rawNewText: string) {
-    const newText = TextVo.create(rawNewText);
-    this._props.text = newText;
+  changeLabel(rawNewLabel: string) {
+    const newLabel = LabelVo.create(rawNewLabel);
+    this._props.label = newLabel;
+    this._props.updatedAt = new Date();
+  }
+
+  changeContent(content: string) {
+    this._props.content = content;
     this._props.updatedAt = new Date();
   }
 
@@ -107,8 +126,17 @@ export class Note extends Entity<NoteProps> {
     this._props.updatedAt = new Date();
   }
 
-  get text(): string {
-    return this._props.text.value;
+  changeType(type: NodeType) {
+    this._props.type = type;
+    this._props.updatedAt = new Date();
+  }
+
+  get label(): string {
+    return this._props.label.value;
+  }
+
+  get content(): string {
+    return this._props.content;
   }
 
   get tags(): string[] {
@@ -131,6 +159,10 @@ export class Note extends Entity<NoteProps> {
     return this._props.linksTo;
   }
 
+  get type(): NodeType {
+    return this._props.type;
+  }
+
   get createdAt(): Date {
     return this._props.createdAt;
   }
@@ -139,14 +171,16 @@ export class Note extends Entity<NoteProps> {
     return this._props.updatedAt;
   }
 
-  override toPlain(): NotePlain {
+  override toPlain(): NodePlain {
     return {
-      text: this.text,
+      label: this.label,
+      content: this.content,
       tags: this.tags,
       bytes: this.bytes,
       authorId: this.authorId,
       parentId: this.parentId,
       linksTo: this.linksTo,
+      type: this.type,
       updatedAt: this.updatedAt,
       createdAt: this.createdAt,
       id: this.id,

@@ -1,6 +1,9 @@
 import { Menu } from '@mantine/core';
 
-export const NoteContextMenu = () => {
+interface NoteContextMenuProps {
+  noteId?: string;
+}
+export const NoteContextMenu = ({ noteId }: NoteContextMenuProps) => {
   return (
     <Menu trigger="click">
       <Menu.Item>Удалить</Menu.Item>

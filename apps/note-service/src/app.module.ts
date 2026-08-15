@@ -4,19 +4,25 @@ import { S3SharedModule } from '@clarte/shared-nest/modules/s3';
 
 import { Module, Provider } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
-import { CreateNoteHandler } from './application/commands/create-note';
+import { CreateNodeHandler } from './application/commands/create-node';
 import { SaveNoteBytesHandler } from './application/commands/save-note-bytes';
-import { AccessCheckHandler, GetBytesHandler, GetNoteByIdHandler } from './application/queries';
+import {
+  AccessCheckHandler,
+  GetBytesHandler,
+  GetNodeByIdHandler,
+  GetNodesHandler,
+} from './application/queries';
 import { NotesController } from './presentation';
 import { DatabaseModule } from './infrastructure/database';
 import { MongooseModule } from '@nestjs/mongoose';
 
 const handlers: Provider[] = [
-  CreateNoteHandler,
+  CreateNodeHandler,
   SaveNoteBytesHandler,
-  GetNoteByIdHandler,
+  GetNodeByIdHandler,
   GetBytesHandler,
   AccessCheckHandler,
+  GetNodesHandler,
 ];
 
 interface MongoConfiguration {

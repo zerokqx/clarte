@@ -1,1 +1,1 @@
-export * from './note.read-model';
+export * from './node.read-model';

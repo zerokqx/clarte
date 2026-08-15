@@ -1,31 +1,31 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { SaveNoteBytesCommand } from './save-note-bytes.command';
-import { InjectNoteRepo } from '@/application/decorators';
-import type { INoteRepositoryWrite } from '@/application/ports';
-import { NoteNotFoundException } from '@/application/exceptions';
+import { InjectNodeRepo } from '@/application/decorators';
+import type { INodeRepositoryWrite } from '@/application/ports';
+import { NodeNotFoundException } from '@/application/exceptions';
 import { Effect, pipe } from 'effect';
 
 @CommandHandler(SaveNoteBytesCommand)
 export class SaveNoteBytesHandler implements ICommandHandler<SaveNoteBytesCommand> {
-  constructor(@InjectNoteRepo('w') private readonly noteWriteRepo: INoteRepositoryWrite) {}
+  constructor(@InjectNodeRepo('w') private readonly nodeWriteRepo: INodeRepositoryWrite) {}
 
   async execute(command: SaveNoteBytesCommand): Promise<void> {
     const program = pipe(
       Effect.tryPromise({
-        try: () => this.noteWriteRepo.findById(command.id),
+        try: () => this.nodeWriteRepo.findById(command.id),
         catch: (error) => error,
       }),
-      Effect.flatMap((note) =>
-        note
-          ? Effect.succeed(note)
-          : Effect.fail(new NoteNotFoundException(`Note id=${command.id} not found`)),
+      Effect.flatMap((node) =>
+        node
+          ? Effect.succeed(node)
+          : Effect.fail(new NodeNotFoundException(`Node id=${command.id} not found`)),
       ),
-      Effect.tap((note) => {
-        note.changeBytes(command.bytes);
+      Effect.tap((node) => {
+        node.changeBytes(command.bytes);
       }),
-      Effect.flatMap((note) =>
+      Effect.flatMap((node) =>
         Effect.tryPromise({
-          try: () => this.noteWriteRepo.save(note),
+          try: () => this.nodeWriteRepo.save(node),
           catch: (error) => error,
         }),
       ),

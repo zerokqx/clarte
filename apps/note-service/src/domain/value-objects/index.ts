@@ -1,1 +1,1 @@
-export * from './text.vo';
+export * from './label.vo';

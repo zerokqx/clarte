@@ -1,1 +1,1 @@
-export * from './note.repo.inject';
+export * from './node.repo.inject';
