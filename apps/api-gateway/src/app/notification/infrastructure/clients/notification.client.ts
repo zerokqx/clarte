@@ -4,7 +4,7 @@ import { InjectNotificationGrpcClient } from '@/app/notification/infrastructure/
 import { type ClientGrpc } from '@nestjs/microservices';
 import { Notification } from '@clarte/shared-contracts/proto';
 import { Observable } from 'rxjs';
-import { makeGrpcMetadata } from '@clarte/shared-nest/functions';
+import { makeGrpcMetadata } from '@clarte/shared-nest/core/functions';
 
 export class NotificationClient implements INotificationClient, OnModuleInit {
   private notificationService!: Notification.NotificationServiceClient;

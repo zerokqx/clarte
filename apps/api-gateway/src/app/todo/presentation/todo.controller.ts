@@ -6,7 +6,7 @@ import { InjectTodoClient, type ITodoClient } from '@/app/todo/application';
 import { CreateTodoDTO, UpdateTodoDTO, TodoDTO } from './dto';
 import { type IJwtPayload } from '@clarte/shared-contracts/interfaces';
 import { AccessGuard } from '@clarte/shared-nest/guards';
-import { User } from '@clarte/shared-nest/decorators';
+import { User } from '@clarte/shared-nest/core/decorators';
 
 @Controller('todos')
 export class TodoController extends Marks.Controller.Private {

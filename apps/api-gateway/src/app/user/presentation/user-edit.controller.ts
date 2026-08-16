@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { InjectUserClient, type IUserClient } from '@/app/user/application';
 import { type IJwtPayload } from '@clarte/shared-contracts/interfaces';
 import { AccessGuard } from '@clarte/shared-nest/guards';
-import { User } from '@clarte/shared-nest/decorators';
+import { User } from '@clarte/shared-nest/core/decorators';
 import { UserChangeAvatarDTO, UserChangeLoginDTO } from './dto';
 
 @Controller('users')
@@ -23,8 +23,7 @@ export class UserEditController extends Marks.Controller.Private {
   @ApiOperation({ summary: 'Изменить аватар пользователя' })
   @ApiNoContentResponse({ description: 'Аватар успешно изменен' })
   changeAvatar(@User() user: IJwtPayload, @Body() dto: UserChangeAvatarDTO): Observable<void> {
-    return this.userClient.userChangeAvatar({
-      userId: user.sub,
+    return this.userClient.userChangeAvatar(user.sub, {
       avatarUrl: dto.avatarUrl,
     });
   }
@@ -35,8 +34,7 @@ export class UserEditController extends Marks.Controller.Private {
   @ApiOperation({ summary: 'Изменить логин пользователя' })
   @ApiNoContentResponse({ description: 'Логин успешно изменен' })
   changeLogin(@User() user: IJwtPayload, @Body() dto: UserChangeLoginDTO): Observable<void> {
-    return this.userClient.userChangeLogin({
-      userId: user.sub,
+    return this.userClient.userChangeLogin(user.sub, {
       login: dto.login,
     });
   }

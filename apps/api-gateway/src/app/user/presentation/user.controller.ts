@@ -6,7 +6,7 @@ import { InjectUserClient, type IUserClient } from '@/app/user/application';
 import { UserFindDTO, UserMeDTO } from './dto';
 import { type IJwtPayload } from '@clarte/shared-contracts/interfaces';
 import { AccessGuard } from '@clarte/shared-nest/guards';
-import { User } from '@clarte/shared-nest/decorators';
+import { User } from '@clarte/shared-nest/core/decorators';
 
 @Controller('users')
 export class UserController extends Marks.Controller.Private {
@@ -19,14 +19,11 @@ export class UserController extends Marks.Controller.Private {
 
   @ApiOperation({
     summary: 'Получить пользователя по ID',
-    description:
-      'Возвращает информацию о пользователе по его уникальному идентификатору',
+    description: 'Возвращает информацию о пользователе по его уникальному идентификатору',
   })
   @ApiOkResponse({ type: UserFindDTO })
   @Get('id/:id')
-  findUserById(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Observable<UserFindDTO> {
+  findUserById(@Param('id', ParseUUIDPipe) id: string): Observable<UserFindDTO> {
     return this.userClient.findUserById(id).pipe(
       map(
         (raw) =>

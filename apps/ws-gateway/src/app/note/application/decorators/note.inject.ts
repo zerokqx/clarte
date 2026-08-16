@@ -1,4 +1,4 @@
-import { mkInject } from '@clarte/shared-nest/functions';
+import { mkInject } from '@clarte/shared-nest/core/functions';
 import { NOTE_CLIENT, NOTE_GRPC_CLIENT } from '../ports';
 
 export const InjectNoteClient = mkInject(NOTE_CLIENT);

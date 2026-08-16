@@ -7,7 +7,7 @@ import { join } from 'path';
 import { NodeController } from './presentation/node.controller';
 import { NodeClient } from './infrastructure/clients/node.client';
 import { NODE_CLIENT, NODE_GRPC_CLIENT } from './application';
-import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared-nest/modules';
+import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared-nest/config';
 import { PROTO_PATH } from '@/app/ports/di-tokens';
 
 @Module({

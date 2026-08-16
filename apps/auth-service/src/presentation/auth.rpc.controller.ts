@@ -9,7 +9,7 @@ import {
 } from '@/application';
 import { RefreshCommand } from '@/application/commands/refresh';
 import { Metadata } from '@grpc/grpc-js';
-import { getUserIdFromGrpcMetadata } from '@clarte/shared-nest/functions';
+import { getUserIdFromGrpcMetadata } from '@clarte/shared-nest/core/functions';
 
 @Auth.AuthServiceControllerMethods()
 export class AuthController implements Auth.AuthServiceController {

@@ -7,7 +7,7 @@ import { join } from 'path';
 import { NotificationController } from '@/app/notification/presentation/notification.controller';
 import { NotificationClient } from '@/app/notification/infrastructure/clients/notification.client';
 import { NOTIFICATION_CLIENT, NOTIFICATION_GRPC_CLIENT } from '@/app/notification/application';
-import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared-nest/modules';
+import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared-nest/config';
 
 import { PROTO_PATH } from '@/app/ports/di-tokens';
 

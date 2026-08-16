@@ -3,7 +3,7 @@ import { GetNotificationsQuery } from './get-notifications.query';
 import { InjectNotificationRepo } from '@/application/decorators';
 import type { INotificationRepository } from '@/application/ports';
 import { NotificationReadModel } from '@/application/models';
-import { CqrsRepoType } from '@clarte/shared-nest/types';
+import { CqrsRepoType } from '@clarte/shared-nest/core/types';
 
 @QueryHandler(GetNotificationsQuery)
 export class GetNotificationsHandler implements IQueryHandler<GetNotificationsQuery> {

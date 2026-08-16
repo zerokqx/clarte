@@ -11,7 +11,7 @@ import {
 } from '@/application';
 import { voidObject } from '@clarte/shared';
 import { Metadata } from '@grpc/grpc-js';
-import { getUserIdFromGrpcMetadata } from '@clarte/shared-nest/functions';
+import { getUserIdFromGrpcMetadata } from '@clarte/shared-nest/core/functions';
 
 @Todo.TodoServiceControllerMethods()
 @Controller()

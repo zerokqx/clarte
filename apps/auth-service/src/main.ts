@@ -13,7 +13,7 @@ import { ProblemDetailsToGrpcExceptionFilter } from '@clarte/shared-nest/filters
 import { GrpcErrorPropagationInterceptor } from '@clarte/shared-nest/interceptors';
 import { Env } from '@humanwhocodes/env';
 import { nullThrow, proto } from '@clarte/shared';
-import { findUp } from '@clarte/shared-nest/functions';
+import { findUp } from '@clarte/shared-nest/core/functions';
 
 async function bootstrap() {
   const env = new Env();

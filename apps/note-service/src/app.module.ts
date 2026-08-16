@@ -1,6 +1,6 @@
 import { ConfigService, ConfigModule } from '@nestjs/config';
-import { AppConfigModule, CompactConfigModule } from '@clarte/shared-nest/modules';
-import { S3SharedModule } from '@clarte/shared-nest/modules/s3';
+import { AppConfigModule, CompactConfigModule } from '@clarte/shared-nest/config';
+import { S3SharedModule } from '@clarte/shared-nest/infra';
 
 import { Module, Provider } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';

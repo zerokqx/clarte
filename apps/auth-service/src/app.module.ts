@@ -19,9 +19,10 @@ import {
 } from '@/application';
 import { AuthController } from '@/presentation';
 import { RefreshHandler } from './application/commands/refresh/refresh.handler';
-import { AppConfigModule, RmqModule } from '@clarte/shared-nest/modules';
+import { AppConfigModule } from '@clarte/shared-nest/config';
+import { RmqModule } from '@clarte/shared-nest/infra';
 import { exchange, env } from '@clarte/shared';
-import { createFolderPathModule } from '@clarte/shared-nest/modules/assets';
+import { createFolderPathModule } from '@clarte/shared-nest/infra';
 
 const handlers: Provider[] = [
   LoginPasswordHandler,

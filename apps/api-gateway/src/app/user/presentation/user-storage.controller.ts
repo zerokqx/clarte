@@ -5,7 +5,7 @@ import { map, Observable } from 'rxjs';
 import { InjectUserClient, type IUserClient } from '@/app/user/application';
 import { type IJwtPayload } from '@clarte/shared-contracts/interfaces';
 import { AccessGuard } from '@clarte/shared-nest/guards';
-import { User } from '@clarte/shared-nest/decorators';
+import { User } from '@clarte/shared-nest/core/decorators';
 import { UserS3StorageDTO } from './dto';
 
 @Controller('users')
@@ -24,7 +24,7 @@ export class UserStorageController extends Marks.Controller.Private {
   })
   @ApiOkResponse({ type: UserS3StorageDTO })
   getPresignedUrl(@User() user: IJwtPayload): Observable<UserS3StorageDTO> {
-    return this.userClient.uploadPresignedUrl({ userId: user.sub }).pipe(
+    return this.userClient.uploadPresignedUrl(user.sub).pipe(
       map(
         (raw) =>
           new UserS3StorageDTO({

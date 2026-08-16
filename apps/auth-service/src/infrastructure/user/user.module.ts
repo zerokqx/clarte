@@ -6,7 +6,7 @@ import { join } from 'path';
 import { ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PROTO_PATH, USER_GRPC_CLIENT } from '@/infrastructure/ports';
-import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared-nest/modules';
+import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared-nest/config';
 import { hostPort, proto } from '@clarte/shared';
 
 @Module({

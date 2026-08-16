@@ -14,7 +14,7 @@ import { GrpcErrorPropagationInterceptor } from '@clarte/shared-nest/interceptor
 import { join } from 'path';
 import { Logger } from '@nestjs/common';
 import { nullThrow, proto } from '@clarte/shared';
-import { findUp } from '@clarte/shared-nest/functions';
+import { findUp } from '@clarte/shared-nest/core/functions';
 
 async function bootstrap() {
   const env = new Env();

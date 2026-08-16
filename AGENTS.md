@@ -48,7 +48,7 @@ A "solo microservice" is a microservice that encapsulates exactly one distinct e
      ```typescript
      export const MY_SERVICE = Symbol('My service');
      ```
-   - Создавайте кастомные декораторы инъекции в `application/decorators/` с помощью утилиты `mkInject` из `@clarte/shared-nest/functions`:
+   - Создавайте кастомные декораторы инъекции в `application/decorators/` с помощью утилиты `mkInject` из `@clarte/shared-nest/core/functions`:
      ```typescript
      export const InjectMyService = mkInject(MY_SERVICE);
      ```

@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { ConfigService } from '@nestjs/config';
-import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared-nest/modules';
+import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared-nest/config';
 import { Global, Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { Auth } from '@clarte/shared-contracts/proto';

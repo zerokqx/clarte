@@ -2,11 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { NotificationOrmEntity } from './entites';
-import {
-  DatabaseConfig,
-  DatabaseConfiguration,
-  AppConfiguration,
-} from '@clarte/shared-nest/modules';
+import { DatabaseConfig, DatabaseConfiguration, AppConfiguration } from '@clarte/shared-nest/infra';
 import { NOTIFICATION_READ_REPO, NOTIFICATION_WRITE_REPO } from '@/application/ports';
 import { NotificationReadRepository } from './notification-read.repository';
 import { NotificationWriteRepository } from './notification-write.repository';

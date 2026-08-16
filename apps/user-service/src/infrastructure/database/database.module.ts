@@ -3,11 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserOrmEntity } from '@/infrastructure/database/user.entity';
 
-import {
-  AppConfiguration,
-  DatabaseConfig,
-  DatabaseConfiguration,
-} from '@clarte/shared-nest/modules';
+import { AppConfiguration, DatabaseConfig, DatabaseConfiguration } from '@clarte/shared-nest/infra';
 @Module({
   imports: [
     DatabaseConfig,

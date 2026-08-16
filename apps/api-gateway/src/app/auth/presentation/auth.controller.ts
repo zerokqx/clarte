@@ -16,7 +16,7 @@ import { LoginDTO, LoginResponseDTO, RegisterDTO } from '@/app/auth/presentation
 import { map } from 'rxjs';
 import { AccessGuard, RefreshGuard } from '@clarte/shared-nest/guards';
 import { JwtCookieInterceptor } from '@clarte/shared-nest/interceptors';
-import { User, InjectCookieInterceptorUuid } from '@clarte/shared-nest/decorators';
+import { User, InjectCookieInterceptorUuid } from '@clarte/shared-nest/core/decorators';
 import { type IAuthenticatedUser } from '@clarte/shared-contracts/interfaces';
 import { type Response } from 'express';
 

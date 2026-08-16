@@ -4,7 +4,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { Auth } from '@clarte/shared-contracts/proto';
 import { hostPort, proto } from '@clarte/shared/functions';
 import { join } from 'path';
-import { COOKIE_INTERCEPTOR_OPTIONS } from '@clarte/shared-nest/ports';
+import { COOKIE_INTERCEPTOR_OPTIONS } from '@clarte/shared-nest/core/ports';
 import { AUTH_CLIENT, AUTH_GRPC_CLIENT } from '@/app/auth/aplication';
 import { AuthClient } from '@/app/auth/infrastructure/clients';
 import { AuthController } from '@/app/auth/presentation/auth.controller';
@@ -12,7 +12,7 @@ import {
   AppConfiguration,
   MicroserviceConfigModule,
   MicroserviceConfigType,
-} from '@clarte/shared-nest/modules';
+} from '@clarte/shared-nest/config';
 
 import { PROTO_PATH } from '@/app/ports/di-tokens';
 

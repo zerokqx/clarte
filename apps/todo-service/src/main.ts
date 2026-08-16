@@ -11,7 +11,7 @@ import { Env } from '@humanwhocodes/env';
 import { Todo } from '@clarte/shared-contracts/proto';
 import { join } from 'path';
 import { nullThrow, proto } from '@clarte/shared';
-import { findUp } from '@clarte/shared-nest/functions';
+import { findUp } from '@clarte/shared-nest/core/functions';
 
 async function bootstrap() {
   const env = new Env();

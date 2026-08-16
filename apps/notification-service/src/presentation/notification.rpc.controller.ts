@@ -3,7 +3,7 @@ import { Notification } from '@clarte/shared-contracts/proto';
 import { QueryBus } from '@nestjs/cqrs';
 import { GetNotificationsQuery } from '@/application/queries/get-notifications';
 import { Metadata } from '@grpc/grpc-js';
-import { getUserIdFromGrpcMetadata } from '@clarte/shared-nest/functions';
+import { getUserIdFromGrpcMetadata } from '@clarte/shared-nest/core/functions';
 
 @Controller()
 @Notification.NotificationServiceControllerMethods()

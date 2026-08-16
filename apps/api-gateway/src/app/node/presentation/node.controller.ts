@@ -6,7 +6,7 @@ import { InjectNodeClient, type INodeClient } from '@/app/node/application';
 import { CreateNodeDTO, NodeDTO } from './dto';
 import { type IJwtPayload } from '@clarte/shared-contracts/interfaces';
 import { AccessGuard } from '@clarte/shared-nest/guards';
-import { User } from '@clarte/shared-nest/decorators';
+import { User } from '@clarte/shared-nest/core/decorators';
 
 @ApiTags('Nodes')
 @Controller('nodes')

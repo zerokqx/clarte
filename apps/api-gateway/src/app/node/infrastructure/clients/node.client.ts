@@ -3,7 +3,7 @@ import { OnModuleInit } from '@nestjs/common';
 import { type ClientGrpc } from '@nestjs/microservices';
 import { Notes } from '@clarte/shared-contracts/proto';
 import { map, Observable } from 'rxjs';
-import { makeGrpcMetadata } from '@clarte/shared-nest/functions';
+import { makeGrpcMetadata } from '@clarte/shared-nest/core/functions';
 
 export class NodeClient implements INodeClient, OnModuleInit {
   private notesService!: Notes.NotesServiceClient;

@@ -4,7 +4,7 @@ import { InjectUserGrpcClient } from '@/app/user/infrastructure/user.decorator';
 import { type ClientGrpc } from '@nestjs/microservices';
 import { User } from '@clarte/shared-contracts/proto';
 import { map, Observable } from 'rxjs';
-import { makeGrpcMetadata } from '@clarte/shared-nest/functions';
+import { makeGrpcMetadata } from '@clarte/shared-nest/core/functions';
 
 export class UserClient implements IUserClient, OnModuleInit {
   private findService!: User.UserFindServiceClient;

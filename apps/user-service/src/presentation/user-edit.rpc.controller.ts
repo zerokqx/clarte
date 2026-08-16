@@ -4,7 +4,7 @@ import { voidObject } from '@clarte/shared';
 import { User } from '@clarte/shared-contracts/proto';
 import { CommandBus } from '@nestjs/cqrs';
 import { Metadata } from '@grpc/grpc-js';
-import { getUserIdFromGrpcMetadata } from '@clarte/shared-nest/functions';
+import { getUserIdFromGrpcMetadata } from '@clarte/shared-nest/core/functions';
 
 @User.UserEditServiceControllerMethods()
 export class UserEditController implements User.UserEditServiceController {

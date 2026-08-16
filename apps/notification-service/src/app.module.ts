@@ -5,7 +5,7 @@ import {
   NotificationUserRpcController,
   NotificationTodoRpcController,
 } from './presentation';
-import { AppConfigModule } from '@clarte/shared-nest/modules';
+import { AppConfigModule } from '@clarte/shared-nest/config';
 import { GetNotificationsHandler } from './application/queries/get-notifications';
 import { CreateNotifyHandler } from './application/commands/create-notify';
 import { CqrsModule } from '@nestjs/cqrs';

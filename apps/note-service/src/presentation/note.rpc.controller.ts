@@ -11,7 +11,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Metadata, status } from '@grpc/grpc-js';
 import { RpcException } from '@nestjs/microservices';
 import { NodeReadModel } from '@/application/models';
-import { getUserIdFromGrpcMetadata } from '@clarte/shared-nest/functions';
+import { getUserIdFromGrpcMetadata } from '@clarte/shared-nest/core/functions';
 
 @Notes.NotesServiceControllerMethods()
 export class NotesController implements Notes.NotesServiceController {

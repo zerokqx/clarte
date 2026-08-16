@@ -5,10 +5,11 @@ import { AuthModule } from '@/app/auth/auth.module';
 import { TodoModule } from '@/app/todo/todo.module';
 import { NotificationModule } from '@/app/notification/infrastructure/notifications.module';
 import { NodeModule } from '@/app/node/node.module';
-import { AppConfigModule, JwtModule } from '@clarte/shared-nest/modules';
+import { AppConfigModule } from '@clarte/shared-nest/config';
+import { JwtModule } from '@clarte/shared-nest/auth';
 import { JwtKeyProvider } from '@/app/auth/infrastructure';
 
-import { createFolderPathModule } from '@clarte/shared-nest/modules/assets';
+import { createFolderPathModule } from '@clarte/shared-nest/infra';
 import { PROTO_PATH } from '@/app/ports/di-tokens';
 
 @Module({

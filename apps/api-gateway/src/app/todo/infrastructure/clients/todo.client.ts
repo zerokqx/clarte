@@ -3,7 +3,7 @@ import { OnModuleInit } from '@nestjs/common';
 import { type ClientGrpc } from '@nestjs/microservices';
 import { Todo } from '@clarte/shared-contracts/proto';
 import { map, Observable } from 'rxjs';
-import { makeGrpcMetadata } from '@clarte/shared-nest/functions';
+import { makeGrpcMetadata } from '@clarte/shared-nest/core/functions';
 
 export class TodoClient implements ITodoClient, OnModuleInit {
   private todoService!: Todo.TodoServiceClient;
