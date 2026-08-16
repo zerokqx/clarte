@@ -2,6 +2,8 @@ import { Controller } from '@nestjs/common';
 import { Notification } from '@clarte/shared-contracts/proto';
 import { QueryBus } from '@nestjs/cqrs';
 import { GetNotificationsQuery } from '@/application/queries/get-notifications';
+import { Metadata } from '@grpc/grpc-js';
+import { getUserIdFromGrpcMetadata } from '@clarte/shared-nest/functions';
 
 @Controller()
 @Notification.NotificationServiceControllerMethods()
@@ -9,9 +11,11 @@ export class NotificationRpcController implements Notification.NotificationServi
   constructor(private readonly queryBus: QueryBus) {}
 
   async getNotificationsById(
-    request: Notification.GetNotificationsByIdRequest,
+    _request: unknown,
+    metadata?: Metadata,
   ): Promise<Notification.GetNotificationsByIdResponse> {
-    const notifications = await this.queryBus.execute(new GetNotificationsQuery(request.userId));
+    const userId = getUserIdFromGrpcMetadata(metadata);
+    const notifications = await this.queryBus.execute(new GetNotificationsQuery(userId));
     return {
       notifications: notifications.map((n) => ({
         id: n.id,

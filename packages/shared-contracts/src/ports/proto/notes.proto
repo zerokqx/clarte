@@ -8,6 +8,7 @@ service NotesService {
   rpc GetNoteById(GetNoteByIdRequest) returns (Note);
   rpc SaveNoteBytes(SaveNoteBytesRequest) returns (google.protobuf.Empty);
   rpc AccessCheck(AccessCheckRequest) returns (AccessCheckResponse);
+  rpc GetAllUserNotes(google.protobuf.Empty) returns (GetAllUserNotesResponse);
 }
 
 message CreateNoteResponse {
@@ -15,21 +16,25 @@ message CreateNoteResponse {
 }
 
 message AccessCheckRequest {
- string noteId = 1;
- string authorId = 2;
+  string noteId = 1;
 }
 
 message AccessCheckResponse {
- bool status = 1;
+  bool status = 1;
 }
+
 message Note {
   string id = 1;
-  repeated string tags = 2;
-  string createdAt = 3;
-  string updatedAt = 4;
-  string text = 5;
-  string authorId = 6;
-  optional bytes bytes = 7;
+  string label = 2;
+  optional string content = 3;
+  repeated string tags = 4;
+  optional string parentId = 5;
+  repeated string linksTo = 6;
+  string type = 7;
+  string authorId = 8;
+  string createdAt = 9;
+  string updatedAt = 10;
+  optional bytes bytes = 11;
 }
 
 message GetNoteByIdRequest {
@@ -45,14 +50,21 @@ message GetBytesResponse {
 }
 
 message CreateNoteRequest {
-  string text = 1;
-  repeated string tags = 2;
-  string authorId = 3;
+  string label = 1;
+  optional string content = 2;
+  repeated string tags = 3;
   optional bytes bytes = 4;
+  optional string parentId = 5;
+  repeated string linksTo = 6;
+  optional string type = 7;
 }
 
 message SaveNoteBytesRequest {
   string id = 1;
   bytes bytes = 2;
-  string authorId = 3;
+  optional string content = 3;
+}
+
+message GetAllUserNotesResponse {
+  repeated Note notes = 1;
 }

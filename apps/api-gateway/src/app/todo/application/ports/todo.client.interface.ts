@@ -2,10 +2,10 @@ import { Todo } from '@clarte/shared-contracts/proto';
 import { Observable } from 'rxjs';
 
 export interface ITodoClient {
-  createTodo(data: Todo.CreateTodoRequest): Observable<Todo.CreateTodoResponse>;
-  updateTodo(data: Todo.UpdateTodoRequest): Observable<void>;
+  createTodo(userId: string, data: Todo.CreateTodoRequest): Observable<Todo.CreateTodoResponse>;
+  updateTodo(userId: string, data: Todo.UpdateTodoRequest): Observable<void>;
   getUserTodos(userId: string): Observable<Todo.GetUserTodsResponse>;
-  completeTodo(data: Todo.CompleteTodoRequest): Observable<void>;
-  uncompleteTodo(data: Todo.UncompleteTodoRequest): Observable<void>;
-  deleteTodo(data: Todo.DeleteTodoRequest): Observable<void>;
+  completeTodo(userId: string, data: Todo.CompleteTodoRequest): Observable<void>;
+  uncompleteTodo(userId: string, data: Todo.UncompleteTodoRequest): Observable<void>;
+  deleteTodo(userId: string, data: Todo.DeleteTodoRequest): Observable<void>;
 }

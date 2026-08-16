@@ -47,6 +47,9 @@
     },
     {
       "path": "./packages/shared-api"
+    },
+    {
+      "path": "./packages/shared-errors"
     }
   ],
   "compilerOptions": {

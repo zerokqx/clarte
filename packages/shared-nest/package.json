@@ -121,7 +121,8 @@
     "@clarte/shared": "workspace:*",
     "@clarte/shared-contracts": "workspace:*",
     "@clarte/shared-domain": "workspace:*",
-    "passport-jwt": "catalog:backend"
+    "passport-jwt": "catalog:backend",
+    "radash": "catalog:general"
   },
   "devDependencies": {
     "@types/passport-jwt": "catalog:types"

@@ -12,9 +12,10 @@ service UserEditService {
 }
 
 service UserStorageService {
-  rpc UploadPresignedUrl(UploadPresignedUrlRequest)
+  rpc UploadPresignedUrl(google.protobuf.Empty)
       returns (UploadPresignedUrlResponse);
 }
+
 service UserCreateService {
   rpc UserCreate(UserCreateRequest) returns (google.protobuf.Empty);
 }
@@ -66,19 +67,14 @@ message UserGetCredentialsByLoginResponse {
 }
 
 message UserEditChangeAvatarRequest {
-  string userId = 1;
-  string avatarUrl = 2;
+  string avatarUrl = 1;
 }
 
 message UserEditChangeLoginRequest {
-  string userId = 1;
-  string login = 2;
+  string login = 1;
 }
 
 message UploadPresignedUrlResponse {
   string urlPublic = 1;
   string urlPresigned = 2;
-}
-message UploadPresignedUrlRequest {
-  string userId = 1;
 }

@@ -10,11 +10,9 @@ export interface IUserClient {
 
   getCredentialsByLogin(login: string): Observable<User.UserGetCredentialsByLoginResponse>;
 
-  userChangeAvatar(data: User.UserEditChangeAvatarRequest): Observable<void>;
+  userChangeAvatar(userId: string, data: User.UserEditChangeAvatarRequest): Observable<void>;
 
-  userChangeLogin(data: User.UserEditChangeLoginRequest): Observable<void>;
+  userChangeLogin(userId: string, data: User.UserEditChangeLoginRequest): Observable<void>;
 
-  uploadPresignedUrl(
-    data: User.UploadPresignedUrlRequest,
-  ): Observable<User.UploadPresignedUrlResponse>;
+  uploadPresignedUrl(userId: string): Observable<User.UploadPresignedUrlResponse>;
 }

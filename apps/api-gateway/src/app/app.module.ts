@@ -4,6 +4,7 @@ import { UserModule } from '@/app/user/infrastructure/users.module';
 import { AuthModule } from '@/app/auth/auth.module';
 import { TodoModule } from '@/app/todo/todo.module';
 import { NotificationModule } from '@/app/notification/infrastructure/notifications.module';
+import { NodeModule } from '@/app/node/node.module';
 import { AppConfigModule, JwtModule } from '@clarte/shared-nest/modules';
 import { JwtKeyProvider } from '@/app/auth/infrastructure';
 
@@ -22,6 +23,7 @@ import { PROTO_PATH } from '@/app/ports/di-tokens';
     AuthModule,
     TodoModule,
     NotificationModule,
+    NodeModule,
     JwtModule.register({
       imports: [AuthModule],
       provider: JwtKeyProvider,

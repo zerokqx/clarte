@@ -83,9 +83,8 @@ export class AuthController extends Marks.Controller.Mixed {
   @UseInterceptors(JwtCookieInterceptor)
   refresh(@User() user: IAuthenticatedUser) {
     return this.authClient
-      .refresh({
+      .refresh(user.sub, {
         refreshToken: user.__metadata.original,
-        userId: user.sub,
       })
       .pipe(
         map(({ accessToken, refreshToken }) => ({

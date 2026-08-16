@@ -1,11 +1,17 @@
 import { CreateNodeCommand } from '@/application/commands/create-node';
 import { SaveNoteBytesCommand } from '@/application/commands/save-note-bytes';
-import { AccessCheckQuery, GetBytesQuery, GetNodeByIdQuery } from '@/application/queries';
+import {
+  AccessCheckQuery,
+  GetBytesQuery,
+  GetNodeByIdQuery,
+  GetNodesQuery,
+} from '@/application/queries';
 import { Notes } from '@clarte/shared-contracts/proto';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { status } from '@grpc/grpc-js';
+import { Metadata, status } from '@grpc/grpc-js';
 import { RpcException } from '@nestjs/microservices';
 import { NodeReadModel } from '@/application/models';
+import { getUserIdFromGrpcMetadata } from '@clarte/shared-nest/functions';
 
 @Notes.NotesServiceControllerMethods()
 export class NotesController implements Notes.NotesServiceController {
@@ -14,28 +20,22 @@ export class NotesController implements Notes.NotesServiceController {
     private readonly queryBus: QueryBus,
   ) {}
 
-  async createNote(request: Notes.CreateNoteRequest): Promise<Notes.CreateNoteResponse> {
+  async createNote(
+    request: Notes.CreateNoteRequest,
+    metadata?: Metadata,
+  ): Promise<Notes.CreateNoteResponse> {
+    const authorId = getUserIdFromGrpcMetadata(metadata);
     const bytes = request.bytes ? new Uint8Array(request.bytes) : null;
-    const req = request as unknown as {
-      label?: string;
-      content?: string;
-      parentId?: string | null;
-      linksTo?: string[];
-      type?: 'file' | 'folder';
-    };
-    const label = req.label || request.text || 'Untitled';
-    const content = req.content ?? '';
-
     const data = await this.commandBus.execute<CreateNodeCommand, string>(
       new CreateNodeCommand({
-        label,
-        content,
+        label: request.label,
+        content: request.content,
         tags: request.tags,
-        authorId: request.authorId,
+        authorId,
         bytes,
-        parentId: req.parentId,
-        linksTo: req.linksTo,
-        type: req.type,
+        parentId: request.parentId,
+        linksTo: request.linksTo,
+        type: request.type as 'file' | 'folder' | undefined,
       }),
     );
     return { id: data };
@@ -61,30 +61,65 @@ export class NotesController implements Notes.NotesServiceController {
     }
     return {
       id: node.id,
-      text: node.content || node.label,
+      label: node.label,
+      content: node.content,
       tags: node.tags,
       authorId: node.authorId,
+      parentId: node.parentId ?? undefined,
+      linksTo: node.linksTo ?? [],
+      type: node.type ?? 'file',
       createdAt: node.createdAt.toISOString(),
       updatedAt: node.updatedAt.toISOString(),
+      bytes: undefined,
     };
   }
 
-  async accessCheck(request: Notes.AccessCheckRequest): Promise<Notes.AccessCheckResponse> {
+  async getAllUserNotes(
+    _request: unknown,
+    metadata?: Metadata,
+  ): Promise<Notes.GetAllUserNotesResponse> {
+    const userId = getUserIdFromGrpcMetadata(metadata);
+    const nodes = await this.queryBus.execute<GetNodesQuery, NodeReadModel[]>(
+      new GetNodesQuery({ userId }),
+    );
+    return {
+      notes: nodes.map((node) => ({
+        id: node.id,
+        label: node.label,
+        content: node.content,
+        tags: node.tags,
+        authorId: node.authorId,
+        parentId: node.parentId ?? undefined,
+        linksTo: node.linksTo ?? [],
+        type: node.type ?? 'file',
+        createdAt: node.createdAt.toISOString(),
+        updatedAt: node.updatedAt.toISOString(),
+        bytes: undefined,
+      })),
+    };
+  }
+
+  async accessCheck(
+    request: Notes.AccessCheckRequest,
+    metadata?: Metadata,
+  ): Promise<Notes.AccessCheckResponse> {
+    const authorId = getUserIdFromGrpcMetadata(metadata);
     const query = new AccessCheckQuery({
-      authorId: request.authorId,
+      authorId,
       noteId: request.noteId,
     });
 
     return { status: await this.queryBus.execute(query) };
   }
 
-  async saveNoteBytes(request: Notes.SaveNoteBytesRequest): Promise<void> {
+  async saveNoteBytes(request: Notes.SaveNoteBytesRequest, metadata?: Metadata): Promise<void> {
+    const authorId = getUserIdFromGrpcMetadata(metadata);
     const bytes = new Uint8Array(request.bytes);
     await this.commandBus.execute(
       new SaveNoteBytesCommand({
         id: request.id,
         bytes,
-        authorId: request.authorId,
+        authorId,
       }),
     );
   }

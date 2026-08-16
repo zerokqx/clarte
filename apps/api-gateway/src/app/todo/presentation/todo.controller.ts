@@ -26,11 +26,10 @@ export class TodoController extends Marks.Controller.Private {
   })
   createTodo(@User() user: IJwtPayload, @Body() body: CreateTodoDTO): Observable<{ id: string }> {
     return this.todoClient
-      .createTodo({
+      .createTodo(user.sub, {
         title: body.title,
         description: body.description,
         dueDate: body.dueDate,
-        userId: user.sub,
       })
       .pipe(map((res) => ({ id: res.id })));
   }
@@ -44,9 +43,8 @@ export class TodoController extends Marks.Controller.Private {
     @User() user: IJwtPayload,
     @Body() body: UpdateTodoDTO,
   ): Observable<void> {
-    return this.todoClient.updateTodo({
+    return this.todoClient.updateTodo(user.sub, {
       id,
-      userId: user.sub,
       title: body.title,
       description: body.description,
       dueDate: body.due_date,
@@ -62,9 +60,8 @@ export class TodoController extends Marks.Controller.Private {
     @Param('id', ParseUUIDPipe) id: string,
     @User() user: IJwtPayload,
   ): Observable<void> {
-    return this.todoClient.completeTodo({
+    return this.todoClient.completeTodo(user.sub, {
       id,
-      userId: user.sub,
     });
   }
 
@@ -76,9 +73,8 @@ export class TodoController extends Marks.Controller.Private {
     @Param('id', ParseUUIDPipe) id: string,
     @User() user: IJwtPayload,
   ): Observable<void> {
-    return this.todoClient.uncompleteTodo({
+    return this.todoClient.uncompleteTodo(user.sub, {
       id,
-      userId: user.sub,
     });
   }
 
@@ -87,9 +83,8 @@ export class TodoController extends Marks.Controller.Private {
   @ApiOperation({ summary: 'Удалить задачу' })
   @ApiOkResponse({ description: 'Успешно удалено' })
   deleteTodo(@Param('id', ParseUUIDPipe) id: string, @User() user: IJwtPayload): Observable<void> {
-    return this.todoClient.deleteTodo({
+    return this.todoClient.deleteTodo(user.sub, {
       id,
-      userId: user.sub,
     });
   }
 
