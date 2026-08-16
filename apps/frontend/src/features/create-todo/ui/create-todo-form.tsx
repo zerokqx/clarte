@@ -6,10 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateTodoSchema } from '../model';
 import { CalendarIcon } from '@phosphor-icons/react/dist/csr/Calendar';
 import { FileTextIcon } from '@phosphor-icons/react/dist/csr/FileText';
-import { TextAlignLeftIcon } from '@phosphor-icons/react/dist/csr/TextAlignLeft';
 import { PlusIcon } from '@phosphor-icons/react/dist/csr/Plus';
-import { XIcon } from '@phosphor-icons/react/dist/csr/X';
-import { M } from '@clarte/mantine-helpers';
 
 export interface CreateTodoFormState {
   title: string;
@@ -60,24 +57,24 @@ export const CreateTodoForm = ({ onCancel, onSubmit }: CreateTodoFormProps) => {
   };
 
   return (
-    <Stack component={'form'} gap={'xl'} onSubmit={handleSubmit(handleFormSubmit)}>
-      <Stack gap={'lg'}>
+    <Stack component={'form'} gap={'md'} onSubmit={handleSubmit(handleFormSubmit)}>
+      <Stack gap={'sm'}>
         <TextInput
-          size="md"
+          size="sm"
           label="Название задачи"
           placeholder="Например: Закончить отчёт по проекту"
-          leftSection={<FileTextIcon size={18} />}
+          leftSection={<FileTextIcon size={16} />}
           error={errors.title?.message}
           {...register('title', { required: 'Пожалуйста, введите название задачи' })}
         />
 
         <Textarea
-          size="md"
+          size="sm"
           label="Описание"
           placeholder="Добавьте подробности, заметки или ссылки..."
-          leftSection={<TextAlignLeftIcon size={18} />}
           error={errors.description?.message}
           minRows={3}
+          maxRows={6}
           autosize
           {...register('description')}
         />
@@ -90,8 +87,8 @@ export const CreateTodoForm = ({ onCancel, onSubmit }: CreateTodoFormProps) => {
               modalProps={{ zIndex: 1000000 }}
               label="Срок выполнения"
               placeholder="Выберите дату и время окончания"
-              leftSection={<CalendarIcon size={18} />}
-              size="md"
+              leftSection={<CalendarIcon size={16} />}
+              size="sm"
               clearable
               error={error?.message}
             />
@@ -102,20 +99,15 @@ export const CreateTodoForm = ({ onCancel, onSubmit }: CreateTodoFormProps) => {
         />
       </Stack>
 
-      <Group justify="space-between" mt="md">
-        <Button
-          type="button"
-          variant="subtle"
-          color="gray"
-          leftSection={<XIcon size={16} />}
-          onClick={onCancel}
-        >
+      <Group justify="flex-end" gap="xs" mt="md">
+        <Button type="button" variant="subtle" color="gray" size="sm" onClick={onCancel}>
           Отмена
         </Button>
         <Button
           type="submit"
-          leftSection={<PlusIcon size={16} />}
-          bg={M.gradient(M.primary(5))('to bottom right')(M.primary(8))}
+          size="sm"
+          variant="filled"
+          leftSection={<PlusIcon size={16} weight="bold" />}
         >
           Создать
         </Button>

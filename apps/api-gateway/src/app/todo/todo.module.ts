@@ -7,7 +7,7 @@ import { join } from 'path';
 import { TodoController } from './presentation/todo.controller';
 import { TodoClient } from './infrastructure/clients/todo.client';
 import { TODO_CLIENT, TODO_GRPC_CLIENT } from './application';
-import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared-nest/modules';
+import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared-nest/config';
 
 import { PROTO_PATH } from '@/app/ports/di-tokens';
 

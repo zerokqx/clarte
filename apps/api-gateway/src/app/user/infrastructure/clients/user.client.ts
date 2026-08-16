@@ -4,6 +4,7 @@ import { InjectUserGrpcClient } from '@/app/user/infrastructure/user.decorator';
 import { type ClientGrpc } from '@nestjs/microservices';
 import { User } from '@clarte/shared-contracts/proto';
 import { map, Observable } from 'rxjs';
+import { makeGrpcMetadata } from '@clarte/shared-nest/core/functions';
 
 export class UserClient implements IUserClient, OnModuleInit {
   private findService!: User.UserFindServiceClient;
@@ -37,17 +38,19 @@ export class UserClient implements IUserClient, OnModuleInit {
     return this.credentialsService.getCredentialsByLogin({ login });
   }
 
-  userChangeAvatar(data: User.UserEditChangeAvatarRequest): Observable<void> {
-    return this.editService.userChangeAvatar(data).pipe(map(() => void 0));
+  userChangeAvatar(userId: string, data: User.UserEditChangeAvatarRequest): Observable<void> {
+    return this.editService
+      .userChangeAvatar(data, makeGrpcMetadata({ userId }))
+      .pipe(map(() => void 0));
   }
 
-  userChangeLogin(data: User.UserEditChangeLoginRequest): Observable<void> {
-    return this.editService.userChangeLogin(data).pipe(map(() => void 0));
+  userChangeLogin(userId: string, data: User.UserEditChangeLoginRequest): Observable<void> {
+    return this.editService
+      .userChangeLogin(data, makeGrpcMetadata({ userId }))
+      .pipe(map(() => void 0));
   }
 
-  uploadPresignedUrl(
-    data: User.UploadPresignedUrlRequest,
-  ): Observable<User.UploadPresignedUrlResponse> {
-    return this.storageService.uploadPresignedUrl(data);
+  uploadPresignedUrl(userId: string): Observable<User.UploadPresignedUrlResponse> {
+    return this.storageService.uploadPresignedUrl({}, makeGrpcMetadata({ userId }));
   }
 }

@@ -4,6 +4,7 @@ import { InjectNotificationGrpcClient } from '@/app/notification/infrastructure/
 import { type ClientGrpc } from '@nestjs/microservices';
 import { Notification } from '@clarte/shared-contracts/proto';
 import { Observable } from 'rxjs';
+import { makeGrpcMetadata } from '@clarte/shared-nest/core/functions';
 
 export class NotificationClient implements INotificationClient, OnModuleInit {
   private notificationService!: Notification.NotificationServiceClient;
@@ -13,12 +14,13 @@ export class NotificationClient implements INotificationClient, OnModuleInit {
   ) {}
 
   onModuleInit() {
-    this.notificationService = this.notificationGrpcClient.getService<Notification.NotificationServiceClient>(
-      Notification.NOTIFICATION_SERVICE_NAME,
-    );
+    this.notificationService =
+      this.notificationGrpcClient.getService<Notification.NotificationServiceClient>(
+        Notification.NOTIFICATION_SERVICE_NAME,
+      );
   }
 
   getNotificationsById(userId: string): Observable<Notification.GetNotificationsByIdResponse> {
-    return this.notificationService.getNotificationsById({ userId });
+    return this.notificationService.getNotificationsById({}, makeGrpcMetadata({ userId }));
   }
 }

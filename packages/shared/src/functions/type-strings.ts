@@ -1,5 +1,7 @@
 import { isString } from 'radash';
-import { Join } from 'type-fest';
+import { Join, If } from 'type-fest';
+import { AndOtherString, NotNullString } from '../types';
+import { ToBool } from '../types/bool';
 
 type HostValues = 'localhost' | (string & {});
 export type Url<
@@ -45,3 +47,14 @@ export const hostPort = <H extends HostValues, P extends number | string>(host: 
   `${host}:${port}` as `${H}:${P}`;
 
 export const sslKey = <T extends 'private' | 'public'>(type: T) => `${type}.key` as `${T}.key`;
+
+export type EnvSuffix = AndOtherString<'local' | 'dev' | 'prod'>;
+
+export type EnvString<Suffix extends EnvSuffix> = If<
+  ToBool<NotNullString<Suffix>>,
+  `.env.${Suffix}`,
+  '.env'
+>;
+
+export const env = <S extends EnvSuffix>(suffix?: S): EnvString<S> =>
+  `.env${suffix ? `.${suffix}` : ''}` as EnvString<S>;

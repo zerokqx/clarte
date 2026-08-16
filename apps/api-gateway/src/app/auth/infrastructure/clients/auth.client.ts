@@ -3,27 +3,20 @@ import { IAuthClient, InjectAuthGrpcClient } from '@/app/auth/aplication';
 import { type ClientGrpc } from '@nestjs/microservices';
 import { Auth } from '@clarte/shared-contracts/proto';
 import { map, Observable } from 'rxjs';
+import { makeGrpcMetadata } from '@clarte/shared-nest/core/functions';
 
 export class AuthClient implements OnModuleInit, IAuthClient {
   private authService!: Auth.AuthServiceClient;
 
-  constructor(
-    @InjectAuthGrpcClient() private readonly authGrpcClient: ClientGrpc,
-  ) {}
+  constructor(@InjectAuthGrpcClient() private readonly authGrpcClient: ClientGrpc) {}
   onModuleInit() {
-    this.authService = this.authGrpcClient.getService(
-      Auth.AUTH_SERVICE_NAME,
-    );
+    this.authService = this.authGrpcClient.getService(Auth.AUTH_SERVICE_NAME);
   }
 
-  validate(
-    data: Auth.RegisterRequest,
-  ): Observable<Auth.ValidateUserResponse> {
+  validate(data: Auth.RegisterRequest): Observable<Auth.ValidateUserResponse> {
     return this.authService.validateUser(data);
   }
-  login(
-    data: Auth.LoginPasswordRequest,
-  ): Observable<Auth.LoginPasswordResponse> {
+  login(data: Auth.LoginPasswordRequest): Observable<Auth.LoginPasswordResponse> {
     return this.authService.loginPassword(data);
   }
   register(data: Auth.RegisterRequest): Observable<void> {
@@ -34,9 +27,7 @@ export class AuthClient implements OnModuleInit, IAuthClient {
     return this.authService.getPublicJwtKey({});
   }
 
-  refresh(
-    data: Auth.RefreshTokensRequest,
-  ): Observable<Auth.RefreshTokensResponse> {
-    return this.authService.refreshTokens(data);
+  refresh(userId: string, data: Auth.RefreshTokensRequest): Observable<Auth.RefreshTokensResponse> {
+    return this.authService.refreshTokens(data, makeGrpcMetadata({ userId }));
   }
 }

@@ -30,5 +30,5 @@ class ThemeStore {
 }
 const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 export const themeStore = new ThemeStore({
-  primaryColor: isSystemDark ? 'dark' : 'violet',
+  primaryColor: isSystemDark ? 'indigo' : 'violet',
 });

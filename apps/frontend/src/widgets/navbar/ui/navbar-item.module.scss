@@ -18,6 +18,21 @@
     display: flex;
     align-items: center;
     text-decoration: none;
+    overflow: hidden;
+    z-index: 1;
+
+    /* Псевдоэлемент фоновой плашки слева направо */
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-color: light-dark(alpha(c('primary.1'), 0.35), alpha(c('primary.9'), 0.25));
+      border-radius: radius(md);
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: -1;
+    }
 
     &:hover:not([data-selected='true']) {
       background-color: light-dark(alpha(c('gray.1'), 0.7), alpha(c('dark.5'), 0.4));
@@ -25,11 +40,15 @@
     }
 
     &[data-selected='true'] {
-      background-color: light-dark(alpha(c('primary.1'), 0.35), alpha(c('primary.9'), 0.25));
       color: light-dark(c('primary.7'), c('primary.2'));
       font-weight: fw(medium);
+
+      &::after {
+        transform: scaleX(1);
+      }
     }
 
+    /* Индикатор синей вертикальной линии */
     &::before {
       content: '';
       position: absolute;
@@ -44,6 +63,7 @@
       transition:
         transform 0.2s ease,
         opacity 0.2s ease;
+      z-index: 2;
     }
 
     &[data-selected='true']::before {

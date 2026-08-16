@@ -16,7 +16,7 @@ import { LoginDTO, LoginResponseDTO, RegisterDTO } from '@/app/auth/presentation
 import { map } from 'rxjs';
 import { AccessGuard, RefreshGuard } from '@clarte/shared-nest/guards';
 import { JwtCookieInterceptor } from '@clarte/shared-nest/interceptors';
-import { User, InjectCookieInterceptorUuid } from '@clarte/shared-nest/decorators';
+import { User, InjectCookieInterceptorUuid } from '@clarte/shared-nest/core/decorators';
 import { type IAuthenticatedUser } from '@clarte/shared-contracts/interfaces';
 import { type Response } from 'express';
 
@@ -83,9 +83,8 @@ export class AuthController extends Marks.Controller.Mixed {
   @UseInterceptors(JwtCookieInterceptor)
   refresh(@User() user: IAuthenticatedUser) {
     return this.authClient
-      .refresh({
+      .refresh(user.sub, {
         refreshToken: user.__metadata.original,
-        userId: user.sub,
       })
       .pipe(
         map(({ accessToken, refreshToken }) => ({

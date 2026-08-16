@@ -2,8 +2,8 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from '@/infrastructure/database/database.module';
 import { ConfigModule } from '@nestjs/config';
-import { AppConfigModule } from '@clarte/shared-nest/modules';
-import { S3SharedModule } from '@clarte/shared-nest/modules/s3';
+import { AppConfigModule } from '@clarte/shared-nest/config';
+import { S3SharedModule } from '@clarte/shared-nest/infra';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   USER_AVATAR_GENERATOR,
@@ -28,7 +28,7 @@ import {
   UserReadRepository,
   UserWriteRepository,
 } from '@/infrastructure';
-import { RmqModule } from '@clarte/shared-nest/modules';
+import { RmqModule } from '@clarte/shared-nest/infra';
 import { PresignedUploadHandler } from './application/queries/presigned-upload';
 import { UserStorageController } from './presentation/user-storage.rpc.controller';
 import { ChangeLoginHandler } from './application/commands/change-login';

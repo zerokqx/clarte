@@ -1,4 +1,4 @@
-import { type CrqsRepository } from '@clarte/shared-nest/types';
+import { type CrqsRepository } from '@clarte/shared-nest/core/types';
 import { Todo } from '@/domain';
 import { TodoReadModel } from '../models';
 

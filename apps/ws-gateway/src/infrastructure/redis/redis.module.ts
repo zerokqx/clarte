@@ -1,4 +1,4 @@
-import { CompactConfigModule } from '@clarte/shared-nest/modules';
+import { CompactConfigModule } from '@clarte/shared-nest/config';
 import { Module } from '@nestjs/common';
 import { IRedisConfiguration } from '../../application';
 

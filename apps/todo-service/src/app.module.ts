@@ -1,11 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { Module } from '@nestjs/common';
-import {
-  AppConfigModule,
-  RedisConfig,
-  RedisConfiguration,
-  RmqModule,
-} from '@clarte/shared-nest/modules';
+import { AppConfigModule } from '@clarte/shared-nest/config';
+import { RedisConfig, RedisConfiguration, RmqModule } from '@clarte/shared-nest/infra';
 import {
   CompleteTodoHandler,
   TODO_BULLMQ_TIMERS,

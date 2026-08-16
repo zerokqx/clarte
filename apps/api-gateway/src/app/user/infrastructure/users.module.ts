@@ -9,7 +9,7 @@ import { UserStorageController } from '@/app/user/presentation/user-storage.cont
 import { UserEditController } from '@/app/user/presentation/user-edit.controller';
 import { UserClient } from '@/app/user/infrastructure/clients/user.client';
 import { USER_CLIENT, USER_GRPC_CLIENT } from '@/app/user/application';
-import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared-nest/modules';
+import { MicroserviceConfigModule, MicroserviceConfigType } from '@clarte/shared-nest/config';
 
 import { PROTO_PATH } from '@/app/ports/di-tokens';
 

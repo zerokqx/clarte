@@ -3,7 +3,7 @@ import { UpdateTodoCommand } from './update-todo.command';
 import { InjectTodoRepo } from '@/application/decorators';
 import { ITodoRepository } from '@/application/ports';
 import { TodoNotFoundException } from '@/domain/exceptions';
-import { CqrsRepoType } from '@clarte/shared-nest/types';
+import { CqrsRepoType } from '@clarte/shared-nest/core/types';
 
 // TODO Исправить баги типов
 @CommandHandler(UpdateTodoCommand)

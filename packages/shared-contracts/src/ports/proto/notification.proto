@@ -3,7 +3,7 @@ import "google/protobuf/empty.proto";
 package notification;
 
 service NotificationService {
-  rpc GetNotificationsById(GetNotificationsByIdRequest)
+  rpc GetNotificationsById(google.protobuf.Empty)
       returns (GetNotificationsByIdResponse);
 }
 
@@ -12,10 +12,6 @@ message Notification {
   string title = 2;
   string text = 3;
   string createdAt = 4;
-}
-
-message GetNotificationsByIdRequest {
-  string userId = 1;
 }
 
 message GetNotificationsByIdResponse {

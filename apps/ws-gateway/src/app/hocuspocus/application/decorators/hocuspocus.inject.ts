@@ -1,4 +1,4 @@
-import { mkInject } from '@clarte/shared-nest/functions';
+import { mkInject } from '@clarte/shared-nest/core/functions';
 import { HOCUSPOCUS_OPTIONS, HOCUSPOCUS_SERVER } from '../ports';
 
 export const InjectHocuspocusServer = mkInject(HOCUSPOCUS_SERVER);

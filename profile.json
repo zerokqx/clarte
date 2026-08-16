@@ -1,0 +1,461 @@
+[
+  {
+    "name": "thread_name",
+    "ph": "M",
+    "pid": 381836,
+    "tid": 0,
+    "ts": 0,
+    "args": {
+      "name": "Group #1"
+    }
+  },
+  {
+    "name": "thread_name",
+    "ph": "M",
+    "pid": 381836,
+    "tid": 1,
+    "ts": 0,
+    "args": {
+      "name": "Group #2"
+    }
+  },
+  {
+    "name": "thread_name",
+    "ph": "M",
+    "pid": 381836,
+    "tid": 2,
+    "ts": 0,
+    "args": {
+      "name": "Group #3"
+    }
+  },
+  {
+    "name": "@clarte/shared-event-types:build",
+    "cat": "@clarte/shared-event-types,build,",
+    "ph": "X",
+    "ts": 1785674238906000,
+    "dur": 2920000,
+    "pid": 381836,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "@clarte/shared-event-types",
+        "target": "build"
+      },
+      "status": "success"
+    }
+  },
+  {
+    "name": "@clarte/shared-domain:build",
+    "cat": "@clarte/shared-domain,build,",
+    "ph": "X",
+    "ts": 1785674238906000,
+    "dur": 3250000,
+    "pid": 381836,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "@clarte/shared-domain",
+        "target": "build"
+      },
+      "status": "success"
+    }
+  },
+  {
+    "name": "@clarte/shared-contracts:build",
+    "cat": "@clarte/shared-contracts,build,",
+    "ph": "X",
+    "ts": 1785674238906000,
+    "dur": 3454000,
+    "pid": 381836,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "@clarte/shared-contracts",
+        "target": "build"
+      },
+      "status": "success"
+    }
+  },
+  {
+    "name": "@clarte/auth-service:generate-keys",
+    "cat": "@clarte/auth-service,generate-keys,",
+    "ph": "X",
+    "ts": 1785674242369000,
+    "dur": 60000,
+    "pid": 381836,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "@clarte/auth-service",
+        "target": "generate-keys"
+      },
+      "status": "success"
+    }
+  },
+  {
+    "name": "@clarte/shared:build-cjs",
+    "cat": "@clarte/shared,build-cjs,",
+    "ph": "X",
+    "ts": 1785674241845000,
+    "dur": 2734000,
+    "pid": 381836,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "@clarte/shared",
+        "target": "build-cjs"
+      },
+      "status": "success"
+    }
+  },
+  {
+    "name": "@clarte/shared:build-esm",
+    "cat": "@clarte/shared,build-esm,",
+    "ph": "X",
+    "ts": 1785674242167000,
+    "dur": 2674000,
+    "pid": 381836,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "@clarte/shared",
+        "target": "build-esm"
+      },
+      "status": "success"
+    }
+  },
+  {
+    "name": "@clarte/shared:build",
+    "cat": "@clarte/shared,build,",
+    "ph": "X",
+    "ts": 1785674244852000,
+    "dur": 4000,
+    "pid": 381836,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "@clarte/shared",
+        "target": "build"
+      },
+      "status": "success"
+    }
+  },
+  {
+    "name": "@clarte/shared-nest:build",
+    "cat": "@clarte/shared-nest,build,",
+    "ph": "X",
+    "ts": 1785674244866000,
+    "dur": 4537000,
+    "pid": 381836,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "@clarte/shared-nest",
+        "target": "build"
+      },
+      "status": "success"
+    }
+  },
+  {
+    "name": "@clarte/todo-service:build",
+    "cat": "@clarte/todo-service,build,",
+    "ph": "X",
+    "ts": 1785674249426000,
+    "dur": 6205000,
+    "pid": 381836,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "@clarte/todo-service",
+        "target": "build"
+      },
+      "status": "success"
+    }
+  },
+  {
+    "name": "thread_name",
+    "ph": "M",
+    "pid": 381836,
+    "tid": 3,
+    "ts": 0,
+    "args": {
+      "name": "Group #4"
+    }
+  },
+  {
+    "name": "@clarte/api-gateway:build",
+    "cat": "@clarte/api-gateway,build,",
+    "ph": "X",
+    "ts": 1785674249423000,
+    "dur": 7402000,
+    "pid": 381836,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "@clarte/api-gateway",
+        "target": "build"
+      },
+      "status": "success"
+    }
+  },
+  {
+    "name": "thread_name",
+    "ph": "M",
+    "pid": 381836,
+    "tid": 4,
+    "ts": 0,
+    "args": {
+      "name": "Group #5"
+    }
+  },
+  {
+    "name": "@clarte/user-service:build",
+    "cat": "@clarte/user-service,build,",
+    "ph": "X",
+    "ts": 1785674249422000,
+    "dur": 9669000,
+    "pid": 381836,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "@clarte/user-service",
+        "target": "build"
+      },
+      "status": "success"
+    }
+  },
+  {
+    "name": "thread_name",
+    "ph": "M",
+    "pid": 381836,
+    "tid": 5,
+    "ts": 0,
+    "args": {
+      "name": "Group #6"
+    }
+  },
+  {
+    "name": "@clarte/ws-gateway:build",
+    "cat": "@clarte/ws-gateway,build,",
+    "ph": "X",
+    "ts": 1785674255652000,
+    "dur": 13171000,
+    "pid": 381836,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "@clarte/ws-gateway",
+        "target": "build"
+      },
+      "status": "success"
+    }
+  },
+  {
+    "name": "thread_name",
+    "ph": "M",
+    "pid": 381836,
+    "tid": 6,
+    "ts": 0,
+    "args": {
+      "name": "Group #7"
+    }
+  },
+  {
+    "name": "@clarte/note-service:build",
+    "cat": "@clarte/note-service,build,",
+    "ph": "X",
+    "ts": 1785674256857000,
+    "dur": 18054000,
+    "pid": 381836,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "@clarte/note-service",
+        "target": "build"
+      },
+      "status": "success"
+    }
+  },
+  {
+    "name": "thread_name",
+    "ph": "M",
+    "pid": 381836,
+    "tid": 7,
+    "ts": 0,
+    "args": {
+      "name": "Group #8"
+    }
+  },
+  {
+    "name": "@clarte/auth-service:build",
+    "cat": "@clarte/auth-service,build,",
+    "ph": "X",
+    "ts": 1785674259197000,
+    "dur": 18589000,
+    "pid": 381836,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "@clarte/auth-service",
+        "target": "build"
+      },
+      "status": "success"
+    }
+  },
+  {
+    "name": "thread_name",
+    "ph": "M",
+    "pid": 381836,
+    "tid": 8,
+    "ts": 0,
+    "args": {
+      "name": "Group #9"
+    }
+  },
+  {
+    "name": "@clarte/notification-service:build",
+    "cat": "@clarte/notification-service,build,",
+    "ph": "X",
+    "ts": 1785674268884000,
+    "dur": 13268000,
+    "pid": 381836,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "@clarte/notification-service",
+        "target": "build"
+      },
+      "status": "success"
+    }
+  },
+  {
+    "name": "thread_name",
+    "ph": "M",
+    "pid": 381836,
+    "tid": 9,
+    "ts": 0,
+    "args": {
+      "name": "Group #10"
+    }
+  },
+  {
+    "name": "@clarte/todo-service:serve:development",
+    "cat": "@clarte/todo-service,serve,development",
+    "ph": "X",
+    "ts": 1785674255649000,
+    "dur": 4334429000,
+    "pid": 381836,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "@clarte/todo-service",
+        "target": "serve",
+        "configuration": "development"
+      },
+      "status": "stopped"
+    }
+  },
+  {
+    "name": "@clarte/api-gateway:serve:development",
+    "cat": "@clarte/api-gateway,serve,development",
+    "ph": "X",
+    "ts": 1785674256852000,
+    "dur": 4333401000,
+    "pid": 381836,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "@clarte/api-gateway",
+        "target": "serve",
+        "configuration": "development"
+      },
+      "status": "stopped"
+    }
+  },
+  {
+    "name": "@clarte/user-service:serve:development",
+    "cat": "@clarte/user-service,serve,development",
+    "ph": "X",
+    "ts": 1785674259169000,
+    "dur": 4331362000,
+    "pid": 381836,
+    "tid": 5,
+    "args": {
+      "target": {
+        "project": "@clarte/user-service",
+        "target": "serve",
+        "configuration": "development"
+      },
+      "status": "stopped"
+    }
+  },
+  {
+    "name": "@clarte/ws-gateway:serve:development",
+    "cat": "@clarte/ws-gateway,serve,development",
+    "ph": "X",
+    "ts": 1785674268873000,
+    "dur": 4321822000,
+    "pid": 381836,
+    "tid": 6,
+    "args": {
+      "target": {
+        "project": "@clarte/ws-gateway",
+        "target": "serve",
+        "configuration": "development"
+      },
+      "status": "stopped"
+    }
+  },
+  {
+    "name": "@clarte/note-service:serve:development",
+    "cat": "@clarte/note-service,serve,development",
+    "ph": "X",
+    "ts": 1785674274965000,
+    "dur": 4315899000,
+    "pid": 381836,
+    "tid": 7,
+    "args": {
+      "target": {
+        "project": "@clarte/note-service",
+        "target": "serve",
+        "configuration": "development"
+      },
+      "status": "stopped"
+    }
+  },
+  {
+    "name": "@clarte/auth-service:serve:development",
+    "cat": "@clarte/auth-service,serve,development",
+    "ph": "X",
+    "ts": 1785674277823000,
+    "dur": 4313074000,
+    "pid": 381836,
+    "tid": 8,
+    "args": {
+      "target": {
+        "project": "@clarte/auth-service",
+        "target": "serve",
+        "configuration": "development"
+      },
+      "status": "stopped"
+    }
+  },
+  {
+    "name": "@clarte/notification-service:serve:development",
+    "cat": "@clarte/notification-service,serve,development",
+    "ph": "X",
+    "ts": 1785674282229000,
+    "dur": 4308746000,
+    "pid": 381836,
+    "tid": 9,
+    "args": {
+      "target": {
+        "project": "@clarte/notification-service",
+        "target": "serve",
+        "configuration": "development"
+      },
+      "status": "stopped"
+    }
+  }
+]

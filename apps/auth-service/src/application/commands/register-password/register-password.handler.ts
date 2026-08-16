@@ -61,7 +61,6 @@ export class RegisterPasswordHandler implements ICommandHandler<RegisterPassword
               command.password,
               this.passwordHasher,
             );
-
             // 2. Оставляем ваш текущий gRPC-вызов для совместимости
             await this.userClient.createUser(user.id, user.loginValue, user.passwordHash);
 

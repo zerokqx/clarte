@@ -13,6 +13,8 @@
     "@nestjs/common": "catalog:nestjs",
     "@nestjs/config": "catalog:nestjs",
     "@nestjs/core": "catalog:nestjs",
+    "@nestjs/typeorm": "catalog:nestjs",
+    "typeorm": "catalog:backend",
     "@nestjs/cqrs": "catalog:nestjs",
     "@nestjs/jwt": "catalog:nestjs",
     "@nestjs/microservices": "catalog:nestjs",

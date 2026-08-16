@@ -1,23 +1,21 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Note, NoteSchema } from './entites';
-import { NOTE_READ_REPO, NOTE_WRITE_REPO } from '@/application';
-import { NoteReadRepository, NoteWriteRepository } from './repository';
+import { Node, NodeSchema } from './entites';
+import { NODE_READ_REPO, NODE_WRITE_REPO } from '@/application';
+import { NodeReadRepository, NodeWriteRepository } from './repository';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([{ name: Note.name, schema: NoteSchema }]),
-  ],
+  imports: [MongooseModule.forFeature([{ name: Node.name, schema: NodeSchema }])],
   providers: [
     {
-      provide: NOTE_READ_REPO,
-      useClass: NoteReadRepository,
+      provide: NODE_READ_REPO,
+      useClass: NodeReadRepository,
     },
     {
-      provide: NOTE_WRITE_REPO,
-      useClass: NoteWriteRepository,
+      provide: NODE_WRITE_REPO,
+      useClass: NodeWriteRepository,
     },
   ],
-  exports: [NOTE_READ_REPO, NOTE_WRITE_REPO],
+  exports: [NODE_READ_REPO, NODE_WRITE_REPO],
 })
 export class DatabaseModule {}

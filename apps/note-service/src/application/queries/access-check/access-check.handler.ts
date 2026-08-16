@@ -1,18 +1,13 @@
-import { QueryHandler, IQueryHandler } from '@nestjs/cqrs';
+import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { AccessCheckQuery } from './access-check.query';
-import { InjectNoteRepo } from '@/application/decorators';
-import { INoteRepository } from '@/application/ports';
-import { CqrsRepoType } from '@clarte/shared-nest/types';
+import { InjectNodeRepo } from '@/application/decorators';
+import type { INodeRepositoryRead } from '@/application/ports';
 
 @QueryHandler(AccessCheckQuery)
-export class AccessCheckHandler implements IQueryHandler<AccessCheckQuery> {
-  constructor(
-    @InjectNoteRepo('r')
-    private readonly repoRead: INoteRepository[CqrsRepoType.r],
-  ) {}
+export class AccessCheckHandler implements IQueryHandler<AccessCheckQuery, boolean> {
+  constructor(@InjectNodeRepo('r') private readonly nodeReadRepo: INodeRepositoryRead) {}
 
-  execute(query: AccessCheckQuery): Promise<boolean> {
-    const checker = this.repoRead.userHasAccessTo(query.authorId);
-    return checker(query.noteId);
+  async execute(query: AccessCheckQuery): Promise<boolean> {
+    return this.nodeReadRepo.userHasAccessTo(query.authorId)(query.noteId);
   }
 }

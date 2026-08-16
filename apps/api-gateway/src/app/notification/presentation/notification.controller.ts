@@ -6,7 +6,7 @@ import { InjectNotificationClient, type INotificationClient } from '@/app/notifi
 import { NotificationDTO } from './dto';
 import { type IJwtPayload } from '@clarte/shared-contracts/interfaces';
 import { AccessGuard } from '@clarte/shared-nest/guards';
-import { User } from '@clarte/shared-nest/decorators';
+import { User } from '@clarte/shared-nest/core/decorators';
 
 @ApiTags('Notifications')
 @Controller('notifications')
@@ -22,9 +22,7 @@ export class NotificationController extends Marks.Controller.Private {
   @AccessGuard()
   @ApiOperation({ summary: 'Получить список уведомлений текущего пользователя' })
   @ApiOkResponse({ type: [NotificationDTO] })
-  getUserNotifications(
-    @User() user: IJwtPayload,
-  ): Observable<NotificationDTO[]> {
+  getUserNotifications(@User() user: IJwtPayload): Observable<NotificationDTO[]> {
     return this.notificationClient.getNotificationsById(user.sub).pipe(
       map((res) =>
         (res.notifications || []).map(

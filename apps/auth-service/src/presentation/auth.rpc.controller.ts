@@ -8,6 +8,8 @@ import {
   RegisterPasswordCommand,
 } from '@/application';
 import { RefreshCommand } from '@/application/commands/refresh';
+import { Metadata } from '@grpc/grpc-js';
+import { getUserIdFromGrpcMetadata } from '@clarte/shared-nest/core/functions';
 
 @Auth.AuthServiceControllerMethods()
 export class AuthController implements Auth.AuthServiceController {
@@ -45,7 +47,12 @@ export class AuthController implements Auth.AuthServiceController {
     const key = await this.queryBus.execute(new GetPublicJwtKeyQuery());
     return { key };
   }
-  refreshTokens(request: Auth.RefreshTokensRequest): Promise<Auth.RefreshTokensResponse> {
-    return this.commandBus.execute(new RefreshCommand(request.userId, request.refreshToken));
+
+  refreshTokens(
+    request: Auth.RefreshTokensRequest,
+    metadata?: Metadata,
+  ): Promise<Auth.RefreshTokensResponse> {
+    const userId = getUserIdFromGrpcMetadata(metadata);
+    return this.commandBus.execute(new RefreshCommand(userId, request.refreshToken));
   }
 }

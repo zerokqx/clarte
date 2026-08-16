@@ -4,10 +4,12 @@ import { UserModule } from '@/app/user/infrastructure/users.module';
 import { AuthModule } from '@/app/auth/auth.module';
 import { TodoModule } from '@/app/todo/todo.module';
 import { NotificationModule } from '@/app/notification/infrastructure/notifications.module';
-import { AppConfigModule, JwtModule } from '@clarte/shared-nest/modules';
+import { NodeModule } from '@/app/node/node.module';
+import { AppConfigModule } from '@clarte/shared-nest/config';
+import { JwtModule } from '@clarte/shared-nest/auth';
 import { JwtKeyProvider } from '@/app/auth/infrastructure';
 
-import { createFolderPathModule } from '@clarte/shared-nest/modules/assets';
+import { createFolderPathModule } from '@clarte/shared-nest/infra';
 import { PROTO_PATH } from '@/app/ports/di-tokens';
 
 @Module({
@@ -22,6 +24,7 @@ import { PROTO_PATH } from '@/app/ports/di-tokens';
     AuthModule,
     TodoModule,
     NotificationModule,
+    NodeModule,
     JwtModule.register({
       imports: [AuthModule],
       provider: JwtKeyProvider,

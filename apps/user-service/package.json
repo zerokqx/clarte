@@ -21,6 +21,7 @@
     "@nestjs/cqrs": "catalog:nestjs",
     "@nestjs/microservices": "catalog:nestjs",
     "@nestjs/typeorm": "catalog:nestjs",
+    "typeorm": "catalog:backend",
     "@swc/helpers": "catalog:swc",
     "class-transformer": "catalog:validation",
     "class-validator": "catalog:validation",
@@ -29,8 +30,7 @@
     "reflect-metadata": "catalog:general",
     "rxjs": "catalog:general",
     "tslib": "catalog:general",
-    "type-fest": "catalog:types",
-    "typeorm": "catalog:backend"
+    "type-fest": "catalog:types"
   },
   "devDependencies": {
     "@types/jest": "catalog:types"

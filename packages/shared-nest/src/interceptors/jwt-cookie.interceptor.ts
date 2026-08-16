@@ -3,7 +3,7 @@ import { type Response } from 'express';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { COOKIE_NAME } from '@clarte/shared';
-import { InjectCookieInterceptorOptions, InjectCookieInterceptorUuid } from '../decorators';
+import { InjectCookieInterceptorOptions, InjectCookieInterceptorUuid } from '../core/decorators';
 
 export interface JwtCookieInterceptorOptions {
   isProd: boolean;

@@ -1,1 +1,1 @@
-export * from './invalid-text.exception';
+export * from './invalid-label.exception';

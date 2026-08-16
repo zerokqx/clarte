@@ -1,1 +1,1 @@
-export * from './note.model';
+export * from './node.model';

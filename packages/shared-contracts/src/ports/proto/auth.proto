@@ -37,20 +37,16 @@ message ValidateUserResponse {
   string login = 2;
 }
 
-
 message RegisterRequest {
   string login = 1;
   string password = 2;
 }
 
-
 message RefreshTokensRequest {
-  string userId = 1;
-  string refreshToken = 3;
+  string refreshToken = 1;
 }
 
 message RefreshTokensResponse {
   string accessToken = 1;
   string refreshToken = 2;
 }
-

@@ -1,2 +1,2 @@
-export * from "./note.read.repository"
-export * from "./note.write.repository"
+export * from './node.read.repository';
+export * from './node.write.repository';

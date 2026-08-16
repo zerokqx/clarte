@@ -5,7 +5,8 @@
   "main": "./dist/index.js",
   "dependencies": {
     "rxjs": "catalog:general",
-    "@swc/helpers": "catalog:swc"
+    "@swc/helpers": "catalog:swc",
+    "@grpc/grpc-js": "catalog:backend"
   },
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",

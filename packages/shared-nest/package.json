@@ -7,17 +7,65 @@
   "types": "./dist/index.d.ts",
   "exports": {
     "./package.json": "./package.json",
+    ".": {
+      "@clarte/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./core": {
+      "@clarte/source": "./src/core/index.ts",
+      "types": "./dist/core/index.d.ts",
+      "import": "./dist/core/index.js",
+      "default": "./dist/core/index.js"
+    },
+    "./core/decorators": {
+      "@clarte/source": "./src/core/decorators/index.ts",
+      "types": "./dist/core/decorators/index.d.ts",
+      "import": "./dist/core/decorators/index.js",
+      "default": "./dist/core/decorators/index.js"
+    },
+    "./core/functions": {
+      "@clarte/source": "./src/core/functions/index.ts",
+      "types": "./dist/core/functions/index.d.ts",
+      "import": "./dist/core/functions/index.js",
+      "default": "./dist/core/functions/index.js"
+    },
+    "./core/ports": {
+      "@clarte/source": "./src/core/ports/index.ts",
+      "types": "./dist/core/ports/index.d.ts",
+      "import": "./dist/core/ports/index.js",
+      "default": "./dist/core/ports/index.js"
+    },
+    "./core/types": {
+      "@clarte/source": "./src/core/types/index.ts",
+      "types": "./dist/core/types/index.d.ts",
+      "import": "./dist/core/types/index.js",
+      "default": "./dist/core/types/index.js"
+    },
+    "./config": {
+      "@clarte/source": "./src/config/index.ts",
+      "types": "./dist/config/index.d.ts",
+      "import": "./dist/config/index.js",
+      "default": "./dist/config/index.js"
+    },
+    "./infra": {
+      "@clarte/source": "./src/infra/index.ts",
+      "types": "./dist/infra/index.d.ts",
+      "import": "./dist/infra/index.js",
+      "default": "./dist/infra/index.js"
+    },
+    "./auth": {
+      "@clarte/source": "./src/auth/index.ts",
+      "types": "./dist/auth/index.d.ts",
+      "import": "./dist/auth/index.js",
+      "default": "./dist/auth/index.js"
+    },
     "./guards": {
       "@clarte/source": "./src/guards/index.ts",
       "types": "./dist/guards/index.d.ts",
       "import": "./dist/guards/index.js",
       "default": "./dist/guards/index.js"
-    },
-    "./types": {
-      "@clarte/source": "./src/types/index.ts",
-      "types": "./dist/types/index.d.ts",
-      "import": "./dist/types/index.js",
-      "default": "./dist/types/index.js"
     },
     "./filters": {
       "@clarte/source": "./src/filters/index.ts",
@@ -30,115 +78,32 @@
       "types": "./dist/interceptors/index.d.ts",
       "import": "./dist/interceptors/index.js",
       "default": "./dist/interceptors/index.js"
-    },
-    "./modules": {
-      "@clarte/source": "./src/modules/index.ts",
-      "types": "./dist/modules/index.d.ts",
-      "import": "./dist/modules/index.js",
-      "default": "./dist/modules/index.js"
-    },
-    "./modules/s3": {
-      "@clarte/source": "./src/modules/s3/index.ts",
-      "types": "./dist/modules/s3/index.d.ts",
-      "import": "./dist/modules/s3/index.js",
-      "default": "./dist/modules/s3/index.js"
-    },
-    "./modules/database": {
-      "@clarte/source": "./src/modules/database/database-config.module.ts",
-      "types": "./dist/modules/database/database-config.module.d.ts",
-      "import": "./dist/modules/database/database-config.module.js",
-      "default": "./dist/modules/database/database-config.module.js"
-    },
-    "./modules/rmq": {
-      "@clarte/source": "./src/modules/rmq/index.ts",
-      "types": "./dist/modules/rmq/index.d.ts",
-      "import": "./dist/modules/rmq/index.js",
-      "default": "./dist/modules/rmq/index.js"
-    },
-    "./modules/auth": {
-      "@clarte/source": "./src/modules/auth/auth.module.ts",
-      "types": "./dist/modules/auth/auth.module.d.ts",
-      "import": "./dist/modules/auth/auth.module.js",
-      "default": "./dist/modules/auth/auth.module.js"
-    },
-    "./modules/redis": {
-      "@clarte/source": "./src/modules/redis/redis-config.module.ts",
-      "types": "./dist/modules/redis/redis-config.module.d.ts",
-      "import": "./dist/modules/redis/redis-config.module.js",
-      "default": "./dist/modules/redis/redis-config.module.js"
-    },
-    "./modules/app-config": {
-      "@clarte/source": "./src/modules/app-config/app-config.module.ts",
-      "types": "./dist/modules/app-config/app-config.module.d.ts",
-      "import": "./dist/modules/app-config/app-config.module.js",
-      "default": "./dist/modules/app-config/app-config.module.js"
-    },
-    "./modules/microservice-config": {
-      "@clarte/source": "./src/modules/microservice-config/microservice-config.module.ts",
-      "types": "./dist/modules/microservice-config/microservice-config.module.d.ts",
-      "import": "./dist/modules/microservice-config/microservice-config.module.js",
-      "default": "./dist/modules/microservice-config/microservice-config.module.js"
-    },
-    "./modules/assets": {
-      "@clarte/source": "./src/modules/assets/assets.module.ts",
-      "types": "./dist/modules/assets/assets.module.d.ts",
-      "import": "./dist/modules/assets/assets.module.js",
-      "default": "./dist/modules/assets/assets.module.js"
-    },
-    "./modules/compact-config": {
-      "@clarte/source": "./src/modules/compact-config/compact-config.module.ts",
-      "types": "./dist/modules/compact-config/compact-config.module.d.ts",
-      "import": "./dist/modules/compact-config/compact-config.module.js",
-      "default": "./dist/modules/compact-config/compact-config.module.js"
-    },
-    "./strategies": {
-      "@clarte/source": "./src/strategies/index.ts",
-      "types": "./dist/strategies/index.d.ts",
-      "import": "./dist/strategies/index.js",
-      "default": "./dist/strategies/index.js"
-    },
-    "./functions": {
-      "@clarte/source": "./src/functions/index.ts",
-      "types": "./dist/functions/index.d.ts",
-      "import": "./dist/functions/index.js",
-      "default": "./dist/functions/index.js"
-    },
-    "./decorators": {
-      "@clarte/source": "./src/decorators/index.ts",
-      "types": "./dist/decorators/index.d.ts",
-      "import": "./dist/decorators/index.js",
-      "default": "./dist/decorators/index.js"
-    },
-    "./ports": {
-      "@clarte/source": "./src/ports/index.ts",
-      "types": "./dist/ports/index.d.ts",
-      "import": "./dist/ports/index.js",
-      "default": "./dist/ports/index.js"
     }
   },
   "dependencies": {
-    "@swc/helpers": "catalog:swc",
     "@clarte/shared": "workspace:*",
     "@clarte/shared-contracts": "workspace:*",
     "@clarte/shared-domain": "workspace:*",
-    "passport-jwt": "catalog:backend"
+    "@swc/helpers": "catalog:swc",
+    "passport-jwt": "catalog:backend",
+    "radash": "catalog:general"
   },
   "devDependencies": {
     "@types/passport-jwt": "catalog:types"
   },
   "peerDependencies": {
-    "@grpc/grpc-js": "catalog:backend",
     "@aws-sdk/client-s3": "catalog:aws",
     "@aws-sdk/s3-request-presigner": "catalog:aws",
+    "@grpc/grpc-js": "catalog:backend",
     "@humanwhocodes/env": "catalog:general",
-    "effect": "catalog:general",
-    "express": "catalog:backend",
-    "nestjs-s3": "catalog:nestjs",
     "@nestjs/common": "catalog:nestjs",
     "@nestjs/config": "catalog:nestjs",
     "@nestjs/microservices": "catalog:nestjs",
-    "type-fest": "catalog:types",
     "@nestjs/passport": "*",
-    "rxjs": "catalog:general"
+    "effect": "catalog:general",
+    "express": "catalog:backend",
+    "nestjs-s3": "catalog:nestjs",
+    "rxjs": "catalog:general",
+    "type-fest": "catalog:types"
   }
 }

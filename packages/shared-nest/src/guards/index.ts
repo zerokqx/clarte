@@ -1,1 +1,2 @@
-export * from '../modules/auth/guards';
+export * from './jwt-access.guard';
+export * from './jwt-refresh.guard';

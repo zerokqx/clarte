@@ -1,6 +1,6 @@
 import { QueryHandler, IQueryHandler } from '@nestjs/cqrs';
 import { PresignedUploadQuery } from './presigned-upload.query';
-import { InjectS3Service, IS3Service } from '@clarte/shared-nest/modules/s3';
+import { InjectS3Service, IS3Service } from '@clarte/shared-nest/infra';
 
 import { randomUUID } from 'crypto';
 import { User } from '@clarte/shared-contracts/proto';

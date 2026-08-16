@@ -3,11 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TodoOrmEntity } from '@/infrastructure/database/entites/todo.entity';
 
-import {
-  AppConfiguration,
-  DatabaseConfig,
-  DatabaseConfiguration,
-} from '@clarte/shared-nest/modules';
+import { AppConfiguration, DatabaseConfig, DatabaseConfiguration } from '@clarte/shared-nest/infra';
 import { TODO_REPO_READ, TODO_REPO_WRITE } from '@/application';
 import { TodoRepositoryRead } from './database-read.repository';
 import { TodoWriteRepository } from './database-write.repository';

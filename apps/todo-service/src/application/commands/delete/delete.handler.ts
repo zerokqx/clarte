@@ -2,7 +2,7 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { DeleteCommand } from './delete.command';
 import { InjectTodoRepo } from '@/application/decorators';
 import { ITodoRepository } from '@/application/ports';
-import { CqrsRepoType } from '@clarte/shared-nest/types';
+import { CqrsRepoType } from '@clarte/shared-nest/core/types';
 
 @CommandHandler(DeleteCommand)
 export class DeleteHandler implements ICommandHandler<DeleteCommand> {

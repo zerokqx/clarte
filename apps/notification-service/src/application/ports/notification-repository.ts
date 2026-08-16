@@ -1,4 +1,4 @@
-import { CrqsRepository } from '@clarte/shared-nest/types';
+import { CrqsRepository } from '@clarte/shared-nest/core/types';
 import { Notification } from '@/domain';
 import { NotificationReadModel } from '@/application/models';
 

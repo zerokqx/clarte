@@ -12,7 +12,7 @@ import { type INoteClient } from './note';
 import { RedisModule } from '../infrastructure';
 import { IRedisConfiguration } from '../application';
 import { map } from 'rxjs';
-import { createFolderPathModule } from '@clarte/shared-nest/modules/assets';
+import { createFolderPathModule } from '@clarte/shared-nest/infra';
 import { PROTO_PATH } from './ports/di-tokens';
 
 @Module({

@@ -9,7 +9,7 @@ import { randomUUID } from 'crypto';
 import { ClientProxy } from '@nestjs/microservices';
 import { Queue } from 'bullmq';
 import { firstValueFrom } from 'rxjs';
-import { CqrsRepoType } from '@clarte/shared-nest/types';
+import { CqrsRepoType } from '@clarte/shared-nest/core/types';
 
 @CommandHandler(CreateTodoCommand)
 export class CreateTodoHandler implements ICommandHandler<CreateTodoCommand> {
