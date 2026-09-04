@@ -5,6 +5,7 @@
   "dependencies": {
     "@clarte/shared": "workspace:*",
     "@clarte/shared-contracts": "workspace:*",
+    "@clarte/shared-errors": "workspace:*",
     "@clarte/shared-nest": "workspace:*",
     "@grpc/grpc-js": "catalog:backend",
     "@humanwhocodes/env": "catalog:general",

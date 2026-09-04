@@ -1,7 +1,7 @@
-import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
+import { ValidationError } from '@clarte/shared-errors';
 
-export class IncorrectPasswordFormatError extends ProblemDetailsException {
-  override type = '/errors/incorrect-password-format';
-  override title = 'Incorrect password format';
-  override status = 400;
+export class IncorrectPasswordFormatError extends ValidationError {
+  constructor(message = 'Incorrect password format', details?: Record<string, unknown>) {
+    super(message, details);
+  }
 }

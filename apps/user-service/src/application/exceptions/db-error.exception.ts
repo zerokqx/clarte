@@ -1,7 +1,7 @@
-import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
+import { InternalDomainError } from '@clarte/shared-errors';
 
-export class DbError extends ProblemDetailsException {
-  override type = '/errors/db-error';
-  override title = 'Database operation failed';
-  override status = 500;
+export class DbError extends InternalDomainError {
+  constructor(message = 'Database operation failed', details?: Record<string, unknown>) {
+    super(message, details);
+  }
 }

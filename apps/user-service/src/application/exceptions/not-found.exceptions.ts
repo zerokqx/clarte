@@ -1,7 +1,7 @@
-import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
+import { EntityNotFoundError } from '@clarte/shared-errors';
 
-export class UserNotFound extends ProblemDetailsException {
-  override type = '/errors/not-found';
-  override title = 'User not found';
-  override status = 404;
+export class UserNotFound extends EntityNotFoundError {
+  constructor(message = 'User not found', details?: Record<string, unknown>) {
+    super(message, details);
+  }
 }

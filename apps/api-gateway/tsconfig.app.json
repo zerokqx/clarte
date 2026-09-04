@@ -28,6 +28,9 @@
       "path": "../../packages/shared-nest/tsconfig.lib.json"
     },
     {
+      "path": "../../packages/shared-errors/tsconfig.lib.json"
+    },
+    {
       "path": "../../packages/shared-contracts/tsconfig.lib.json"
     },
     {

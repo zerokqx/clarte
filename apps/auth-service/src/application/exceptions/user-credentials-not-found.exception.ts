@@ -1,7 +1,7 @@
-import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
+import { AuthenticationError } from '@clarte/shared-errors';
 
-export class UserCredentialsNotFound extends ProblemDetailsException {
-  override type = '/errors/user-credentials-not-found';
-  override status = 404;
-  override title = 'User credentials not found';
+export class UserCredentialsNotFound extends AuthenticationError {
+  constructor(message = 'User credentials not found', details?: Record<string, unknown>) {
+    super(message, details);
+  }
 }

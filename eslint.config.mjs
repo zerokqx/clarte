@@ -97,6 +97,7 @@ export default [
                 'scope:shared-contracts',
                 'scope:shared-domain',
                 'scope:shared-event-types',
+                'scope:shared-errors',
               ],
             },
             {
@@ -107,6 +108,7 @@ export default [
                 'scope:shared-contracts',
                 'scope:shared-domain',
                 'scope:shared-event-types',
+                'scope:shared-errors',
               ],
             },
             {
@@ -117,6 +119,7 @@ export default [
                 'scope:shared-contracts',
                 'scope:shared-domain',
                 'scope:shared-event-types',
+                'scope:shared-errors',
               ],
             },
             {
@@ -127,6 +130,7 @@ export default [
                 'scope:shared-contracts',
                 'scope:shared-domain',
                 'scope:shared-event-types',
+                'scope:shared-errors',
               ],
             },
             {
@@ -137,6 +141,7 @@ export default [
                 'scope:shared-contracts',
                 'scope:shared-domain',
                 'scope:shared-event-types',
+                'scope:shared-errors',
               ],
             },
             {
@@ -147,6 +152,7 @@ export default [
                 'scope:shared-contracts',
                 'scope:shared-domain',
                 'scope:shared-event-types',
+                'scope:shared-errors',
               ],
             },
             {
@@ -156,6 +162,7 @@ export default [
                 'scope:shared',
                 'scope:shared-domain',
                 'scope:shared-contracts',
+                'scope:shared-errors',
                 'scope:frontend',
               ],
             },
@@ -176,6 +183,11 @@ export default [
               onlyDependOnLibsWithTags: ['scope:shared'],
             },
             {
+              // Ошибки не зависят от NestJS инфраструктуры
+              sourceTag: 'scope:shared-errors',
+              onlyDependOnLibsWithTags: ['scope:shared'],
+            },
+            {
               // NestJS инфраструктура может зависеть от других shared-библиотек
               sourceTag: 'scope:shared-nest',
               onlyDependOnLibsWithTags: [
@@ -183,6 +195,7 @@ export default [
                 'scope:shared-domain',
                 'scope:shared-contracts',
                 'scope:shared-event-types',
+                'scope:shared-errors',
               ],
             },
             {

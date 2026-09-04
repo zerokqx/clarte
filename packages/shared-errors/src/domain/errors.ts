@@ -8,16 +8,19 @@ export interface DomainSpecificErrorOptions {
 
 type ErrorInput = DomainSpecificErrorOptions | string;
 
-function resolveOptions(input?: ErrorInput): DomainSpecificErrorOptions | undefined {
+function resolveOptions(
+  input?: ErrorInput,
+  maybeDetails?: Record<string, unknown>,
+): DomainSpecificErrorOptions | undefined {
   if (typeof input === 'string') {
-    return { message: input };
+    return { message: input, details: maybeDetails };
   }
   return input;
 }
 
 export class EntityNotFoundError extends DomainError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       kind: DOMAIN_ERROR_KINDS.NOT_FOUND,
       message: opts?.message,
@@ -27,8 +30,8 @@ export class EntityNotFoundError extends DomainError {
 }
 
 export class AuthenticationError extends DomainError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       kind: DOMAIN_ERROR_KINDS.UNAUTHENTICATED,
       message: opts?.message,
@@ -38,8 +41,8 @@ export class AuthenticationError extends DomainError {
 }
 
 export class AuthorizationError extends DomainError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       kind: DOMAIN_ERROR_KINDS.FORBIDDEN,
       message: opts?.message,
@@ -49,8 +52,8 @@ export class AuthorizationError extends DomainError {
 }
 
 export class ValidationError extends DomainError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       kind: DOMAIN_ERROR_KINDS.VALIDATION,
       message: opts?.message,
@@ -60,8 +63,8 @@ export class ValidationError extends DomainError {
 }
 
 export class ConflictError extends DomainError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       kind: DOMAIN_ERROR_KINDS.CONFLICT,
       message: opts?.message,
@@ -71,8 +74,8 @@ export class ConflictError extends DomainError {
 }
 
 export class RateLimitError extends DomainError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       kind: DOMAIN_ERROR_KINDS.RATE_LIMIT,
       message: opts?.message,
@@ -82,8 +85,8 @@ export class RateLimitError extends DomainError {
 }
 
 export class BadRequestError extends DomainError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       kind: DOMAIN_ERROR_KINDS.BAD_REQUEST,
       message: opts?.message,
@@ -93,8 +96,8 @@ export class BadRequestError extends DomainError {
 }
 
 export class TimeoutError extends DomainError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       kind: DOMAIN_ERROR_KINDS.TIMEOUT,
       message: opts?.message,
@@ -104,8 +107,8 @@ export class TimeoutError extends DomainError {
 }
 
 export class ServiceUnavailableError extends DomainError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       kind: DOMAIN_ERROR_KINDS.UNAVAILABLE,
       message: opts?.message,
@@ -115,8 +118,8 @@ export class ServiceUnavailableError extends DomainError {
 }
 
 export class InternalDomainError extends DomainError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       kind: DOMAIN_ERROR_KINDS.INTERNAL,
       message: opts?.message,

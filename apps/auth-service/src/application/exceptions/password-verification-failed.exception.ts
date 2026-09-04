@@ -1,7 +1,7 @@
-import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
+import { AuthenticationError } from '@clarte/shared-errors';
 
-export class PasswordVerificationFailedException extends ProblemDetailsException {
-  override type = '/errors/password-verification-failed';
-  override status = 500;
-  override title = 'Password Verification Failed';
+export class PasswordVerificationFailedException extends AuthenticationError {
+  constructor(message = 'Password verification failed', details?: Record<string, unknown>) {
+    super(message, details);
+  }
 }

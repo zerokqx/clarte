@@ -13,6 +13,9 @@ import { join } from 'path';
 import { nullThrow, proto } from '@clarte/shared';
 import { findUp } from '@clarte/shared-nest/core/functions';
 
+import { GrpcExceptionFilter } from '@clarte/shared-nest/filters';
+import { GrpcErrorPropagationInterceptor } from '@clarte/shared-nest/interceptors';
+
 async function bootstrap() {
   const env = new Env();
   const PORT = env.get('PORT', 5004);
@@ -25,6 +28,8 @@ async function bootstrap() {
       protoPath: join(nullThrow(findUp)('proto', __dirname), proto('todo')),
     },
   });
+  app.useGlobalFilters(new GrpcExceptionFilter());
+  app.useGlobalInterceptors(new GrpcErrorPropagationInterceptor());
   await app.listen();
   Logger.log(`🚀 Microservice Todo is running on grpc://${HOST}:${PORT}`);
 }

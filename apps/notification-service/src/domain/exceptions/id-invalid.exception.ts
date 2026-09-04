@@ -1,7 +1,7 @@
-import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
+import { ValidationError } from '@clarte/shared-errors';
 
-export class IdInvalidException extends ProblemDetailsException {
-  override type = '/errors/id-invalid-exception';
-  override title = 'Id Invalid Exception';
-  override status = 400;
+export class IdInvalidException extends ValidationError {
+  constructor(message = 'Id Invalid Exception', details?: Record<string, unknown>) {
+    super(message, details);
+  }
 }

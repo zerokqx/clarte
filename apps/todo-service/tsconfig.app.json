@@ -33,6 +33,9 @@
       "path": "../../packages/shared-event-types/tsconfig.lib.json"
     },
     {
+      "path": "../../packages/shared-errors/tsconfig.lib.json"
+    },
+    {
       "path": "../../packages/shared-domain/tsconfig.lib.json"
     },
     {

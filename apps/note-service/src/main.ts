@@ -13,6 +13,9 @@ import { join } from 'path';
 import { nullThrow, proto } from '@clarte/shared';
 import { findUp } from '@clarte/shared-nest/core/functions';
 
+import { GrpcExceptionFilter } from '@clarte/shared-nest/filters';
+import { GrpcErrorPropagationInterceptor } from '@clarte/shared-nest/interceptors';
+
 async function bootstrap() {
   const env = new Env();
   const HOST = env.get('HOST', 'localhost');
@@ -25,6 +28,8 @@ async function bootstrap() {
       package: Notes.NOTES_PACKAGE_NAME,
     },
   });
+  app.useGlobalFilters(new GrpcExceptionFilter());
+  app.useGlobalInterceptors(new GrpcErrorPropagationInterceptor());
   await app.listen();
   Logger.log(`📝 Notes microservice is running on: http://${HOST}:${PORT}`);
 }

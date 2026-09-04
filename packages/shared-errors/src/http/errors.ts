@@ -8,17 +8,20 @@ export interface HttpSpecificErrorOptions {
 
 type ErrorInput = HttpSpecificErrorOptions | string;
 
-function resolveOptions(input?: ErrorInput): HttpSpecificErrorOptions | undefined {
+function resolveOptions(
+  input?: ErrorInput,
+  maybeDetails?: Record<string, unknown>,
+): HttpSpecificErrorOptions | undefined {
   if (typeof input === 'string') {
-    return { message: input };
+    return { message: input, details: maybeDetails };
   }
   return input;
 }
 
 // 4xx Client Errors
 export class HttpBadRequestError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.BAD_REQUEST,
       message: opts?.message,
@@ -28,8 +31,8 @@ export class HttpBadRequestError extends HttpError {
 }
 
 export class HttpUnauthorizedError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.UNAUTHORIZED,
       message: opts?.message,
@@ -39,8 +42,8 @@ export class HttpUnauthorizedError extends HttpError {
 }
 
 export class HttpPaymentRequiredError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.PAYMENT_REQUIRED,
       message: opts?.message,
@@ -50,8 +53,8 @@ export class HttpPaymentRequiredError extends HttpError {
 }
 
 export class HttpForbiddenError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.FORBIDDEN,
       message: opts?.message,
@@ -61,8 +64,8 @@ export class HttpForbiddenError extends HttpError {
 }
 
 export class HttpNotFoundError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.NOT_FOUND,
       message: opts?.message,
@@ -72,8 +75,8 @@ export class HttpNotFoundError extends HttpError {
 }
 
 export class HttpMethodNotAllowedError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.METHOD_NOT_ALLOWED,
       message: opts?.message,
@@ -83,8 +86,8 @@ export class HttpMethodNotAllowedError extends HttpError {
 }
 
 export class HttpNotAcceptableError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.NOT_ACCEPTABLE,
       message: opts?.message,
@@ -94,8 +97,8 @@ export class HttpNotAcceptableError extends HttpError {
 }
 
 export class HttpProxyAuthenticationRequiredError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.PROXY_AUTHENTICATION_REQUIRED,
       message: opts?.message,
@@ -105,8 +108,8 @@ export class HttpProxyAuthenticationRequiredError extends HttpError {
 }
 
 export class HttpRequestTimeoutError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.REQUEST_TIMEOUT,
       message: opts?.message,
@@ -116,8 +119,8 @@ export class HttpRequestTimeoutError extends HttpError {
 }
 
 export class HttpConflictError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.CONFLICT,
       message: opts?.message,
@@ -127,8 +130,8 @@ export class HttpConflictError extends HttpError {
 }
 
 export class HttpGoneError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.GONE,
       message: opts?.message,
@@ -138,8 +141,8 @@ export class HttpGoneError extends HttpError {
 }
 
 export class HttpLengthRequiredError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.LENGTH_REQUIRED,
       message: opts?.message,
@@ -149,8 +152,8 @@ export class HttpLengthRequiredError extends HttpError {
 }
 
 export class HttpPreconditionFailedError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.PRECONDITION_FAILED,
       message: opts?.message,
@@ -160,8 +163,8 @@ export class HttpPreconditionFailedError extends HttpError {
 }
 
 export class HttpPayloadTooLargeError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.PAYLOAD_TOO_LARGE,
       message: opts?.message,
@@ -171,8 +174,8 @@ export class HttpPayloadTooLargeError extends HttpError {
 }
 
 export class HttpUriTooLongError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.URI_TOO_LONG,
       message: opts?.message,
@@ -182,8 +185,8 @@ export class HttpUriTooLongError extends HttpError {
 }
 
 export class HttpUnsupportedMediaTypeError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.UNSUPPORTED_MEDIA_TYPE,
       message: opts?.message,
@@ -193,8 +196,8 @@ export class HttpUnsupportedMediaTypeError extends HttpError {
 }
 
 export class HttpRangeNotSatisfiableError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.RANGE_NOT_SATISFIABLE,
       message: opts?.message,
@@ -204,8 +207,8 @@ export class HttpRangeNotSatisfiableError extends HttpError {
 }
 
 export class HttpExpectationFailedError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.EXPECTATION_FAILED,
       message: opts?.message,
@@ -215,8 +218,8 @@ export class HttpExpectationFailedError extends HttpError {
 }
 
 export class HttpIAmATeapotError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.I_AM_A_TEAPOT,
       message: opts?.message,
@@ -226,8 +229,8 @@ export class HttpIAmATeapotError extends HttpError {
 }
 
 export class HttpMisdirectedRequestError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.MISDIRECTED_REQUEST,
       message: opts?.message,
@@ -237,8 +240,8 @@ export class HttpMisdirectedRequestError extends HttpError {
 }
 
 export class HttpUnprocessableEntityError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.UNPROCESSABLE_ENTITY,
       message: opts?.message,
@@ -248,8 +251,8 @@ export class HttpUnprocessableEntityError extends HttpError {
 }
 
 export class HttpLockedError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.LOCKED,
       message: opts?.message,
@@ -259,8 +262,8 @@ export class HttpLockedError extends HttpError {
 }
 
 export class HttpFailedDependencyError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.FAILED_DEPENDENCY,
       message: opts?.message,
@@ -270,8 +273,8 @@ export class HttpFailedDependencyError extends HttpError {
 }
 
 export class HttpTooEarlyError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.TOO_EARLY,
       message: opts?.message,
@@ -281,8 +284,8 @@ export class HttpTooEarlyError extends HttpError {
 }
 
 export class HttpUpgradeRequiredError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.UPGRADE_REQUIRED,
       message: opts?.message,
@@ -292,8 +295,8 @@ export class HttpUpgradeRequiredError extends HttpError {
 }
 
 export class HttpPreconditionRequiredError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.PRECONDITION_REQUIRED,
       message: opts?.message,
@@ -303,8 +306,8 @@ export class HttpPreconditionRequiredError extends HttpError {
 }
 
 export class HttpTooManyRequestsError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.TOO_MANY_REQUESTS,
       message: opts?.message,
@@ -314,8 +317,8 @@ export class HttpTooManyRequestsError extends HttpError {
 }
 
 export class HttpRequestHeaderFieldsTooLargeError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.REQUEST_HEADER_FIELDS_TOO_LARGE,
       message: opts?.message,
@@ -325,8 +328,8 @@ export class HttpRequestHeaderFieldsTooLargeError extends HttpError {
 }
 
 export class HttpUnavailableForLegalReasonsError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.UNAVAILABLE_FOR_LEGAL_REASONS,
       message: opts?.message,
@@ -337,8 +340,8 @@ export class HttpUnavailableForLegalReasonsError extends HttpError {
 
 // 5xx Server Errors
 export class HttpInternalServerError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.INTERNAL_SERVER_ERROR,
       message: opts?.message,
@@ -348,8 +351,8 @@ export class HttpInternalServerError extends HttpError {
 }
 
 export class HttpNotImplementedError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.NOT_IMPLEMENTED,
       message: opts?.message,
@@ -359,8 +362,8 @@ export class HttpNotImplementedError extends HttpError {
 }
 
 export class HttpBadGatewayError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.BAD_GATEWAY,
       message: opts?.message,
@@ -370,8 +373,8 @@ export class HttpBadGatewayError extends HttpError {
 }
 
 export class HttpServiceUnavailableError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.SERVICE_UNAVAILABLE,
       message: opts?.message,
@@ -381,8 +384,8 @@ export class HttpServiceUnavailableError extends HttpError {
 }
 
 export class HttpGatewayTimeoutError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.GATEWAY_TIMEOUT,
       message: opts?.message,
@@ -392,8 +395,8 @@ export class HttpGatewayTimeoutError extends HttpError {
 }
 
 export class HttpVersionNotSupportedError extends HttpError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       status: HTTP_CODES.HTTP_VERSION_NOT_SUPPORTED,
       message: opts?.message,

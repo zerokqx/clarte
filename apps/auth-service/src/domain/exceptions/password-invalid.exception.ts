@@ -1,7 +1,7 @@
-import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
+import { ValidationError } from '@clarte/shared-errors';
 
-export class PasswordInvalidError extends ProblemDetailsException {
-  override type = '/errors/password-invalid';
-  override status = 400;
-  override title = 'Password invalid';
+export class PasswordInvalidError extends ValidationError {
+  constructor(message = 'Password invalid', details?: Record<string, unknown>) {
+    super(message, details);
+  }
 }

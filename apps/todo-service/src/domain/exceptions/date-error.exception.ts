@@ -1,7 +1,7 @@
-import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
+import { ValidationError } from '@clarte/shared-errors';
 
-export class DateException extends ProblemDetailsException {
-  override type = '/errors/date-error';
-  override title = 'Date Error';
-  override status = 400;
+export class DateException extends ValidationError {
+  constructor(message = 'Date Error', details?: Record<string, unknown>) {
+    super(message, details);
+  }
 }

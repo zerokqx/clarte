@@ -5,7 +5,7 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '@/app/app.module';
-import { GrpcProblemDetailsExceptionFilter } from '@clarte/shared-nest/filters';
+import { HttpExceptionFilter } from '@clarte/shared-nest/filters';
 import cookieParser from 'cookie-parser';
 import { env } from 'process';
 
@@ -34,7 +34,7 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
-  app.useGlobalFilters(new GrpcProblemDetailsExceptionFilter());
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   await app.listen(port);
   Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`);

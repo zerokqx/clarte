@@ -1,8 +1,7 @@
+import { InternalDomainError } from '@clarte/shared-errors';
 
-import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
-
-export class CouldntSaveProfileError extends ProblemDetailsException {
-  override type = "/errors/couldnt-save-profile";
-  override title = "Couldn't save profile";
-  override status = 500;
+export class CouldntSaveProfileError extends InternalDomainError {
+  constructor(message = "Couldn't save profile", details?: Record<string, unknown>) {
+    super(message, details);
+  }
 }

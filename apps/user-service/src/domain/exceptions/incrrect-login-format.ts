@@ -1,7 +1,7 @@
-import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
+import { ValidationError } from '@clarte/shared-errors';
 
-export class IncorrectLoginFormatError extends ProblemDetailsException {
-  override type = '/errors/incorrect-login-format';
-  override title = 'Incorrect login format';
-  override status = 400;
+export class IncorrectLoginFormatError extends ValidationError {
+  constructor(message = 'Incorrect login format', details?: Record<string, unknown>) {
+    super(message, details);
+  }
 }

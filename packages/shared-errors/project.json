@@ -1,0 +1,21 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/project-schema.json",
+  "name": "@clarte/shared-errors",
+  "root": "packages/shared-errors",
+  "projectType": "library",
+  "tags": ["scope:shared-errors", "type:lib"],
+  "sourceRoot": "packages/shared-errors/src",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "packages/shared-errors/dist",
+        "main": "packages/shared-errors/src/index.ts",
+        "tsConfig": "packages/shared-errors/tsconfig.lib.json",
+        "skipTypeCheck": true,
+        "stripLeadingPaths": true
+      }
+    }
+  }
+}

@@ -1,15 +1,19 @@
-import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
+import { ValidationError } from '@clarte/shared-errors';
 
-export class LengthInvalidException extends ProblemDetailsException {
-  override type = '/errors/length-exception';
-  override title = 'Length Error';
-  override status = 400;
+export class LengthInvalidException extends ValidationError {
+  constructor(message = 'Length Error', details?: Record<string, unknown>) {
+    super(message, details);
+  }
 }
 
 export class LengthDescriptionInvalidException extends LengthInvalidException {
-  override title = 'Description length Error';
+  constructor(message = 'Description length Error', details?: Record<string, unknown>) {
+    super(message, details);
+  }
 }
 
 export class LengthTitleInvalidException extends LengthInvalidException {
-  override title = 'Title length Error';
+  constructor(message = 'Title length Error', details?: Record<string, unknown>) {
+    super(message, details);
+  }
 }

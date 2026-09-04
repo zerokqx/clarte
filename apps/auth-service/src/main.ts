@@ -9,7 +9,7 @@ import { AppModule } from '@/app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { Auth } from '@clarte/shared-contracts/proto';
 import { join } from 'path';
-import { ProblemDetailsToGrpcExceptionFilter } from '@clarte/shared-nest/filters';
+import { GrpcExceptionFilter } from '@clarte/shared-nest/filters';
 import { GrpcErrorPropagationInterceptor } from '@clarte/shared-nest/interceptors';
 import { Env } from '@humanwhocodes/env';
 import { nullThrow, proto } from '@clarte/shared';
@@ -28,7 +28,7 @@ async function bootstrap() {
       protoPath: join(nullThrow(findUp)('proto', __dirname), proto('auth')),
     },
   });
-  app.useGlobalFilters(new ProblemDetailsToGrpcExceptionFilter());
+  app.useGlobalFilters(new GrpcExceptionFilter());
   app.useGlobalInterceptors(new GrpcErrorPropagationInterceptor());
   app.enableShutdownHooks();
   await app.listen();

@@ -1,11 +1,7 @@
-import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
+import { EntityNotFoundError } from '@clarte/shared-errors';
 
-export class TodoNotFoundException extends ProblemDetailsException {
-  override type = '/errors/todo-not-found';
-  override title = 'Todo not found';
-  override status = 404;
-
-  constructor(detail = 'Todo not found', extensions?: Record<string, any>) {
-    super(detail, extensions);
+export class TodoNotFoundException extends EntityNotFoundError {
+  constructor(message = 'Todo not found', details?: Record<string, unknown>) {
+    super(message, details);
   }
 }

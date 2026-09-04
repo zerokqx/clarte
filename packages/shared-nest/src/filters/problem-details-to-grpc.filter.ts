@@ -1,23 +1,6 @@
-import { status as GrpcStatus, Metadata } from '@grpc/grpc-js';
-import { Catch, RpcExceptionFilter } from '@nestjs/common';
-import { Observable, throwError } from 'rxjs';
-import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
-import * as Enums from './enums/status-map.enum';
+import { GrpcExceptionFilter } from './grpc-exception.filter.js';
 
-@Catch(ProblemDetailsException)
-export class ProblemDetailsToGrpcExceptionFilter implements RpcExceptionFilter<ProblemDetailsException> {
-  catch(exception: ProblemDetailsException): Observable<unknown> {
-    const grpcCode = Enums.HttpToGrpcStatusMap[exception.status] ?? GrpcStatus.INTERNAL;
-    const problemDetails = exception.toProblemDetails();
-
-    const metadata = new Metadata();
-    metadata.set('type', 'grpc');
-    metadata.set('problem-details-bin', Buffer.from(JSON.stringify(problemDetails), 'utf-8'));
-
-    return throwError(() => ({
-      code: grpcCode,
-      message: exception.message,
-      metadata,
-    }));
-  }
-}
+/**
+ * @deprecated Use GrpcExceptionFilter from '@clarte/shared-nest/filters' instead.
+ */
+export class ProblemDetailsToGrpcExceptionFilter extends GrpcExceptionFilter {}

@@ -1,7 +1,7 @@
-import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
+import { ValidationError } from '@clarte/shared-errors';
 
-export class TokenInvalidError extends ProblemDetailsException {
-  override type = '/errors/token-invalid';
-  override status = 400;
-  override title = 'Token invalid';
+export class TokenInvalidError extends ValidationError {
+  constructor(message = 'Token invalid', details?: Record<string, unknown>) {
+    super(message, details);
+  }
 }

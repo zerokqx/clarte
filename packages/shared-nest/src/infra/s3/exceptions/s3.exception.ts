@@ -1,8 +1,9 @@
-import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
+import { InternalDomainError } from '@clarte/shared-errors';
 
-export abstract class S3StorageException extends ProblemDetailsException {
+export abstract class S3StorageException extends InternalDomainError {
   abstract readonly _tag: string;
-  override type = '/errors/s3-storage-exceptions';
-  override title = 'S3 Storage Failure';
-  override status = 500;
+
+  constructor(message = 'S3 storage error', details?: Record<string, unknown>) {
+    super(message, details);
+  }
 }

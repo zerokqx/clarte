@@ -8,16 +8,19 @@ export interface GrpcSpecificErrorOptions {
 
 type ErrorInput = GrpcSpecificErrorOptions | string;
 
-function resolveOptions(input?: ErrorInput): GrpcSpecificErrorOptions | undefined {
+function resolveOptions(
+  input?: ErrorInput,
+  maybeDetails?: Record<string, unknown>,
+): GrpcSpecificErrorOptions | undefined {
   if (typeof input === 'string') {
-    return { message: input };
+    return { message: input, details: maybeDetails };
   }
   return input;
 }
 
 export class GrpcCancelledError extends GrpcError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       code: GRPC_CODES.CANCELLED,
       message: opts?.message,
@@ -27,8 +30,8 @@ export class GrpcCancelledError extends GrpcError {
 }
 
 export class GrpcUnknownError extends GrpcError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       code: GRPC_CODES.UNKNOWN,
       message: opts?.message,
@@ -38,8 +41,8 @@ export class GrpcUnknownError extends GrpcError {
 }
 
 export class GrpcInvalidArgumentError extends GrpcError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       code: GRPC_CODES.INVALID_ARGUMENT,
       message: opts?.message,
@@ -49,8 +52,8 @@ export class GrpcInvalidArgumentError extends GrpcError {
 }
 
 export class GrpcDeadlineExceededError extends GrpcError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       code: GRPC_CODES.DEADLINE_EXCEEDED,
       message: opts?.message,
@@ -60,8 +63,8 @@ export class GrpcDeadlineExceededError extends GrpcError {
 }
 
 export class GrpcNotFoundError extends GrpcError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       code: GRPC_CODES.NOT_FOUND,
       message: opts?.message,
@@ -71,8 +74,8 @@ export class GrpcNotFoundError extends GrpcError {
 }
 
 export class GrpcAlreadyExistsError extends GrpcError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       code: GRPC_CODES.ALREADY_EXISTS,
       message: opts?.message,
@@ -82,8 +85,8 @@ export class GrpcAlreadyExistsError extends GrpcError {
 }
 
 export class GrpcPermissionDeniedError extends GrpcError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       code: GRPC_CODES.PERMISSION_DENIED,
       message: opts?.message,
@@ -93,8 +96,8 @@ export class GrpcPermissionDeniedError extends GrpcError {
 }
 
 export class GrpcResourceExhaustedError extends GrpcError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       code: GRPC_CODES.RESOURCE_EXHAUSTED,
       message: opts?.message,
@@ -104,8 +107,8 @@ export class GrpcResourceExhaustedError extends GrpcError {
 }
 
 export class GrpcFailedPreconditionError extends GrpcError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       code: GRPC_CODES.FAILED_PRECONDITION,
       message: opts?.message,
@@ -115,8 +118,8 @@ export class GrpcFailedPreconditionError extends GrpcError {
 }
 
 export class GrpcAbortedError extends GrpcError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       code: GRPC_CODES.ABORTED,
       message: opts?.message,
@@ -126,8 +129,8 @@ export class GrpcAbortedError extends GrpcError {
 }
 
 export class GrpcOutOfRangeError extends GrpcError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       code: GRPC_CODES.OUT_OF_RANGE,
       message: opts?.message,
@@ -137,8 +140,8 @@ export class GrpcOutOfRangeError extends GrpcError {
 }
 
 export class GrpcUnimplementedError extends GrpcError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       code: GRPC_CODES.UNIMPLEMENTED,
       message: opts?.message,
@@ -148,8 +151,8 @@ export class GrpcUnimplementedError extends GrpcError {
 }
 
 export class GrpcInternalError extends GrpcError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       code: GRPC_CODES.INTERNAL,
       message: opts?.message,
@@ -159,8 +162,8 @@ export class GrpcInternalError extends GrpcError {
 }
 
 export class GrpcUnavailableError extends GrpcError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       code: GRPC_CODES.UNAVAILABLE,
       message: opts?.message,
@@ -170,8 +173,8 @@ export class GrpcUnavailableError extends GrpcError {
 }
 
 export class GrpcDataLossError extends GrpcError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       code: GRPC_CODES.DATA_LOSS,
       message: opts?.message,
@@ -181,8 +184,8 @@ export class GrpcDataLossError extends GrpcError {
 }
 
 export class GrpcUnauthenticatedError extends GrpcError {
-  constructor(options?: ErrorInput) {
-    const opts = resolveOptions(options);
+  constructor(options?: ErrorInput, details?: Record<string, unknown>) {
+    const opts = resolveOptions(options, details);
     super({
       code: GRPC_CODES.UNAUTHENTICATED,
       message: opts?.message,

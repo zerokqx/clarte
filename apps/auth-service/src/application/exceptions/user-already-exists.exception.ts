@@ -1,7 +1,7 @@
-import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
+import { ConflictError } from '@clarte/shared-errors';
 
-export class UserAlreadyExistsException extends ProblemDetailsException {
-  override type = '/errors/user-already-exists';
-  override status = 409;
-  override title = 'User already exists';
+export class UserAlreadyExistsException extends ConflictError {
+  constructor(message = 'User already exists', details?: Record<string, unknown>) {
+    super(message, details);
+  }
 }

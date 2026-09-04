@@ -1,7 +1,7 @@
-import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
+import { EntityNotFoundError } from '@clarte/shared-errors';
 
-export class NotFoundCredentialsException extends ProblemDetailsException {
-  override type = '/errors/not-found-credentials';
-  override title = 'Not found credentials';
-  override status = 404;
+export class NotFoundCredentialsException extends EntityNotFoundError {
+  constructor(message = 'Not found credentials', details?: Record<string, unknown>) {
+    super(message, details);
+  }
 }

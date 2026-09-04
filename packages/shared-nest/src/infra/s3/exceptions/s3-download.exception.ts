@@ -1,7 +1,9 @@
-import { S3StorageException } from './s3.exception';
+import { S3StorageException } from './s3.exception.js';
 
 export class S3DownloadException extends S3StorageException {
-  override readonly _tag = 'S3DownloadException' as const;
-  override type = '/errors/s3-download-exception';
-  override title = 'S3 Download Failure';
+  readonly _tag = 'S3DownloadException' as const;
+
+  constructor(message = 'S3 download failure', details?: Record<string, unknown>) {
+    super(message, details);
+  }
 }

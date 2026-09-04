@@ -83,7 +83,7 @@
   "dependencies": {
     "@clarte/shared": "workspace:*",
     "@clarte/shared-contracts": "workspace:*",
-    "@clarte/shared-domain": "workspace:*",
+    "@clarte/shared-errors": "workspace:*",
     "@swc/helpers": "catalog:swc",
     "passport-jwt": "catalog:backend",
     "radash": "catalog:general"

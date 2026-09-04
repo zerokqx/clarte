@@ -1,7 +1,9 @@
-import { S3StorageException } from './s3.exception';
+import { S3StorageException } from './s3.exception.js';
 
 export class S3DeleteException extends S3StorageException {
-  override readonly _tag = 'S3DeleteException' as const;
-  override type = '/errors/s3-delete-exception';
-  override title = 'S3 Delete Failure';
+  readonly _tag = 'S3DeleteException' as const;
+
+  constructor(message = 'S3 delete failure', details?: Record<string, unknown>) {
+    super(message, details);
+  }
 }

@@ -7,6 +7,8 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { Env } from '@humanwhocodes/env';
 import { join } from 'path';
 import { Notification } from '@clarte/shared-contracts/proto';
+import { GrpcExceptionFilter } from '@clarte/shared-nest/filters';
+import { GrpcErrorPropagationInterceptor } from '@clarte/shared-nest/interceptors';
 
 async function bootstrap() {
   const env = new Env();
@@ -45,6 +47,9 @@ async function bootstrap() {
       },
     },
   });
+
+  app.useGlobalFilters(new GrpcExceptionFilter());
+  app.useGlobalInterceptors(new GrpcErrorPropagationInterceptor());
 
   // Start all microservices (both gRPC and RMQ listeners)
   await app.startAllMicroservices();

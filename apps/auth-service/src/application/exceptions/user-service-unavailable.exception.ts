@@ -1,7 +1,7 @@
-import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
+import { ServiceUnavailableError } from '@clarte/shared-errors';
 
-export class UserServiceUnavailableException extends ProblemDetailsException {
-  override type = '/errors/user-service-unavailable';
-  override status = 503;
-  override title = 'User Service Unavailable';
+export class UserServiceUnavailableException extends ServiceUnavailableError {
+  constructor(message = 'User Service Unavailable', details?: Record<string, unknown>) {
+    super(message, details);
+  }
 }

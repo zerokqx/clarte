@@ -1,7 +1,7 @@
-import { ProblemDetailsException } from '@clarte/shared-domain/exceptions';
+import { ValidationError } from '@clarte/shared-errors';
 
-export class AvatarWrongError extends ProblemDetailsException {
-  override type = '/errors/avatar-format-wrong';
-  override title = 'Avatar wrong';
-  override status = 400;
+export class AvatarWrongError extends ValidationError {
+  constructor(message = 'Avatar wrong', details?: Record<string, unknown>) {
+    super(message, details);
+  }
 }

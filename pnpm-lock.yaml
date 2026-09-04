@@ -453,6 +453,9 @@ importers:
       '@clarte/shared-contracts':
         specifier: workspace:*
         version: link:../../packages/shared-contracts
+      '@clarte/shared-errors':
+        specifier: workspace:*
+        version: link:../../packages/shared-errors
       '@clarte/shared-nest':
         specifier: workspace:*
         version: link:../../packages/shared-nest
@@ -522,6 +525,9 @@ importers:
       '@clarte/shared-domain':
         specifier: workspace:*
         version: link:../../packages/shared-domain
+      '@clarte/shared-errors':
+        specifier: workspace:*
+        version: link:../../packages/shared-errors
       '@clarte/shared-event-types':
         specifier: workspace:*
         version: link:../../packages/shared-event-types
@@ -824,6 +830,9 @@ importers:
       '@clarte/shared-domain':
         specifier: workspace:*
         version: link:../../packages/shared-domain
+      '@clarte/shared-errors':
+        specifier: workspace:*
+        version: link:../../packages/shared-errors
       '@clarte/shared-nest':
         specifier: workspace:*
         version: link:../../packages/shared-nest
@@ -911,6 +920,9 @@ importers:
       '@clarte/shared-domain':
         specifier: workspace:*
         version: link:../../packages/shared-domain
+      '@clarte/shared-errors':
+        specifier: workspace:*
+        version: link:../../packages/shared-errors
       '@clarte/shared-event-types':
         specifier: workspace:*
         version: link:../../packages/shared-event-types
@@ -983,6 +995,9 @@ importers:
       '@clarte/shared-domain':
         specifier: workspace:*
         version: link:../../packages/shared-domain
+      '@clarte/shared-errors':
+        specifier: workspace:*
+        version: link:../../packages/shared-errors
       '@clarte/shared-event-types':
         specifier: workspace:*
         version: link:../../packages/shared-event-types
@@ -1068,6 +1083,9 @@ importers:
       '@clarte/shared-domain':
         specifier: workspace:*
         version: link:../../packages/shared-domain
+      '@clarte/shared-errors':
+        specifier: workspace:*
+        version: link:../../packages/shared-errors
       '@clarte/shared-event-types':
         specifier: workspace:*
         version: link:../../packages/shared-event-types
@@ -1153,6 +1171,9 @@ importers:
       '@clarte/shared-domain':
         specifier: workspace:*
         version: link:../../packages/shared-domain
+      '@clarte/shared-errors':
+        specifier: workspace:*
+        version: link:../../packages/shared-errors
       '@clarte/shared-nest':
         specifier: workspace:*
         version: link:../../packages/shared-nest
@@ -1316,9 +1337,9 @@ importers:
       '@clarte/shared-contracts':
         specifier: workspace:*
         version: link:../shared-contracts
-      '@clarte/shared-domain':
+      '@clarte/shared-errors':
         specifier: workspace:*
-        version: link:../shared-domain
+        version: link:../shared-errors
       '@grpc/grpc-js':
         specifier: catalog:backend
         version: 1.14.4

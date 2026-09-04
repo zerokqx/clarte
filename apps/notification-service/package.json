@@ -6,6 +6,7 @@
     "@clarte/shared": "workspace:*",
     "@clarte/shared-contracts": "workspace:*",
     "@clarte/shared-domain": "workspace:*",
+    "@clarte/shared-errors": "workspace:*",
     "@clarte/shared-event-types": "workspace:*",
     "@clarte/shared-nest": "workspace:*",
     "@grpc/grpc-js": "catalog:backend",
